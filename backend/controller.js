@@ -3,6 +3,10 @@ const mongoose = require('mongoose')
 mongoose.set('strictQuery',true);
 const bcrypt = require('bcrypt')
 
+
+
+
+//////////////////////////////////// Users ////////////////////////////////////////
 const getUsers = async(req,res)=>{
     const users = await User.find({}).sort({createdAt:-1});
     res.status(200).json({users:users});
@@ -32,30 +36,13 @@ const createUser = async(req,res)=>{
         res.status(400).json({error:e.message});
     }
 }
-const payment = async (req,res)=>{
-    const {username,payment} = req.body;
-    const user = await User.findOne({username});
-    if(user===null){
-        res.status(400).json({error:`User ${username} does not exist.`})
-        return;
-    }
-    const balance = parseInt(user.balance);
-    const xp = parseInt(user.xp);
-    const payments = user.payments;
-    const newBalance = balance + parseInt(payment);
-    const newXp = xp + parseInt(payment);
-    
-    user.balance=newBalance;
-    user.xp=newXp;
+///////////////////////////////////////////////////////////////////////////////////
 
-    payments.push({paymentAmount:payment,paymentDate:Date.now()})
-    try{
-        await User.updateOne({username},{balance:newBalance,xp:newXp,payments:payments});
-        res.status(200).json({paymentProcessed:"true"})
-    }catch(e){
-        res.send(400).json({paymentProcessed:"false"})
-    }
-}
+
+
+
+
+//////////////////////////////////// Auth /////////////////////////////////////////
 const authenticateUser = async(req,res)=>{
     const {username,password} = req.body;
     const user = await User.findOne({username});
@@ -70,6 +57,14 @@ const authenticateUser = async(req,res)=>{
         res.status(400).json({error:`Wrong password.`})
     }
 }
+///////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+
+//////////////////////////////////// User Data ////////////////////////////////////
+
 const getUserBalance = async(req,res)=>{
     const {id} = req.params;
     const username=id;
@@ -120,6 +115,43 @@ const getUserSessions = async(req,res)=>{
     }
     res.status(200).json({sessions:user.sessions});
 }
+
+///////////////////////////////////////////////////////////////////////////////////
+
+
+
+//////////////////////////////////// Interactions ////////////////////////////////////
+const payment = async (req,res)=>{
+    const {username,payment} = req.body;
+    const user = await User.findOne({username});
+    if(user===null){
+        res.status(400).json({error:`User ${username} does not exist.`})
+        return;
+    }
+    const balance = parseInt(user.balance);
+    const xp = parseInt(user.xp);
+    const payments = user.payments;
+    const newBalance = balance + parseInt(payment);
+    const newXp = xp + parseInt(payment);
+    
+    user.balance=newBalance;
+    user.xp=newXp;
+
+    payments.push({paymentAmount:payment,paymentDate:Date.now()})
+    try{
+        await User.updateOne({username},{balance:newBalance,xp:newXp,payments:payments});
+        res.status(200).json({paymentProcessed:"true"})
+    }catch(e){
+        res.send(400).json({paymentProcessed:"false"})
+    }
+}
+///////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+
+
 
 module.exports={
     getUsers,

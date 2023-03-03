@@ -47,6 +47,9 @@ const userSchema = new mongoose.Schema(
     xp:{      //koliko dinara je ukupno uplatio. 1dinar = 1xp
       type:Number,
     },
+    isLogedIn:{
+      type:Boolean,
+    },
     payments:{
       type:[paymentSchema]
     },
