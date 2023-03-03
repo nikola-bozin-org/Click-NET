@@ -1,6 +1,21 @@
 const mongoose = require("mongoose");
 
-
+const userBasicInfoSchema = new mongoose.Schema(
+  {
+    firstName:{
+      type:String
+    },
+    lastName:{
+      type:String
+    },
+    email:{
+      type:String
+    },
+    phone:{
+      type:String
+    },
+  }
+)
 const sessionSchema = new mongoose.Schema(
   {
 
@@ -18,7 +33,6 @@ const sessionSchema = new mongoose.Schema(
     },
   }
 )
-
 const paymentSchema = new mongoose.Schema(
   {
     paymentAmount:{
@@ -29,7 +43,6 @@ const paymentSchema = new mongoose.Schema(
     }
   }
 )
-
 const userSchema = new mongoose.Schema(
   {
     username: {
@@ -55,9 +68,17 @@ const userSchema = new mongoose.Schema(
     },
     sessions:{
       type:[sessionSchema]
+    },
+    basicInfo:{
+      type:userBasicInfoSchema
     }
   },
   { timestamp: true }
 );
 
-module.exports = mongoose.model("User", userSchema);
+module.exports = {
+  User: mongoose.model("User", userSchema),
+  Session: mongoose.model("Session", sessionSchema),
+  Payment: mongoose.model("Payment", paymentSchema),
+  UserBasicInfoSchema: mongoose.model("UserBasicInfo",userBasicInfoSchema),
+};

@@ -3,14 +3,19 @@ const express = require('express');
 const helmet = require('helmet');
 const mongoConnect = require('./mongo-connect')
 const router = require('./router')
+const cors = require('cors');
 
 const app = express();
 const port = 9876;
 
+app.use(cors({
+  origin: 'http://localhost:3000',
+}));
 app.use(express.json()); 
 app.use(express.urlencoded({ extended: true })); 
 app.use(helmet());
 app.use('/api/users',router);
+
 
 const startServer = async()=>{
   mongoConnect.connect(mongoConnect.connectionLink,()=>{

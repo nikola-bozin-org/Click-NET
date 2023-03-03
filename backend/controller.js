@@ -1,7 +1,8 @@
-const User = require('./user')
+const { User, Session, Payment,UserBasicInfoSchema } = require('./user')
 const mongoose = require('mongoose')
 mongoose.set('strictQuery',true);
 const bcrypt = require('bcrypt')
+
 
 
 
@@ -22,7 +23,8 @@ const getUser = async(req,res)=>{
     res.status(200).json({user:user});
 }
 const createUser = async(req,res)=>{
-    const {username,password}=req.body;
+    const {username,password,firstName,lastName,email,phone}=req.body;
+    console.info("Creating User "+username);
     const user = await User.findOne({username});
     if(user!==null){
         res.status(400).json({error:`User with username: ${username} already exists.`});
@@ -30,10 +32,16 @@ const createUser = async(req,res)=>{
     }
     const hashedPassword =  bcrypt.hashSync(password,10);
     try{
-        const user = await User.create({username,password:hashedPassword,balance:0,rate:0,discount:0,xp:0});
-        res.status(200).json({user:user});
+        const user = await User.create({username,password:hashedPassword,balance:0,rate:0,discount:0,xp:0,
+        basicInfo:{
+            firstName,
+            lastName,
+            email,
+            phone
+          }});
+        res.status(200).json({userCreated:true, user:user});
     }catch(e){
-        res.status(400).json({error:e.message});
+        res.status(400).json({userCreated:false, error:e.message});
     }
 }
 ///////////////////////////////////////////////////////////////////////////////////
@@ -44,18 +52,29 @@ const createUser = async(req,res)=>{
 
 //////////////////////////////////// Auth /////////////////////////////////////////
 const authenticateUser = async(req,res)=>{
-    const {username,password} = req.body;
+    const {username,password,pcNumber,sessionType} = req.body;
     const user = await User.findOne({username});
     if(user===null){
         res.status(400).json({error:`User with username: ${username} does not exist.`})
         return;
     }
     if(bcrypt.compareSync(password,user.password)){
+        await loginUser(username,pcNumber,sessionType);
         res.status(200).json({user:user})
     }
     else{
         res.status(400).json({error:`Wrong password.`})
     }
+}
+
+const logoutUser = async(username)=>{
+    console.info("user must be loged in");
+    const lastSession = await getLastSession(username);
+    lastSession.logoutDate=Date.now();
+    await User.updateOne(
+        { username: username, "sessions._id": lastSession._id },
+        { $set: { "sessions.$.logoutDate": lastSession.logoutDate } }
+      );
 }
 ///////////////////////////////////////////////////////////////////////////////////
 
@@ -149,6 +168,34 @@ const payment = async (req,res)=>{
 
 
 
+//////////////////////////////////// Helpers   ////////////////////////////////////
+
+const loginUser = async(username,pcNumber,sessionType)=>{
+    console.info("way to dettecte if login is sucessfull");
+    console.info("is user already loged in?");
+    const loginDate = Date.now();
+    const session = await Session.create({loginDate:loginDate,logoutDate:undefined,pcNumber:pcNumber,sessionType:sessionType})
+    await User.updateOne({username},
+        {
+         $set: {isLogedIn:true},
+         $push:{sessions:session}
+    })
+}
+
+
+const getLastSession = async (username) => {
+    const user = await User.findOne({ username: username });
+    if (!user) {
+        res.status(400).json({error:"User does not exist."})
+      throw new Error(`User ${username} not found`);
+    }
+    if (user.sessions.length === 0) {
+      throw new Error(`User ${username} has no sessions`);
+    }
+    const lastSession = user.sessions[user.sessions.length - 1];
+    return lastSession;
+  };
+///////////////////////////////////////////////////////////////////////////////////
 
 
 
