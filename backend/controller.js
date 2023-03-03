@@ -5,7 +5,7 @@ const bcrypt = require('bcrypt')
 
 const getUsers = async(req,res)=>{
     const users = await User.find({}).sort({createdAt:-1});
-    res.status(200).json(users);
+    res.status(200).json({users:users});
 }
 const getUser = async(req,res)=>{
     const {id} = req.params;
@@ -15,7 +15,7 @@ const getUser = async(req,res)=>{
         res.status(400).json("User not found.");
         return;
     }
-    res.status(200).json(user);
+    res.status(200).json({user:user});
 }
 const createUser = async(req,res)=>{
     const {username,password}=req.body;
@@ -27,7 +27,7 @@ const createUser = async(req,res)=>{
     const hashedPassword =  bcrypt.hashSync(password,10);
     try{
         const user = await User.create({username,password:hashedPassword,balance:0,rate:0,discount:0,xp:0});
-        res.status(200).json(user);
+        res.status(200).json({user:user});
     }catch(e){
         res.status(400).json({error:e.message});
     }
@@ -64,7 +64,7 @@ const authenticateUser = async(req,res)=>{
         return;
     }
     if(bcrypt.compareSync(password,user.password)){
-        res.status(200).json(user)
+        res.status(200).json({user:user})
     }
     else{
         res.status(400).json({error:`Wrong password.`})
@@ -78,7 +78,7 @@ const getUserBalance = async(req,res)=>{
         res.status(400).json("User not found.");
         return;
     }
-    res.status(200).json(user.balance);
+    res.status(200).json({balance:user.balance});
 }
 const getUserDiscount = async(req,res)=>{
     const {id} = req.params;
@@ -88,7 +88,7 @@ const getUserDiscount = async(req,res)=>{
         res.status(400).json("User not found.");
         return;
     }
-    res.status(200).json(user.discount);
+    res.status(200).json({discount:user.discount});
 }
 const getUserXp = async(req,res)=>{
     const {id} = req.params;
@@ -98,7 +98,7 @@ const getUserXp = async(req,res)=>{
         res.status(400).json("User not found.");
         return;
     }
-    res.status(200).json(user.xp);
+    res.status(200).json({xp:user.xp});
 }
 const getUserPayments = async(req,res)=>{
     const {id} = req.params;
@@ -108,7 +108,7 @@ const getUserPayments = async(req,res)=>{
         res.status(400).json("User not found.");
         return;
     }
-    res.status(200).json(user.payments);
+    res.status(200).json({payments:user.payments});
 }
 const getUserSessions = async(req,res)=>{
     const {id} = req.params;
@@ -118,7 +118,7 @@ const getUserSessions = async(req,res)=>{
         res.status(400).json("User not found.");
         return;
     }
-    res.status(200).json(user.sessions);
+    res.status(200).json({sessions:user.sessions});
 }
 
 module.exports={
