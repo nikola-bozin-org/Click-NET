@@ -89,7 +89,7 @@ const getUserBalance = async(req,res)=>{
     const username=id;
     const user = await User.findOne({username});
     if(user===null){
-        res.status(400).json("User not found.");
+        res.status(400).json({error:"User not found."});
         return;
     }
     res.status(200).json({balance:user.balance});
@@ -99,7 +99,7 @@ const getUserDiscount = async(req,res)=>{
     const username=id;
     const user = await User.findOne({username});
     if(user===null){
-        res.status(400).json("User not found.");
+        res.status(400).json({error:"User not found."});
         return;
     }
     res.status(200).json({discount:user.discount});
@@ -109,7 +109,7 @@ const getUserXp = async(req,res)=>{
     const username=id;
     const user = await User.findOne({username});
     if(user===null){
-        res.status(400).json("User not found.");
+        res.status(400).json({error:"User not found."});
         return;
     }
     res.status(200).json({xp:user.xp});
@@ -119,7 +119,7 @@ const getUserPayments = async(req,res)=>{
     const username=id;
     const user = await User.findOne({username});
     if(user===null){
-        res.status(400).json("User not found.");
+        res.status(400).json({error:"User not found."});
         return;
     }
     res.status(200).json({payments:user.payments});
@@ -129,7 +129,7 @@ const getUserSessions = async(req,res)=>{
     const username=id;
     const user = await User.findOne({username});
     if(user===null){
-        res.status(400).json("User not found.");
+        res.status(400).json({error:"User not found."});
         return;
     }
     res.status(200).json({sessions:user.sessions});
@@ -186,7 +186,6 @@ const loginUser = async(username,pcNumber,sessionType)=>{
 const getLastSession = async (username) => {
     const user = await User.findOne({ username: username });
     if (!user) {
-        res.status(400).json({error:"User does not exist."})
       throw new Error(`User ${username} not found`);
     }
     if (user.sessions.length === 0) {
