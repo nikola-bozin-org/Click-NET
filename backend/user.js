@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 
+
 const userBasicInfoSchema = new mongoose.Schema(
   {
     firstName:{
@@ -43,6 +44,19 @@ const paymentSchema = new mongoose.Schema(
     }
   }
 )
+const allPaymentsSchema = new mongoose.Schema(
+  {
+    username:{
+      type:String
+    },
+    paymentAmount:{
+      type:Number,
+    },
+    paymentDate:{
+      type:Date
+    }
+  }
+)
 const userSchema = new mongoose.Schema(
   {
     username: {
@@ -63,6 +77,10 @@ const userSchema = new mongoose.Schema(
     isLogedIn:{
       type:Boolean,
     },
+    role:{
+      type:Number, //0-admin, 1-default, 2-employee
+      default:0
+    },
     payments:{
       type:[paymentSchema]
     },
@@ -80,5 +98,6 @@ module.exports = {
   User: mongoose.model("User", userSchema),
   Session: mongoose.model("Session", sessionSchema),
   Payment: mongoose.model("Payment", paymentSchema),
-  UserBasicInfoSchema: mongoose.model("UserBasicInfo",userBasicInfoSchema),
+  UserBasicInfo: mongoose.model("UserBasicInfo",userBasicInfoSchema),
+  AllPayments:mongoose.model("AllPayments",allPaymentsSchema)
 };

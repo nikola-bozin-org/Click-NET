@@ -1,47 +1,52 @@
-const { User, Session, Payment,UserBasicInfoSchema } = require('./user')
+const { User, Session, Payment, UserBasicInfo, AllPayments } = require('./user')
 const mongoose = require('mongoose')
-mongoose.set('strictQuery',true);
+mongoose.set('strictQuery', true);
 const bcrypt = require('bcrypt')
 
-
-
-
+const statusCode = {
+    OK: 200,
+    ERROR: 400,
+    UNAUTHORIZED: 401
+}
 
 //////////////////////////////////// Users ////////////////////////////////////////
-const getUsers = async(req,res)=>{
-    const users = await User.find({}).sort({createdAt:-1});
-    res.status(200).json({users:users});
+const getUsers = async (req, res) => {
+    const users = await User.find({}).sort({ createdAt: -1 });
+    res.status(statusCode.OK).json({ users: users });
 }
-const getUser = async(req,res)=>{
-    const {id} = req.params;
+const getUser = async (req, res) => {
+    const { id } = req.params;
     const username = id;
-    const user = await User.findOne({username});
-    if(user===null){
-        res.status(400).json("User not found.");
+    const user = await User.findOne({ username });
+    if (user === null) {
+        res.status(statusCode.ERROR).json("User not found.");
         return;
     }
-    res.status(200).json({user:user});
+    res.status(statusCode.OK).json({ user: user });
 }
-const createUser = async(req,res)=>{
-    const {username,password,firstName,lastName,email,phone}=req.body;
-    console.info("Creating User "+username);
-    const user = await User.findOne({username});
-    if(user!==null){
-        res.status(400).json({error:`User with username: ${username} already exists.`});
+const createUser = async (req, res) => {
+    //authoruzie
+    const { username, password, firstName, lastName, email, phone } = req.body;
+    console.info("Creating User " + username);
+    const user = await User.findOne({ username });
+    if (user !== null) {
+        res.status(statusCode.ERROR).json({ error: `User with username: ${username} already exists.` });
         return;
     }
-    const hashedPassword =  bcrypt.hashSync(password,10);
-    try{
-        const user = await User.create({username,password:hashedPassword,balance:0,rate:0,discount:0,xp:0,
-        basicInfo:{
-            firstName,
-            lastName,
-            email,
-            phone
-          }});
-        res.status(200).json({userCreated:true, user:user});
-    }catch(e){
-        res.status(400).json({userCreated:false, error:e.message});
+    const hashedPassword = bcrypt.hashSync(password, 10);
+    try {
+        const user = await User.create({
+            username, password: hashedPassword, balance: 0, rate: 0, discount: 0, xp: 0,
+            basicInfo: {
+                firstName,
+                lastName,
+                email,
+                phone
+            }
+        });
+        res.status(statusCode.OK).json({ userCreated: true, user: user });
+    } catch (e) {
+        res.status(statusCode.ERROR).json({ userCreated: false, error: e.message });
     }
 }
 ///////////////////////////////////////////////////////////////////////////////////
@@ -51,30 +56,31 @@ const createUser = async(req,res)=>{
 
 
 //////////////////////////////////// Auth /////////////////////////////////////////
-const authenticateUser = async(req,res)=>{
-    const {username,password,pcNumber,sessionType} = req.body;
-    const user = await User.findOne({username});
-    if(user===null){
-        res.status(400).json({error:`User with username: ${username} does not exist.`})
-        return;
-    }
-    if(bcrypt.compareSync(password,user.password)){
-        await loginUser(username,pcNumber,sessionType);
-        res.status(200).json({user:user})
-    }
-    else{
-        res.status(400).json({error:`Wrong password.`})
-    }
-}
+// const authenticateUser = async (req, res) => {
+//     const { username, password, pcNumber, sessionType } = req.body;
+//     const user = await User.findOne({ username });
+//     if (user === null) {
+//         res.status(statusCode.ERROR).json({ error: `User with username: ${username} does not exist.` })
+//         return;
+//     }
+//     if (bcrypt.compareSync(password, user.password)) {
+//         await loginUser(username, pcNumber, sessionType);
+//         res.status(statusCode.OK).json({ user: user })
+//     }
+//     else {
+//         res.status(statusCode.ERROR).json({ error: `Wrong password.` })
+//     }
+// }
 
-const logoutUser = async(username)=>{
+const logoutUser = async (username) => {
     console.info("user must be loged in");
+    //invalite tokeen
     const lastSession = await getLastSession(username);
-    lastSession.logoutDate=Date.now();
+    lastSession.logoutDate = Date.now();
     await User.updateOne(
         { username: username, "sessions._id": lastSession._id },
         { $set: { "sessions.$.logoutDate": lastSession.logoutDate } }
-      );
+    );
 }
 ///////////////////////////////////////////////////////////////////////////////////
 
@@ -84,55 +90,55 @@ const logoutUser = async(username)=>{
 
 //////////////////////////////////// User Data ////////////////////////////////////
 
-const getUserBalance = async(req,res)=>{
-    const {id} = req.params;
-    const username=id;
-    const user = await User.findOne({username});
-    if(user===null){
-        res.status(400).json({error:"User not found."});
+const getUserBalance = async (req, res) => {
+    const { id } = req.params;
+    const username = id;
+    const user = await User.findOne({ username });
+    if (user === null) {
+        res.status(statusCode.ERROR).json({ error: "User not found." });
         return;
     }
-    res.status(200).json({balance:user.balance});
+    res.status(statusCode.OK).json({ balance: user.balance });
 }
-const getUserDiscount = async(req,res)=>{
-    const {id} = req.params;
-    const username=id;
-    const user = await User.findOne({username});
-    if(user===null){
-        res.status(400).json({error:"User not found."});
+const getUserDiscount = async (req, res) => {
+    const { id } = req.params;
+    const username = id;
+    const user = await User.findOne({ username });
+    if (user === null) {
+        res.status(statusCode.ERROR).json({ error: "User not found." });
         return;
     }
-    res.status(200).json({discount:user.discount});
+    res.status(statusCode.OK).json({ discount: user.discount });
 }
-const getUserXp = async(req,res)=>{
-    const {id} = req.params;
-    const username=id;
-    const user = await User.findOne({username});
-    if(user===null){
-        res.status(400).json({error:"User not found."});
+const getUserXp = async (req, res) => {
+    const { id } = req.params;
+    const username = id;
+    const user = await User.findOne({ username });
+    if (user === null) {
+        res.status(statusCode.ERROR).json({ error: "User not found." });
         return;
     }
-    res.status(200).json({xp:user.xp});
+    res.status(statusCode.OK).json({ xp: user.xp });
 }
-const getUserPayments = async(req,res)=>{
-    const {id} = req.params;
-    const username=id;
-    const user = await User.findOne({username});
-    if(user===null){
-        res.status(400).json({error:"User not found."});
+const getUserPayments = async (req, res) => {
+    const { id } = req.params;
+    const username = id;
+    const user = await User.findOne({ username });
+    if (user === null) {
+        res.status(statusCode.ERROR).json({ error: "User not found." });
         return;
     }
-    res.status(200).json({payments:user.payments});
+    res.status(statusCode.OK).json({ payments: user.payments });
 }
-const getUserSessions = async(req,res)=>{
-    const {id} = req.params;
-    const username=id;
-    const user = await User.findOne({username});
-    if(user===null){
-        res.status(400).json({error:"User not found."});
+const getUserSessions = async (req, res) => {
+    const { id } = req.params;
+    const username = id;
+    const user = await User.findOne({ username });
+    if (user === null) {
+        res.status(statusCode.ERROR).json({ error: "User not found." });
         return;
     }
-    res.status(200).json({sessions:user.sessions});
+    res.status(statusCode.OK).json({ sessions: user.sessions });
 }
 
 ///////////////////////////////////////////////////////////////////////////////////
@@ -140,11 +146,14 @@ const getUserSessions = async(req,res)=>{
 
 
 //////////////////////////////////// Interactions ////////////////////////////////////
-const payment = async (req,res)=>{
-    const {username,payment} = req.body;
-    const user = await User.findOne({username});
-    if(user===null){
-        res.status(400).json({error:`User ${username} does not exist.`})
+const payment = async (req, res) => {
+    //ovo moze samo admin da uradi.. da uplati..i employee. verifikacija preok tokeno
+    // const token = req.headers.authorization;
+    // if (!token) return res.status(statusCode.UNAUTHORIZED).json({ error: "Unathorized." });
+    const { username, payment } = req.body;
+    const user = await User.findOne({ username });
+    if (user === null) {
+        res.status(statusCode.ERROR).json({ error: `User ${username} does not exist.` })
         return;
     }
     const balance = parseInt(user.balance);
@@ -152,16 +161,19 @@ const payment = async (req,res)=>{
     const payments = user.payments;
     const newBalance = balance + parseInt(payment);
     const newXp = xp + parseInt(payment);
-    
-    user.balance=newBalance;
-    user.xp=newXp;
 
-    payments.push({paymentAmount:payment,paymentDate:Date.now()})
-    try{
-        await User.updateOne({username},{balance:newBalance,xp:newXp,payments:payments});
-        res.status(200).json({paymentProcessed:"true"})
-    }catch(e){
-        res.send(400).json({paymentProcessed:"false"})
+    user.balance = newBalance;
+    user.xp = newXp;
+
+    const paymentDate = Date.now();
+
+    payments.push({ paymentAmount: payment, paymentDate: paymentDate })
+    try {
+        await User.updateOne({ username }, { balance: newBalance, xp: newXp, payments: payments });
+        const recentPayment = await AllPayments.create({ paymentAmount: payment, paymentDate: paymentDate, username: username })
+        res.status(statusCode.OK).json({ paymentProcessed: "true", payment: recentPayment })
+    } catch (e) {
+        res.status(statusCode.ERROR).json({ paymentProcessed: "false", error: e.message })
     }
 }
 ///////////////////////////////////////////////////////////////////////////////////
@@ -170,39 +182,37 @@ const payment = async (req,res)=>{
 
 //////////////////////////////////// Helpers   ////////////////////////////////////
 
-const loginUser = async(username,pcNumber,sessionType)=>{
+const loginUser = async (username, pcNumber, sessionType) => {
     console.info("way to dettecte if login is sucessfull");
     console.info("is user already loged in?");
     const loginDate = Date.now();
-    const session = await Session.create({loginDate:loginDate,logoutDate:undefined,pcNumber:pcNumber,sessionType:sessionType})
-    await User.updateOne({username},
+    const session = await Session.create({ loginDate: loginDate, logoutDate: undefined, pcNumber: pcNumber, sessionType: sessionType })
+    await User.updateOne({ username },
         {
-         $set: {isLogedIn:true},
-         $push:{sessions:session}
-    })
+            $set: { isLogedIn: true },
+            $push: { sessions: session }
+        })
 }
-
-
 const getLastSession = async (username) => {
     const user = await User.findOne({ username: username });
     if (!user) {
-      throw new Error(`User ${username} not found`);
+        throw new Error(`User ${username} not found`);
     }
     if (user.sessions.length === 0) {
-      throw new Error(`User ${username} has no sessions`);
+        throw new Error(`User ${username} has no sessions`);
     }
     const lastSession = user.sessions[user.sessions.length - 1];
     return lastSession;
-  };
+};
 ///////////////////////////////////////////////////////////////////////////////////
 
 
 
 
-module.exports={
+module.exports = {
     getUsers,
     createUser,
-    authenticateUser,
+    // authenticateUser,
     payment,
     getUser,
     getUserBalance,

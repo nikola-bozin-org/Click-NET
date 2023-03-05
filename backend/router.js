@@ -3,12 +3,12 @@ const router = express.Router();
 const controller = require('./controller');
 
 
-router.get('/',controller.getUsers)
 router.get('/:id',controller.getUser)
+router.get('/',controller.getUsers)
 router.post('/',controller.createUser)
 
-router.post('/user/auth/',controller.authenticateUser)
-router.patch('/user/payment/:id',controller.payment)
+// router.post('/user/auth/',controller.authenticateUser)
+router.post('/user/payment',controller.payment)
 router.get('/user/balance/:id',controller.getUserBalance)
 router.get('/user/discount/:id',controller.getUserDiscount)
 router.get('/user/xp/:id',controller.getUserXp)
