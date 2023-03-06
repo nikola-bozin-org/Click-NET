@@ -1,3 +1,7 @@
 Calculate discount on payment.
 
 https://www.youtube.com/watch?v=wV-fDdHhGqs WEBSOCKET
+
+
+invalidate token on logout,
+logout only from admin or that user. get data from token

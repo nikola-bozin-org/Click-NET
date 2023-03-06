@@ -174,7 +174,7 @@ const loginUser = async (req,res) => {
         return;
     }
     if(user.isLogedIn===true){
-        res.status(statusCode.ERROR).json({error:`User with username: ${username} is already loged in`})
+        res.status(statusCode.ERROR).json({error:`User with username: ${username} is already loged in.`})
         return ;
     }
     if (!bcrypt.compareSync(password, user.password)) {
@@ -189,17 +189,32 @@ const loginUser = async (req,res) => {
             $push: { sessions: session }
     })
     const accessToken = jwt.sign({user:user})
+    memory.logedInUsers.push(user);
+    // console.info(memory.logedInUsers);
+    // console.info("New user loged in: "+ username);
     res.status(statusCode.OK).json({ user: user,accessToken:accessToken })
 }
-const logoutUser = async (username) => {
-    console.info("user must be loged in");
-    //invalite tokeen
+const logoutUser = async (req,res) => {
+    const {username} = req.body;
+    const user = await User.findOne({username});
+    if(user===null){
+        res.status(statusCode.ERROR).json({ error: `User with username: ${username} does not exist.` })
+        return;
+    }
+    if(user.isLogedIn===false){
+        res.status(statusCode.ERROR).json({error:`User with username: ${username} is not loged in.`})
+        return;
+    }
     const lastSession = await getLastSession(username);
     lastSession.logoutDate = Date.now();
     await User.updateOne(
         { username: username, "sessions._id": lastSession._id },
-        { $set: { "sessions.$.logoutDate": lastSession.logoutDate } }
+        { $set: { "sessions.$.logoutDate": lastSession.logoutDate,isLogedIn:false } }
     );
+    memory.logedInUsers.pop(user);
+    // console.info(memory.logedInUsers);
+    // console.info("User loged out: "+ username);
+    return res.status(statusCode.OK).json({message:`User ${username} logged out.`})
 }
 const getLastSession = async (username) => {
     const user = await User.findOne({ username: username });
