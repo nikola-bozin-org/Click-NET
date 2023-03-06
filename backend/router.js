@@ -6,8 +6,13 @@ const controller = require('./controller');
 router.get('/:id',controller.getUser)
 router.get('/',controller.getUsers)
 router.post('/',controller.createUser)
+// router.post('/insertLevels',controller.insertLevelsToDatabase)
+
+
 router.post('/login',controller.loginUser)
 router.post('/logout',controller.logoutUser)
+
+
 router.post('/user/payment',controller.payment)
 router.get('/user/balance/:id',controller.getUserBalance)
 router.get('/user/discount/:id',controller.getUserDiscount)

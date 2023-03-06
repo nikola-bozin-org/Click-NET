@@ -1,4 +1,4 @@
-const { User, Session, Payment, UserBasicInfo, AllPayments } = require('./user')
+const { User, Session, Payment, UserBasicInfo, AllPayments, Levels } = require('./schemas')
 const mongoose = require('mongoose')
 mongoose.set('strictQuery', true);
 const bcrypt = require('bcrypt')
@@ -151,8 +151,8 @@ const payment = async (req, res) => {
 
     const paymentDate = Date.now();
 
-    payments.push({ paymentAmount: payment, paymentDate: paymentDate })
     try {
+        payments.push({ paymentAmount: payment, paymentDate: paymentDate })
         await User.updateOne({ username }, { balance: newBalance, xp: newXp, payments: payments });
         const recentPayment = await AllPayments.create({ paymentAmount: payment, paymentDate: paymentDate, username: username })
         res.status(statusCode.OK).json({ paymentProcessed: "true", payment: recentPayment })
@@ -227,6 +227,29 @@ const getLastSession = async (username) => {
     const lastSession = user.sessions[user.sessions.length - 1];
     return lastSession;
 };
+
+
+
+// const insertLevelsToDatabase = async (req, res) => {
+//     try {
+//       const levels = memory.levels;
+//       console.info(levels);
+//       const data = 
+//         [
+//           { xp: 0, level: 1 },
+//           { xp: 100, level: 2 },
+//           { xp: 200, level: 3 }
+//         ]
+      
+//       const result = await Levels.create({
+//         data        
+//       })
+//     //   const result = await Levels.updateMany({}, { $push: { levels: { $each: levels } } });
+//       res.status(200).json({ message: `Inserted ${levels.length} levels`,result:result });
+//     } catch (error) {
+//       res.status(500).json({ error: error.message,result:result });
+//     }
+//   };
 ///////////////////////////////////////////////////////////////////////////////////
 
 
@@ -244,5 +267,6 @@ module.exports = {
     getUserPayments,
     getUserSessions,
     loginUser,
-    logoutUser
+    logoutUser,
+    // insertLevelsToDatabase
 }

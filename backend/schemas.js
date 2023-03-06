@@ -57,6 +57,24 @@ const allPaymentsSchema = new mongoose.Schema(
     }
   }
 )
+
+
+// const levelsSchema = new mongoose.Schema(
+//   {
+//     levels:{
+//       type:[{
+//         xp:{
+//           type:Number
+//         },
+//         level:{
+//           type:Number
+//         }
+//       }
+//       ]
+//     }
+//   }
+// )
+
 const userSchema = new mongoose.Schema(
   {
     username: {
@@ -99,5 +117,6 @@ module.exports = {
   Session: mongoose.model("Session", sessionSchema),
   Payment: mongoose.model("Payment", paymentSchema),
   UserBasicInfo: mongoose.model("UserBasicInfo",userBasicInfoSchema),
-  AllPayments:mongoose.model("AllPayments",allPaymentsSchema)
+  AllPayments:mongoose.model("AllPayments",allPaymentsSchema),
+  // Levels:mongoose.model("Levels",levelsSchema)
 };
