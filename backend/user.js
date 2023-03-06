@@ -30,7 +30,7 @@ const sessionSchema = new mongoose.Schema(
       type:Number
     },
     sessionType:{
-      type:Number
+      type:Number //videti u c# ima pro night defualt tako nesto
     },
   }
 )
@@ -79,7 +79,7 @@ const userSchema = new mongoose.Schema(
     },
     role:{
       type:Number, //0-admin, 1-default, 2-employee
-      default:0
+      default:1
     },
     payments:{
       type:[paymentSchema]

@@ -2,6 +2,8 @@ const { User, Session, Payment, UserBasicInfo, AllPayments } = require('./user')
 const mongoose = require('mongoose')
 mongoose.set('strictQuery', true);
 const bcrypt = require('bcrypt')
+const jwt = require('./jwt')
+const memory = require('./server-memory')
 
 const statusCode = {
     OK: 200,
@@ -25,9 +27,9 @@ const getUser = async (req, res) => {
     res.status(statusCode.OK).json({ user: user });
 }
 const createUser = async (req, res) => {
-    //authoruzie
+    // console.info("ADMIN OR EMPLOYEE ONLY");
     const { username, password, firstName, lastName, email, phone } = req.body;
-    console.info("Creating User " + username);
+    // console.info("Creating User " + username);
     const user = await User.findOne({ username });
     if (user !== null) {
         res.status(statusCode.ERROR).json({ error: `User with username: ${username} already exists.` });
@@ -36,13 +38,19 @@ const createUser = async (req, res) => {
     const hashedPassword = bcrypt.hashSync(password, 10);
     try {
         const user = await User.create({
-            username, password: hashedPassword, balance: 0, rate: 0, discount: 0, xp: 0,
+            username,
+             password: hashedPassword,
+              balance: 0,
+              discount: 0,
+              xp: 0,
+              isLogedIn:false,
+              role:1,
             basicInfo: {
                 firstName,
                 lastName,
                 email,
                 phone
-            }
+            },
         });
         res.status(statusCode.OK).json({ userCreated: true, user: user });
     } catch (e) {
@@ -56,32 +64,8 @@ const createUser = async (req, res) => {
 
 
 //////////////////////////////////// Auth /////////////////////////////////////////
-// const authenticateUser = async (req, res) => {
-//     const { username, password, pcNumber, sessionType } = req.body;
-//     const user = await User.findOne({ username });
-//     if (user === null) {
-//         res.status(statusCode.ERROR).json({ error: `User with username: ${username} does not exist.` })
-//         return;
-//     }
-//     if (bcrypt.compareSync(password, user.password)) {
-//         await loginUser(username, pcNumber, sessionType);
-//         res.status(statusCode.OK).json({ user: user })
-//     }
-//     else {
-//         res.status(statusCode.ERROR).json({ error: `Wrong password.` })
-//     }
-// }
 
-const logoutUser = async (username) => {
-    console.info("user must be loged in");
-    //invalite tokeen
-    const lastSession = await getLastSession(username);
-    lastSession.logoutDate = Date.now();
-    await User.updateOne(
-        { username: username, "sessions._id": lastSession._id },
-        { $set: { "sessions.$.logoutDate": lastSession.logoutDate } }
-    );
-}
+
 ///////////////////////////////////////////////////////////////////////////////////
 
 
@@ -182,16 +166,40 @@ const payment = async (req, res) => {
 
 //////////////////////////////////// Helpers   ////////////////////////////////////
 
-const loginUser = async (username, pcNumber, sessionType) => {
-    console.info("way to dettecte if login is sucessfull");
-    console.info("is user already loged in?");
+const loginUser = async (req,res) => {
+    const { username, password, pcNumber, sessionType } = req.body;
+    const user = await User.findOne({ username });
+    if (user === null) {
+        res.status(statusCode.ERROR).json({ error: `User with username: ${username} does not exist.` })
+        return;
+    }
+    if(user.isLogedIn===true){
+        res.status(statusCode.ERROR).json({error:`User with username: ${username} is already loged in`})
+        return ;
+    }
+    if (!bcrypt.compareSync(password, user.password)) {
+        res.status(statusCode.ERROR).json({ error: `Wrong password.` })
+        return;
+    }
     const loginDate = Date.now();
     const session = await Session.create({ loginDate: loginDate, logoutDate: undefined, pcNumber: pcNumber, sessionType: sessionType })
     await User.updateOne({ username },
         {
             $set: { isLogedIn: true },
             $push: { sessions: session }
-        })
+    })
+    const accessToken = jwt.sign({user:user})
+    res.status(statusCode.OK).json({ user: user,accessToken:accessToken })
+}
+const logoutUser = async (username) => {
+    console.info("user must be loged in");
+    //invalite tokeen
+    const lastSession = await getLastSession(username);
+    lastSession.logoutDate = Date.now();
+    await User.updateOne(
+        { username: username, "sessions._id": lastSession._id },
+        { $set: { "sessions.$.logoutDate": lastSession.logoutDate } }
+    );
 }
 const getLastSession = async (username) => {
     const user = await User.findOne({ username: username });
@@ -219,5 +227,7 @@ module.exports = {
     getUserDiscount,
     getUserXp,
     getUserPayments,
-    getUserSessions
+    getUserSessions,
+    loginUser,
+    logoutUser
 }

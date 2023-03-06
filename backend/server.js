@@ -5,21 +5,21 @@ const mongoConnect = require('./mongo-connect')
 const router = require('./router')
 const cors = require('cors');
 
-const app = express();
+const server = express();
 const port = 9876;
 
-app.use(cors({
+server.use(cors({
   origin: 'http://localhost:3000',
 }));
-app.use(express.json()); 
-app.use(express.urlencoded({ extended: true })); 
-app.use(helmet());
-app.use('/api/users',router);
+server.use(express.json()); 
+server.use(express.urlencoded({ extended: true })); 
+server.use(helmet());
+server.use('/api/users',router);
 
 
 const startServer = async()=>{
   mongoConnect.connect(mongoConnect.connectionLink,()=>{
-    app.listen(port,async()=>{
+    server.listen(port,async()=>{
       console.log(`Server listening at ${ip.address()}:${port}`);
     })
   })

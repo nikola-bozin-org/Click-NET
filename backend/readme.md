@@ -1,6 +1,4 @@
-npm i express moongose
-npm i multer - valjda za uploadovanje slika
-npm i helmet
+npm i 
 
 START A SERVER: node server.js 
 
