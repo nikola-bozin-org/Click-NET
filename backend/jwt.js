@@ -3,7 +3,7 @@ require('dotenv').config()
 
 
 const sign =  (toSign) =>{
-    return jwt.sign(toSign,process.env.JWT_SECRET,{expiresIn:"1m"})
+    return jwt.sign(toSign,process.env.JWT_SECRET,{expiresIn:"8h"})
 }
 
 const verify = (token)=>{

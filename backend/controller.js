@@ -1,6 +1,5 @@
-const { User, Session, Payment, UserBasicInfo, AllPayments, Levels } = require('./schemas')
+const { User, Session, Payment, UserBasicInfo, AllPayments,Level, Levels } = require('./schemas')
 const mongoose = require('mongoose')
-mongoose.set('strictQuery', true);
 const bcrypt = require('bcrypt')
 const jwt = require('./jwt')
 const memory = require('./server-memory')
@@ -27,9 +26,11 @@ const getUser = async (req, res) => {
     res.status(statusCode.OK).json({ user: user });
 }
 const createUser = async (req, res) => {
-    // console.info("ADMIN OR EMPLOYEE ONLY");
+    // const token = req.headers.token;
+    // if(!token) return res.status(statusCode.UNAUTHORIZED).json({error:'unauthorized'});
+    // const admin = jwt.verify(token);
+    // if(admin.role!==0 && admin.role!==2) return res.status(statusCode.ERROR).json({error:'you are not Admin or Employee'});
     const { username, password, firstName, lastName, email, phone } = req.body;
-    // console.info("Creating User " + username);
     const user = await User.findOne({ username });
     if (user !== null) {
         res.status(statusCode.ERROR).json({ error: `User with username: ${username} already exists.` });
@@ -227,30 +228,42 @@ const getLastSession = async (username) => {
     const lastSession = user.sessions[user.sessions.length - 1];
     return lastSession;
 };
+const createLevels = async(req,res)=>{
+    const token = req.headers.token;
+    if(!token) return res.status(statusCode.UNAUTHORIZED).json({error:"Unauthorized."})
+    console.info("Authorize admin");
+    try {
+        const levelsCheck = await Levels.findOne({})
+        if(levelsCheck) return res.status(statusCode.ERROR).json({error:"Levels already created."})
+        const newLevel = await Levels.create({ levels: [] });
+        return res.status(statusCode.OK).json({message:`Created levels`,result:newLevel});
+    } catch (error) {
+        return res.status(statusCode.ERROR).json({ error: `Error creating levels. ${error}` });
+    }
+}
+const addLevel = async(req,res)=>{
+    const token = req.headers.token;
+    if(!token) return res.status(statusCode.UNAUTHORIZED).json({error:"Unauthorized."})
+    console.info("Admin")
+    const levels = await Levels.findOne({})
+    if(!levels) return res.status(statusCode.ERROR).json({error:"Levels object not created."})
+    const {level,xp}=req.body;
+    levels.push({level,xp});
+}
 
-
-
-// const insertLevelsToDatabase = async (req, res) => {
-//     try {
-//       const levels = memory.levels;
-//       console.info(levels);
-//       const data = 
-//         [
-//           { xp: 0, level: 1 },
-//           { xp: 100, level: 2 },
-//           { xp: 200, level: 3 }
-//         ]
-      
-//       const result = await Levels.create({
-//         data        
-//       })
-//     //   const result = await Levels.updateMany({}, { $push: { levels: { $each: levels } } });
-//       res.status(200).json({ message: `Inserted ${levels.length} levels`,result:result });
-//     } catch (error) {
-//       res.status(500).json({ error: error.message,result:result });
-//     }
-//   };
-///////////////////////////////////////////////////////////////////////////////////
+const modifyLevelXp = (level,newXp)=>{
+    const levleObj = levels.find(obj=>obj.level===level);
+    if(levleObj){
+        levleObj.xp=newXp;
+    }
+}
+const getLevelXp = (level) =>{
+    const levleObj = levels.find(obj=>obj.level===level);
+    if(levleObj){
+        return levleObj.xp;
+    }
+    return undefined;
+}
 
 
 
@@ -258,7 +271,6 @@ const getLastSession = async (username) => {
 module.exports = {
     getUsers,
     createUser,
-    // authenticateUser,
     payment,
     getUser,
     getUserBalance,
@@ -268,5 +280,5 @@ module.exports = {
     getUserSessions,
     loginUser,
     logoutUser,
-    // insertLevelsToDatabase
+    createLevels,
 }
