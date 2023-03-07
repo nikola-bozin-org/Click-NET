@@ -245,27 +245,36 @@ const addLevel = async(req,res)=>{
     const token = req.headers.token;
     if(!token) return res.status(statusCode.UNAUTHORIZED).json({error:"Unauthorized."})
     console.info("Admin")
-    const levels = await Levels.findOne({})
-    if(!levels) return res.status(statusCode.ERROR).json({error:"Levels object not created."})
-    const {level,xp}=req.body;
-    levels.push({level,xp});
-}
-
-const modifyLevelXp = (level,newXp)=>{
-    const levleObj = levels.find(obj=>obj.level===level);
-    if(levleObj){
-        levleObj.xp=newXp;
+    const levelsMain = await Levels.findOne({})
+    if(!levelsMain) return res.status(statusCode.ERROR).json({error:"Levels object not created."})
+    const {newLevel,xp}=req.body;
+    try{
+        console.info(levelsMain.levels);
+        levelsMain.levels.push({level:newLevel,xp:xp});
+        const result = await Levels.updateOne({},{levels:levelsMain.levels})
+        res.status(statusCode.OK).json({result:result});
+    }catch(e){
+        res.status(statusCode.ERROR).json({error:e})
     }
 }
-const getLevelXp = (level) =>{
-    const levleObj = levels.find(obj=>obj.level===level);
-    if(levleObj){
-        return levleObj.xp;
+const updateLevelXP = async (req, res) => {
+    const token = req.headers.token;
+    if (!token) return res.status(statusCode.UNAUTHORIZED).json({ error: "Unauthorized." });
+    console.info("Admin");
+    const levelsMain = await Levels.findOne({});
+    if (!levelsMain) return res.status(statusCode.ERROR).json({ error: "Levels object not created." });
+    const { level, xp } = req.body;
+    try {
+      const levelIndex = levelsMain.levels.findIndex((l) => l.level === level);
+      if (levelIndex < 0) return res.status(statusCode.ERROR).json({ error: "Level not found." });
+      levelsMain.levels[levelIndex].xp = xp;
+      const result = await Levels.updateOne({}, { levels: levelsMain.levels });
+      res.status(statusCode.OK).json({ result: result });
+    } catch (e) {
+      res.status(statusCode.ERROR).json({ error: e });
     }
-    return undefined;
-}
-
-
+  };
+  
 
 
 module.exports = {
@@ -281,4 +290,5 @@ module.exports = {
     loginUser,
     logoutUser,
     createLevels,
+    addLevel,
 }

@@ -68,9 +68,10 @@ const levelSchema=new mongoose.Schema({
 
 const levelsSchema = new mongoose.Schema(
   {
-    levels:[levelSchema]
+    levels:{
+      type:[levelSchema]
   }
-)
+})
 
 const userSchema = new mongoose.Schema(
   {

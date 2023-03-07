@@ -7,6 +7,7 @@ router.get('/:id',controller.getUser)
 router.get('/',controller.getUsers)
 router.post('/',controller.createUser)
 router.post('/createLevels',controller.createLevels)
+router.post('/addLevel',controller.addLevel);
 
 
 router.post('/login',controller.loginUser)
