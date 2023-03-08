@@ -190,9 +190,7 @@ const loginUser = async (req,res) => {
             $push: { sessions: session }
     })
     const accessToken = jwt.sign({user:user})
-    memory.logedInUsers.push(user);
-    // console.info(memory.logedInUsers);
-    // console.info("New user loged in: "+ username);
+    memory.onUserLoggedIn(user);
     res.status(statusCode.OK).json({ user: user,accessToken:accessToken })
 }
 const logoutUser = async (req,res) => {
@@ -212,9 +210,8 @@ const logoutUser = async (req,res) => {
         { username: username, "sessions._id": lastSession._id },
         { $set: { "sessions.$.logoutDate": lastSession.logoutDate,isLogedIn:false } }
     );
-    memory.logedInUsers.pop(user);
-    // console.info(memory.logedInUsers);
-    // console.info("User loged out: "+ username);
+    memory.onUserLoggedOut.pop(user);
+
     return res.status(statusCode.OK).json({message:`User ${username} logged out.`})
 }
 const getLastSession = async (username) => {
