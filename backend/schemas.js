@@ -110,11 +110,30 @@ const userSchema = new mongoose.Schema(
   { timestamp: true }
 );
 
+const ticketsSchema = new mongoose.Schema(
+  {
+    tickets:{
+      type:[{
+        name:{
+          type:String
+        },
+        cost:{
+          type:Number
+        },
+        time:{
+          type:Number
+        }
+      }]
+    }
+  }
+)
+
 module.exports = {
   User: mongoose.model("User", userSchema),
   Session: mongoose.model("Session", sessionSchema),
   Payment: mongoose.model("Payment", paymentSchema),
   UserBasicInfo: mongoose.model("UserBasicInfo",userBasicInfoSchema),
   AllPayments:mongoose.model("AllPayments",allPaymentsSchema),
-  Levels:mongoose.model("Levels",levelsSchema)
+  Levels:mongoose.model("Levels",levelsSchema),
+  Tickets:mongoose.model("Tickets",ticketsSchema),
 };

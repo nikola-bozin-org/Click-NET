@@ -9,6 +9,7 @@ router.post('/',controller.createUser)
 router.post('/createLevels',controller.createLevels)
 router.post('/addLevel',controller.addLevel);
 router.post('/updateLevel',controller.updateLevelXP);
+router.post('/createNewTicket',controller.createNewTicket)
 
 
 router.post('/login',controller.loginUser)

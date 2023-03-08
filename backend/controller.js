@@ -1,4 +1,4 @@
-const { User, Session, Payment, UserBasicInfo, AllPayments, Levels } = require('./schemas')
+const { User, Session, Payment, UserBasicInfo, AllPayments, Levels,Tickets } = require('./schemas')
 const mongoose = require('mongoose')
 const bcrypt = require('bcrypt')
 const jwt = require('./jwt')
@@ -272,7 +272,13 @@ const updateLevelXP = async (req, res) => {
     res.status(statusCode.ERROR).json({ error: e });
   }
 };
-  
+
+const createNewTicket = async(req,res)=>{
+    console.info("Admin");
+    const tickets = await Tickets.findOne({});
+    console.info(tickets);
+    res.status(statusCode.OK).json({message:'Created new ticket.'})
+}
 
 
 module.exports = {
@@ -289,5 +295,6 @@ module.exports = {
     logoutUser,
     createLevels,
     addLevel,
-    updateLevelXP
+    updateLevelXP,
+    createNewTicket,
 }
