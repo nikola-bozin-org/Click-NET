@@ -255,8 +255,6 @@ const addLevel = async(req,res)=>{
         res.status(statusCode.ERROR).json({error:e})
     }
 }
-  
-
 const updateLevelXP = async (req, res) => {
     const token = req.headers.token;
     if (!token) return res.status(statusCode.UNAUTHORIZED).json({ error: "Unauthorized." });
@@ -264,17 +262,18 @@ const updateLevelXP = async (req, res) => {
     const levelsMain = await Levels.findOne({});
     if (!levelsMain) return res.status(statusCode.ERROR).json({ error: "Levels object not created." });
     const { level, xp } = req.body;
-    console.info(req.body);
     try {
-      console.info(levelsMain);
-      const currentXp = levelsMain.levels.findIndex((l) => l.level === level);
-      if (levelIndex < 0) return res.status(statusCode.ERROR).json({ error: "Level not found." });
-      levelsMain.levels[levelIndex].xp = xp;
-      const result = await Levels.updateOne({}, { levels: levelsMain.levels });
-      res.status(statusCode.OK).json({ result: result });
-    } catch (e) {
-      res.status(statusCode.ERROR).json({ error: e });
-    }
+        const levelFounded = levelsMain.levels.find((l)=>l.level===level);
+      if (!levelFounded) return res.status(statusCode.ERROR).json({ error: "Level not found." });
+      await Levels.findOneAndUpdate(
+      { _id: levelsMain._id, "levels.level": level },
+      { $set: { "levels.$.xp": xp } }
+    );
+    
+    res.status(statusCode.OK).json({ message: "Level XP updated successfully." });
+  } catch (e) {
+    res.status(statusCode.ERROR).json({ error: e });
+  }
 };
   
 
