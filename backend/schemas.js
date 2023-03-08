@@ -57,19 +57,19 @@ const allPaymentsSchema = new mongoose.Schema(
     }
   }
 )
-const levelSchema=new mongoose.Schema({
-  xp:{
-    type:Number
-  },
-  level:{
-    type:Number
-  }
-})
-
 const levelsSchema = new mongoose.Schema(
   {
     levels:{
-      type:[levelSchema]
+      type:[{
+        xp:{
+          type:Number,
+          default:0,
+        },
+        level:{
+          type:Number,
+          default:0,
+        }
+    }]
   }
 })
 
@@ -116,6 +116,5 @@ module.exports = {
   Payment: mongoose.model("Payment", paymentSchema),
   UserBasicInfo: mongoose.model("UserBasicInfo",userBasicInfoSchema),
   AllPayments:mongoose.model("AllPayments",allPaymentsSchema),
-  Level:mongoose.model("Level",levelSchema),
   Levels:mongoose.model("Levels",levelsSchema)
 };

@@ -8,6 +8,7 @@ router.get('/',controller.getUsers)
 router.post('/',controller.createUser)
 router.post('/createLevels',controller.createLevels)
 router.post('/addLevel',controller.addLevel);
+router.post('/updateLevel',controller.updateLevelXP);
 
 
 router.post('/login',controller.loginUser)

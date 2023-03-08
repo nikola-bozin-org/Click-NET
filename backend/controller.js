@@ -1,4 +1,4 @@
-const { User, Session, Payment, UserBasicInfo, AllPayments,Level, Levels } = require('./schemas')
+const { User, Session, Payment, UserBasicInfo, AllPayments, Levels } = require('./schemas')
 const mongoose = require('mongoose')
 const bcrypt = require('bcrypt')
 const jwt = require('./jwt')
@@ -249,14 +249,14 @@ const addLevel = async(req,res)=>{
     if(!levelsMain) return res.status(statusCode.ERROR).json({error:"Levels object not created."})
     const {newLevel,xp}=req.body;
     try{
-        console.info(levelsMain.levels);
-        levelsMain.levels.push({level:newLevel,xp:xp});
-        const result = await Levels.updateOne({},{levels:levelsMain.levels})
+        const result = await Levels.updateOne({}, { $push: { levels: {  xp: xp,level: newLevel } } });
         res.status(statusCode.OK).json({result:result});
     }catch(e){
         res.status(statusCode.ERROR).json({error:e})
     }
 }
+  
+
 const updateLevelXP = async (req, res) => {
     const token = req.headers.token;
     if (!token) return res.status(statusCode.UNAUTHORIZED).json({ error: "Unauthorized." });
@@ -264,8 +264,10 @@ const updateLevelXP = async (req, res) => {
     const levelsMain = await Levels.findOne({});
     if (!levelsMain) return res.status(statusCode.ERROR).json({ error: "Levels object not created." });
     const { level, xp } = req.body;
+    console.info(req.body);
     try {
-      const levelIndex = levelsMain.levels.findIndex((l) => l.level === level);
+      console.info(levelsMain);
+      const currentXp = levelsMain.levels.findIndex((l) => l.level === level);
       if (levelIndex < 0) return res.status(statusCode.ERROR).json({ error: "Level not found." });
       levelsMain.levels[levelIndex].xp = xp;
       const result = await Levels.updateOne({}, { levels: levelsMain.levels });
@@ -273,7 +275,7 @@ const updateLevelXP = async (req, res) => {
     } catch (e) {
       res.status(statusCode.ERROR).json({ error: e });
     }
-  };
+};
   
 
 
@@ -291,4 +293,5 @@ module.exports = {
     logoutUser,
     createLevels,
     addLevel,
+    updateLevelXP
 }
