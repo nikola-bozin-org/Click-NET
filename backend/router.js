@@ -6,10 +6,9 @@ const controller = require('./controller');
 router.get('/:id',controller.getUser)
 router.get('/',controller.getUsers)
 router.post('/',controller.createUser)
-router.post('/createLevels',controller.createLevels)
 router.post('/addLevel',controller.addLevel);
 router.post('/updateLevel',controller.updateLevelXP);
-router.post('/createNewTicket',controller.createNewTicket)
+router.post('/createNewTicket',controller.createTicket)
 
 
 router.post('/login',controller.loginUser)
