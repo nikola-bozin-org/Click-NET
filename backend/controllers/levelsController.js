@@ -26,9 +26,30 @@ const updateLevelXP = async (req, res) => {
     const result = await Levels.updateOne({level},foundLevel);
     return res.status(statusCode.OK).json({result:result});
 };
-
+const deleteLevel = async(req,res)=>{
+    const {level} = req.body;
+    const foundLevel = await Levels.findOne({level});
+    console.info(foundLevel);
+    if(!foundLevel) return res.status(statusCode.ERROR).json({error:`Level ${level} does not exist.`});
+    await Levels.deleteOne({level});
+    return res.status(statusCode.OK).json({message:`Level ${level} deleted.`});
+}
+const getLevels = async(req,res)=>{
+    const levels = await Levels.find({});
+    res.status(statusCode.OK).json({levels:levels});
+}
+const getLevel =async(req,res)=>{
+    const {level} = req.params;
+    const foundLevel = await Levels.findOne({level});
+    console.info(foundLevel)
+    if(!foundLevel) return res.status(statusCode.OK).json({error:`Level ${level} does not exist.`});
+    return res.status(statusCode.OK).json({level:foundLevel})
+}
 
 module.exports={
     addLevel,
-    updateLevelXP
+    updateLevelXP,
+    deleteLevel,
+    getLevels,
+    getLevel,
 }

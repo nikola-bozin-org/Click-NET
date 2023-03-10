@@ -3,6 +3,13 @@ const express = require('express');
 const helmet = require('helmet');
 const mongoConnect = require('./mongo-connect')
 const router = require('./router')
+const ticketsRouter = require('./routers/ticketsRouter')
+const levelsRouter = require('./routers/levelsRouter')
+const usersRouter = require('./routers/usersRouter')
+const userRouter = require('./routers/userRouter')
+const sessionsRouter = require('./routers/sessionsRouter')
+
+
 const cors = require('cors');
 
 const server = express();
@@ -14,8 +21,11 @@ server.use(cors({
 server.use(express.json()); 
 server.use(express.urlencoded({ extended: true })); 
 server.use(helmet());
-server.use('/api/users',router);
-
+server.use('/api/',usersRouter);
+server.use('/api',userRouter);
+server.use('/api/',levelsRouter);
+server.use('/api/',ticketsRouter);
+server.use('/api/',sessionsRouter);
 
 const startServer = async()=>{
   mongoConnect.connect(mongoConnect.connectionLink,()=>{

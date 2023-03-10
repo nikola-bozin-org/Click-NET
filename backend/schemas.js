@@ -106,7 +106,7 @@ const ticketsSchema = new mongoose.Schema({
   cost: {
     type: Number,
   },
-  time: {
+  balance: {
     type: Number,
   },
 });
