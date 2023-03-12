@@ -2,11 +2,7 @@ const { User, Session} = require('./schemas')
 const bcrypt = require('bcrypt')
 const jwt = require('./jwt')
 const memory = require('./server-memory')
-const {getUsers,getUser,createUser,getUserBalance,getUserDiscount,getUserXp,getUserPayments,getUserSessions} = require('./controllers/userController');
-const {addLevel,updateLevelXP} = require('./controllers/levelsController')
-const {createTicket,deleteTicket,getTickets} = require('./controllers/ticketsController')
 const statusCode = require('./statusCodes')
-const {loginUser,logoutUser} = require('./controllers/sessionController')
 
 
 ///////////////////////////////////////////////////////////////////////////////////
@@ -52,60 +48,4 @@ const payment = async (req, res) => {
 //////////////////////////////////// Helpers   ////////////////////////////////////
 
 
-// const logoutUser = async (req,res) => {
-//     const {username} = req.body;
-//     const user = await User.findOne({username});
-//     if(user===null){
-//         res.status(statusCode.ERROR).json({ error: `User with username: ${username} does not exist.` })
-//         return;
-//     }
-//     if(user.isLogedIn===false){
-//         res.status(statusCode.ERROR).json({error:`User with username: ${username} is not loged in.`})
-//         return;
-//     }
-//     const lastSession = await getLastSession(username);
-//     lastSession.logoutDate = Date.now();
-//     await User.updateOne(
-//         { username: username, "sessions._id": lastSession._id },
-//         { $set: { "sessions.$.logoutDate": lastSession.logoutDate,isLogedIn:false } }
-//     );
-//     memory.onUserLoggedOut.pop(user);
 
-//     return res.status(statusCode.OK).json({message:`User ${username} logged out.`})
-// }
-const getLastSession = async (username) => {
-    const user = await User.findOne({ username: username });
-    if (!user) {
-        throw new Error(`User ${username} not found`);
-    }
-    if (user.sessions.length === 0) {
-        throw new Error(`User ${username} has no sessions`);
-    }
-    const lastSession = user.sessions[user.sessions.length - 1];
-    return lastSession;
-};
-
-module.exports = {
-    getUsers,
-    createUser,
-    getUser,
-    getUserBalance,
-    getUserDiscount,
-    getUserXp,
-    getUserPayments,
-    getUserSessions,
-    
-    payment,
-    loginUser,
-    logoutUser,
-
-
-    addLevel,
-    updateLevelXP,
-
-
-
-    createTicket,
-    deleteTicket,
-    getTickets,
-}

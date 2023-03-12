@@ -2,7 +2,6 @@ const ip = require('ip');
 const express = require('express');
 const helmet = require('helmet');
 const mongoConnect = require('./mongo-connect')
-const router = require('./router')
 const ticketsRouter = require('./routers/ticketsRouter')
 const levelsRouter = require('./routers/levelsRouter')
 const usersRouter = require('./routers/usersRouter')
@@ -23,9 +22,9 @@ server.use(express.urlencoded({ extended: true }));
 server.use(helmet());
 server.use('/api/',usersRouter);
 server.use('/api',userRouter);
+server.use('/api/',sessionsRouter);
 server.use('/api/',levelsRouter);
 server.use('/api/',ticketsRouter);
-server.use('/api/',sessionsRouter);
 
 const startServer = async()=>{
   mongoConnect.connect(mongoConnect.connectionLink,()=>{
@@ -34,6 +33,8 @@ const startServer = async()=>{
     })
   })
 }
+
+
 
 startServer();
 

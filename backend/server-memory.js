@@ -1,14 +1,20 @@
 const logedInUsers = [];
 
+console.info("validni tokeni? user kad se izloguje treba da nije vise validan")
 
 const onUserLoggedIn = (user)=>{
     logedInUsers.push(user);
 }
 const onUserLoggedOut = (user)=>{
-    logedInUsers.pop(user);
+    logedInUsers.splice(logedInUsers.indexOf(user),1);
+}
+
+const getLoggedInUsers = () =>{
+    return logedInUsers;
 }
 
 module.exports={
     onUserLoggedIn,
-    onUserLoggedOut
+    onUserLoggedOut,
+    getLoggedInUsers,
 }
