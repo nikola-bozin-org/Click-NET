@@ -33,7 +33,7 @@ const startServer = async()=>{
   mongoConnect.connect(mongoConnect.connectionLink,()=>{
     server.listen(port,async()=>{
       console.log(`Server listening at ${ip.address()}:${port}`);
-      console.warn(`Server should read loged in users from database if using server memory.`);
+      console.warn(`Server should read loged in users from database if using server memory. If server is restarted, previous memory is lost`);
     })
   })
 }
