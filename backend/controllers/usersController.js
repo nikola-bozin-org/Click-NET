@@ -38,7 +38,7 @@ const createUser = async (req, res) => {
               discount: 0,
               xp: 0,
               isLogedIn:false,
-              role:1,
+              role:"Default",
             basicInfo: {
                 firstName,
                 lastName,

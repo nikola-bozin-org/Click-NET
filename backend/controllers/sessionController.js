@@ -6,6 +6,26 @@ const memory = require('../server-memory')
 const statusCode = require('../statusCodes')
 
 
+const loginStaff = async(req,res)=>{
+    const {username,password} = req.body;
+    const user = await User.findOne({ username });
+    if (user === null) return res.status(statusCode.ERROR).json({ error: `User with username: ${username} does not exist.` })
+    if(user.isLogedIn===true) return res.status(statusCode.ERROR).json({error:`User with username: ${username} is already loged in.`})
+    if (!bcrypt.compareSync(password, user.password)) return res.status(statusCode.ERROR).json({ error: `Wrong password.` })
+    if(user.role!=="Admin" && user.role !== "Employee")  res.status(statusCode.ERROR).json({error:`You are not Admin or Employee`});
+    const loginDate = Date.now();
+    const session = await UserSession.create({ loginDate: loginDate, logoutDate: undefined })
+    const sessionId = session.id;
+    console.info(sessionId);
+    await User.updateOne({ username },
+        {
+            $set: { isLogedIn: true },
+            $push: { sessions: session }
+    })
+    const accessToken = jwt.sign({username:user.username})
+    memory.onUserLoggedIn(user);
+    res.status(statusCode.OK).json({ user: user,accessToken:accessToken })
+}
 
 const loginUser = async (req,res) => {
     const { username, password, pcNumber, sessionType } = req.body;
@@ -15,12 +35,10 @@ const loginUser = async (req,res) => {
         return;
     }
     if(user.isLogedIn===true){
-        res.status(statusCode.ERROR).json({error:`User with username: ${username} is already loged in.`})
-        return ;
+        return res.status(statusCode.ERROR).json({error:`User with username: ${username} is already loged in.`})
     }
     if (!bcrypt.compareSync(password, user.password)) {
-        res.status(statusCode.ERROR).json({ error: `Wrong password.` })
-        return;
+        return res.status(statusCode.ERROR).json({ error: `Wrong password.` })
     }
     const loginDate = Date.now();
     const session = await UserSession.create({ loginDate: loginDate, logoutDate: undefined, pcNumber: pcNumber, sessionType: sessionType })
@@ -31,7 +49,7 @@ const loginUser = async (req,res) => {
             $set: { isLogedIn: true },
             $push: { sessions: session }
     })
-    const accessToken = jwt.sign({user:user})
+    const accessToken = jwt.sign({username:user.username})
     memory.onUserLoggedIn(user);
     res.status(statusCode.OK).json({ user: user,accessToken:accessToken })
 }
@@ -60,6 +78,9 @@ const logoutUser = async (req,res) => {
 const getLoggedInUsers = async(req,res)=>{
     res.status(statusCode.OK).json({logedInUsers:memory.getLoggedInUsers()})
 }
+const getLoggedInUsersCount = async(req,res)=>{
+    res.status(statusCode.OK).json({count:memory.getLoggedInUsersCount()})
+}
 const getLastSession = async (username) => {
     const user = await User.findOne({ username: username });
     if (!user) {
@@ -74,5 +95,5 @@ const getLastSession = async (username) => {
 
 
 module.exports={
-    loginUser,logoutUser,getLoggedInUsers
+    loginUser,logoutUser,getLoggedInUsers,loginStaff,getLoggedInUsersCount
 }

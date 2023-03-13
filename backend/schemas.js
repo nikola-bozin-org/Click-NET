@@ -1,8 +1,9 @@
 const mongoose = require("mongoose");
 
+
+console.info("dodati ref na user id i testirati findbyid");
 const userSession = new mongoose.Schema(
   {
-    //dodati ref na user id i testirati findbyid
     loginDate: {
       type: Date,
     },
@@ -13,13 +14,17 @@ const userSession = new mongoose.Schema(
       type: Number,
     },
     sessionType: {
-      type: Number,
+      type:String,
+      enum:["Night","Pro","Normal"]
     },
   },
   { timestamps: true }
 );
 
 const cashRegister = new mongoose.Schema({
+  isOpen:{
+    type:Boolean
+  },
   opener: {
     type: String,
   },
@@ -44,7 +49,7 @@ const cashRegister = new mongoose.Schema({
       },
     ],
   },
-});
+},{timestamps:true});
 
 const userSchema = new mongoose.Schema(
   {
@@ -67,8 +72,9 @@ const userSchema = new mongoose.Schema(
       type: Boolean,
     },
     role: {
-      type: Number, //0-admin, 1-default, 2-employee
-      default: 1,
+      type: String, 
+      default: "Default",
+      enum:["Admin","Default","Employee"]
     },
     sessions: {
       //dodati ref na sesion

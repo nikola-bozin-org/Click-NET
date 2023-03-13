@@ -8,7 +8,9 @@ const onUserLoggedIn = (user)=>{
 const onUserLoggedOut = (user)=>{
     logedInUsers.splice(logedInUsers.indexOf(user),1);
 }
-
+const getLoggedInUsersCount = ()=>{
+    return logedInUsers.length;
+}
 const getLoggedInUsers = () =>{
     return logedInUsers;
 }
@@ -17,4 +19,5 @@ module.exports={
     onUserLoggedIn,
     onUserLoggedOut,
     getLoggedInUsers,
+    getLoggedInUsersCount
 }
