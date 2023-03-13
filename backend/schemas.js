@@ -126,4 +126,5 @@ module.exports = {
   UserSession: mongoose.model("UserSesion", userSession),
   Levels: mongoose.model("Levels", levelsSchema),
   Tickets: mongoose.model("Tickets", ticketsSchema),
+  CashRegister:mongoose.model("CashRegister",cashRegister),
 };
