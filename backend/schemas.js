@@ -1,7 +1,6 @@
 const mongoose = require("mongoose");
 
 
-console.info("dodati ref na user id i testirati findbyid");
 const userSession = new mongoose.Schema(
   {
     loginDate: {
@@ -77,7 +76,6 @@ const userSchema = new mongoose.Schema(
       enum:["Admin","Default","Employee"]
     },
     sessions: {
-      //dodati ref na sesion
     },
     payments: {
       paymentAmount: {
