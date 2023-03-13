@@ -6,26 +6,7 @@ const jwt = require('../jwt')
 
 
 const openCashRegisterSession = async(req,res)=>{
-    const lastCRSession = await CashRegister.findOne({}, {}, { sort: { 'createdAt' : -1 } });
-    if(!lastCRSession) {
-        const firstCashRegisterSession = await CashRegister.create({
-            isOpen:true,
-            opener:"JA",
-            startedAt:Date.now(),
-            closedAt:undefined,
-            payments:[]
-        })
-       return res.status(statusCode.OK).json({msg:firstCashRegisterSession});
-    }
-    if(lastCRSession.isOpen) return res.status(statusCode.ERROR).json({error:`Session is already open by: ${lastCRSession.opener}. Session ID: ${lastCRSession.id}`})
-    const newSession = await CashRegister.create({
-        isOpen:true,
-        opener:"openered",
-        startedAt:Date.now(),
-        closedAt:undefined,
-        payments:[]
-    }) 
-    return res.status(statusCode.OK).json({newSession:newSession});
+    // console.info("POSLATI JWT");
     // const {opener,password} = req.body;
     // const username=opener;
     // const user = await User.findOne({username});
@@ -48,8 +29,26 @@ const openCashRegisterSession = async(req,res)=>{
     
     // const openDate = Date.now();
     // res.status(statusCode.OK).json({message:`Session opened. At ${openDate} by: ${opener}`})
-
-    console.info("POSLATI JWT");
+    const lastCRSession = await CashRegister.findOne({}, {}, { sort: { 'createdAt' : -1 } });
+    if(!lastCRSession) {
+        const firstCashRegisterSession = await CashRegister.create({
+            isOpen:true,
+            opener:"JA",
+            startedAt:Date.now(),
+            closedAt:undefined,
+            payments:[]
+        })
+       return res.status(statusCode.OK).json({msg:firstCashRegisterSession});
+    }
+    if(lastCRSession.isOpen) return res.status(statusCode.ERROR).json({error:`Session is already open by: ${lastCRSession.opener}. Session ID: ${lastCRSession.id}`})
+    const newSession = await CashRegister.create({
+        isOpen:true,
+        opener:"openered",
+        startedAt:Date.now(),
+        closedAt:undefined,
+        payments:[]
+    }) 
+    return res.status(statusCode.OK).json({newSession:newSession});
 }
 const closeCashRegisterSession = async(req,res)=>{
     const token = req.headers.token;

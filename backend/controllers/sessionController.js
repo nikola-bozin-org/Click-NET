@@ -26,7 +26,6 @@ const loginStaff = async(req,res)=>{
     memory.onUserLoggedIn(user);
     res.status(statusCode.OK).json({ user: user,accessToken:accessToken })
 }
-
 const loginUser = async (req,res) => {
     const { username, password, pcNumber, sessionType } = req.body;
     const user = await User.findOne({ username });
@@ -92,8 +91,12 @@ const getLastSession = async (username) => {
     const lastSession = user.sessions[user.sessions.length - 1];
     return lastSession;
 };
+const getLoggedInUsersDatabase = async(req,res)=>{
+    const users =await User.find({isLogedIn:true},{username:1,_id:0});
+    res.status(statusCode.OK).json({logedInUsers_Database:users});
+}
 
 
 module.exports={
-    loginUser,logoutUser,getLoggedInUsers,loginStaff,getLoggedInUsersCount
+    loginUser,logoutUser,getLoggedInUsers,loginStaff,getLoggedInUsersCount,getLoggedInUsersDatabase
 }
