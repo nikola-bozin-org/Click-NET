@@ -1,7 +1,7 @@
 const {User} = require('../schemas')
 const bcrypt = require('bcrypt')
 const statusCode = require('../statusCodes')
-
+const jwt = require('../jwt')
 
 
 const getUsers = async (req, res) => {
@@ -19,10 +19,11 @@ const getUser = async (req, res) => {
     res.status(statusCode.OK).json({ user: user });
 }
 const createUser = async (req, res) => {
-    // const token = req.headers.token;
-    // if(!token) return res.status(statusCode.UNAUTHORIZED).json({error:'unauthorized'});
-    // const admin = jwt.verify(token);
-    // if(admin.role!==0 && admin.role!==2) return res.status(statusCode.ERROR).json({error:'you are not Admin or Employee'});
+    const token = req.headers.token;
+    if(!token) return res.status(statusCode.UNAUTHORIZED).json({error:'unauthorized'});
+    const verifyResult = jwt.verify(token);
+    console.info(verifyResult);
+    if(verifyResult.role!=="Admin" && verifyResult.role!=="Employee") return res.status(statusCode.ERROR).json({error:'you are not Admin or Employee'});
     const { username, password, firstName, lastName, email, phone } = req.body;
     const user = await User.findOne({ username });
     if (user !== null) {
