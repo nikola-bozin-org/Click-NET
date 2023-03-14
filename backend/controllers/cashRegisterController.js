@@ -6,49 +6,36 @@ const jwt = require('../jwt')
 
 
 const openCashRegisterSession = async(req,res)=>{
-    // console.info("POSLATI JWT");
-    // const {opener,password} = req.body;
-    // const username=opener;
-    // const user = await User.findOne({username});
-    // if(!user) return res.status(statusCode.ERROR).json({error:`User ${username} does not exist`})
-    // if(user.isLogedIn===true){
-    //     return res.status(statusCode.ERROR).json({error:`User with username: ${username} is already loged in.`})
-    // }
-    // if (!bcrypt.compareSync(password, user.password)) {
-    //     return res.status(statusCode.ERROR).json({ error: `Wrong password.` })
-    // }
-    // const isAdmin = user.role==="Admin";
-    // const isEmployee = user.role==="Employee"
-    // if(!isAdmin){
-    //     return res.status(statusCode.ERROR).json({error:`User ${username} is not Admin`});
-    // }    
-    // if(!isEmployee){
-    //     return res.status(statusCode.ERROR).json({error:`User ${username} is not Employee`});
-    // }
+    const {opener,password} = req.body;
+    const username=opener;
+    const user = await User.findOne({username});
+    if(!user) return res.status(statusCode.ERROR).json({error:`User ${username} does not exist`})
+    if(!bcrypt.compareSync(password, user.password)) return res.status(statusCode.ERROR).json({ error: `Wrong password.` })
+    if(user.role!=="Admin" && user.role!=="Employee") return res.status(statusCode.ERROR).json({error:`User ${username} is not Admin or Employee`});
+    if(user.isLogedIn===false) return res.status(statusCode.ERROR).json({error:`You must be loged in to open the session.`})
     
-    
-    // const openDate = Date.now();
-    // res.status(statusCode.OK).json({message:`Session opened. At ${openDate} by: ${opener}`})
     const lastCRSession = await CashRegister.findOne({}, {}, { sort: { 'createdAt' : -1 } });
+
+    const openDate = Date.now();
     if(!lastCRSession) {
         const firstCashRegisterSession = await CashRegister.create({
             isOpen:true,
-            opener:"JA",
-            startedAt:Date.now(),
+            opener:username,
+            startedAt:openDate,
             closedAt:undefined,
             payments:[]
         })
-       return res.status(statusCode.OK).json({msg:firstCashRegisterSession});
+        return res.status(statusCode.OK).json({msg:firstCashRegisterSession});
     }
     if(lastCRSession.isOpen) return res.status(statusCode.ERROR).json({error:`Session is already open by: ${lastCRSession.opener}. Session ID: ${lastCRSession.id}`})
     const newSession = await CashRegister.create({
         isOpen:true,
-        opener:"openered",
-        startedAt:Date.now(),
+        opener:username,
+        startedAt:openDate,
         closedAt:undefined,
         payments:[]
     }) 
-    return res.status(statusCode.OK).json({newSession:newSession});
+    return res.status(statusCode.OK).json({message:`Session opened. At ${openDate} by: ${opener}`,session:newSession})
 }
 const closeCashRegisterSession = async(req,res)=>{
     const token = req.headers.token;
@@ -62,12 +49,8 @@ const closeCashRegisterSession = async(req,res)=>{
     if(!lastCashRegisterSession.isOpen) return res.status(statusCode.ERROR).json({error:"No open sessions."});
     const filter = { _id: lastCashRegisterSession._id };
     const result = await CashRegister.updateOne(filter,{isOpen:false});
-    res.status(statusCode.OK).json({result:result});
+    res.status(statusCode.OK).json({sessionClosed:true,result:result});
 }
-
-
-
-
 const getCashRegisterSessions = async (req,res)=>{
     const sessions = await CashRegister.find({},{},{sort:{'created_at':-1}})
     return res.status(statusCode.OK).json({sessions:sessions});

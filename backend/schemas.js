@@ -77,14 +77,6 @@ const userSchema = new mongoose.Schema(
     },
     sessions: {
     },
-    payments: {
-      paymentAmount: {
-        type: Number,
-      },
-      paymentDate: {
-        type: Date,
-      },
-    },
     basicInfo: {
       firstName: {
         type: String,
@@ -99,8 +91,7 @@ const userSchema = new mongoose.Schema(
         type: String,
       },
     },
-  },
-  { timestamp: true }
+  },{ timestamp: true }
 );
 
 const ticketsSchema = new mongoose.Schema({

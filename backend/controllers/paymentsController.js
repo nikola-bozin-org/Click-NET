@@ -1,49 +1,48 @@
 const jwt = require("../jwt");
-const { Tickets,User } = require("../schemas");
+const { Tickets,User,CashRegister } = require("../schemas");
 const statusCode = require("../statusCodes");
 
 
 const addUserBalance = async(req,res) =>{
-      //ovo moze samo admin da uradi.. da uplati..i employee. verifikacija preok tokeno
-    // const token = req.headers.authorization;
-    // if (!token) return res.status(statusCode.UNAUTHORIZED).json({ error: "Unathorized." });
+    const token = req.headers.token;
+    if (!token) return res.status(statusCode.UNAUTHORIZED).json({ error: "Unathorized." });
+    const verifyResult = jwt.verify(token);
+    const staffUsername = verifyResult.username;
+    if (!verifyResult) return res.status(statusCode.ERROR).json({ error: "Invalid token" });
     const { username, payment } = req.body;
     const user = await User.findOne({ username });
-    if (user === null) {
-        res.status(statusCode.ERROR).json({ error: `User ${username} does not exist.` })
-        return;
-    }
+    if (user === null) return res.status(statusCode.ERROR).json({ error: `User ${username} does not exist.` });
+    const staffData = await User.findOne({username:staffUsername})
+    const isAdmin = staffData.role==="Admin";
+    const isEmployee = staffData.role==="Employee"
+    if(!isAdmin && !isEmployee) return res.status(statusCode.ERROR).json({error:`User ${username} is not Admin or Employee`});
+
+
     const balance = parseInt(user.balance);
     const xp = parseInt(user.xp);
-    const payments = user.payments;
     const newBalance = balance + parseInt(payment);
     const newXp = xp + parseInt(payment);
 
-    user.balance = newBalance;
-    user.xp = newXp;
 
-    const paymentDate = Date.now();
     try {
-    const result = await User.updateOne({username},{balance:newBalance});
-        return res.status(statusCode.OK).json({ paymentProcessed: "true",result:result })
+      const resultUser = await User.updateOne({username},{balance:newBalance,xp:newXp});
+      const paymentDate = Date.now();
+      const filter = {_id:"64104232b8d1ef098b673391"}
+      const resultPayment = await CashRegister.findOneAndUpdate(filter,
+        {
+            $push: { payments:{username:username,paymentAmount:payment,paymentDate:paymentDate} }
+    })
+      return res.status(statusCode.OK).json({ paymentProcessed: "true",resultUser:resultUser,resultPayment:resultPayment })
     }catch (e) {
-          return res.status(statusCode.ERROR).json({ paymentProcessed: "false", error: e.message })
-      }
+      return res.status(statusCode.ERROR).json({ paymentProcessed: "false", error: e.message })
+    }
 
-    console.info("TODO");
-    // try {
-    //     payments.push({ paymentAmount: payment, paymentDate: paymentDate })
-    //     await User.updateOne({ username }, { balance: newBalance, xp: newXp, payments: payments });
-    //     const recentPayment = await AllPayments.create({ paymentAmount: payment, paymentDate: paymentDate, username: username })
-    //     res.status(statusCode.OK).json({ paymentProcessed: "true", payment: recentPayment })
-    // } catch (e) {
-    //     res.status(statusCode.ERROR).json({ paymentProcessed: "false", error: e.message })
-    // }
 }
 
 const buyTicket = async (req, res) => {
   console.info("USER");
   const token = req.headers.token;
+  if(!token) return res.status(statuscode.ERROR).json({error:"Unauthorized"});
   const result = jwt.verify(token);
   if (!result)
     return res.status(statusCode.ERROR).json({ error: "Invalid token" });
