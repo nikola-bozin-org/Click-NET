@@ -3,8 +3,6 @@ const statusCode = require('../statusCodes')
 const bcrypt = require('bcrypt')
 const jwt = require('../jwt')
 
-
-
 const openCashRegisterSession = async(req,res)=>{
     const {opener,password} = req.body;
     const username=opener;
@@ -51,10 +49,52 @@ const getSessions = async(req,res)=>{
     const sessions = await CashRegisterSessions.find({},{},{sort:{'createdAt':-1}});
     res.status(statusCode.OK).json({sessions:sessions})
 }
+const getPaymentsFromTo = async (req, res) => {
+    const { startDate, endDate } = req.query;
+    try {
+      const sessions = await CashRegisterSessions.find(
+        {
+          startedAt: {
+            $gte: startDate,
+            $lte: endDate,
+          },
+        },
+        { payments: 1, _id: 0 }
+      );
+      const payments = sessions.flatMap((session) => session.payments);
+      return res.status(statusCode.OK).json({payments:payments});
+    } catch (err) {
+        return res.status(statusCode.INTERNAL_SERVER_ERROR).json({error:err.message})
+    }
+};
+
+const calculateTraffic = async(req,res)=>{
+    const { startDate, endDate } = req.query;
+    try {
+      const sessions = await CashRegisterSessions.find(
+        {
+          startedAt: {
+            $gte: startDate,
+            $lte: endDate,
+          },
+        },
+        { payments: 1, _id: 0 }
+      );
+      const payments = sessions.flatMap((session) => session.payments);
+      const totalPaymentAmount = payments.reduce((acc, cur) => acc + cur.paymentAmount, 0);
+      return res.status(statusCode.OK).json({totalTraffic:totalPaymentAmount});
+    } catch (err) {
+        return res.status(statusCode.INTERNAL_SERVER_ERROR).json({error:err.message})
+    }
+}
+  
+
 
 module.exports = {
     openCashRegisterSession,
     getCurrentSession,
     closeCashRegisterSession,
     getSessions,
+    getPaymentsFromTo,
+    calculateTraffic,
 }
