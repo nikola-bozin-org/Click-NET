@@ -20,10 +20,8 @@ const userSession = new mongoose.Schema(
   { timestamps: true }
 );
 
-const cashRegister = new mongoose.Schema({
-  isOpen:{
-    type:Boolean
-  },
+
+const currentCashRegister = new mongoose.Schema({
   opener: {
     type: String,
   },
@@ -48,7 +46,34 @@ const cashRegister = new mongoose.Schema({
       },
     ],
   },
-},{timestamps:true});
+},{timestamp:true});
+
+const cashRegisterSessions = new mongoose.Schema({
+  opener: {
+    type: String,
+  },
+  startedAt: {
+    type: Date,
+  },
+  closedAt: {
+    type: Date,
+  },
+  payments: {
+    type: [
+      {
+        username: {
+          type: String,
+        },
+        paymentAmount: {
+          type: Number,
+        },
+        paymentDate: {
+          type: Date,
+        },
+      },
+    ],
+  },
+});
 
 const userSchema = new mongoose.Schema(
   {
@@ -121,5 +146,6 @@ module.exports = {
   UserSession: mongoose.model("UserSesion", userSession),
   Levels: mongoose.model("Levels", levelsSchema),
   Tickets: mongoose.model("Tickets", ticketsSchema),
-  CashRegister:mongoose.model("CashRegister",cashRegister),
+  CashRegisterSessions:mongoose.model("CashRegisterSessions",cashRegisterSessions),
+  CurrentCashRegisterSession:mongoose.model("currentCashRegisterSessions",currentCashRegister),
 };

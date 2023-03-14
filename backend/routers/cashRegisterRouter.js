@@ -5,9 +5,9 @@ const controller = require('../controllers/cashRegisterController');
 
 
 router.post('/openCashRegisterSession',controller.openCashRegisterSession);
-router.get('/getCashRegisterSessions',controller.getCashRegisterSessions);
+router.get('/getCurrentSession',controller.getCurrentSession);
 router.post('/closeCashRegisterSession',controller.closeCashRegisterSession);
-
+router.get('/getSessions',controller.getSessions)
 
 
 

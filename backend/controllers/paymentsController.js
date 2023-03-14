@@ -1,5 +1,5 @@
 const jwt = require("../jwt");
-const { Tickets,User,CashRegister } = require("../schemas");
+const { Tickets,User,CurrentCashRegisterSession } = require("../schemas");
 const statusCode = require("../statusCodes");
 
 
@@ -27,11 +27,9 @@ const addUserBalance = async(req,res) =>{
     try {
       const resultUser = await User.updateOne({username},{balance:newBalance,xp:newXp});
       const paymentDate = Date.now();
-      const filter = {_id:"64104232b8d1ef098b673391"}
-      const resultPayment = await CashRegister.findOneAndUpdate(filter,
-        {
+      const resultPayment = await CurrentCashRegisterSession.findOneAndUpdate({
             $push: { payments:{username:username,paymentAmount:payment,paymentDate:paymentDate} }
-    })
+      })
       return res.status(statusCode.OK).json({ paymentProcessed: "true",resultUser:resultUser,resultPayment:resultPayment })
     }catch (e) {
       return res.status(statusCode.ERROR).json({ paymentProcessed: "false", error: e.message })
