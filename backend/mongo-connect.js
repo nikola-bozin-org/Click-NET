@@ -1,6 +1,6 @@
 require('dotenv').config()
 const connectionLink =
-  `mongodb+srv://${process.env.DATABASE_USERNAME}:${process.env.DATABASE_PASSWORD}@click-net-database.frukd5u.mongodb.net/?retryWrites=true&w=majority`;
+`mongodb+srv://${process.env.DATABASE_USERNAME}:${process.env.DATABASE_PASSWORD}@cluster-click-net-dev.vdfpcmk.mongodb.net/?retryWrites=true&w=majority`
 const mongoose = require("mongoose");
 mongoose.set('strictQuery', true);
 
