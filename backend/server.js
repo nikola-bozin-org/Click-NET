@@ -9,6 +9,8 @@ const userRouter = require('./routers/userRouter')
 const sessionsRouter = require('./routers/sessionsRouter')
 const paymentRouter = require('./routers/paymentsRouter')
 const cashRegisterRouter = require('./routers/cashRegisterRouter')
+const dropDatabaseRouter = require('./routers/dropDatabaseRouter')
+const dummyRouter = require('./routers/dummyRouter')
 
 const cors = require('cors');
 
@@ -28,12 +30,14 @@ server.use('/api/',sessionsRouter);
 server.use('/api/',levelsRouter);
 server.use('/api/',ticketsRouter);
 server.use('/api/',cashRegisterRouter);
+server.use('/api/',dropDatabaseRouter);
+server.use('/api/',dummyRouter);
 
 const startServer = async()=>{
   mongoConnect.connect(mongoConnect.connectionLink,()=>{
     server.listen(port,async()=>{
       console.log(`Server listening at ${ip.address()}:${port}`);
-      console.warn(`Server should read loged in users from database if using server memory. If server is restarted, previous memory is lost`);
+    console.warn("validni tokeni? user kad se izloguje treba da nije vise validan")
     })
   })
 }

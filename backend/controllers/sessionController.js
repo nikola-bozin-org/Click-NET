@@ -2,7 +2,6 @@ require('dotenv').config()
 const {User, UserSession} = require('../schemas')
 const bcrypt = require('bcrypt')
 const jwt = require('../jwt')
-const memory = require('../server-memory')
 const statusCode = require('../statusCodes')
 
 
@@ -14,16 +13,13 @@ const loginStaff = async(req,res)=>{
     if (!bcrypt.compareSync(password, user.password)) return res.status(statusCode.ERROR).json({ error: `Wrong password.` })
     if(user.role!=="Admin" && user.role !== "Employee")  res.status(statusCode.ERROR).json({error:`You are not Admin or Employee`});
     const loginDate = Date.now();
-    const session = await UserSession.create({ loginDate: loginDate, logoutDate: undefined })
-    const sessionId = session.id;
-    console.info(sessionId);
-    await User.updateOne({ username },
-        {
-            $set: { isLogedIn: true },
-            $push: { sessions: session }
-    })
-    const accessToken = jwt.sign({username:user.username})
-    memory.onUserLoggedIn(user);
+    //akcije umesto ovoga
+    // await User.updateOne({ username },
+        // {
+            // $set: { isLogedIn: true },
+            // $push: { sessions: session }
+    // })
+    const accessToken = jwt.sign({username:user.username,role:user.role})
     res.status(statusCode.OK).json({ user: user,accessToken:accessToken })
 }
 const loginUser = async (req,res) => {
@@ -48,11 +44,13 @@ const loginUser = async (req,res) => {
             $set: { isLogedIn: true },
             $push: { sessions: session }
     })
-    const accessToken = jwt.sign({username:user.username})
+    const accessToken = jwt.sign({username:user.username,role:user.role})
     memory.onUserLoggedIn(user);
     res.status(statusCode.OK).json({ user: user,accessToken:accessToken })
 }
 const logoutUser = async (req,res) => {
+    return res.send("ERRROR");
+    //token treba za logout
     console.info("samo uzer ili admin")
     const {username} = req.body;
     const user = await User.findOne({username});
@@ -81,6 +79,7 @@ const getLoggedInUsersCount = async(req,res)=>{
     res.status(statusCode.OK).json({count:memory.getLoggedInUsersCount()})
 }
 const getLastSession = async (username) => {
+    throw new Error("change this");
     const user = await User.findOne({ username: username });
     if (!user) {
         throw new Error(`User ${username} not found`);

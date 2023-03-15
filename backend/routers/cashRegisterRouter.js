@@ -12,7 +12,6 @@ router.get('/getPaymentsFromTo',controller.getPaymentsFromTo)
 router.get('/calculateTrafficFromTo',controller.calculateTraffic)
 router.get('/getSessionsOnDay',controller.getSessionsOnDay)
 router.get('/calculateTrafficOnDay',controller.calculateTrafficOnDay)
-router.get('/createDummySessions',controller.createDummySessions)
 
 
 

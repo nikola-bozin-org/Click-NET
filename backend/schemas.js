@@ -1,27 +1,9 @@
 const mongoose = require("mongoose");
 
-
-const userSession = new mongoose.Schema(
-  {
-    loginDate: {
-      type: Date,
-    },
-    logoutDate: {
-      type: Date,
-    },
-    pcNumber: {
-      type: Number,
-    },
-    sessionType: {
-      type:String,
-      enum:["Night","Pro","Normal"]
-    },
-  },
-  { timestamps: true }
-);
-
-
 const currentCashRegister = new mongoose.Schema({
+  number:{
+    type:Number
+  },
   opener: {
     type: String,
   },
@@ -43,12 +25,21 @@ const currentCashRegister = new mongoose.Schema({
         paymentDate: {
           type: Date,
         },
+        receipt:{
+          type:String
+        }
       },
     ],
   },
+  amount:{
+    type:Number
+  }
 },{timestamp:true});
 
 const cashRegisterSessions = new mongoose.Schema({
+  number:{
+    type:Number
+  },
   opener: {
     type: String,
   },
@@ -70,10 +61,23 @@ const cashRegisterSessions = new mongoose.Schema({
         paymentDate: {
           type: Date,
         },
+        receipt:{
+          type:String
+        }
       },
     ],
   },
+  amount:{
+    type:Number
+  }
 });
+
+
+const logedInUsersSchema = new mongoose.Schema({
+  username:{
+    type:String
+  }
+})
 
 const userSchema = new mongoose.Schema(
   {
@@ -92,15 +96,10 @@ const userSchema = new mongoose.Schema(
     xp: {
       type: Number,
     },
-    isLogedIn: {
-      type: Boolean,
-    },
     role: {
       type: String, 
       default: "Default",
       enum:["Admin","Default","Employee"]
-    },
-    sessions: {
     },
     basicInfo: {
       firstName: {
@@ -115,6 +114,26 @@ const userSchema = new mongoose.Schema(
       phone: {
         type: String,
       },
+    },
+    actions:{
+      name:{
+        type:String,
+      },
+      description:{
+        type:String
+      },
+      startDate:{
+        type:Date
+      },
+      endDate:{
+        type:Date
+      },
+      pcNumber: {
+        type: Number,
+      },
+      balanceChange:{
+        type:Number,
+      }
     },
   },{ timestamp: true }
 );
@@ -143,7 +162,6 @@ const levelsSchema = new mongoose.Schema({
 
 module.exports = {
   User: mongoose.model("User", userSchema),
-  UserSession: mongoose.model("UserSesion", userSession),
   Levels: mongoose.model("Levels", levelsSchema),
   Tickets: mongoose.model("Tickets", ticketsSchema),
   CashRegisterSessions:mongoose.model("CashRegisterSessions",cashRegisterSessions),

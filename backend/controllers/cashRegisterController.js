@@ -14,11 +14,15 @@ const openCashRegisterSession = async(req,res)=>{
     const openDate = Date.now();
     const currentCashRegisterSession = await CurrentCashRegisterSession.findOne({});
     if(currentCashRegisterSession) return res.status(statusCode.ERROR).json({error:`There is session already open. ID: ${currentCashRegisterSession.id}`})
+    const numberOfDocuments = await CurrentCashRegisterSession.countDocuments({});
     const crSession = await CurrentCashRegisterSession.create({
+        number:numberOfDocuments,
         opener:username,
         startedAt:openDate,
         closedAt:undefined,
-        payments:[]})
+        payments:[],
+        amount:0
+    })
     return res.status(statusCode.OK).json({message:`Created new session. At ${openDate} by: ${opener}`, crSession:crSession});
 }
 const closeCashRegisterSession = async(req,res)=>{
@@ -36,7 +40,9 @@ const closeCashRegisterSession = async(req,res)=>{
         opener:currentCashRegisterSession.opener,
         startedAt:currentCashRegisterSession.startedAt,
         closedAt:Date.now(),
-        payments:currentCashRegisterSession.payments
+        payments:currentCashRegisterSession.payments,
+        number:currentCashRegisterSession.number,
+        amount:currentCashRegisterSession.payments.reduce((acc,cur)=> acc + cur.paymentAmount, 0),
     })
     const result = await CurrentCashRegisterSession.findOneAndDelete({});
     res.status(statusCode.OK).json({sessionClosed:true});
@@ -49,6 +55,9 @@ const getSessions = async(req,res)=>{
     const sessions = await CashRegisterSessions.find({},{},{sort:{'createdAt':-1}});
     res.status(statusCode.OK).json({sessions:sessions})
 }
+
+
+
 const getPaymentsFromTo = async (req, res) => {
     const { startDate, endDate } = req.query;
     try {
@@ -127,26 +136,7 @@ const calculateTrafficOnDay=async(req,res)=>{
     return res.status(statusCode.INTERNAL_SERVER_ERROR).json({error:err.message})
   }
 }
-const createDummySessions = async(req,res)=>{
-  const now = new Date();
-  const start = new Date('2021-01-01T00:00:00Z');
-  const range = now.getTime() - start.getTime();
-  for (let i = 0; i < 10; i++) {
-    const opener = `Opener ${i}`;
-    const startedAt = new Date(start.getTime() + Math.random() * range);
-    const closedAt = new Date(startedAt.getTime() + Math.random() * range);
-    const payments = [];
-    const numPayments = Math.floor(Math.random() * 4) + 2;
-    for (let j = 0; j < numPayments; j++) {
-      const username = `User ${j}`;
-      const paymentAmount = Math.floor(Math.random() * 951) + 50;
-      const paymentDate = new Date(startedAt.getTime() + Math.random() * (closedAt.getTime() - startedAt.getTime()));
-      payments.push({ username, paymentAmount, paymentDate });
-    }
-    CashRegisterSessions.create({opener,startedAt,closedAt,payments})
-  }
-  res.status(statusCode.OK).json({message:"Sessions are being created."});
-}
+
 
 module.exports = {
     openCashRegisterSession,
@@ -157,5 +147,4 @@ module.exports = {
     calculateTraffic,
     getSessionsOnDay,
     calculateTrafficOnDay,
-    createDummySessions,
 }
