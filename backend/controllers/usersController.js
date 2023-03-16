@@ -50,8 +50,7 @@ const createUser = async (req, res) => {
                 {
                     name:UserActions.AccountCreation,
                     description:UserActionDescription.AccountCreation(verifyResult.username,username),
-                    startDate:Date.now(),
-                    endDate:Date.now(),
+                    date:Date.now(),
                     pcNumber:-1,
                     balanceChange:0
                 }

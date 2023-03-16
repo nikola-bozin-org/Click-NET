@@ -119,10 +119,7 @@ const userSchema = new mongoose.Schema(
       description:{
         type:String
       },
-      startDate:{
-        type:Date
-      },
-      endDate:{
+      date:{
         type:Date
       },
       pcNumber: {

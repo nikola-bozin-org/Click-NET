@@ -7,8 +7,7 @@ router.post('/login',controller.loginUser);
 router.post('/logout',controller.logoutUser);
 router.get('/logedInUsers',controller.getLoggedInUsers);
 router.post('/loginStaff',controller.loginStaff);
-router.get('/logedInUsersCount',controller.getLoggedInUsersCount)
-router.get('/logedInUsersDatabase',controller.getLoggedInUsersDatabase)
+router.get('/logedInUsers',controller.getLoggedInUsers)
 
 
 module.exports=router;
