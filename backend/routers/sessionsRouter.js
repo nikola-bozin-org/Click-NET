@@ -8,7 +8,7 @@ router.post('/logout',controller.logoutUser);
 router.get('/logedInUsers',controller.getLoggedInUsers);
 router.post('/loginStaff',controller.loginStaff);
 router.get('/logedInUsers',controller.getLoggedInUsers)
-
+router.post('/logoutAllUsers',controller.logoutAllUsers)
 
 module.exports=router;
 

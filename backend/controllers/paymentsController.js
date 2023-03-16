@@ -34,12 +34,11 @@ const addUserBalance = async(req,res) =>{
             pcNumber:-1,
             balanceChange:payment
       }}});
-      console.info("ovaj result payment i reuslt user vracaju uzera i cahsregister payment iz predhodnog stejta. pre updejta")
       const paymentDate = Date.now();
       const resultPayment = await CurrentCashRegisterSession.findOneAndUpdate({
             $push: { payments:{username:username,paymentAmount:payment,paymentDate:paymentDate} }
       })
-      return res.status(statusCode.OK).json({ paymentProcessed: "true",resultUser:resultUser,resultPayment:resultPayment })
+      return res.status(statusCode.OK).json({ paymentProcessed: "true"})
     }catch (e) {
       return res.status(statusCode.ERROR).json({ paymentProcessed: "false", error: e.message })
     }

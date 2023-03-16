@@ -32,7 +32,7 @@ const closeCashRegisterSession = async(req,res)=>{
     if(!verifyResult) return res.status(statusCode.ERROR).json({error:"Invalid token."})
     const username = verifyResult.username;
     const user = await User.findOne({username})
-    if(user.role!=="Admin" && user.role!=="Employee") return res.status(statusCode.ERROR).json({error:`User ${user} is not Admin or Employee`});
+    if(user.role!=="Admin" && user.role!=="Employee") return res.status(statusCode.ERROR).json({error:`User ${user.username} is not Admin or Employee`});
     const currentCashRegisterSession = await CurrentCashRegisterSession.findOne({});
     if(!currentCashRegisterSession) return res.status(statusCode.ERROR).json({error:"No cash register sessions."})
 
@@ -55,9 +55,6 @@ const getSessions = async(req,res)=>{
     const sessions = await CashRegisterSessions.find({},{},{sort:{'createdAt':-1}});
     res.status(statusCode.OK).json({sessions:sessions})
 }
-
-
-
 const getPaymentsFromTo = async (req, res) => {
     const { startDate, endDate } = req.query;
     try {

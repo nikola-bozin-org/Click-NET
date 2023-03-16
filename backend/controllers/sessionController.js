@@ -87,7 +87,36 @@ const logoutUser = async (req,res) => {
         })
         return res.status(statusCode.OK).json({message:`User ${verifyResult.username} logged out.`})
     }catch(e){
-        res.status(statusCode.INTERNAL_SERVER_ERROR).json({error:e.message})
+        return res.status(statusCode.INTERNAL_SERVER_ERROR).json({error:e.message})
+    }
+}
+const logoutAllUsers = async(req,res)=>{
+    const token = req.headers.token;
+    if(!token) return res.status(statusCode.UNAUTHORIZED).json({error:"Unauthorized."});
+    const verifyResult = jwt.verify(token);
+    if(!verifyResult) return res.status(statusCode.ERROR).json({error:"Invalid token."});
+    if(verifyResult.role!=='Admin' && verifyResult.role!=='Employee') return res.status(statusCode.ERROR).json({error:"You are not Admin or Employee"});
+    try{
+        const date = Date.now();
+        const logedInUsers = await LogedInUsers.find({});
+        logedInUsers.forEach(async(element) => {
+            const username = element.username;
+            await LogedInUsers.deleteOne({username});
+            await User.updateOne({username},{
+                $push:{
+                    actions:{
+                        name:UserActions.Logout,
+                        description:UserActionsDescriptions.LogoutByStaff(verifyResult.username),
+                        date:date,
+                        pcNumber:-1,
+                        balanceChange:0,
+                    }
+                }
+            })
+        });
+        return res.status(statusCode.OK).json({message:"Users loged out."});
+    }catch(e){
+        return res.status(statusCode.INTERNAL_SERVER_ERROR).json({error:e.message});
     }
 }
 
@@ -105,5 +134,6 @@ module.exports={
     loginUser,
     logoutUser,
     loginStaff,
-    getLoggedInUsers
+    getLoggedInUsers,
+    logoutAllUsers
 }
