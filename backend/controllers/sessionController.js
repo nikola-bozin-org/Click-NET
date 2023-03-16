@@ -22,7 +22,7 @@ const loginStaff = async(req,res)=>{
                 $push:{
                     actions:{
                         name:UserActions.Login,
-                        description:UserActionsDescriptions.Login,
+                        description:UserActionsDescriptions.Login(0),
                         date:date,
                         pcNumber:-1,
                         balanceChange:0,
@@ -37,7 +37,6 @@ const loginStaff = async(req,res)=>{
 }
 const loginUser = async (req,res) => {
     const { username, password, pcNumber, sessionType } = req.body;
-    console.error("Sta da se radi sa sessionType")
     const user = await User.findOne({ username });
     if (user === null) return res.status(statusCode.ERROR).json({ error: `User with username: ${username} does not exist.` })
     const isLogedIn = await LogedInUsers.findOne({username})
@@ -52,7 +51,7 @@ const loginUser = async (req,res) => {
                 $push: {
                     actions:{
                     name:UserActions.Login,
-                    description:UserActionsDescriptions.Login,
+                    description:UserActionsDescriptions.Login(sessionType),
                     date:date,
                     pcNumber:pcNumber,
                     balanceChange:0,

@@ -1,8 +1,10 @@
 const jwt = require("../jwt");
-const { Tickets,User,CurrentCashRegisterSession } = require("../schemas");
+const { Tickets, User, CurrentCashRegisterSession, LogedInUsers } = require("../schemas");
 const statusCode = require("../statusCodes");
 const UserActions = require("../helpers/userActions");
 const UserActionsDescriptions = require("../helpers/userActionsDescriptions");
+const calculateUserDiscount = require("../helpers/userDiscountCalculator")
+
 
 const addUserBalance = async(req,res) =>{
     const token = req.headers.token;
@@ -50,24 +52,50 @@ const buyTicket = async (req, res) => {
   const result = jwt.verify(token);
   if (!result) return res.status(statusCode.ERROR).json({ error: "Invalid token." });
   const username = result.username;
-  console.info(result);
-  console.info("videti dal je uzer ulogovan, al pre troga mora da ima baza ulogovanih uzera")
   const user = await User.findOne({username});
   if(!user) return res.status(statusCode.ERROR).json({error:`User ${username} does not exist.`});
+  const isLogedIn = await LogedInUsers.findOne({username:result.username});
+  if(!isLogedIn) return res.status(statuscode.ERROR).json({error:`User ${verifyResult.username} is not loged in.`});
   const { name } = req.body;
   const ticket = await Tickets.findOne({name});
   if(!ticket) return res.status(statusCode.ERROR).json({error:"Invalid ticket name."})
   const userBalance = parseInt(user.balance);
   const userDiscount = parseInt(user.discount);
   const ticketCost = parseInt(ticket.cost);
-  const reduction = 100-userDiscount;
+  const reduction = (100-userDiscount);
   const costForUser = (ticketCost*reduction)/100;
-  console.info(`User balance ${userBalance}, User discount: ${userDiscount}, Ticket Price; ${ticketCost}, Reduction: ${reduction}, finalCost: ${costForUser}`)
+  console.info(`User balance: ${userBalance},User discount: ${userDiscount}, Ticket Price: ${ticketCost}, Reduction: ${100-reduction}%, finalCost: ${costForUser}`)
   if(userBalance<costForUser) return res.status(statusCode.ERROR).json({error:`Not enough balance to buy ${name} ticket.`})
-  console.info(`dodati xp`)
-  console.info(`izracunati discount`)
-  console.info("decrease user balance")
-  console.info("add ticket to user  current tickets");
+
+  const userXP = user.xp;
+  const newUserXP = userXP+costForUser;
+  const newUserBalance = userBalance-costForUser;
+  const newDiscount = await calculateUserDiscount(userXP);
+  // console.error("STA AKO UZER DISCOUNT DODJE DO MAX-a??")
+  console.info("New XP: "+newUserXP);
+  console.info("New discount: " + newDiscount);
+
+  const date=Date.now();
+  const userResult = await User.updateOne({username},{
+    $set:{
+      xp:newUserXP,
+      balance:newUserBalance,
+      discount:newDiscount
+    },
+    $push:{
+      activeTickets:{
+        name:ticket.name,
+        balance:ticket.balance
+      },
+      actions:{
+        name:UserActions.TicketBought(ticket.name,ticket.balance),
+        description:UserActionsDescriptions.TicketBought,
+        date:date,
+        pcNumber:result.pcNumber,
+        balanceChange:-costForUser
+      }
+    },
+  });
   res.status(statusCode.OK).json({ result: `Ticket ${name} bought.` });
 };
 

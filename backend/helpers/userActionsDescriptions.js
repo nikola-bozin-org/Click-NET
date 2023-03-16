@@ -1,9 +1,9 @@
 const UserActionDescription = {
-    AccountCreation:(creator,username)=> `Staff <${creator}> created new user: <${username}>`,
-    Login:`Login`,
-    Logout:`Logout`,
-    TicketBought:`Ticket Bought`,
-    Payment:`User Cash Payment`
+    AccountCreation:(creator,username)=> `Staff ${creator} created new user: ${username}.`,
+    Login:(rate)=>`Login: ${rate}/hour.`,
+    Logout:`Logout.`,
+    TicketBought:`Ticket Bought.`,
+    Payment:`User Cash Payment.`
 }
 
 

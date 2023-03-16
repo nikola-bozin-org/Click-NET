@@ -16,10 +16,7 @@ const getUserDiscount = async (req, res) => {
     const { id } = req.params;
     const username = id;
     const user = await User.findOne({ username });
-    if (user === null) {
-        res.status(statusCode.ERROR).json({ error: "User not found." });
-        return;
-    }
+    if (user === null) return res.status(statusCode.ERROR).json({ error: "User not found." });
     res.status(statusCode.OK).json({ discount: user.discount });
 }
 const getUserXp = async (req, res) => {

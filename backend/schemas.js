@@ -131,7 +131,7 @@ const userSchema = new mongoose.Schema(
     }],
     activeTickets:[{
       name:{
-        type:Number
+        type:String
       },
       balance:{
         type:Number
