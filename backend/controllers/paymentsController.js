@@ -6,7 +6,7 @@ const UserActionsDescriptions = require("../helpers/userActionsDescriptions");
 const calculateUserDiscount = require("../helpers/userDiscountCalculator")
 
 
-const addUserBalance = async(req,res) =>{
+const payment = async(req,res) =>{
     const token = req.headers.token;
     if (!token) return res.status(statusCode.UNAUTHORIZED).json({ error: "Unathorized." });
     const verifyResult = jwt.verify(token);
@@ -34,9 +34,8 @@ const addUserBalance = async(req,res) =>{
             pcNumber:-1,
             balanceChange:payment
       }}});
-      const paymentDate = Date.now();
-      const resultPayment = await CurrentCashRegisterSession.findOneAndUpdate({
-            $push: { payments:{username:username,paymentAmount:payment,paymentDate:paymentDate} }
+      const resultPayment = await CurrentCashRegisterSession.findOneAndUpdate({},{
+            $push: { payments:{username:username,paymentAmount:payment,paymentDate:date,receipt:"00"+date.toString()} }
       })
       return res.status(statusCode.OK).json({ paymentProcessed: "true"})
     }catch (e) {
@@ -44,7 +43,38 @@ const addUserBalance = async(req,res) =>{
     }
 
 }
-
+const refund = async(req,res)=>{
+  const token = req.headers.token;
+  if (!token) return res.status(statusCode.UNAUTHORIZED).json({ error: "Unathorized." });
+  const verifyResult = jwt.verify(token);
+  if (!verifyResult) return res.status(statusCode.ERROR).json({ error: "Invalid token" });
+  const currentCashRegisterSession = await CurrentCashRegisterSession.findOne({});
+  if(!currentCashRegisterSession) return res.status(statusCode.ERROR).json({error:'Cash register is not open.'});
+  if(!(verifyResult.role==="Admin") && !(verifyResult.role==="Employee")) return res.status(statusCode.ERROR).json({error:`User ${username} is not Admin or Employee`});
+  
+  const { username, refund } = req.body;
+  const user = await User.findOne({ username });
+  if (user === null) return res.status(statusCode.ERROR).json({ error: `User ${username} does not exist.` });
+  const balance = parseInt(user.balance);
+  const newBalance = balance - parseInt(refund);
+  try{
+    const date = Date.now();
+    const resultUser = await User.updateOne({username},{
+      $set:{balance:newBalance},
+      $push:{
+        actions:{
+          name:UserActions.Refund,
+          description:UserActionsDescriptions.Refund(verifyResult.username,refund),
+          date:date,
+          pcNumber:-1,
+          balanceChange:-refund
+    }}});
+    return res.status(statusCode.OK).json({ refundProcessed: "true"})
+  }catch(e){
+    return res.status(statusCode.ERROR).json({ refundProcessed: "false", error: e.message })
+  }
+  
+}
 const buyTicket = async (req, res) => {
   const token = req.headers.token;
   if(!token) return res.status(statuscode.ERROR).json({error:"Unauthorized."});
@@ -98,7 +128,9 @@ const buyTicket = async (req, res) => {
   res.status(statusCode.OK).json({ result: `Ticket ${name} bought.` });
 };
 
+
 module.exports = {
   buyTicket,
-  addUserBalance,
+  payment,
+  refund,
 };

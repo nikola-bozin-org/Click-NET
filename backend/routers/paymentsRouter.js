@@ -4,6 +4,7 @@ const controller = require('../controllers/paymentsController');
 
 
 router.post('/buyTicket',controller.buyTicket);
-router.post('/addUserBalance',controller.addUserBalance)
+router.post('/payment',controller.payment)
+router.post('/refund',controller.refund)
 
 module.exports = router;
