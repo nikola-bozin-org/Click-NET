@@ -2,7 +2,8 @@ const {User} = require('../schemas')
 const bcrypt = require('bcrypt')
 const statusCode = require('../statusCodes')
 const jwt = require('../jwt')
-
+const UserActions = require('../helpers/userActions')
+const UserActionDescription = require('../helpers/userActionsDescriptions')
 
 const getUsers = async (req, res) => {
     const users = await User.find({}).sort({ createdAt: -1 });
@@ -22,8 +23,8 @@ const createUser = async (req, res) => {
     const token = req.headers.token;
     if(!token) return res.status(statusCode.UNAUTHORIZED).json({error:'unauthorized'});
     const verifyResult = jwt.verify(token);
-    console.info(verifyResult);
-    if(verifyResult.role!=="Admin" && verifyResult.role!=="Employee") return res.status(statusCode.ERROR).json({error:'you are not Admin or Employee'});
+    console.warn("ovo ne validira da li admin postoji. JWT  samo ima koji nije invalidiran.");
+    if(verifyResult.role!=="Admin" && verifyResult.role!=="Employee") return res.status(statusCode.ERROR).json({error:'you are not Admin or Employee.'});
     const { username, password, firstName, lastName, email, phone } = req.body;
     const user = await User.findOne({ username });
     if (user !== null) {
@@ -38,7 +39,6 @@ const createUser = async (req, res) => {
               balance: 0,
               discount: 0,
               xp: 0,
-              isLogedIn:false,
               role:"Default",
             basicInfo: {
                 firstName,
@@ -46,13 +46,23 @@ const createUser = async (req, res) => {
                 email,
                 phone
             },
+            actions:[
+                {
+                    name:UserActions.AccountCreation,
+                    description:UserActionDescription.AccountCreation(verifyResult.username,username),
+                    startDate:Date.now(),
+                    endDate:Date.now(),
+                    pcNumber:-1,
+                    balanceChange:0
+                }
+            ],
+            activeTickets:[]
         });
         res.status(statusCode.OK).json({ userCreated: true, user: user });
     } catch (e) {
         res.status(statusCode.ERROR).json({ userCreated: false, error: e.message });
     }
 }
-
 
 module.exports = {
     getUsers,

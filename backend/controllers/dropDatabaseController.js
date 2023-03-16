@@ -1,4 +1,4 @@
-const {User,CashRegisterSessions, Levels} = require('../schemas')
+const {User,CashRegisterSessions, Levels, Tickets} = require('../schemas')
 const statusCode = require('../statusCodes')
 
 const dropCashRegisterDatabase = async(req,res)=>{
@@ -12,11 +12,15 @@ const dropUsersDatabase = async(req,res)=>{
 const dropLevelsDatabase = async (req,res)=>{
     const result = await Levels.deleteMany({});
     res.status(statusCode.OK).json({message:"Database Levels deleted."})
-
+}
+const dropTicketsDatabase = async(req,res)=>{
+    const result = await Tickets.deleteMany({});
+    res.status(statusCode.OK).json({message:"Database Tickets deleted."})
 }
 
 module.exports={
     dropCashRegisterDatabase,
     dropUsersDatabase,
     dropLevelsDatabase,
+    dropTicketsDatabase,
 }

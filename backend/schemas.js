@@ -71,14 +71,11 @@ const cashRegisterSessions = new mongoose.Schema({
     type:Number
   }
 });
-
-
 const logedInUsersSchema = new mongoose.Schema({
   username:{
     type:String
   }
 })
-
 const userSchema = new mongoose.Schema(
   {
     username: {
@@ -115,7 +112,7 @@ const userSchema = new mongoose.Schema(
         type: String,
       },
     },
-    actions:{
+    actions:[{
       name:{
         type:String,
       },
@@ -134,10 +131,17 @@ const userSchema = new mongoose.Schema(
       balanceChange:{
         type:Number,
       }
-    },
+    }],
+    activeTickets:[{
+      name:{
+        type:Number
+      },
+      balance:{
+        type:Number
+      }
+    }]
   },{ timestamp: true }
 );
-
 const ticketsSchema = new mongoose.Schema({
   name: {
     type: String,
@@ -162,6 +166,7 @@ const levelsSchema = new mongoose.Schema({
 
 module.exports = {
   User: mongoose.model("User", userSchema),
+  LogedInUsers:mongoose.model("LogedInUsers",logedInUsersSchema),
   Levels: mongoose.model("Levels", levelsSchema),
   Tickets: mongoose.model("Tickets", ticketsSchema),
   CashRegisterSessions:mongoose.model("CashRegisterSessions",cashRegisterSessions),
