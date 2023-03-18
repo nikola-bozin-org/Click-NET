@@ -30,7 +30,7 @@ const loginStaff = async(req,res)=>{
                 }
             })
         const accessToken = jwt.sign({username:user.username,role:user.role})
-        res.status(statusCode.OK).json({ user: user,accessToken:accessToken })
+        res.status(statusCode.OK).json({accessToken:accessToken})
     }catch(e){
         res.status(statusCode.INTERNAL_SERVER_ERROR).json({error:e.message})
     }
