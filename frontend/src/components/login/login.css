@@ -1,51 +1,92 @@
 .login-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    background-color: #f1f1f1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #f1f1f1;
+  flex-direction: column;
+  gap:20px;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.5);
+}
+
+.login-form h1 {
+  margin-bottom: 1rem;
+}
+
+.login-form label {
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+.login-form input {
+  width: 100%;
+  padding: 0.5rem;
+  margin-bottom: 1rem;
+  border-radius: 5px;
+  border: none;
+  box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.2);
+}
+
+.login-form button {
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+  border: none;
+  background-color: #0077cc;
+  color: white;
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+
+.login-form button:hover {
+  background-color: #005fa3;
+}
+.fetching-notification{
+  position: fixed;
+  bottom: 200px;
+}
+.notification-container {
+  position: fixed;
+  bottom: 100px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 300px;
+  height: 50px;
+  background-color: #f44336;
+  color: white;
+  display: flex;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  border-radius: 20px;
+  animation: slide-in 0.5s forwards, fade-out 0.5s 9.5s forwards;
+  z-index: 9999;
+}
+
+@keyframes slide-in {
+  from {
+    transform: translateX(-50%) translateY(100%);
   }
-  
-  .login-form {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 2rem;
-    background-color: white;
-    border-radius: 10px;
-    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.5);
+  to {
+    transform: translateX(-50%) translateY(0%);
   }
-  
-  .login-form h1 {
-    margin-bottom: 1rem;
+}
+
+@keyframes fade-out {
+  from {
+    opacity: 1;
   }
-  
-  .login-form label {
-    font-weight: bold;
-    margin-bottom: 0.5rem;
+  to {
+    opacity: 0;
   }
-  
-  .login-form input {
-    width: 100%;
-    padding: 0.5rem;
-    margin-bottom: 1rem;
-    border-radius: 5px;
-    border: none;
-    box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.2);
-  }
-  
-  .login-form button {
-    padding: 0.5rem 1rem;
-    border-radius: 5px;
-    border: none;
-    background-color: #0077cc;
-    color: white;
-    font-size: 1.2rem;
-    cursor: pointer;
-  }
-  
-  .login-form button:hover {
-    background-color: #005fa3;
-  }
-  
+}
+
