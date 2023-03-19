@@ -49,7 +49,14 @@ function Login() {
       localStorage.setItem("accessToken", data.accessToken);
       setShouldNavigate(true);
     } catch (error) {
-      console.error("Something went wrong. " + error);
+      setIsFetching(false);
+      setShowNotification(true);
+      setNotificationMessage("Error: "+error);
+      let timeout = setTimeout(() => {
+        setShowNotification(false);
+      }, 10000);
+      setCurrentNotificationTimeout(timeout);
+      return;
     }
   };
 
