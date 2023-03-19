@@ -18,7 +18,7 @@ const server = express();
 const port = 9876;
 
 server.use(cors({
-  origin: 'http://localhost:3000',
+  // origin: 'http://localhost:3000',
 }));
 server.use(express.json()); 
 server.use(express.urlencoded({ extended: true })); 
