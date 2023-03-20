@@ -149,6 +149,10 @@ const ticketsSchema = new mongoose.Schema({
   balance: {
     type: Number,
   },
+  zone:{
+    type:String,
+    enum:["Pro","Lobby","Night"]
+  }
 });
 const levelsSchema = new mongoose.Schema({
   xp: {
