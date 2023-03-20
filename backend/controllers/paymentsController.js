@@ -4,7 +4,7 @@ const statusCode = require("../statusCodes");
 const UserActions = require("../helpers/userActions");
 const UserActionsDescriptions = require("../helpers/userActionsDescriptions");
 const calculateUserDiscount = require("../helpers/userDiscountCalculator")
-
+const roles = require('../helpers/userRoles')
 
 const payment = async(req,res) =>{
     const token = req.headers.token;
@@ -13,7 +13,7 @@ const payment = async(req,res) =>{
     if (!verifyResult) return res.status(statusCode.ERROR).json({ error: "Invalid token" });
     const currentCashRegisterSession = await CurrentCashRegisterSession.findOne({});
     if(!currentCashRegisterSession) return res.status(statusCode.ERROR).json({error:'Cash register is not open.'});
-    if(!(verifyResult.role==="Admin") && !(verifyResult.role==="Employee")) return res.status(statusCode.ERROR).json({error:`User ${username} is not Admin or Employee`});
+    if(!(verifyResult.role===roles.Admin) && !(verifyResult.role===roles.Employee)) return res.status(statusCode.ERROR).json({error:`User ${username} is not Admin or Employee`});
     
     const { username, payment } = req.body;
     const user = await User.findOne({ username });
@@ -50,7 +50,7 @@ const refund = async(req,res)=>{
   if (!verifyResult) return res.status(statusCode.ERROR).json({ error: "Invalid token" });
   const currentCashRegisterSession = await CurrentCashRegisterSession.findOne({});
   if(!currentCashRegisterSession) return res.status(statusCode.ERROR).json({error:'Cash register is not open.'});
-  if(!(verifyResult.role==="Admin") && !(verifyResult.role==="Employee")) return res.status(statusCode.ERROR).json({error:`User ${username} is not Admin or Employee`});
+  if(!(verifyResult.role===roles.Admin) && !(verifyResult.role===roles.Employee)) return res.status(statusCode.ERROR).json({error:`User ${username} is not Admin or Employee`});
   
   const { username, refund } = req.body;
   const user = await User.findOne({ username });

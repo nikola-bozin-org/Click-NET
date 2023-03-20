@@ -4,6 +4,10 @@ const statusCode = require('../statusCodes')
 const jwt = require('../jwt')
 const UserActions = require('../helpers/userActions')
 const UserActionDescription = require('../helpers/userActionsDescriptions')
+const roles = require('../helpers/userRoles')
+
+
+
 
 const getUsers = async (req, res) => {
     const users = await User.find({}).sort({ createdAt: -1 });
@@ -23,8 +27,7 @@ const createUser = async (req, res) => {
     const token = req.headers.token;
     if(!token) return res.status(statusCode.UNAUTHORIZED).json({error:'unauthorized'});
     const verifyResult = jwt.verify(token);
-    console.warn("ovo ne validira da li admin postoji. JWT  samo ima koji nije invalidiran.");
-    if(verifyResult.role!=="Admin" && verifyResult.role!=="Employee") return res.status(statusCode.ERROR).json({error:'you are not Admin or Employee.'});
+    if(verifyResult.role!==roles.Admin && verifyResult.role!==roles.Employee) return res.status(statusCode.ERROR).json({error:'you are not Admin or Employee.'});
     const { username, password, firstName, lastName, email, phone } = req.body;
     const user = await User.findOne({ username });
     if (user !== null) {
@@ -62,9 +65,23 @@ const createUser = async (req, res) => {
         res.status(statusCode.ERROR).json({ userCreated: false, error: e.message });
     }
 }
-
+const changePassword = async(req,res)=>{
+    const token = req.headers.token;
+    if(!token) return res.status(statusCode.UNAUTHORIZED).json({error:'Unauthorized.'})
+    const verifyResult = jwt.verify(token);
+    if(!verifyResult) return res.status(statusCode.ERROR).json({error:'Invalid token.'});
+    const username = verifyResult.username;
+    const user = await User.findOne({username});
+    if(!user) return res.status(statusCode.ERROR).json({error:'User does not exist.'});
+    const {oldPassword,newPassword} = req.body; 
+    if(!bcrypt.compareSync(oldPassword,user.password)) return res.status(statusCode.ERROR).json({error:'Wrong password.'});
+    const hashedPassword = await bcrypt.hash(newPassword,10);
+    const updatePasswordResult = await User.findOneAndUpdate({username},{password:hashedPassword});
+    return res.status(statusCode.OK).json({message:"Password changed."});
+}
 module.exports = {
     getUsers,
     getUser,
-    createUser
+    createUser,
+    changePassword,
 }

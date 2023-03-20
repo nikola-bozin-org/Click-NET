@@ -2,6 +2,7 @@ const {User} = require('../schemas')
 const statusCode = require('../statusCodes')
 
 
+
 const getUserBalance = async (req, res) => {
     const { id } = req.params;
     const username = id;

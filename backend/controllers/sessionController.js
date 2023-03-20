@@ -5,6 +5,7 @@ const jwt = require('../jwt')
 const statusCode = require('../statusCodes')
 const UserActions = require("../helpers/userActions");
 const UserActionsDescriptions = require("../helpers/userActionsDescriptions");
+const userRoles = require('../helpers/userRoles')
 
 const loginStaff = async(req,res)=>{
     const {username,password} = req.body;
@@ -13,7 +14,7 @@ const loginStaff = async(req,res)=>{
     const isLogedIn = await LogedInUsers.findOne({username})
     if(isLogedIn) return res.status(statusCode.ERROR).json({error:`User with username: ${username} is already loged in.`});
     if (!bcrypt.compareSync(password, user.password)) return res.status(statusCode.ERROR).json({ error: `Wrong password.` })
-    if(user.role!=="Admin" && user.role !== "Employee")  res.status(statusCode.ERROR).json({error:`You are not Admin or Employee`});
+    if(user.role!==userRoles.Admin && user.role !== userRoles.Employee)  res.status(statusCode.ERROR).json({error:`You are not Admin or Employee`});
     try{
         const date = Date.now();
         const logedInUsersResult = await LogedInUsers.create({username:username});
@@ -95,7 +96,7 @@ const logoutAllUsers = async(req,res)=>{
     if(!token) return res.status(statusCode.UNAUTHORIZED).json({error:"Unauthorized."});
     const verifyResult = jwt.verify(token);
     if(!verifyResult) return res.status(statusCode.ERROR).json({error:"Invalid token."});
-    if(verifyResult.role!=='Admin' && verifyResult.role!=='Employee') return res.status(statusCode.ERROR).json({error:"You are not Admin or Employee"});
+    if(verifyResult.role!==userRoles.Admin && verifyResult.role!==userRoles.Employee) return res.status(statusCode.ERROR).json({error:"You are not Admin or Employee"});
     try{
         const date = Date.now();
         const logedInUsers = await LogedInUsers.find({});
