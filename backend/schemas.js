@@ -187,7 +187,7 @@ const levelsSchema = new mongoose.Schema({
     default: 0,
   },
 });
-const zone = new mongoose.Schema({
+const pcZone = new mongoose.Schema({
   pcNumber:{
     type:Number
   },
@@ -204,5 +204,5 @@ module.exports = {
   Tickets: mongoose.model("Tickets", ticketsSchema),
   CashRegisterSessions:mongoose.model("CashRegisterSessions",cashRegisterSessions),
   CurrentCashRegisterSession:mongoose.model("CurrentCashRegisterSessions",currentCashRegister),
-  Zone:mongoose.model("Zone",zone),
+  PCZone:mongoose.model("PCZone",pcZone),
 };
