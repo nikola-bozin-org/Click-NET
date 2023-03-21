@@ -2,14 +2,14 @@ const {User,CurrentCashRegisterSession,CashRegisterSessions,LogedInUsers} = requ
 const statusCode = require('../statusCodes')
 const bcrypt = require('bcrypt')
 const jwt = require('../jwt')
-const roles = require('../helpers/userRoles');
+const {userRoles} = require('../helpers/enums');
 
 const openCashRegisterSession = async(req,res)=>{
     const {opener,password} = req.body;
     const user = await User.findOne({username: opener});
     if(!user) return res.status(statusCode.ERROR).json({error:`User ${opener} does not exist`})
     if(!bcrypt.compareSync(password, user.password)) return res.status(statusCode.ERROR).json({ error: `Wrong password.` })
-    if(user.role!==roles.Admin && user.role!==roles.Employee) return res.status(statusCode.ERROR).json({error:`User ${opener} is not Admin or Employee`});
+    if(user.role!==userRoles.Admin && user.role!==userRoles.Employee) return res.status(statusCode.ERROR).json({error:`User ${opener} is not Admin or Employee`});
     const isLogedIn = await LogedInUsers.findOne({username:opener});
     if(!isLogedIn) return res.status(statusCode.ERROR).json({error:`You must be loged in to open the session.`})
     const openDate = Date.now();
@@ -33,7 +33,7 @@ const closeCashRegisterSession = async(req,res)=>{
     if(!verifyResult) return res.status(statusCode.ERROR).json({error:"Invalid token."})
     const username = verifyResult.username;
     const user = await User.findOne({username})
-    if(user.role!==roles.Admin && user.role!==roles.Employee) return res.status(statusCode.ERROR).json({error:`User ${user.username} is not Admin or Employee`});
+    if(user.role!==userRoles.Admin && user.role!==userRoles.Employee) return res.status(statusCode.ERROR).json({error:`User ${user.username} is not Admin or Employee`});
     const currentCashRegisterSession = await CurrentCashRegisterSession.findOne({});
     if(!currentCashRegisterSession) return res.status(statusCode.ERROR).json({error:"No cash register sessions."})
 

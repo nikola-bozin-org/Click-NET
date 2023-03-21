@@ -4,7 +4,7 @@ const statusCode = require("../statusCodes");
 const UserActions = require("../helpers/userActions");
 const UserActionsDescriptions = require("../helpers/userActionsDescriptions");
 const calculateUserDiscount = require("../helpers/userDiscountCalculator")
-const roles = require('../helpers/userRoles')
+const {userRoles} = require('../helpers/enums')
 
 const payment = async(req,res) =>{
     const token = req.headers.token;
@@ -41,7 +41,6 @@ const payment = async(req,res) =>{
     }catch (e) {
       return res.status(statusCode.ERROR).json({ paymentProcessed: "false", error: e.message })
     }
-
 }
 const refund = async(req,res)=>{
   const token = req.headers.token;

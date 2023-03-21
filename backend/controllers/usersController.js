@@ -4,7 +4,7 @@ const statusCode = require('../statusCodes')
 const jwt = require('../jwt')
 const UserActions = require('../helpers/userActions')
 const UserActionDescription = require('../helpers/userActionsDescriptions')
-const roles = require('../helpers/userRoles')
+const {userRoles} = require('../helpers/enums')
 
 
 

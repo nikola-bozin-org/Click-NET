@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const {userRoles,zones} = require('./helpers/enums')
 
 const currentCashRegister = new mongoose.Schema({
   number:{
@@ -95,8 +96,8 @@ const userSchema = new mongoose.Schema(
     },
     role: {
       type: String, 
-      default: "Default",
-      enum:["Admin","Default","Employee"]
+      default: userRoles.Default,
+      enum:[userRoles.Admin,userRoles.Default,userRoles.Employee]
     },
     basicInfo: {
       firstName: {
@@ -135,6 +136,10 @@ const userSchema = new mongoose.Schema(
       },
       balance:{
         type:Number
+      },
+      zone:{
+        type:String,
+        enum:[zones.Pro,zones.Lobby,zones.Night]
       }
     }]
   },{ timestamp: true }

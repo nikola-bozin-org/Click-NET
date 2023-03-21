@@ -5,7 +5,7 @@ const jwt = require('../jwt')
 const statusCode = require('../statusCodes')
 const UserActions = require("../helpers/userActions");
 const UserActionsDescriptions = require("../helpers/userActionsDescriptions");
-const userRoles = require('../helpers/userRoles')
+const {userRoles} = require('../helpers/enums')
 
 const loginStaff = async(req,res)=>{
     const {username,password} = req.body;
