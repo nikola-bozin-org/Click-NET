@@ -1,6 +1,8 @@
 const ip = require('ip');
 const express = require('express');
 const helmet = require('helmet');
+const cors = require('cors');
+
 const mongoConnect = require('./mongo-connect')
 const ticketsRouter = require('./routers/ticketsRouter')
 const levelsRouter = require('./routers/levelsRouter')
@@ -9,10 +11,12 @@ const userRouter = require('./routers/userRouter')
 const sessionsRouter = require('./routers/sessionsRouter')
 const paymentRouter = require('./routers/paymentsRouter')
 const cashRegisterRouter = require('./routers/cashRegisterRouter')
+const zonesRouter = require('./routers/zones')
+
 const dropDatabaseRouter = require('./routers/dropDatabaseRouter')
 const dummyRouter = require('./routers/dummyRouter')
 
-const cors = require('cors');
+
 
 const server = express();
 const port = 9876;
@@ -30,16 +34,16 @@ server.use('/api/',sessionsRouter);
 server.use('/api/',levelsRouter);
 server.use('/api/',ticketsRouter);
 server.use('/api/',cashRegisterRouter);
+server.use('/api/',zonesRouter
+)
 server.use('/api/',dropDatabaseRouter);
 server.use('/api/',dummyRouter);
-
 
 
 const startServer = async()=>{
   mongoConnect.connect(mongoConnect.connectionLink,()=>{
     server.listen(port,async()=>{
       console.log(`Server listening at ${ip.address()}:${port}`);
-    console.warn("validni tokeni? user kad se izloguje treba da nije vise validan")
     })
   })
 }

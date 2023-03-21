@@ -75,6 +75,13 @@ const cashRegisterSessions = new mongoose.Schema({
 const logedInUsersSchema = new mongoose.Schema({
   username:{
     type:String
+  },
+  zone:{
+    type:String,
+    enum:[zones.Pro,zones.Lobby,zones.Night]
+  },
+  pcNumber:{
+    type:Number
   }
 })
 const userSchema = new mongoose.Schema(
@@ -167,7 +174,7 @@ const ticketsSchema = new mongoose.Schema({
   },
   zone:{
     type:String,
-    enum:["Pro","Lobby","Night"]
+    enum:[zones.Pro,zones.Lobby,zones.Night]
   }
 });
 const levelsSchema = new mongoose.Schema({
@@ -180,6 +187,15 @@ const levelsSchema = new mongoose.Schema({
     default: 0,
   },
 });
+const zone = new mongoose.Schema({
+  pcNumber:{
+    type:Number
+  },
+  zone:{
+    type:String,
+    enum:[zones.Pro,zones.Lobby,zones.Night]
+  }
+})
 
 module.exports = {
   User: mongoose.model("User", userSchema),
@@ -187,5 +203,6 @@ module.exports = {
   Levels: mongoose.model("Levels", levelsSchema),
   Tickets: mongoose.model("Tickets", ticketsSchema),
   CashRegisterSessions:mongoose.model("CashRegisterSessions",cashRegisterSessions),
-  CurrentCashRegisterSession:mongoose.model("currentCashRegisterSessions",currentCashRegister),
+  CurrentCashRegisterSession:mongoose.model("CurrentCashRegisterSessions",currentCashRegister),
+  Zone:mongoose.model("Zone",zone),
 };

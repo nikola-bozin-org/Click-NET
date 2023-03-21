@@ -37,7 +37,7 @@ const loginStaff = async(req,res)=>{
     }
 }
 const loginUser = async (req,res) => {
-    const { username, password, pcNumber, sessionType } = req.body;
+    const { username, password, pcNumber } = req.body;
     const user = await User.findOne({ username });
     if (user === null) return res.status(statusCode.ERROR).json({ error: `User with username: ${username} does not exist.` })
     const isLogedIn = await LogedInUsers.findOne({username})
@@ -52,7 +52,7 @@ const loginUser = async (req,res) => {
                 $push: {
                     actions:{
                     name:UserActions.Login,
-                    description:UserActionsDescriptions.Login(sessionType),
+                    description:UserActionsDescriptions.Login(''),
                     date:date,
                     pcNumber:pcNumber,
                     balanceChange:0,
