@@ -4,7 +4,8 @@ const UserActions = {
     Logout:"Logout",
     TicketBought:(name,price) =>`Bought ticket ${name}, price: ${price}.`,
     Payment:"Payment",
-    Refund:`Refund`
+    Refund:`Refund`,
+    PasswordChange:`Password Changed`,
 }
 
 

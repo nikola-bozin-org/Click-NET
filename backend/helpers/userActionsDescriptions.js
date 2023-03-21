@@ -5,7 +5,8 @@ const UserActionDescription = {
     LogoutByStaff:(staff)=>`Logout by ${staff}.`,
     TicketBought:`Ticket Bought.`,
     Payment:`User Cash Payment.`,
-    Refund:(refundedBy,amount)=>`Refunded ${amount} by ${refundedBy}.`
+    Refund:(refundedBy,amount)=>`Refunded ${amount} by ${refundedBy}.`,
+    PasswordChange:`Password Changed.`
 }
 
 

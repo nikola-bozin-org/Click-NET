@@ -141,6 +141,17 @@ const userSchema = new mongoose.Schema(
         type:String,
         enum:[zones.Pro,zones.Lobby,zones.Night]
       }
+    }],
+    payments:[{
+      paymentAmount: {
+        type: Number,
+      },
+      paymentDate: {
+        type: Date,
+      },
+      receipt:{
+        type:String
+      }
     }]
   },{ timestamp: true }
 );

@@ -6,25 +6,29 @@ const {userRoles} = require('../helpers/enums');
 
 const openCashRegisterSession = async(req,res)=>{
     const {opener,password} = req.body;
-    const user = await User.findOne({username: opener});
-    if(!user) return res.status(statusCode.ERROR).json({error:`User ${opener} does not exist`})
-    if(!bcrypt.compareSync(password, user.password)) return res.status(statusCode.ERROR).json({ error: `Wrong password.` })
-    if(user.role!==userRoles.Admin && user.role!==userRoles.Employee) return res.status(statusCode.ERROR).json({error:`User ${opener} is not Admin or Employee`});
-    const isLogedIn = await LogedInUsers.findOne({username:opener});
-    if(!isLogedIn) return res.status(statusCode.ERROR).json({error:`You must be loged in to open the session.`})
-    const openDate = Date.now();
-    const currentCashRegisterSession = await CurrentCashRegisterSession.findOne({});
-    if(currentCashRegisterSession) return res.status(statusCode.ERROR).json({error:`There is session already open. ID: ${currentCashRegisterSession.id}`})
-    const numberOfDocuments = await CurrentCashRegisterSession.countDocuments({});
-    const crSession = await CurrentCashRegisterSession.create({
-        number:numberOfDocuments,
-        opener:opener,
-        startedAt:openDate,
-        closedAt:undefined,
-        payments:[],
-        amount:0
-    })
-    return res.status(statusCode.OK).json({message:`Created new session. At ${openDate} by: ${opener}`, crSession:crSession});
+    try{
+      const user = await User.findOne({username: opener});
+      if(!user) return res.status(statusCode.ERROR).json({error:`User ${opener} does not exist`})
+      if(!bcrypt.compareSync(password, user.password)) return res.status(statusCode.ERROR).json({ error: `Wrong password.` })
+      if(user.role!==userRoles.Admin && user.role!==userRoles.Employee) return res.status(statusCode.ERROR).json({error:`User ${opener} is not Admin or Employee`});
+      const isLogedIn = await LogedInUsers.findOne({username:opener});
+      if(!isLogedIn) return res.status(statusCode.ERROR).json({error:`You must be loged in to open the session.`})
+      const openDate = Date.now();
+      const currentCashRegisterSession = await CurrentCashRegisterSession.findOne({});
+      if(currentCashRegisterSession) return res.status(statusCode.ERROR).json({error:`There is session already open. ID: ${currentCashRegisterSession.id}`})
+      const numberOfDocuments = await CurrentCashRegisterSession.countDocuments({});
+      const crSession = await CurrentCashRegisterSession.create({
+          number:numberOfDocuments,
+          opener:opener,
+          startedAt:openDate,
+          closedAt:undefined,
+          payments:[],
+          amount:0
+      })
+      return res.status(statusCode.OK).json({message:`Created new session. At ${openDate} by: ${opener}`, crSession:crSession});
+  }catch(e){
+    return res.status(statusCode.INTERNAL_SERVER_ERROR).json({error:`Server error: ${e.message}`})
+  }
 }
 const closeCashRegisterSession = async(req,res)=>{
     const token = req.headers.token;
@@ -32,29 +36,41 @@ const closeCashRegisterSession = async(req,res)=>{
     const verifyResult = jwt.verify(token);
     if(!verifyResult) return res.status(statusCode.ERROR).json({error:"Invalid token."})
     const username = verifyResult.username;
-    const user = await User.findOne({username})
-    if(user.role!==userRoles.Admin && user.role!==userRoles.Employee) return res.status(statusCode.ERROR).json({error:`User ${user.username} is not Admin or Employee`});
-    const currentCashRegisterSession = await CurrentCashRegisterSession.findOne({});
-    if(!currentCashRegisterSession) return res.status(statusCode.ERROR).json({error:"No cash register sessions."})
+    try{
+      const user = await User.findOne({username})
+      if(user.role!==userRoles.Admin && user.role!==userRoles.Employee) return res.status(statusCode.ERROR).json({error:`User ${user.username} is not Admin or Employee`});
+      const currentCashRegisterSession = await CurrentCashRegisterSession.findOne({});
+      if(!currentCashRegisterSession) return res.status(statusCode.ERROR).json({error:"No cash register sessions."})
 
-    const oldSession = await CashRegisterSessions.create({
-        opener:currentCashRegisterSession.opener,
-        startedAt:currentCashRegisterSession.startedAt,
-        closedAt:Date.now(),
-        payments:currentCashRegisterSession.payments,
-        number:currentCashRegisterSession.number,
-        amount:currentCashRegisterSession.payments.reduce((acc,cur)=> acc + cur.paymentAmount, 0),
-    })
-    const result = await CurrentCashRegisterSession.findOneAndDelete({});
-    res.status(statusCode.OK).json({sessionClosed:true});
+      const oldSession = await CashRegisterSessions.create({
+          opener:currentCashRegisterSession.opener,
+          startedAt:currentCashRegisterSession.startedAt,
+          closedAt:Date.now(),
+          payments:currentCashRegisterSession.payments,
+          number:currentCashRegisterSession.number,
+          amount:currentCashRegisterSession.payments.reduce((acc,cur)=> acc + cur.paymentAmount, 0),
+      })
+      const result = await CurrentCashRegisterSession.findOneAndDelete({});
+      res.status(statusCode.OK).json({sessionClosed:true});
+  }catch(e){
+    return res.status(statusCode.INTERNAL_SERVER_ERROR).json({error:`Server error: ${e.message}`})
+  }
 }
 const getCurrentSession = async (req,res)=>{
+  try{
     const session = await CurrentCashRegisterSession.findOne({});
     return res.status(statusCode.OK).json({currentSession:session});
+  }catch(e){
+    return res.status(statusCode.INTERNAL_SERVER_ERROR).json({error:`Server error: ${e.message}`})
+  }
 }
 const getSessions = async(req,res)=>{
+  try{
     const sessions = await CashRegisterSessions.find({},{},{sort:{'createdAt':-1}});
-    res.status(statusCode.OK).json({sessions:sessions})
+    return res.status(statusCode.OK).json({sessions:sessions})
+  }catch(e){
+    return res.status(statusCode.INTERNAL_SERVER_ERROR).json({error:`Server error: ${e.message}`})
+  }
 }
 const getPaymentsFromTo = async (req, res) => {
     const { startDate, endDate } = req.query;
@@ -71,7 +87,7 @@ const getPaymentsFromTo = async (req, res) => {
       const payments = sessions.flatMap((session) => session.payments);
       return res.status(statusCode.OK).json({payments:payments});
     } catch (err) {
-        return res.status(statusCode.INTERNAL_SERVER_ERROR).json({error:err.message})
+      return res.status(statusCode.INTERNAL_SERVER_ERROR).json({error:`Server error: ${e.message}`})
     }
 };
 const calculateTraffic = async(req,res)=>{
@@ -90,7 +106,7 @@ const calculateTraffic = async(req,res)=>{
       const totalPaymentAmount = payments.reduce((acc, cur) => acc + cur.paymentAmount, 0);
       return res.status(statusCode.OK).json({totalTraffic:totalPaymentAmount});
     } catch (err) {
-        return res.status(statusCode.INTERNAL_SERVER_ERROR).json({error:err.message})
+      return res.status(statusCode.INTERNAL_SERVER_ERROR).json({error:`Server error: ${e.message}`})
     }
 }
 const getSessionsOnDay = async(req,res)=>{
@@ -111,7 +127,7 @@ const getSessionsOnDay = async(req,res)=>{
     );
     return res.status(statusCode.OK).json({sessions:sessions});
   }catch(e){
-    return res.status(statusCode.INTERNAL_SERVER_ERROR).json({error:err.message})
+    return res.status(statusCode.INTERNAL_SERVER_ERROR).json({error:`Server error: ${e.message}`})
   }
 }
 const calculateTrafficOnDay=async(req,res)=>{
@@ -131,7 +147,7 @@ const calculateTrafficOnDay=async(req,res)=>{
     const totalPaymentAmount = payments.reduce((acc, cur) => acc + cur.paymentAmount, 0);
     return res.status(statusCode.OK).json({totalPayment:totalPaymentAmount});
   }catch(e){
-    return res.status(statusCode.INTERNAL_SERVER_ERROR).json({error:err.message})
+    return res.status(statusCode.INTERNAL_SERVER_ERROR).json({error:`Server error: ${e.message}`})
   }
 }
 

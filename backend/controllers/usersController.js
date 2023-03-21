@@ -10,33 +10,38 @@ const {userRoles} = require('../helpers/enums')
 
 
 const getUsers = async (req, res) => {
-    const users = await User.find({}).sort({ createdAt: -1 });
-    res.status(statusCode.OK).json({ users: users });
+    try{
+        const users = await User.find({}).sort({ createdAt: -1 });
+        res.status(statusCode.OK).json({ users: users });
+    }catch(e){
+        return res.status(statusCode.INTERNAL_SERVER_ERROR).json({error:`Server error: ${e.message}`});
+    }
 }
 const getUser = async (req, res) => {
     const { id } = req.params;
     const username = id;
-    const user = await User.findOne({ username });
-    if (user === null) {
-        res.status(statusCode.ERROR).json("User not found.");
-        return;
+    try{
+        const user = await User.findOne({ username });
+        if (user === null) {
+            return res.status(statusCode.ERROR).json("User not found.");
+        }
+        res.status(statusCode.OK).json({ user: user });
+    }catch(e){
+        return res.status(statusCode.INTERNAL_SERVER_ERROR).json({error:`Server error: ${e.message}`});
     }
-    res.status(statusCode.OK).json({ user: user });
 }
 const createUser = async (req, res) => {
     const token = req.headers.token;
-    if(!token) return res.status(statusCode.UNAUTHORIZED).json({error:'unauthorized'});
-    const verifyResult = jwt.verify(token);
-    if(verifyResult.role!==roles.Admin && verifyResult.role!==roles.Employee) return res.status(statusCode.ERROR).json({error:'you are not Admin or Employee.'});
+    if(!token) return res.status(statusCode.UNAUTHORIZED).json({error:'Unauthorized'});
+    const verifyResult = jwt.verify(req.headers.token);
+    if(!verifyResult) return res.status(statusCode.ERROR).json({error:'Invalid Token.'});
+    if(verifyResult.role!==userRoles.Admin && verifyResult.role!==userRoles.Employee) return res.status(statusCode.ERROR).json({error:'you are not Admin or Employee.'});
     const { username, password, firstName, lastName, email, phone } = req.body;
-    const user = await User.findOne({ username });
-    if (user !== null) {
-        res.status(statusCode.ERROR).json({ error: `User with username: ${username} already exists.` });
-        return;
-    }
-    const hashedPassword = bcrypt.hashSync(password, 10);
     try {
-        const user = await User.create({
+    const user = await User.findOne({ username });
+    if (user !== null) return res.status(statusCode.ERROR).json({ error: `User with username: ${username} already exists.` });
+    const hashedPassword = bcrypt.hashSync(password, 10);
+        const createResult = await User.create({
             username,
              password: hashedPassword,
               balance: 0,
@@ -58,11 +63,12 @@ const createUser = async (req, res) => {
                     balanceChange:0
                 }
             ],
-            activeTickets:[]
+            activeTickets:[],
+            payments:[]
         });
-        res.status(statusCode.OK).json({ userCreated: true, user: user });
+        return res.status(statusCode.OK).json({ userCreated: true, user: createResult });
     } catch (e) {
-        res.status(statusCode.ERROR).json({ userCreated: false, error: e.message });
+        return res.status(statusCode.INTERNAL_SERVER_ERROR).json({error:`Server error: ${e.message}`});
     }
 }
 const changePassword = async(req,res)=>{
@@ -71,13 +77,26 @@ const changePassword = async(req,res)=>{
     const verifyResult = jwt.verify(token);
     if(!verifyResult) return res.status(statusCode.ERROR).json({error:'Invalid token.'});
     const username = verifyResult.username;
-    const user = await User.findOne({username});
-    if(!user) return res.status(statusCode.ERROR).json({error:'User does not exist.'});
-    const {oldPassword,newPassword} = req.body; 
-    if(!bcrypt.compareSync(oldPassword,user.password)) return res.status(statusCode.ERROR).json({error:'Wrong password.'});
-    const hashedPassword = await bcrypt.hash(newPassword,10);
-    const updatePasswordResult = await User.findOneAndUpdate({username},{password:hashedPassword});
-    return res.status(statusCode.OK).json({message:"Password changed."});
+    try{
+        const user = await User.findOne({username});
+        if(!user) return res.status(statusCode.ERROR).json({error:'User does not exist.'});
+        const {oldPassword,newPassword} = req.body; 
+        if(!bcrypt.compareSync(oldPassword,user.password)) return res.status(statusCode.ERROR).json({error:'Wrong password.'});
+        const hashedPassword = await bcrypt.hash(newPassword,10);
+        const updatePasswordResult = await User.findOneAndUpdate({username},{
+            password:hashedPassword,
+            $push:{
+                actions:{
+                    name:UserActions.PasswordChange,
+                    description:UserActionDescription.PasswordChange,
+                    date:Date.now(),
+                    pcNumber:verifyResult.pcNumber,
+                    balanceChange:0
+                }}});
+        return res.status(statusCode.OK).json({message:"Password changed."});
+    }catch(e){
+        return res.status(statusCode.INTERNAL_SERVER_ERROR).json({error:`Server error: ${e.message}`});
+    }
 }
 module.exports = {
     getUsers,

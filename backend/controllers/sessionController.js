@@ -8,32 +8,32 @@ const UserActionsDescriptions = require("../helpers/userActionsDescriptions");
 const {userRoles} = require('../helpers/enums')
 
 const loginStaff = async(req,res)=>{
-    const {username,password} = req.body;
-    const user = await User.findOne({ username });
-    if (user === null) return res.status(statusCode.ERROR).json({ error: `User with username: ${username} does not exist.` })
-    const isLogedIn = await LogedInUsers.findOne({username})
-    if(isLogedIn) return res.status(statusCode.ERROR).json({error:`User with username: ${username} is already loged in.`});
-    if (!bcrypt.compareSync(password, user.password)) return res.status(statusCode.ERROR).json({ error: `Wrong password.` })
-    if(user.role!==userRoles.Admin && user.role !== userRoles.Employee)  res.status(statusCode.ERROR).json({error:`You are not Admin or Employee`});
     try{
-        const date = Date.now();
-        const logedInUsersResult = await LogedInUsers.create({username:username});
-        const userResult = await User.updateOne({username},
-            {
-                $push:{
-                    actions:{
-                        name:UserActions.Login,
-                        description:UserActionsDescriptions.Login(0),
-                        date:date,
-                        pcNumber:-1,
-                        balanceChange:0,
+        const {username,password} = req.body;
+        const user = await User.findOne({ username });
+        if (user === null) return res.status(statusCode.ERROR).json({ error: `User with username: ${username} does not exist.` })
+        const isLogedIn = await LogedInUsers.findOne({username})
+        if(isLogedIn) return res.status(statusCode.ERROR).json({error:`User with username: ${username} is already loged in.`});
+        if (!bcrypt.compareSync(password, user.password)) return res.status(statusCode.ERROR).json({ error: `Wrong password.` })
+        if(user.role!==userRoles.Admin && user.role !== userRoles.Employee)  res.status(statusCode.ERROR).json({error:`You are not Admin or Employee`});
+            const date = Date.now();
+            const logedInUsersResult = await LogedInUsers.create({username:username});
+            const userResult = await User.updateOne({username},
+                {
+                    $push:{
+                        actions:{
+                            name:UserActions.Login,
+                            description:UserActionsDescriptions.Login(0),
+                            date:date,
+                            pcNumber:-1,
+                            balanceChange:0,
+                        }
                     }
-                }
-            })
-        const accessToken = jwt.sign({username:user.username,role:user.role})
-        res.status(statusCode.OK).json({accessToken:accessToken})
+                })
+            const accessToken = jwt.sign({username:user.username,role:user.role})
+            return res.status(statusCode.OK).json({accessToken:accessToken})
     }catch(e){
-        res.status(statusCode.INTERNAL_SERVER_ERROR).json({error:e.message})
+        return res.status(statusCode.INTERNAL_SERVER_ERROR).json({error:`Server error: ${e.message}`});
     }
 }
 const loginUser = async (req,res) => {
@@ -59,9 +59,9 @@ const loginUser = async (req,res) => {
                 }}
         })
         const accessToken = jwt.sign({username:user.username,role:user.role,pcNumber:pcNumber})
-        res.status(statusCode.OK).json({ user: userResult,accessToken:accessToken })
+        return res.status(statusCode.OK).json({ user: userResult,accessToken:accessToken })
     }catch(e){
-        res.status(statusCode.INTERNAL_SERVER_ERROR).json({error:e.message})
+        return res.status(statusCode.INTERNAL_SERVER_ERROR).json({error:`Server error: ${e.message}`});
     }
 
 }
@@ -88,7 +88,7 @@ const logoutUser = async (req,res) => {
         })
         return res.status(statusCode.OK).json({message:`User ${verifyResult.username} logged out.`})
     }catch(e){
-        return res.status(statusCode.INTERNAL_SERVER_ERROR).json({error:e.message})
+        return res.status(statusCode.INTERNAL_SERVER_ERROR).json({error:`Server error: ${e.message}`});
     }
 }
 const logoutAllUsers = async(req,res)=>{
@@ -117,7 +117,7 @@ const logoutAllUsers = async(req,res)=>{
         });
         return res.status(statusCode.OK).json({message:"Users loged out."});
     }catch(e){
-        return res.status(statusCode.INTERNAL_SERVER_ERROR).json({error:e.message});
+        return res.status(statusCode.INTERNAL_SERVER_ERROR).json({error:`Server error: ${e.message}`});
     }
 }
 
@@ -126,8 +126,12 @@ const logoutAllUsers = async(req,res)=>{
 //     res.status(statusCode.OK).json({logedInUsers_Database:users});
 // }
 const getLoggedInUsers = async(req,res)=>{
-    const users =await LogedInUsers.find({});
-    res.status(statusCode.OK).json({logedInUsers:users});
+    try{
+        const users =await LogedInUsers.find({});
+        res.status(statusCode.OK).json({logedInUsers:users});
+    }catch(e){
+        return res.status(statusCode.INTERNAL_SERVER_ERROR).json({error:`Server error: ${e.message}`});
+    }
 }
 
 
