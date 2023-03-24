@@ -85,7 +85,7 @@ function Login() {
         <button type="submit">Login</button>
       </form>
       {showNotification && (
-        <div className="notification-container">{notificationMessage}</div>
+        <div className="notification-container"><p className="notificationText">{notificationMessage}</p></div>
       )}
       {isFetching && (
         <div className="fetching-notification">Fetching...</div>

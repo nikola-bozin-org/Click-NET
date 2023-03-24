@@ -71,6 +71,10 @@
   animation: slide-in 0.5s forwards, fade-out 0.5s 9.5s forwards;
   z-index: 9999;
 }
+.notificationText{
+  width: 90%;
+  height: 100%;
+}
 
 @keyframes slide-in {
   from {
