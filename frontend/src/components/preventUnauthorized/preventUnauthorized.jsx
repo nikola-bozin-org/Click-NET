@@ -10,10 +10,10 @@ const preventUnauthorized = (WrappedComponent) => {
     const accessToken = localStorage.getItem('accessToken');
     
     useEffect(()=>{
+      console.info("calledOnce")
       if (!accessToken) {
         return <Unauthorized imageUrl={unauthorized} />;
       }
-      console.info("calledOnce")
     },[])
 
 
