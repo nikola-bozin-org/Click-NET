@@ -36,6 +36,13 @@ const loginStaff = async(req,res)=>{
         return res.status(statusCode.INTERNAL_SERVER_ERROR).json({error:`Server error: ${e.message}`});
     }
 }
+
+const verifyToken = async(req,res)=>{
+    const isValid = jwt.verify(req.headers.token);
+    if(isValid) return res.status(statusCode.OK).json({message:"Valid token."});
+    return res.status(statusCode.ERROR).json({error:"Invalid token."});
+}
+
 const loginUser = async (req,res) => {
     const { username, password, pcNumber } = req.body;
     const user = await User.findOne({ username });
@@ -140,5 +147,6 @@ module.exports={
     logoutUser,
     loginStaff,
     getLoggedInUsers,
-    logoutAllUsers
+    logoutAllUsers,
+    verifyToken
 }
