@@ -22,7 +22,7 @@ function Login() {
     e.preventDefault();
     try {
       const response = await fetch(
-        "https://click-net-test.onrender.com/api/loginStaff",
+        "https://clicknet-server.onrender.com/api/loginStaff",
         {
           method: "POST",
           headers: {
