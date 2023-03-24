@@ -34,7 +34,7 @@ const AdminDashboard = () => {
     }
   }
 
-  if(shouldChangeToLogin) return <Navigate to="/" />
+  if(shouldChangeToLogin) return <Navigate to="/login" />
 
   if(!localStorage.getItem('accessToken')) return <div>Unauthorized</div>
   return (

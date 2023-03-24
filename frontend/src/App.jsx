@@ -9,7 +9,7 @@ function App() {
   return (
     <Router>
     <Routes>
-    <Route exact path="/" element={<Login/>}/>
+    <Route exact path="/login" element={<Login/>}/>
     <Route exact path="/admin-dashboard" element={<AdminDashboard/>}/>
     <Route exact path="/test1/test2" element={<Test/>}/>
     <Route exact path="/404" element={<E404/>}/>
@@ -18,5 +18,7 @@ function App() {
   </Router>
   );
 }
-
+//000000
+//036346
+//a01a7d
 export default App;
