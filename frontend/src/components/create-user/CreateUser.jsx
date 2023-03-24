@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './createUser.css';
+import preventUnauthorized from '../preventUnauthorized/preventUnauthorized';
 
 const CreateUser = () => {
   const [formData, setFormData] = useState({
@@ -65,4 +66,4 @@ const CreateUser = () => {
   );
 };
 
-export default CreateUser;
+export default preventUnauthorized(CreateUser);

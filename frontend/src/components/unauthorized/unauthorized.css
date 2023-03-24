@@ -1,0 +1,28 @@
+.unauthorized-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f1f1f1;
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  .unauthorized-image {
+    max-width: 200px;
+    max-height: 200px;
+    object-fit: cover;
+  }
+  
+  .unauthorized-text {
+    font-weight: bold;
+    font-size: 2rem;
+    color: #333;
+  }
+
+  .redirectingTimer{
+    font-weight: bold;
+    font-size: 1.1rem;
+    color: #333;
+  }
+  

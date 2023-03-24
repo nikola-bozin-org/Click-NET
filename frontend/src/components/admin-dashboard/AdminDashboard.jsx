@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import './adminDashboard.css'
 import { Navigate } from 'react-router-dom';
+import preventUnauthorized from '../preventUnauthorized/preventUnauthorized';
 
 const AdminDashboard = () => {
   const [shouldChangeToLogin,setShouldChangeToLogin]= useState(false);
@@ -44,4 +45,4 @@ const AdminDashboard = () => {
   )
 }
 
-export default AdminDashboard
+export default preventUnauthorized(AdminDashboard)
