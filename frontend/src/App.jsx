@@ -6,12 +6,13 @@ import AdminDashboard from './components/admin-dashboard/AdminDashboard'
 import PaymentsTable from './components/payments-table/PaymentsTable';
 import LogedInUsersTable from './components/logedInUsers-table/LogedInUsersTable';
 import PCMap from './components/PC-Map/PCMap';
+import PaymentForm from './components/payment-form/PaymentForm';
 
 function App() {
   return (
     <Router>
     <Routes>
-    <Route exact path="/" element={<PCMap/>}/>
+    <Route exact path="/" element={<PaymentForm/>}/>
     <Route exact path="/admin-dashboard" element={<AdminDashboard/>}/>
     <Route path="*" element={<Login/>}/>
     </Routes>
