@@ -1,0 +1,18 @@
+.PC{
+    width: 40px;
+    height: 40px;
+    position: absolute;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+}
+.PCMain{
+    width: 92%;
+    height: 92%;
+    text-align: center;
+    color: black;
+    background-color: white;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+}
