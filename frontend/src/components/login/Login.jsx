@@ -88,7 +88,7 @@ function Login() {
         <div className="notification-container"><p className="notificationText">{notificationMessage}</p></div>
       )}
       {isFetching && (
-        <div className="fetching-notification">Fetching...</div>
+        <div className="fetching-notification">Processing...</div>
       )}
     </div>
   );
