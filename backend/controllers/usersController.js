@@ -10,14 +10,24 @@ const {userRoles} = require('../helpers/enums')
 
 
 const getUsers = async (req, res) => {
+    const token = req.headers.token;
+    if(!token) return res.status(statusCode.UNAUTHORIZED).json({error:'Unathorized'});
+    const verifyResult = jwt.verify(token);
+    if(!verifyResult) return res.status(statusCode.ERROR).json({error:"Invalid Token."});
+    if(verifyResult.role!==userRoles.Admin && verifyResult.role!==userRoles.Employee) return res.status(statusCode.ERROR).json({error:"Not Admin or Employee."});
     try{
         const users = await User.find({}).sort({ createdAt: -1 });
-        res.status(statusCode.OK).json({ users: users });
+        return res.status(statusCode.OK).json({ users: users });
     }catch(e){
         return res.status(statusCode.INTERNAL_SERVER_ERROR).json({error:`Server error: ${e.message}`});
     }
 }
 const getUser = async (req, res) => {
+    const token = req.headers.token;
+    if(!token) return res.status(statusCode.UNAUTHORIZED).json({error:'Unathorized'});
+    const verifyResult = jwt.verify(token);
+    if(!verifyResult) return res.status(statusCode.ERROR).json({error:"Invalid Token."});
+    if(verifyResult.role!==userRoles.Admin && verifyResult.role!==userRoles.Employee) return res.status(statusCode.ERROR).json({error:"Not Admin or Employee."});
     const { id } = req.params;
     const username = id;
     try{

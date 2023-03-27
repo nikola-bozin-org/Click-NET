@@ -1,0 +1,3 @@
+const verifyStaff = (req,res)=>{
+    
+}
