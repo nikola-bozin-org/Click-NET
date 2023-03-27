@@ -2,6 +2,8 @@ import React, { useState } from 'react'
 import './adminDashboard.css'
 import { Navigate } from 'react-router-dom';
 import preventUnauthorized from '../preventUnauthorized/preventUnauthorized';
+import PaymentsTable from '../payments-table/PaymentsTable';
+import PaymentForm from '../payment-form/PaymentForm';
 
 const AdminDashboard = () => {
   const [shouldChangeToLogin,setShouldChangeToLogin]= useState(false);
@@ -39,9 +41,13 @@ const AdminDashboard = () => {
 
   if(!localStorage.getItem('accessToken')) return <div>Unauthorized</div>
   return (
+    <>
     <div className='admin-dashboard'>
+      <PaymentForm/>
+      <PaymentsTable/>
       <button onClick={(e)=>{logout(e)}}>Logout</button>
     </div>
+    </>
   )
 }
 

@@ -62,6 +62,54 @@ const mockupData = [
     username: 'Heidi',
     paymentAmount: 550,
   },
+  {
+    paymentDate: '2023-03-15',
+    receipt: 'R12354',
+    username: 'Heidi',
+    paymentAmount: 550,
+  },
+  {
+    paymentDate: '2023-03-15',
+    receipt: 'R12354',
+    username: 'Heidi',
+    paymentAmount: 550,
+  },
+  {
+    paymentDate: '2023-03-15',
+    receipt: 'R12354',
+    username: 'Heidi',
+    paymentAmount: 550,
+  },
+  {
+    paymentDate: '2023-03-15',
+    receipt: 'R12354',
+    username: 'Heidi',
+    paymentAmount: 550,
+  },
+  {
+    paymentDate: '2023-03-15',
+    receipt: 'R12354',
+    username: 'Heidi',
+    paymentAmount: 550,
+  },
+  {
+    paymentDate: '2023-03-15',
+    receipt: 'R12354',
+    username: 'Heidi',
+    paymentAmount: 550,
+  },
+  {
+    paymentDate: '2023-03-15',
+    receipt: 'R12354',
+    username: 'Heidi',
+    paymentAmount: 550,
+  },
+  {
+    paymentDate: '2023-03-15',
+    receipt: 'R12354',
+    username: 'Heidi',
+    paymentAmount: 550,
+  },
 ];
 
 const tableInfo = {

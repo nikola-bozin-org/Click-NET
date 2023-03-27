@@ -12,7 +12,7 @@ function App() {
   return (
     <Router>
     <Routes>
-    <Route exact path="/" element={<PaymentForm/>}/>
+    <Route exact path="/" element={<AdminDashboard/>}/>
     <Route exact path="/admin-dashboard" element={<AdminDashboard/>}/>
     <Route path="*" element={<Login/>}/>
     </Routes>
