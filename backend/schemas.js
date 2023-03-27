@@ -8,10 +8,7 @@ const currentCashRegister = new mongoose.Schema({
   opener: {
     type: String,
   },
-  startedAt: {
-    type: Date,
-  },
-  closedAt: {
+  openedAt: {
     type: Date,
   },
   payments: {
