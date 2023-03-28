@@ -12,8 +12,8 @@ const loginStaff = async(req,res)=>{
         const {username,password} = req.body;
         const user = await User.findOne({ username });
         if (user === null) return res.status(statusCode.ERROR).json({ error: `User with username: ${username} does not exist.` })
-        const isLogedIn = await LogedInUsers.findOne({username})
-        if(isLogedIn) return res.status(statusCode.ERROR).json({error:`User with username: ${username} is already loged in.`});
+        // const isLogedIn = await LogedInUsers.findOne({username})
+        // if(isLogedIn) return res.status(statusCode.ERROR).json({error:`User with username: ${username} is already loged in.`});
         if (!bcrypt.compareSync(password, user.password)) return res.status(statusCode.ERROR).json({ error: `Wrong password.` })
         if(user.role!==userRoles.Admin && user.role !== userRoles.Employee)  res.status(statusCode.ERROR).json({error:`You are not Admin or Employee`});
             const date = Date.now();
