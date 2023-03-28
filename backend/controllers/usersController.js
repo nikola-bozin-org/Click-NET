@@ -76,7 +76,7 @@ const createUser = async (req, res) => {
             activeTickets:[],
             payments:[]
         });
-        return res.status(statusCode.OK).json({ userCreated: true, user: createResult });
+        return res.status(statusCode.OK).json({ userCreated: true});
     } catch (e) {
         return res.status(statusCode.INTERNAL_SERVER_ERROR).json({error:`Server error: ${e.message}`});
     }

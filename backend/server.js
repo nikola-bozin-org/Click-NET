@@ -11,7 +11,6 @@ const userRouter = require('./routers/userRouter')
 const sessionsRouter = require('./routers/sessionsRouter')
 const paymentRouter = require('./routers/paymentsRouter')
 const cashRegisterRouter = require('./routers/cashRegisterRouter')
-const zonesRouter = require('./routers/zonesRouter')
 
 const dropDatabaseRouter = require('./routers/dropDatabaseRouter')
 const dummyRouter = require('./routers/dummyRouter')
@@ -27,17 +26,20 @@ server.use(cors({
 server.use(express.json()); 
 server.use(express.urlencoded({ extended: true })); 
 server.use(helmet());
-server.use('/api/',paymentRouter)
-server.use('/api/',usersRouter);
-server.use('/api',userRouter);
-server.use('/api/',sessionsRouter);
-server.use('/api/',levelsRouter);
-server.use('/api/',ticketsRouter);
-server.use('/api/',cashRegisterRouter);
-server.use('/api/',zonesRouter
-)
+server.use('/api/users',usersRouter);
+server.use('/api/session',sessionsRouter);
+server.use('/api/tickets',ticketsRouter);
+server.use('/api/levels',levelsRouter);
+server.use('/api/user',userRouter);
+server.use('/api/payments',paymentRouter)
+server.use('/api/cashRegister',cashRegisterRouter);
+
+
 server.use('/api/',dropDatabaseRouter);
 server.use('/api/',dummyRouter);
+server.all('*',(req,res)=>{
+  res.status(404).json({error:`Cant find ${req.originalUrl} on this server.`})
+})
 
 
 const startServer = async()=>{

@@ -1,12 +1,12 @@
 const router = require('express').Router();
 const controller = require('../controllers/ticketsController')
 
-router.post('/tickets',controller.createTicket);
-router.delete('/tickets',controller.deleteTicket);
-router.get('/tickets',controller.getTickets);
-router.put('/cost',controller.updateTicketCost)
-router.put('/balance',controller.updateTicketBalance)
-router.put('/zone',controller.updateTicketZone)
+router.post('/',controller.createTicket);
+router.delete('/',controller.deleteTicket);
+router.get('/',controller.getTickets);
+router.put('/updateCost',controller.updateTicketCost)
+router.put('/updateBalance',controller.updateTicketBalance)
+router.put('/updateZone',controller.updateTicketZone)
 
 
 module.exports = router;

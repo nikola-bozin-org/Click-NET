@@ -3,13 +3,13 @@ const router = express.Router();
 const controller = require('../controllers/userController');
 
 
-router.get('/user/balance/:id',controller.getUserBalance)
-router.get('/user/discount/:id',controller.getUserDiscount)
-router.get('/user/xp/:id',controller.getUserXp)
-router.get('/user/payments/:id',controller.getUserPayments)
-router.get('/user/role/:id',controller.getUserRole)
-router.get('/user/basicInfo/:id',controller.getUserBasicInfo)
-router.get('/user/actions/:id',controller.getActions)
-router.get('/user/tickets/:id',controller.getTickets)
+router.get('/balance/:id',controller.getUserBalance)
+router.get('/discount/:id',controller.getUserDiscount)
+router.get('/xp/:id',controller.getUserXp)
+router.get('/payments/:id',controller.getUserPayments)
+router.get('/role/:id',controller.getUserRole)
+router.get('/basicInfo/:id',controller.getUserBasicInfo)
+router.get('/actions/:id',controller.getActions)
+router.get('/tickets/:id',controller.getTickets)
 
 module.exports = router;

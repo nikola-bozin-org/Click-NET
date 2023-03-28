@@ -133,6 +133,12 @@ const logoutAllUsers = async(req,res)=>{
 //     res.status(statusCode.OK).json({logedInUsers_Database:users});
 // }
 const getLoggedInUsers = async(req,res)=>{
+    const token = req.headers.token;
+    if(!token) return res.status(statusCode.UNAUTHORIZED).json({error:"Unauthorized."});
+    const verifyResult = jwt.verify(token);
+    if(!verifyResult) return res.status(statusCode.ERROR).json({error:"Invalid token."});
+    if(verifyResult.role!==userRoles.Admin && verifyResult.role!==userRoles.Employee) return res.status(statusCode.ERROR).json({error:"You are not Admin or Employee"});
+
     try{
         const users =await LogedInUsers.find({});
         res.status(statusCode.OK).json({logedInUsers:users});

@@ -32,6 +32,7 @@ const openCashRegisterSession = async(req,res)=>{
 }
 const closeCashRegisterSession = async(req,res)=>{
     const token = req.headers.token;
+    console.info(token);
     if(!token) return res.status(statusCode.UNAUTHORIZED).json({error:"Unauthorized."})
     const verifyResult = jwt.verify(token);
     if(!verifyResult) return res.status(statusCode.ERROR).json({error:"Invalid token."})
