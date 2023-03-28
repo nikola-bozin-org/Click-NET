@@ -2,7 +2,6 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
   background-color: #f1f1f1;
   flex-direction: column;
   gap:20px;
@@ -41,14 +40,14 @@
   padding: 0.5rem 1rem;
   border-radius: 5px;
   border: none;
-  background-color: #0077cc;
+  background-color: #5a189a;
   color: white;
   font-size: 1.2rem;
   cursor: pointer;
 }
 
 .login-form button:hover {
-  background-color: #005fa3;
+  background-color: #5a189a;
 }
 .fetching-notification{
   position: fixed;

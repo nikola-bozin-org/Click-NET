@@ -4,7 +4,8 @@
     align-items: center;
     flex-direction: column;
     width: 600px;
-    background-color: #f1f1f1;
+    border: 1px solid #f1f1f1;
+    
 }
 
 .payment-table {
@@ -50,7 +51,7 @@ td {
 }
 
 th {
-    background-color: #0077cc;
+    background-color: #5a189a;
     color: white;
     font-weight: bold;
 }

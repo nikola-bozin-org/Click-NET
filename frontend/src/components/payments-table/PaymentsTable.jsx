@@ -133,12 +133,13 @@ const PaymentsTable = () => {
   const totalAmount = mockupData.reduce((sum, data) => sum + data.paymentAmount, 0);
   return (
     <div className="payment-table-container">
-      <table className="payment-table">
-      <div className="table-info">
+            <div className="table-info">
         <p>Number: {tableInfo.number}</p>
         <p>Opener: {tableInfo.opener}</p>
         <p>Opened At: {tableInfo.openedAt}</p>
       </div>
+      <table className="payment-table">
+
         <thead>
           <tr>
             <th className='roundTopLeftEdge'>Payment Date</th>
@@ -152,10 +153,10 @@ const PaymentsTable = () => {
             <TableRow key={index} {...data} />
           ))}
         </tbody>
-        <div className="total-amount">
+      </table>
+      <div className="total-amount">
         <p>Total Amount: {totalAmount}</p>
       </div>
-      </table>
     </div>
   );
 };

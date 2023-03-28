@@ -1,0 +1,22 @@
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100px;
+    height: calc(100% - 60px); 
+    background-color: #f1f1f1;
+    margin-top: 60px; 
+  }
+  
+  .sidebar-button {
+    height: 40px;
+    width: 100%;
+    background-color: #5a189a;
+    color: white;
+    cursor: pointer;
+  }
+  
+  .sidebar-button:hover {
+    background-color: #451277;
+  }
+  
