@@ -147,7 +147,7 @@ const PaymentsTable = () => {
             <th className='roundTopRightEdge'>Payment Amount</th>
           </tr>
         </thead>
-        <tbody>
+        <tbody style={{maxHeight:'500px',overflow:'scroll'}}>
           {mockupData.map((data, index) => (
             <TableRow key={index} {...data} />
           ))}

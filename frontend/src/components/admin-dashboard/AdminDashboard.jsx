@@ -4,6 +4,7 @@ import { Navigate } from 'react-router-dom';
 import preventUnauthorized from '../preventUnauthorized/preventUnauthorized';
 import PaymentsTable from '../payments-table/PaymentsTable';
 import PaymentForm from '../payment-form/PaymentForm';
+import CreateUser from '../create-user/CreateUser'
 
 const AdminDashboard = () => {
   const [shouldChangeToLogin,setShouldChangeToLogin]= useState(false);
@@ -43,6 +44,7 @@ const AdminDashboard = () => {
   return (
     <>
     <div className='admin-dashboard'>
+      <CreateUser/>
       <PaymentForm/>
       <PaymentsTable/>
       <button onClick={(e)=>{logout(e)}}>Logout</button>

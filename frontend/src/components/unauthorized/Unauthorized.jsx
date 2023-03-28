@@ -3,7 +3,7 @@ import { Navigate } from 'react-router-dom';
 import './unauthorized.css';
 
 const Unauthorized = ({ imageUrl }) => {
-  const [countdown, setCountdown] = useState(5);
+  const [countdown, setCountdown] = useState(1);
   const [navigate, setNavigate] = useState(false);
 
   useEffect(() => {
