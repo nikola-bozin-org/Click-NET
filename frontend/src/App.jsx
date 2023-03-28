@@ -1,6 +1,4 @@
-import {BrowserRouter as Router, Route,Routes,Navigate} from 'react-router-dom'
-import Test from './pages/Test';
-import E404 from './pages/E404';
+import './app.css'
 import Login from './components/login/Login';
 import AdminDashboard from './components/admin-dashboard/AdminDashboard'
 import PaymentsTable from './components/payments-table/PaymentsTable';
@@ -12,8 +10,9 @@ import CreateUser from './components/create-user/CreateUser';
 import { useState } from 'react';
 import Sidebar from './components/sidebar/Sidebar';
 
+
 function App() {
-  const [selectedComponent, setSelectedComponent] = useState(3);
+  const [selectedComponent, setSelectedComponent] = useState(1);
 
   const changeComponent = (componentIndex) => {
     setSelectedComponent(componentIndex);
@@ -37,13 +36,15 @@ function App() {
   };
 
   return (
-    <>
-    <Topbar/>
-    <Sidebar changeComponent={changeComponent}/>
-    <div className='app'>
-      {renderComponent()}
+    <div className="app">
+      <Topbar/>
+      <div className="appOther">
+        <div className="a">
+          <Sidebar changeComponent={changeComponent}/>
+        </div>
+          {renderComponent()}
+      </div>
     </div>
-    </>
   )
 }
 

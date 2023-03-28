@@ -1,0 +1,15 @@
+.app{
+    display: grid;
+    grid-template-rows: 2;
+}
+
+.appOther{
+    display: grid;
+    height: 100vh;
+    width: 100%;
+    grid-template-columns: 100px 1fr;
+}
+
+.b{
+    background-color: black;
+}

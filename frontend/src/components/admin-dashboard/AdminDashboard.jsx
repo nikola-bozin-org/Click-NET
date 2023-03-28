@@ -40,10 +40,7 @@ const AdminDashboard = () => {
   return (
     <>
     <div className='admin-dashboard'>
-      {/* <CreateUser/>
-      <PaymentForm/>
-      <PaymentsTable/> */}
-      {/* <button onClick={(e)=>{logout(e)}}>Logout</button> */}
+      <button onClick={(e)=>{logout(e)}}>Logout</button>
     </div>
     </>
   )
