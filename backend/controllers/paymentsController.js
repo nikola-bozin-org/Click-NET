@@ -51,14 +51,15 @@ const refund = async(req,res)=>{
     const currentCashRegisterSession = await CurrentCashRegisterSession.findOne({});
     if(!currentCashRegisterSession) return res.status(statusCode.ERROR).json({error:'Cash register is not open.'});
     if(!(verifyResult.role===userRoles.Admin) && !(verifyResult.role===userRoles.Employee)) return res.status(statusCode.ERROR).json({error:`User ${username} is not Admin or Employee`});
-    
+
     const { username, refund } = req.body;
     const user = await User.findOne({ username });
     if (user === null) return res.status(statusCode.ERROR).json({ error: `User ${username} does not exist.` });
     const balance = parseInt(user.balance);
+    if(balance<refund) return res.status(statusCode.ERROR).json({error: `Not enough balance. User balance: ${balance}, wanted refund: ${refund}`})
     const newBalance = balance - parseInt(refund);
-      const date = Date.now();
-      const resultUser = await User.updateOne({username},{
+    const date = Date.now();
+    await User.updateOne({username},{
         $set:{balance:newBalance},
         $push:{
           actions:{
@@ -68,6 +69,9 @@ const refund = async(req,res)=>{
             pcNumber:-1,
             balanceChange:-refund
       }}});
+      currentCashRegisterSession.findOneAndUpdate({},{
+        $push:{payments:{username:username,paymentAmount:-payment,paymentDate:date,receipt:"00"+date.toString()}}
+      })
       return res.status(statusCode.OK).json({ refundProcessed: "true"})
   }catch(e){
     return res.status(statusCode.INTERNAL_SERVER_ERROR).json({ refundProcessed: "false", error: `Server error: ${e.message}` })

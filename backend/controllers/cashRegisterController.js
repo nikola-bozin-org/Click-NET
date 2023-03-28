@@ -20,8 +20,7 @@ const openCashRegisterSession = async(req,res)=>{
       const crSession = await CurrentCashRegisterSession.create({
           number:numberOfDocuments,
           opener:opener,
-          startedAt:openDate,
-          closedAt:undefined,
+          openedAt:openDate,
           payments:[],
           amount:0
       })
@@ -45,7 +44,7 @@ const closeCashRegisterSession = async(req,res)=>{
 
       const oldSession = await CashRegisterSessions.create({
           opener:currentCashRegisterSession.opener,
-          startedAt:currentCashRegisterSession.startedAt,
+          openedAt:currentCashRegisterSession.openedAt,
           closedAt:Date.now(),
           payments:currentCashRegisterSession.payments,
           number:currentCashRegisterSession.number,
@@ -78,7 +77,7 @@ const getPaymentsFromTo = async (req, res) => {
     try {
       const sessions = await CashRegisterSessions.find(
         {
-          startedAt: {
+          openedAt: {
             $gte: startDate,
             $lte: endDate,
           },
@@ -96,7 +95,7 @@ const calculateTraffic = async(req,res)=>{
     try {
       const sessions = await CashRegisterSessions.find(
         {
-          startedAt: {
+          openedAt: {
             $gte: startDate,
             $lte: endDate,
           },
@@ -119,7 +118,7 @@ const getSessionsOnDay = async(req,res)=>{
   try{
     const sessions = await CashRegisterSessions.find(
       {
-        startedAt: {
+        openedAt: {
           $gte: date,
           $lte: endDate,
         },
@@ -137,7 +136,7 @@ const calculateTrafficOnDay=async(req,res)=>{
   try{
     const sessions = await CashRegisterSessions.find(
       {
-        startedAt: {
+        openedAt: {
           $gte: date,
           $lte: endDate,
         },

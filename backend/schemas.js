@@ -41,7 +41,7 @@ const cashRegisterSessions = new mongoose.Schema({
   opener: {
     type: String,
   },
-  startedAt: {
+  openedAt: {
     type: Date,
   },
   closedAt: {

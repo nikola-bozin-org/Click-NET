@@ -106,6 +106,5 @@ module.exports = {
     getUserBasicInfo,
     getActions,
     getTickets,
-
     getUserPayments,
 }

@@ -21,7 +21,7 @@ const createDummyCashRegisterSessions = async(req,res)=>{
         payments.push({ username, paymentAmount, paymentDate });
       }
       const amount = payments.reduce((acc, cur) => acc + cur.paymentAmount, 0);
-      await CashRegisterSessions.create({number,opener,startedAt,closedAt,payments,amount})
+      await CashRegisterSessions.create({number,opener,openedAt:startedAt,closedAt,payments,amount})
     }
     res.status(statusCode.OK).json({message:"Sessions are being created."});
   }
