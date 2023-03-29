@@ -3,6 +3,7 @@ const statusCode = require('../statusCodes')
 const bcrypt = require('bcrypt')
 const jwt = require('../jwt')
 const {userRoles} = require('../helpers/enums');
+const service = require('../services/cashRegisterService')
 
 const openCashRegisterSession = async(req,res)=>{
     const {opener,password} = req.body;
@@ -31,32 +32,19 @@ const openCashRegisterSession = async(req,res)=>{
 }
 const closeCashRegisterSession = async(req,res)=>{
     const token = req.headers.token;
-    console.info(token);
     if(!token) return res.status(statusCode.UNAUTHORIZED).json({error:"Unauthorized."})
     const verifyResult = jwt.verify(token);
     if(!verifyResult) return res.status(statusCode.ERROR).json({error:"Invalid token."})
-    const username = verifyResult.username;
-    try{
-      const user = await User.findOne({username})
-      if(user.role!==userRoles.Admin && user.role!==userRoles.Employee) return res.status(statusCode.ERROR).json({error:`User ${user.username} is not Admin or Employee`});
-      const currentCashRegisterSession = await CurrentCashRegisterSession.findOne({});
-      if(!currentCashRegisterSession) return res.status(statusCode.ERROR).json({error:"No cash register sessions."})
-
-      const oldSession = await CashRegisterSessions.create({
-          opener:currentCashRegisterSession.opener,
-          openedAt:currentCashRegisterSession.openedAt,
-          closedAt:Date.now(),
-          payments:currentCashRegisterSession.payments,
-          number:currentCashRegisterSession.number,
-          amount:currentCashRegisterSession.payments.reduce((acc,cur)=> acc + cur.paymentAmount, 0),
-      })
-      const result = await CurrentCashRegisterSession.findOneAndDelete({});
-      res.status(statusCode.OK).json({sessionClosed:true});
-  }catch(e){
-    return res.status(statusCode.INTERNAL_SERVER_ERROR).json({error:`Server error: ${e.message}`})
-  }
+    const result = await service._closeCashRegisterSession(verifyResult);
+    if(result.error) return res.status(statusCode.INTERNAL_SERVER_ERROR).json({error:`Server error: ${result.error}`})
+    return res.status(statusCode.OK).json({sessionClosed:result.sessionClosed});
 }
 const getCurrentSession = async (req,res)=>{
+  const token = req.headers.token;
+  if(!token) return res.status(statusCode.UNAUTHORIZED).json({error:"Unauthorized."})
+  const verifyResult = jwt.verify(token);
+  if(!verifyResult) return res.status(statusCode.ERROR).json({error:"Invalid token."});
+  if(verifyResult.role!==userRoles.Admin) return res.status(statusCode.ERROR).json({error:"You are not Admin!"});
   try{
     const session = await CurrentCashRegisterSession.findOne({});
     return res.status(statusCode.OK).json({currentSession:session});
@@ -65,6 +53,11 @@ const getCurrentSession = async (req,res)=>{
   }
 }
 const getSessions = async(req,res)=>{
+  const token = req.headers.token;
+  if(!token) return res.status(statusCode.UNAUTHORIZED).json({error:"Unauthorized."})
+  const verifyResult = jwt.verify(token);
+  if(!verifyResult) return res.status(statusCode.ERROR).json({error:"Invalid token."});
+  if(verifyResult.role!==userRoles.Admin) return res.status(statusCode.ERROR).json({error:"You are not Admin!"});
   try{
     const sessions = await CashRegisterSessions.find({},{},{sort:{'createdAt':-1}});
     return res.status(statusCode.OK).json({sessions:sessions})
@@ -73,82 +66,49 @@ const getSessions = async(req,res)=>{
   }
 }
 const getPaymentsFromTo = async (req, res) => {
-    const { startDate, endDate } = req.query;
-    try {
-      const sessions = await CashRegisterSessions.find(
-        {
-          openedAt: {
-            $gte: startDate,
-            $lte: endDate,
-          },
-        },
-        { payments: 1, _id: 0 }
-      );
-      const payments = sessions.flatMap((session) => session.payments);
-      return res.status(statusCode.OK).json({payments:payments});
-    } catch (err) {
-      return res.status(statusCode.INTERNAL_SERVER_ERROR).json({error:`Server error: ${e.message}`})
-    }
-};
-const calculateTraffic = async(req,res)=>{
-    const { startDate, endDate } = req.query;
-    try {
-      const sessions = await CashRegisterSessions.find(
-        {
-          openedAt: {
-            $gte: startDate,
-            $lte: endDate,
-          },
-        },
-        { payments: 1, _id: 0 }
-      );
-      const payments = sessions.flatMap((session) => session.payments);
-      const totalPaymentAmount = payments.reduce((acc, cur) => acc + cur.paymentAmount, 0);
-      return res.status(statusCode.OK).json({totalTraffic:totalPaymentAmount});
-    } catch (err) {
-      return res.status(statusCode.INTERNAL_SERVER_ERROR).json({error:`Server error: ${e.message}`})
-    }
+  const token = req.headers.token;
+  if(!token) return res.status(statusCode.UNAUTHORIZED).json({error:"Unauthorized."})
+  const verifyResult = jwt.verify(token);
+  if(!verifyResult) return res.status(statusCode.ERROR).json({error:"Invalid token."});
+  if(verifyResult.role!==userRoles.Admin) return res.status(statusCode.ERROR).json({error:"You are not Admin!"});
+    const { startDate, endDate } = req.body;
+    const result = await service._getPaymentsFromTo(startDate,endDate);
+    if(result.error) return res.status(statusCode.INTERNAL_SERVER_ERROR).json({error:`Server error: ${result.error}`})
+    return res.status(statusCode.OK).json({payments:result.payments});
+}
+const calculateTrafficFromTo = async(req,res)=>{
+  const token = req.headers.token;
+  if(!token) return res.status(statusCode.UNAUTHORIZED).json({error:"Unauthorized."})
+  const verifyResult = jwt.verify(token);
+  if(!verifyResult) return res.status(statusCode.ERROR).json({error:"Invalid token."});
+  if(verifyResult.role!==userRoles.Admin) return res.status(statusCode.ERROR).json({error:"You are not Admin!"});
+    const { startDate, endDate } = req.body;
+    const result = await service._calculateTrafficFromTo(startDate,endDate);
+    if(result.error) return res.status(statusCode.INTERNAL_SERVER_ERROR).json({error:`Server error: ${result.error}`})
+      return res.status(statusCode.OK).json({totalTraffic:result.totalTrafficFromTo});
 }
 const getSessionsOnDay = async(req,res)=>{
-  const {date} = req.query;
-  const endDate = new Date(date); 
-  endDate.setDate(endDate.getDate() + 1);
-  console.info(date);
-  console.info(endDate.toLocaleDateString());
-  try{
-    const sessions = await CashRegisterSessions.find(
-      {
-        openedAt: {
-          $gte: date,
-          $lte: endDate,
-        },
-      },
-      { payments: 1, _id: 0 }
-    );
-    return res.status(statusCode.OK).json({sessions:sessions});
-  }catch(e){
-    return res.status(statusCode.INTERNAL_SERVER_ERROR).json({error:`Server error: ${e.message}`})
-  }
+  const token = req.headers.token;
+  if(!token) return res.status(statusCode.UNAUTHORIZED).json({error:"Unauthorized."})
+  const verifyResult = jwt.verify(token);
+  if(!verifyResult) return res.status(statusCode.ERROR).json({error:"Invalid token."});
+  if(verifyResult.role!==userRoles.Admin) return res.status(statusCode.ERROR).json({error:"You are not Admin!"});
+  const {date} = req.body;
+  const result = await service._getSessionsOnDay(date);
+  if(result.error) return res.status(statusCode.INTERNAL_SERVER_ERROR).json({error:`Server error: ${result.error}`})
+  return res.status(statusCode.OK).json({sessions:result.sessions});
 }
 const calculateTrafficOnDay=async(req,res)=>{
-  const {date} = req.query;
-  const endDate = new Date("2023-03-15"); 
-  try{
-    const sessions = await CashRegisterSessions.find(
-      {
-        openedAt: {
-          $gte: date,
-          $lte: endDate,
-        },
-      },
-      { payments: 1, _id: 0 }
-    );
-    const payments = sessions.flatMap((session) => session.payments);
-    const totalPaymentAmount = payments.reduce((acc, cur) => acc + cur.paymentAmount, 0);
-    return res.status(statusCode.OK).json({totalPayment:totalPaymentAmount});
-  }catch(e){
-    return res.status(statusCode.INTERNAL_SERVER_ERROR).json({error:`Server error: ${e.message}`})
-  }
+  const token = req.headers.token;
+  if(!token) return res.status(statusCode.UNAUTHORIZED).json({error:"Unauthorized."})
+  const verifyResult = jwt.verify(token);
+  if(!verifyResult) return res.status(statusCode.ERROR).json({error:"Invalid token."});
+  if(verifyResult.role!==userRoles.Admin) return res.status(statusCode.ERROR).json({error:"You are not Admin!"});
+  const {date} = req.body;
+  const  result = await service._calculateTrafficOnDay(date);
+  if(result.error)
+    return res.status(statusCode.INTERNAL_SERVER_ERROR).json({error:`Server error: ${result.error}`})
+  return res.status(statusCode.OK).json({trafficOnDay:result.trafficOnDay});
 }
 
 
@@ -158,7 +118,7 @@ module.exports = {
     closeCashRegisterSession,
     getSessions,
     getPaymentsFromTo,
-    calculateTraffic,
+    calculateTrafficFromTo,
     getSessionsOnDay,
     calculateTrafficOnDay,
 }

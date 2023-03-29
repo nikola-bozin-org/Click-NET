@@ -34,8 +34,10 @@ const payment = async(req,res) =>{
               pcNumber:-1,
               balanceChange:payment
         }}});
+        const prevPayments = currentCashRegisterSession.payments;
+        const totalPayments = prevPayments.reduce((acc,cur)=>acc+cur.paymentAmount,0);
         const resultPayment = await CurrentCashRegisterSession.findOneAndUpdate({},{
-              $push: { payments:{username:username,paymentAmount:payment,paymentDate:date,receipt:"00"+date.toString()} }
+              $push: { payments:{username:username,paymentAmount:payment,paymentDate:date,receipt:"00"+date.toString()} },$set:{amount:totalPayments}
         })
         return res.status(statusCode.OK).json({ paymentProcessed: "true"})
     }catch (e) {

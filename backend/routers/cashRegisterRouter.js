@@ -9,7 +9,7 @@ router.post('/closeCashRegisterSession',controller.closeCashRegisterSession);
 router.get('/getCurrentSession',controller.getCurrentSession);
 router.get('/getSessions',controller.getSessions)
 router.get('/getPaymentsFromTo',controller.getPaymentsFromTo)
-router.get('/calculateTrafficFromTo',controller.calculateTraffic)
+router.get('/calculateTrafficFromTo',controller.calculateTrafficFromTo)
 router.get('/getSessionsOnDay',controller.getSessionsOnDay)
 router.get('/calculateTrafficOnDay',controller.calculateTrafficOnDay)
 
