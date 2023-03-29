@@ -1,34 +1,14 @@
 const {User,CurrentCashRegisterSession,CashRegisterSessions,LogedInUsers} = require('../schemas')
 const statusCode = require('../statusCodes')
-const bcrypt = require('bcrypt')
 const jwt = require('../jwt')
 const {userRoles} = require('../helpers/enums');
 const service = require('../services/cashRegisterService')
 
 const openCashRegisterSession = async(req,res)=>{
     const {opener,password} = req.body;
-    try{
-      const user = await User.findOne({username: opener});
-      if(!user) return res.status(statusCode.ERROR).json({error:`User ${opener} does not exist`})
-      if(!bcrypt.compareSync(password, user.password)) return res.status(statusCode.ERROR).json({ error: `Wrong password.` })
-      if(user.role!==userRoles.Admin && user.role!==userRoles.Employee) return res.status(statusCode.ERROR).json({error:`User ${opener} is not Admin or Employee`});
-      const isLogedIn = await LogedInUsers.findOne({username:opener});
-      if(!isLogedIn) return res.status(statusCode.ERROR).json({error:`You must be loged in to open the session.`})
-      const openDate = Date.now();
-      const currentCashRegisterSession = await CurrentCashRegisterSession.findOne({});
-      if(currentCashRegisterSession) return res.status(statusCode.ERROR).json({error:`There is session already open. ID: ${currentCashRegisterSession.id}`})
-      const numberOfDocuments = await CurrentCashRegisterSession.countDocuments({});
-      const crSession = await CurrentCashRegisterSession.create({
-          number:numberOfDocuments,
-          opener:opener,
-          openedAt:openDate,
-          payments:[],
-          amount:0
-      })
-      return res.status(statusCode.OK).json({message:`Created new session. At ${openDate} by: ${opener}`, crSession:crSession});
-  }catch(e){
-    return res.status(statusCode.INTERNAL_SERVER_ERROR).json({error:`Server error: ${e.message}`})
-  }
+    const result = await service._openCashRegisterSession(opener,password);
+    if(result.error) return res.status(statusCode.INTERNAL_SERVER_ERROR).json({error:`Server error: ${result.error}`})
+    return res.status(statusCode.OK).json({message:result.message});
 }
 const closeCashRegisterSession = async(req,res)=>{
     const token = req.headers.token;

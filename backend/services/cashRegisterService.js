@@ -1,5 +1,6 @@
-const { CurrentCashRegisterSession, CashRegisterSessions,LogedInUsers } = require("../schemas")
+const { User,CurrentCashRegisterSession, CashRegisterSessions,LogedInUsers } = require("../schemas")
 const {userRoles} = require('../helpers/enums')
+const bcrypt = require('bcrypt')
 
 
 const  _getPaymentsFromTo = async(startDate,endDate)=>{
@@ -98,6 +99,30 @@ const _closeCashRegisterSession = async(user)=>{
         return {error:e.message}
     }  
 }
+const _openCashRegisterSession = async(opener,password)=>{
+    try{
+        const openDate = Date.now();
+        const user = await User.findOne({username: opener});
+        if(!user) return {error:`User ${opener} does not exist`}
+        if(!bcrypt.compareSync(password, user.password)) return { error: `Wrong password.` }
+        if(user.role!==userRoles.Admin && user.role!==userRoles.Employee) return {error:`User ${opener} is not Admin or Employee`};
+        const isLogedIn = await LogedInUsers.findOne({username:opener});
+        if(!isLogedIn) return {error:`You must be loged in to open the session.`}
+        const currentCashRegisterSession = await CurrentCashRegisterSession.findOne({});
+        if(currentCashRegisterSession) return {error:`There is session already open. ID: ${currentCashRegisterSession.id}`}
+        const numberOfDocuments = await CurrentCashRegisterSession.countDocuments({});
+        const crSession = await CurrentCashRegisterSession.create({
+            number:numberOfDocuments,
+            opener:opener,
+            openedAt:openDate,
+            payments:[],
+            amount:0
+        })
+        return {message:`Created new session. At ${openDate} by: ${opener}`}
+    }catch(e){
+        return {error:e.message}
+    }
+}
 
 module.exports ={
     _getPaymentsFromTo,
@@ -105,4 +130,5 @@ module.exports ={
     _getSessionsOnDay,
     _calculateTrafficOnDay,
     _closeCashRegisterSession,
+    _openCashRegisterSession
 }
