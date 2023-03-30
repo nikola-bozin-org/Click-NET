@@ -1,8 +1,5 @@
-const {service_getLevelsSortedByLevel} = require("../controllers/levelsController")
-
-
 const calculateDiscount = async(userXP)=>{
-    const levels = await service_getLevelsSortedByLevel();
+    const levels = null;
     if(!levels) throw Error("Unable to calculate discount. Levels returned are NULL.");
     const length = levels.length;
     let discout = 0;

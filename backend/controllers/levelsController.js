@@ -2,6 +2,7 @@ const {Levels} = require('../schemas')
 const statusCode = require('../statusCodes')
 const jwt = require('../jwt')
 const {userRoles}=require('../helpers/enums')
+const service = require('../services/levelsService')
 
 const addLevel = async(req,res)=>{
     const token = req.headers.token;
@@ -10,14 +11,9 @@ const addLevel = async(req,res)=>{
     if(!verifyResult) return res.status(statusCode.ERROR).json({error:"Invalid token."});
     if(verifyResult.role!==userRoles.Admin) return res.status(statusCode.ERROR).json({error:"You are not Admin!"});
     const {level,xp}=req.body;
-    try{
-        const foundLevel = await Levels.findOne({level});
-        if(foundLevel) return res.status(statusCode.ERROR).json({error:`Level ${level} already created.`})
-            const result = await Levels.create({xp:xp,level:level});
-            return res.status(statusCode.OK).json({message:`Level created.`});
-    }catch(e){
-        return res.status(statusCode.INTERNAL_SERVER_ERROR).json({error:`Server error: ${e.message}`})
-    }
+    const result = await service._addLevel(level,xp);
+    if(result.error) return res.status(statusCode.INTERNAL_SERVER_ERROR).json({error:`Server error: ${result.error}`})
+    return res.status(statusCode.OK).json({message:result.message});
 }
 const updateLevelXP = async (req, res) => {
     const token = req.headers.token;
@@ -26,15 +22,9 @@ const updateLevelXP = async (req, res) => {
     if(!verifyResult) return res.status(statusCode.ERROR).json({error:"Invalid token."});
     if(verifyResult.role!==userRoles.Admin) return res.status(statusCode.ERROR).json({error:"You are not Admin!"});
     const { level, xp } = req.body;
-    try{
-        const foundLevel = await Levels.findOne({level});
-        if(!foundLevel) return res.status(statusCode.ERROR).json({error:`Level ${level} does not exist.`})
-        foundLevel.xp=xp;
-        const result = await Levels.updateOne({level},foundLevel);
-        return res.status(statusCode.OK).json({message:`Level ${level} XP updated.`});
-    }catch(e){
-        return res.status(statusCode.INTERNAL_SERVER_ERROR).json({error:`Server error: ${e.message}`})
-    }
+    const result = await service._updateLevelXP(level,xp);
+    if(result.error) return res.status(statusCode.INTERNAL_SERVER_ERROR).json({error:`Server error: ${result.error}`})
+    return res.status(statusCode.OK).json({message:result.message});
 };
 const deleteLevel = async(req,res)=>{
     const token = req.headers.token;
@@ -43,51 +33,28 @@ const deleteLevel = async(req,res)=>{
     if(!verifyResult) return res.status(statusCode.ERROR).json({error:"Invalid token."});
     if(verifyResult.role!==userRoles.Admin) return res.status(statusCode.ERROR).json({error:"You are not Admin!"});
     const {level} = req.body;
-    try{
-        const foundLevel = await Levels.findOne({level});
-        if(!foundLevel) return res.status(statusCode.ERROR).json({error:`Level ${level} does not exist.`});
-        await Levels.deleteOne({level});
-        return res.status(statusCode.OK).json({message:`Level ${level} deleted.`});
-    }catch(e){
-        return res.status(statusCode.INTERNAL_SERVER_ERROR).json({error:`Server error: ${e.message}`})
-    }
+    const result = await service._deleteLevel(level);
+    if(result.error) return res.status(statusCode.INTERNAL_SERVER_ERROR).json({error:`Server error: ${result.error}`})
+    return res.status(statusCode.OK).json({message:result.message});
+
 }
 const getLevels = async(req,res)=>{
-    try{
-        const levels = await Levels.find({});
-        res.status(statusCode.OK).json({levels:levels});
-    }catch(e){
-        return res.status(statusCode.INTERNAL_SERVER_ERROR).json({error:`Server error: ${e.message}`})
-    }
+    const result = await service._getLevels();
+    if(result.error) return res.status(statusCode.INTERNAL_SERVER_ERROR).json({error:`Server error: ${result.error}`})
+    return res.status(statusCode.OK).json({levels:result.levels});
 }
 
 const getLevelsSortedByLevel = async(req,res)=>{
-    try{
-        const levels = await service_getLevelsSortedByLevel();
-        return res.status(statusCode.OK).json({levels:levels})
-    }catch(e){
-        return res.status(statusCode.INTERNAL_SERVER_ERROR).json({error:`Server error: ${e.message}`})
-    }
-}
-
-const service_getLevelsSortedByLevel = async ()=>{
-    try{
-        const levels = await Levels.find({},{},{sort:{level:1}});
-        return levels;
-    }catch(e){
-        return null;
-    }
+    const result = await service._getLevelsSortedByLevels();
+    if(result.error) return res.status(statusCode.INTERNAL_SERVER_ERROR).json({error:`Server error: ${result.error}`})
+    return res.status(statusCode.OK).json({levels:result.levels});
 }
 
 const getLevel =async(req,res)=>{
     const {level} = req.params;
-    try{
-        const foundLevel = await Levels.findOne({level});
-        if(!foundLevel) return res.status(statusCode.OK).json({error:`Level ${level} does not exist.`});
-        return res.status(statusCode.OK).json({level:foundLevel});
-    }catch(e){
-        return res.status(statusCode.INTERNAL_SERVER_ERROR).json({error:`Server error: ${e.message}`})
-    }
+    const result = await service._getLevel(level);
+    if(result.error) return res.status(statusCode.INTERNAL_SERVER_ERROR).json({error:`Server error: ${result.error}`})
+    return res.status(statusCode.OK).json({levels:result.level});
 }
 
 const createDefaultLevels = async(req,res)=>{
@@ -112,5 +79,4 @@ module.exports={
     getLevel,
     createDefaultLevels,
     getLevelsSortedByLevel,
-    service_getLevelsSortedByLevel,
 }
