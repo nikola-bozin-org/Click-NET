@@ -1,7 +1,7 @@
-const {Tickets} = require('../schemas')
 const statusCode = require('../statusCodes')
 const jwt = require('../jwt')
-const {userRoles, zones} =  require('../helpers/enums')
+const {userRoles} =  require('../helpers/enums')
+const service = require('../services/ticketsService')
 
 const createTicket = async (req,res)=>{
     const token = req.headers.token;
@@ -10,14 +10,9 @@ const createTicket = async (req,res)=>{
     if(!verifyResult) return res.status(statusCode.ERROR).json({error:"Invalid token."});
     if(verifyResult.role!==userRoles.Admin) return res.status(statusCode.ERROR).json({error:"You are not Admin!"});
     const {name,cost,balance,zone} = req.body;
-    try{
-    const ticket = await Tickets.findOne({name});
-    if(ticket) return res.status(statusCode.ERROR).json({error:`Ticket ${name} already exist.`})
-    const result = await Tickets.create({name,cost,balance,zone});
-    res.status(statusCode.OK).json({message:`Ticket ${name} created.`});
-    }catch(e){
-        return res.status(statusCode.INTERNAL_SERVER_ERROR).json({error:`Server error: ${e.message}`});
-    }
+    const result = await service._createTicket(name,cost,balance,zone);
+    if(result.error) return res.status(statusCode.INTERNAL_SERVER_ERROR).json({error:`Server error: ${result.error}`});
+    return res.status(statusCode.OK).json({message:result.message});
 }
 const deleteTicket = async(req,res)=>{
     const token = req.headers.token;
@@ -26,22 +21,20 @@ const deleteTicket = async(req,res)=>{
     if(!verifyResult) return res.status(statusCode.ERROR).json({error:"Invalid token."});
     if(verifyResult.role!==userRoles.Admin) return res.status(statusCode.ERROR).json({error:"You are not Admin!"});
     const {name}=req.body;
-    try{
-    const ticket = await Tickets.findOne({name});
-    if(!ticket) return res.status(statusCode.ERROR).json({error:`Ticket ${name} does not exist.`})
-    const result = await Tickets.deleteOne({name});
-    res.status(statusCode.OK).json({message:`Deleted ${name} ticket.`})
-    }catch(e){
-        return res.status(statusCode.INTERNAL_SERVER_ERROR).json({error:`Server error: ${e.message}`});
-    }
+    const result = await service._deleteTicket(name);
+    if(result.error) return res.status(statusCode.INTERNAL_SERVER_ERROR).json({error:`Server error: ${result.error}`});
+    return res.status(statusCode.OK).json({message:result.message})
+}
+const getTicket = async(req,res)=>{
+    const { name } = req.params;
+    const result = await service._getTicket(name);
+    if(result.error) return res.status(statusCode.INTERNAL_SERVER_ERROR).json({error:`Server error: ${result.error}`});
+    return res.status(statusCode.OK).json({ticket:result.ticket})
 }
 const getTickets = async(req,res)=>{
-    try{
-        const tickets = await Tickets.find({});
-        return res.status(statusCode.OK).json({tickets:tickets});
-    }catch(e){
-        return res.status(statusCode.INTERNAL_SERVER_ERROR).json({error:`Server error: ${e.message}`});
-    }
+    const result = await service._getTickets();
+    if(result.error) return res.status(statusCode.INTERNAL_SERVER_ERROR).json({error:`Server error: ${result.error}`});
+    return res.status(statusCode.OK).json({tickets:result.tickets})
 }
 const updateTicketCost = async(req,res)=>{
     const token = req.headers.token;
@@ -50,15 +43,9 @@ const updateTicketCost = async(req,res)=>{
     if(!verifyResult) return res.status(statusCode.ERROR).json({error:"Invalid token."});
     if(verifyResult.role!==userRoles.Admin) return res.status(statusCode.ERROR).json({error:"You are not Admin!"});
     const {name,cost} = req.body;
-    try{
-    const ticket = await Tickets.findOne({name});
-    if(!ticket) return res.status(statusCode.ERROR).json({error:"Invalid ticket name."});
-    ticket.cost=cost;
-    const result = await Tickets.updateOne({name},ticket);
-    return res.status(statusCode.OK).json({message:`Ticket ${name} cost updated.`});
-    }catch(e){
-        return res.status(statusCode.INTERNAL_SERVER_ERROR).json({error:`Server error: ${e.message}`});
-    }
+    const result = await service._updateTicketCost(name,cost);
+    if(result.error) return res.status(statusCode.INTERNAL_SERVER_ERROR).json({error:`Server error: ${result.error}`});
+    return res.status(statusCode.OK).json({message:result.message})
 }
 const updateTicketBalance = async(req,res)=>{
     const token = req.headers.token;
@@ -67,15 +54,9 @@ const updateTicketBalance = async(req,res)=>{
     if(!verifyResult) return res.status(statusCode.ERROR).json({error:"Invalid token."});
     if(verifyResult.role!==userRoles.Admin) return res.status(statusCode.ERROR).json({error:"You are not Admin!"});
     const {name,balance} = req.body;
-    try{
-    const ticket = await Tickets.findOne({name});
-    if(!ticket) return res.status(statusCode.ERROR).json({error:"Invalid ticket name."});
-    ticket.balance=balance;
-    const result = await Tickets.updateOne({name},ticket);
-    return res.status(statusCode.OK).json({message:`Ticket ${name} cost updated.`});
-    }catch(e){
-        return res.status(statusCode.INTERNAL_SERVER_ERROR).json({error:`Server error: ${e.message}`});
-    }
+    const result = await service._updateTicketBalance(name,balance);
+    if(result.error) return res.status(statusCode.INTERNAL_SERVER_ERROR).json({error:`Server error: ${result.error}`});
+    return res.status(statusCode.OK).json({message:result.message})
 }
 
 const updateTicketZone = async(req,res)=>{
@@ -85,27 +66,18 @@ const updateTicketZone = async(req,res)=>{
     if(!verifyResult) return res.status(statusCode.ERROR).json({error:"Invalid token."});
     if(verifyResult.role!==userRoles.Admin) return res.status(statusCode.ERROR).json({error:"You are not Admin!"});
     const {name,zone} = req.body;
-    if(!isZoneValid(zone)) return res.status(statusCode.ERROR).json({error:`Invalid zone: ${zone}.`})
-    try{
-        const ticket = await Tickets.findOne({name});
-        if(!ticket) return res.status(statusCode.ERROR).json({error:"Invalid ticket name."});
-        ticket.zone=zone;
-        const result = await Tickets.updateOne({name},ticket);
-        return res.status(statusCode.OK).json({message:`Ticket ${name} zone updated.`});
-    }catch(e){
-        return res.status(statusCode.INTERNAL_SERVER_ERROR).json({error:`Server error: ${e.message}`});
-    }
+    const result = await service._updateTicketZone(name,zone);
+    if(result.error) return res.status(statusCode.INTERNAL_SERVER_ERROR).json({error:`Server error: ${result.error}`});
+    return res.status(statusCode.OK).json({message:result.message})
 }
 
-const isZoneValid = (zone) =>{
-    return Object.values(zones).includes(zone);
-} 
 
 
 module.exports={
     createTicket,
     deleteTicket,
     getTickets,
+    getTicket,
     updateTicketCost,
     updateTicketBalance,
     updateTicketZone,
