@@ -41,7 +41,7 @@ const _loginUser = async(username,password,pcNumber)=>{
         if (!bcrypt.compareSync(password, user.password)) return { error: `Wrong password.` }
         console.info("Calculate session rate by session type")
             const date = Date.now();
-            const logedInUsersResult = await LogedInUsers.create({username:username});
+            const logedInUsersResult = await LogedInUsers.create({username:username,pcNumber:pcNumber});
             const userResult = await User.updateOne({ username },
                 {
                     $push: {

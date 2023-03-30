@@ -73,10 +73,6 @@ const logedInUsersSchema = new mongoose.Schema({
   username:{
     type:String
   },
-  zone:{
-    type:String,
-    enum:[zones.Pro,zones.Lobby,zones.Night]
-  },
   pcNumber:{
     type:Number
   }

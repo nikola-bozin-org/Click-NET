@@ -1,4 +1,4 @@
-const { Tickets, User, CurrentCashRegisterSession, LogedInUsers } = require("../schemas");
+const { Tickets, User, CurrentCashRegisterSession, LogedInUsers, Levels } = require("../schemas");
 const UserActions = require("../helpers/userActions");
 const UserActionsDescriptions = require("../helpers/userActionsDescriptions");
 
@@ -50,6 +50,7 @@ const _refund = async(username,refund)=>{
         if(balance<refund) return res.status(statusCode.ERROR).json({error: `Not enough balance. User balance: ${balance}, wanted refund: ${refund}`})
         const newBalance = balance - parseInt(refund);
         const date = Date.now();
+        const receipt = "00"+date.toString();
         await User.updateOne({username},{
             $set:{balance:newBalance},
             $push:{
@@ -59,7 +60,13 @@ const _refund = async(username,refund)=>{
                 date:date,
                 pcNumber:-1,
                 balanceChange:-refund
-          }}});
+              },
+              payments:{
+                paymentAmount:-refund,
+                paymentDate:date,
+                receipt:receipt
+              }
+        }});
           CurrentCashRegisterSession.findOneAndUpdate({},{
             $push:{payments:{username:username,paymentAmount:-refund,paymentDate:date,receipt:"00"+date.toString()}}
           })
@@ -77,6 +84,7 @@ const _buyTicket = async(username,name,pcNumber)=>{
       if(!isLogedIn) return {error:`User ${username} is not loged in.`};
       const ticket = await Tickets.findOne({name});
       if(!ticket) return {error:"Invalid ticket name."}
+      console.info("User PC Number should match with ticket zone he is in and buying.");
       const userBalance = parseInt(user.balance);
       const userDiscount = parseInt(user.discount);
       const ticketCost = parseInt(ticket.cost);
@@ -87,8 +95,7 @@ const _buyTicket = async(username,name,pcNumber)=>{
       const userXP = user.xp;
       const newUserXP = userXP+costForUser;
       const newUserBalance = userBalance-costForUser;
-    //   const newDiscount = await calculateUserDiscount(userXP);
-      const newDiscount = 0;
+      const newDiscount = await calculateDiscount(userXP);
       console.info("New XP: "+newUserXP);
       console.info("New discount: " + newDiscount);
       console.info("Unchecked: User discount at max.");
@@ -117,6 +124,22 @@ const _buyTicket = async(username,name,pcNumber)=>{
     }catch(e){
         return {error:e.message}
     }
+}
+
+
+const calculateDiscount = async(userXP)=>{
+  const levels = await Levels.find({});
+  if(!levels) throw Error("Unable to calculate discount. Levels returned are NULL.");
+  const length = levels.length;
+  let discout = 0;
+  let userXPcopy = userXP;
+  for(let i=0;i<length;i++){
+      userXPcopy-=levels[i].xp;
+      if(userXPcopy===0){discout++; return discout;}
+      if(userXPcopy<0) return discout;
+      discout++;
+  }
+  return discout;
 }
 
 module.exports = {
