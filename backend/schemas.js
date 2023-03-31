@@ -147,6 +147,18 @@ const ticketsSchema = new mongoose.Schema({
     type:String,
     enum:[zones.Pro,zones.Lobby,zones.Night],
     required:true
+  },
+  availability:{
+    start: {
+      type: String,
+      required: true,
+      match: /^([0-1][0-9]|2[0-3]):[0-0][0-0]$/,
+    },
+    end: {
+      type: String,
+      required: true,
+      match: /^([0-1][0-9]|2[0-3]):[0-0][0-0]$/,
+    },
   }
 });
 const levelsSchema = new mongoose.Schema({

@@ -1,9 +1,9 @@
 const { Tickets } = require("../schemas");
 const {zones} = require('../helpers/enums')
 
-const _createTicket = async (name, cost, balance, zone) => {
+const _createTicket = async (name, cost, balance, zone, start, end) => {
   try {
-    const result = await Tickets.create({ name, cost, balance, zone });
+    const result = await Tickets.create({ name, cost, balance, zone,availability:{start:start,end:end} });
     return { message: `Ticket ${name} created.` };
   } catch (e) {
     return { error: e.message };
