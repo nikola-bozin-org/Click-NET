@@ -5,15 +5,15 @@ const service = require('../services/paymentsService')
 
 
 const payment = async(req,res) =>{
-    const token = req.headers.token;
-    if (!token) return res.status(statusCode.UNAUTHORIZED).json({ error: "Unathorized." });
-    const verifyResult = jwt.verify(token);
-    if (!verifyResult) return res.status(statusCode.ERROR).json({ error: "Invalid token" });
-    if(!(verifyResult.role===userRoles.Admin) && !(verifyResult.role===userRoles.Employee)) return res.status(statusCode.ERROR).json({error:`User ${verifyResult.username} is not Admin or Employee.`});
-    const { username, payment } = req.body;
-    const result = await service._payment(username,payment);
-    if(result.error) return res.status(statusCode.INTERNAL_SERVER_ERROR).json({error: `Server error: ${result.error}`})
-    return res.status(statusCode.OK).json({ paymentProcessed: result.paymentProcessed})
+  const token = req.headers.token;
+  if (!token) return res.status(statusCode.UNAUTHORIZED).json({ error: "Unathorized." });
+  const verifyResult = jwt.verify(token);
+  if (!verifyResult) return res.status(statusCode.ERROR).json({ error: "Invalid token" });
+  if(!(verifyResult.role===userRoles.Admin) && !(verifyResult.role===userRoles.Employee)) return res.status(statusCode.ERROR).json({error:`User ${verifyResult.username} is not Admin or Employee.`});
+  const { username, payment } = req.body;
+  const result = await service._payment(username,payment);
+  if(result.error) return res.status(statusCode.INTERNAL_SERVER_ERROR).json({error: `Server error: ${result.error}`})
+  return res.status(statusCode.OK).json({ paymentProcessed: result.paymentProcessed})
 }
 const refund = async(req,res)=>{
   const token = req.headers.token;

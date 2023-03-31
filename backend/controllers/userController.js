@@ -1,4 +1,3 @@
-const {User} = require('../schemas')
 const statusCode = require('../statusCodes')
 const service = require('../services/userService')
 

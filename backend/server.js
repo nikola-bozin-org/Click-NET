@@ -11,6 +11,7 @@ const userRouter = require('./routers/userRouter')
 const sessionsRouter = require('./routers/sessionsRouter')
 const paymentRouter = require('./routers/paymentsRouter')
 const cashRegisterRouter = require('./routers/cashRegisterRouter')
+const reportsRouter = require('./routers/reportsGeneratorRouter');
 
 const dropDatabaseRouter = require('./routers/other/dropDatabaseRouter')
 const dummyRouter = require('./routers/other/dummyRouter')
@@ -33,7 +34,7 @@ server.use('/api/levels',levelsRouter);
 server.use('/api/user',userRouter);
 server.use('/api/payments',paymentRouter)
 server.use('/api/cashRegister',cashRegisterRouter);
-
+server.use('/api/reportsGenerator',reportsRouter);
 
 server.use('/api/',dropDatabaseRouter);
 server.use('/api/',dummyRouter);

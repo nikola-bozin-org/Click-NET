@@ -1,4 +1,4 @@
-const { Tickets, User, CurrentCashRegisterSession, LogedInUsers, Levels } = require("../schemas");
+const { Tickets, User, CurrentCashRegisterSession, LogedInUsers, Levels, Payments } = require("../schemas");
 const UserActions = require("../helpers/userActions");
 const UserActionsDescriptions = require("../helpers/userActionsDescriptions");
 
@@ -12,7 +12,9 @@ const _payment = async (username,payment)=>{
       const balance = parseInt(user.balance);
       const newBalance = balance + parseInt(payment);
         const date = Date.now();
+        console.info(date);
         const receipt = "00"+date.toString();
+        const paymentResult = await Payments.create({username,paymentAmount:payment,paymentDate:date,receipt});
         const resultUser = await User.updateOne({username},{
           $set:{balance:newBalance},
           $push:{
@@ -23,16 +25,12 @@ const _payment = async (username,payment)=>{
               pcNumber:-1,
               balanceChange:payment
             },
-            payments:{
-              paymentAmount:payment,
-              paymentDate:date,
-              receipt:receipt
-            }
+            payments:paymentResult._id,
         }});
-        const prevPayments = currentCashRegisterSession.payments;
-        const totalPayments = prevPayments.reduce((acc,cur)=>acc+cur.paymentAmount,0);
+        const prevAmount = currentCashRegisterSession.amount;
+        const newTotalAmount = prevAmount+payment;
         const resultPayment = await CurrentCashRegisterSession.findOneAndUpdate({},{
-              $push: { payments:{username:username,paymentAmount:payment,paymentDate:date,receipt:receipt} },$set:{amount:totalPayments}
+              $push: { payments:paymentResult._id },$set:{amount:newTotalAmount}
         })
         return {paymentProcessed:true}
     }catch(e){

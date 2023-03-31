@@ -3,8 +3,6 @@ const {zones} = require('../helpers/enums')
 
 const _createTicket = async (name, cost, balance, zone) => {
   try {
-    const ticket = await Tickets.findOne({ name });
-    if (ticket) return { error: `Ticket ${name} already exist.` };
     const result = await Tickets.create({ name, cost, balance, zone });
     return { message: `Ticket ${name} created.` };
   } catch (e) {

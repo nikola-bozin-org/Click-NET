@@ -23,8 +23,6 @@ const _getUser = async(username) =>{
 }
 const _createUser = async(staffName,username,password,firstName,lastName,email,phone)=>{
     try {
-        const user = await User.findOne({ username });
-        if (user !== null) return { error: `User with username: ${username} already exists.` };
         const hashedPassword = bcrypt.hashSync(password, 10);
             const createResult = await User.create({
                 username,

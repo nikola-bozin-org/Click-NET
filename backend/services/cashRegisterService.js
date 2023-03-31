@@ -76,6 +76,30 @@ const _calculateTrafficOnDay=async(date)=>{
         return {error:e.message}
     }
 }
+const _getCurrentSession = async()=>{
+  try{
+    const session = await CurrentCashRegisterSession.findOne({}).populate('payments');
+    return {currentSession:session}
+  }catch(e){
+    return {error:e.message}
+  }
+}
+const _getCurrentSessionPayments = async()=>{
+  try{
+    const session = await CurrentCashRegisterSession.findOne({}).populate('payments');
+    return {currentSessionPayments:session.payments}
+  }catch(e){
+    return {error:e.message}
+  }
+}
+const _getSessions = async()=>{
+  try{
+    const sessions = await CashRegisterSessions.find({},{},{sort:{'createdAt':-1}});
+    return {sessions:sessions}
+  }catch(e){
+    return {error:e.message}
+  }
+}
 const _closeCashRegisterSession = async(user)=>{
     try{
         const username=user.username;
@@ -130,5 +154,8 @@ module.exports ={
     _getSessionsOnDay,
     _calculateTrafficOnDay,
     _closeCashRegisterSession,
-    _openCashRegisterSession
+    _openCashRegisterSession,
+    _getCurrentSession,
+    _getSessions,
+    _getCurrentSessionPayments
 }

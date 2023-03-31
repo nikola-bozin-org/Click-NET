@@ -1,33 +1,28 @@
 const mongoose = require("mongoose");
 const {userRoles,zones} = require('./helpers/enums')
 
+
+const payments = new mongoose.Schema({
+      username:{type:String,required:true},
+      paymentAmount:{type:Number,required:true},
+      paymentDate:{type:Date},
+      receipt:{type:String}
+})
+
+
 const currentCashRegister = new mongoose.Schema({
   number:{
     type:Number
   },
   opener: {
     type: String,
+    required:true
   },
   openedAt: {
     type: Date,
   },
   payments: {
-    type: [
-      {
-        username: {
-          type: String,
-        },
-        paymentAmount: {
-          type: Number,
-        },
-        paymentDate: {
-          type: Date,
-        },
-        receipt:{
-          type:String
-        }
-      },
-    ],
+    type: [{type:mongoose.SchemaTypes.ObjectId,ref:'Payments'}],
   },
   amount:{
     type:Number
@@ -40,6 +35,7 @@ const cashRegisterSessions = new mongoose.Schema({
   },
   opener: {
     type: String,
+    required:true
   },
   openedAt: {
     type: Date,
@@ -48,22 +44,7 @@ const cashRegisterSessions = new mongoose.Schema({
     type: Date,
   },
   payments: {
-    type: [
-      {
-        username: {
-          type: String,
-        },
-        paymentAmount: {
-          type: Number,
-        },
-        paymentDate: {
-          type: Date,
-        },
-        receipt:{
-          type:String
-        }
-      },
-    ],
+    type: [{type:mongoose.SchemaTypes.ObjectId,ref:'Payments'}],
   },
   amount:{
     type:Number
@@ -81,9 +62,12 @@ const userSchema = new mongoose.Schema(
   {
     username: {
       type: String,
+      required:true,
+      unique:true,
     },
     password: {
       type: String,
+      required:true
     },
     balance: {
       type: Number,
@@ -142,42 +126,38 @@ const userSchema = new mongoose.Schema(
         enum:[zones.Pro,zones.Lobby,zones.Night]
       }
     }],
-    payments:[{
-      paymentAmount: {
-        type: Number,
-      },
-      paymentDate: {
-        type: Date,
-      },
-      receipt:{
-        type:String
-      }
-    }]
+    payments:[{type:mongoose.SchemaTypes.ObjectId,ref:'Payments'}]
   },{ timestamp: true }
 );
 const ticketsSchema = new mongoose.Schema({
   name: {
     type: String,
+    required:true,
+    unique:true,
   },
   cost: {
     type: Number,
+    required:true,
   },
   balance: {
     type: Number,
+    required:true
   },
   zone:{
     type:String,
-    enum:[zones.Pro,zones.Lobby,zones.Night]
+    enum:[zones.Pro,zones.Lobby,zones.Night],
+    required:true
   }
 });
 const levelsSchema = new mongoose.Schema({
   xp: {
     type: Number,
-    default: 0,
+    required:true
   },
   level: {
     type: Number,
-    default: 0,
+    required:true,
+    unique:true
   },
 });
 
@@ -189,4 +169,5 @@ module.exports = {
   Tickets: mongoose.model("Tickets", ticketsSchema),
   CashRegisterSessions:mongoose.model("CashRegisterSessions",cashRegisterSessions),
   CurrentCashRegisterSession:mongoose.model("CurrentCashRegisterSessions",currentCashRegister),
+  Payments:mongoose.model("Payments",payments)
 };
