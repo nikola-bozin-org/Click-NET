@@ -1,5 +1,5 @@
-const {User,CashRegisterSessions} = require('../schemas')
-const statusCode = require('../statusCodes')
+const {User,CashRegisterSessions} = require('../../schemas')
+const statusCode = require('../../statusCodes')
 
 
 

@@ -10,7 +10,6 @@ const verify = (token)=>{
     let returnData;
     jwt.verify(token,process.env.JWT_SECRET,(err,data)=>{
         if(err) {
-             console.info("Invalid token.");
               return undefined; 
         }
         returnData = data;

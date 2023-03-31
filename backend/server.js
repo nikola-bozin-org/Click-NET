@@ -12,8 +12,8 @@ const sessionsRouter = require('./routers/sessionsRouter')
 const paymentRouter = require('./routers/paymentsRouter')
 const cashRegisterRouter = require('./routers/cashRegisterRouter')
 
-const dropDatabaseRouter = require('./routers/dropDatabaseRouter')
-const dummyRouter = require('./routers/dummyRouter')
+const dropDatabaseRouter = require('./routers/other/dropDatabaseRouter')
+const dummyRouter = require('./routers/other/dummyRouter')
 
 
 
