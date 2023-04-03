@@ -9,6 +9,7 @@ import Topbar from './components/topbar/Topbar';
 import CreateUser from './components/create-user/CreateUser';
 import { useState } from 'react';
 import Sidebar from './components/sidebar/Sidebar';
+import Users from './components/users/Users';
 
 
 function App() {
@@ -21,7 +22,7 @@ function App() {
   const renderComponent = () => {
     switch (selectedComponent) {
       case 1:
-        return <AdminDashboard />;
+        return <Users />;
       case 2:
         return <PaymentsTable />;
       case 3:
@@ -31,7 +32,7 @@ function App() {
       case 5:
         return <CreateUser />;
       default:
-        return <AdminDashboard />;
+        return <Users />;
     }
   };
 
