@@ -48,5 +48,6 @@ function App() {
     </div>
   )
 }
+//https://coolors.co/palettes/popular/#272727
 
 export default App;

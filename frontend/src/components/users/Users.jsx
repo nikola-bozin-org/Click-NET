@@ -5,7 +5,7 @@ import { useState,useRef } from 'react'
 
 const Users = () => {
   return (
-    <div className='Users'>
+    <div className='users'>
         <Topbar/>
         <Options/>
     </div>
@@ -22,25 +22,32 @@ const Topbar = () =>{
 }
 
 const Options = () =>{
-    //preko use reff. trenutni klikovan, novi klikovan
+    const [currentSelectedOption,setCurrentSelectedOption] = useState(0);
+
+    const updateCurrentSelectedOption = (optionId) =>{
+        setCurrentSelectedOption(optionId)
+    }
+
     return (
         <div className="uOptions">
-            <Option text={"All users"}/>
-            <Option text={"Session history"}/>
-            <Option text={"Balance history"}/>
-            <Option text={"Receipt history"}/>
-            <Option text={"Passes history"}/>
-            <Option text={"Roles and user access"}/>
-            <Option text={"User types"}/>
+            <Option onClick={updateCurrentSelectedOption} id={0} currentSelectedOption={currentSelectedOption} text={"All users"}/>
+            <Option onClick={updateCurrentSelectedOption} id={1} currentSelectedOption={currentSelectedOption} text={"Session history"}/>
+            <Option onClick={updateCurrentSelectedOption} id={2} currentSelectedOption={currentSelectedOption} text={"Balance history"}/>
+            <Option onClick={updateCurrentSelectedOption} id={3} currentSelectedOption={currentSelectedOption} text={"Receipt history"}/>
+            <Option onClick={updateCurrentSelectedOption} id={4} currentSelectedOption={currentSelectedOption} text={"Passes history"}/>
+            <Option onClick={updateCurrentSelectedOption} id={5} currentSelectedOption={currentSelectedOption} text={"Roles and user access"}/>
+            <Option onClick={updateCurrentSelectedOption} id={6} currentSelectedOption={currentSelectedOption} text={"User types"}/>
         </div>
     )
 }
 
-const Option = ({text})=>{
-    const [isClicked,setIsClicked]=useState(false);
+const Option = ({text,id,currentSelectedOption,onClick})=>{
+    const onClicked = () =>{
+        onClick(id)
+    }
     return (
-        <div className="uOption">
-            <p className='uOptionText'>{text}</p>
+        <div onClick={onClicked} className={`uOption  ${id===currentSelectedOption?`bottomRedBorder`:``}`}>
+            <p className={`uOptionText`}>{text}</p>
         </div>
     )
 }

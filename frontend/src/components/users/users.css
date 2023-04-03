@@ -1,3 +1,7 @@
+.users{
+    background-color: black;
+}
+
 .uTopbar{
     height: 70px;
     color: gray;
@@ -6,10 +10,12 @@
     display: flex;
     align-items: flex-end;
     border-bottom: 1px solid rgb(39, 39, 39);
+    text-indent: 20px;
 }
 .uTopbarText{
     margin-bottom: 5px;
 }
+
 
 .uOptions{
     display: flex;
@@ -28,4 +34,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+.bottomRedBorder{
+    border-bottom: 4px solid #d64550;
 }
