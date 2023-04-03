@@ -73,7 +73,7 @@ const _getUserTickets = async (username) => {
 
 const _getUserPayments = async (username) => {
     try {
-        const user = await User.findOne({ username });
+        const user = await User.findOne({ username }).populate('payments');
         if (user === null) return { error: `User ${username} not found.`};
         return {payments:user.payments};
     }catch(e){

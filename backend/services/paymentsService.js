@@ -38,7 +38,7 @@ const _payment = async (username,payment)=>{
     }
 }
 
-const _refund = async(username,refund)=>{
+const _refund = async(username,refund,refunder)=>{
     try{
         const currentCashRegisterSession = await CurrentCashRegisterSession.findOne({});
         if(!currentCashRegisterSession) return res.status(statusCode.ERROR).json({error:'Cash register is not open.'});
@@ -49,24 +49,21 @@ const _refund = async(username,refund)=>{
         const newBalance = balance - parseInt(refund);
         const date = Date.now();
         const receipt = "00"+date.toString();
+        const paymentResult = await Payments.create({username,paymentAmount:-refund,paymentDate:date,receipt});
         await User.updateOne({username},{
             $set:{balance:newBalance},
             $push:{
               actions:{
                 name:UserActions.Refund,
-                description:UserActionsDescriptions.Refund(username,refund),
+                description:UserActionsDescriptions.Refund(refunder,refund),
                 date:date,
                 pcNumber:-1,
                 balanceChange:-refund
               },
-              payments:{
-                paymentAmount:-refund,
-                paymentDate:date,
-                receipt:receipt
-              }
+              payments:paymentResult.id
         }});
           CurrentCashRegisterSession.findOneAndUpdate({},{
-            $push:{payments:{username:username,paymentAmount:-refund,paymentDate:date,receipt:"00"+date.toString()}}
+            $push:{payments:paymentResult.id}
           })
         return {refundProcessed:true}
     }catch(e){

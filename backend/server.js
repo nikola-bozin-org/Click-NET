@@ -2,6 +2,9 @@ const ip = require('ip');
 const express = require('express');
 const helmet = require('helmet');
 const cors = require('cors');
+const mongoSanitize = require('express-mongo-sanitize')
+const xss = require('xss-clean')
+// const hpp = require('hpp')
 
 const mongoConnect = require('./mongo-connect')
 const ticketsRouter = require('./routers/ticketsRouter')
@@ -21,12 +24,13 @@ const dummyRouter = require('./routers/other/dummyRouter')
 const server = express();
 const port = 9876;
 
-server.use(cors({
-  // origin: 'http://localhost:3000',
-}));
+server.use(helmet());
+server.use(cors());
 server.use(express.json()); 
 server.use(express.urlencoded({ extended: true })); 
-server.use(helmet());
+server.use(mongoSanitize());
+server.use(xss());
+// server.use(hpp());
 server.use('/api/users',usersRouter);
 server.use('/api/session',sessionsRouter);
 server.use('/api/tickets',ticketsRouter);

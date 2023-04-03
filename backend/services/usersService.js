@@ -2,11 +2,11 @@ const {User} = require('../schemas')
 const UserActions = require('../helpers/userActions')
 const UserActionDescription = require('../helpers/userActionsDescriptions')
 const bcrypt = require('bcrypt')
-
+require('dotenv').config()
 
 const _getUsers = async ()=>{
     try{
-        const users = await User.find({}).sort({ createdAt: -1 });
+        const users = await User.find({}).sort({ createdAt: -1 }).populate('payments');
         return {users:users}
     }catch(e){
         return {error:e.message}
@@ -14,7 +14,7 @@ const _getUsers = async ()=>{
 }
 const _getUser = async(username) =>{
     try{
-        const user = await User.findOne({ username });
+        const user = await User.findOne({ username }).populate('payments');
         if (user === null) return {erorr:`User ${username} not found.`};
         return { user: user };
     }catch(e){
@@ -23,7 +23,7 @@ const _getUser = async(username) =>{
 }
 const _createUser = async(staffName,username,password,firstName,lastName,email,phone)=>{
     try {
-        const hashedPassword = bcrypt.hashSync(password, 10);
+        const hashedPassword = bcrypt.hashSync(password,parseInt(process.env.BCRYPT_SALT));
             const createResult = await User.create({
                 username,
                  password: hashedPassword,
@@ -59,7 +59,7 @@ const _changePassword = async(username,oldPassword,newPassword,pcNumber) =>{
         const user = await User.findOne({username});
         if(!user) return {error:`User ${username} does not exist.`};
         if(!bcrypt.compareSync(oldPassword,user.password)) return {error:'Wrong password.'};
-        const hashedPassword = await bcrypt.hash(newPassword,10);
+        const hashedPassword = await bcrypt.hash(newPassword,parseInt(process.env.BCRYPT_SALT));
         const updatePasswordResult = await User.findOneAndUpdate({username},{
             password:hashedPassword,
             $push:{
