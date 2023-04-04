@@ -1,7 +1,7 @@
 .internalTopbar{
     height: 70px;
-    color: gray;
-    background-color: black;
+    color: white;
+    background-color: #171A1E;
     font-size: 25px;
     display: flex;
     align-items: flex-end;

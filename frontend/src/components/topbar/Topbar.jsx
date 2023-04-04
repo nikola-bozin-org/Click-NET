@@ -22,10 +22,14 @@ const Topbar = () => {
     const handleClick = () => {
       // Handle user image click event
     };
+
   return (
     <div className="topbar-container">
       <div className="topbar-left">
-        <img src={clickLogo} alt="Logo" className="topbar-logo" />
+        <div className="topbar-left-logoWrapper">
+          <p>ClickNET</p>
+        {/* <img src={clickLogo} alt="Logo" className="topbar-logo" /> */}
+        </div>
         <div className="topbar-time-date">
           <span className="topbar-time">{currentTime}</span>
           <span className="topbar-date">{currentDate}</span>

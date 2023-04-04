@@ -1,48 +1,59 @@
 .topbar-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    height: 60px;
-    background-color: #5a189a;
-    position: sticky;
-    top: 0;
-  }
-  
-  .topbar-left {
-    display: flex;
-    align-items: center;
-    margin-left: 20px;
-  }
-  
-  .topbar-logo {
-    width: 40px;
-    height: 40px;
-    margin-right: 1rem;
-  }
-  
-  .topbar-time-date {
-    display: flex;
-    gap: 20px;
-    align-items: center;
-  }
-  
-  .topbar-time{
-    font-size:1.5rem;
-  }
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 60px;
+  background-color: #171A1E;
+  position: sticky;
+  top: 0;
+  border-bottom: 1px solid rgb(39, 39, 39);
+}
 
-  .topbar-time, .topbar-date {
-    color: white;
-    font-weight: bold;
-  }
-  
-  .topbar-right {
-    cursor: pointer;
-    margin-right: 20px;
-  }
-  
-  .topbar-user-image {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-  }
-  
+.topbar-left {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  gap:20px;
+}
+.topbar-left-logoWrapper{
+  width: 80px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #685489;
+  color: white;
+  cursor: pointer;
+}
+.topbar-logo {
+  width: 40px;
+  height: 40px;
+  margin-right: 1rem;
+}
+
+.topbar-time-date {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+
+.topbar-time {
+  font-size: 1.5rem;
+}
+
+.topbar-time,
+.topbar-date {
+  color: white;
+  font-weight: bold;
+}
+
+.topbar-right {
+  cursor: pointer;
+  margin-right: 20px;
+}
+
+.topbar-user-image {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}

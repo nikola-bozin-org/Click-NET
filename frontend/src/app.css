@@ -1,19 +1,14 @@
 .app{
     display: grid;
     grid-template-rows: 2;
+    background-color: #171A1E;
 }
 
 .appOther{
     display: grid;
     height: 100vh;
+    /* height: calc(100vh - 55px); */
     width: 100%;
     grid-template-columns: 60px 1fr;
-}
-
-.a{
-    background-color: #5a189a;
-
-}
-.b{
-    background-color: black;
+    overflow: hidden;
 }

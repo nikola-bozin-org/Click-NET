@@ -1,22 +1,25 @@
 import React from 'react';
 import './sidebar.css';
-import dashboard from '../../images/dashboard.png'
-import pay from '../../images/pay.png'
-import pcMap from '../../images/site-map.png'
-import users from '../../images/user-avatar.png'
 
-const Sidebar = ({ changeComponent }) => {
+
+const Sidebar = ({changeComponent, IDs, images,currentSelectedComponent}) => {
   return (
     <div className="sidebar">
       <div className="sidebarButtons">
-        <img alt='' src={dashboard} onClick={() => { changeComponent(1) }} className="sidebar-button"></img>
-        <img alt='' src={pay} onClick={() => { changeComponent(2) }} className="sidebar-button"></img>
-        <img alt='' src={pcMap} onClick={() => { changeComponent(3) }} className="sidebar-button"></img>
-        <img alt='' src={pay} onClick={() => { changeComponent(4) }} className="sidebar-button"></img>
-        <img alt='' src={users} onClick={() => { changeComponent(5) }} className="sidebar-button"></img>
+        {IDs.map((id) => (
+          <SidebarElement isSelected={currentSelectedComponent===id} key={id} img={images[id]} onClick={changeComponent} myId={id} />
+          ))}
       </div>
     </div>
   );
 };
+
+const SidebarElement = ({img,onClick,myId, isSelected})=>{
+  return (
+    <div onClick={()=>{onClick(myId)}} className={`sidebarElement ${isSelected?`blackBackground`:``}`}>
+      <img src={img} alt="" className={` sidebar-button invertColor`}/>
+    </div>
+  )
+}
 
 export default Sidebar;

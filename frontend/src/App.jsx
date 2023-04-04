@@ -7,11 +7,16 @@ import { useState } from 'react';
 import Sidebar from './components/sidebar/Sidebar';
 import Users from './components/users/Users';
 import CashRegister from './components/cash-register/CashRegister';
+import dashboard from './images/dashboard.png'
+import pay from './images/pay.png'
+import pcMap from './images/site-map.png'
+import users from './images/user-avatar.png'
 
+const IDs = [0,1,2,3,4,5];
+const images = [dashboard,pay,pcMap,pay,users,pay];
 
 function App() {
-  const [selectedComponent, setSelectedComponent] = useState(1);
-
+  const [selectedComponent, setSelectedComponent] = useState(0);
   const changeComponent = (componentIndex) => {
     setSelectedComponent(componentIndex);
   };
@@ -38,7 +43,7 @@ function App() {
       <Topbar/>
       <div className="appOther">
         <div className="a">
-          <Sidebar changeComponent={changeComponent}/>
+          <Sidebar changeComponent={changeComponent} IDs={IDs} images={images} currentSelectedComponent={selectedComponent}/>
         </div>
           {renderComponent()}
       </div>
