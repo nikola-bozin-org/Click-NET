@@ -6,7 +6,7 @@ import CreateUser from './components/create-user/CreateUser';
 import { useState } from 'react';
 import Sidebar from './components/sidebar/Sidebar';
 import Users from './components/users/Users';
-import Payments from './components/payments/Payments';
+import CashRegister from './components/cash-register/CashRegister';
 
 
 function App() {
@@ -19,7 +19,7 @@ function App() {
   const renderComponent = () => {
     switch (selectedComponent) {
       case 1:
-        return <Payments />;
+        return <CashRegister />;
       case 2:
         return <PaymentsTable />;
       case 3:
@@ -45,6 +45,6 @@ function App() {
     </div>
   )
 }
-//https://coolors.co/palettes/popular/#272727
+// https://coolors.co/palette/000000-171a1e-343d51-feda84-ff9b83-976393-685489-43457f
 
 export default App;

@@ -7,7 +7,7 @@ const Users = () => {
   return (
     <div className='users'>
         <InternalTopbar text={"Users"}/>
-        <InternalOptions/>
+        <InternalOptions options={['All users','Session history','Balance history','Receipt history','Passes history','Roles and user access','User types']}/>
     </div>
   )
 }
