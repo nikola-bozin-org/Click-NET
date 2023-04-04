@@ -1,15 +1,12 @@
 import './app.css'
-import Login from './components/login/Login';
-import AdminDashboard from './components/admin-dashboard/AdminDashboard'
 import PaymentsTable from './components/payments-table/PaymentsTable';
-import LogedInUsersTable from './components/logedInUsers-table/LogedInUsersTable';
 import PCMap from './components/PC-Map/PCMap';
-import PaymentForm from './components/payment-form/PaymentForm';
 import Topbar from './components/topbar/Topbar';
 import CreateUser from './components/create-user/CreateUser';
 import { useState } from 'react';
 import Sidebar from './components/sidebar/Sidebar';
 import Users from './components/users/Users';
+import Payments from './components/payments/Payments';
 
 
 function App() {
@@ -22,13 +19,13 @@ function App() {
   const renderComponent = () => {
     switch (selectedComponent) {
       case 1:
-        return <Users />;
+        return <Payments />;
       case 2:
         return <PaymentsTable />;
       case 3:
         return <PCMap />;
       case 4:
-        return <PaymentForm />;
+        return <Users />;
       case 5:
         return <CreateUser />;
       default:
