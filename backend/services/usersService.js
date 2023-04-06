@@ -2,6 +2,7 @@ const {User} = require('../schemas')
 const UserActions = require('../helpers/userActions')
 const UserActionDescription = require('../helpers/userActionsDescriptions')
 const bcrypt = require('bcrypt')
+const jwt = require('../jwt')
 require('dotenv').config()
 
 const _getUsers = async ()=>{
@@ -70,7 +71,8 @@ const _changePassword = async(username,oldPassword,newPassword,pcNumber) =>{
                     pcNumber:pcNumber,
                     balanceChange:0
                 }}});
-        return {message:'Password updated!'}
+        const newJwt = jwt.sign({username:user.username,role:user.role})
+        return {message:'Password updated!',accessToken:newJwt}
     }catch(e){
         return {error:e.message}
     }

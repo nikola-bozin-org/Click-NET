@@ -43,7 +43,7 @@ const changePassword = async(req,res)=>{
     const {oldPassword,newPassword} = req.body; 
     const result = await service._changePassword(verifyResult.username,oldPassword,newPassword,verifyResult.pcNumber);
     if(result.error) return res.status(statusCode.INTERNAL_SERVER_ERROR).json({error:`Server error: ${result.error}`});
-    return res.status(statusCode.OK).json({message:result.message});
+    return res.status(statusCode.OK).json({message:result.message,accessToken:result.accessToken});
 }
 module.exports = {
     getUsers,
