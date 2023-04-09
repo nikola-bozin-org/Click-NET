@@ -8,7 +8,7 @@ const _payment = async (username,payment)=>{
       const currentCashRegisterSession = await CurrentCashRegisterSession.findOne({});
       if(!currentCashRegisterSession) return {error:'Cash register is not open.'};
       const user = await User.findOne({ username });
-      if (user === null) return res.status(statusCode.ERROR).json({ error: `User ${username} does not exist.` });
+      if (user === null) return { error: `User ${username} does not exist.` };
       const balance = parseInt(user.balance);
       const newBalance = balance + parseInt(payment);
         const date = Date.now();
@@ -41,11 +41,11 @@ const _payment = async (username,payment)=>{
 const _refund = async(username,refund,refunder)=>{
     try{
         const currentCashRegisterSession = await CurrentCashRegisterSession.findOne({});
-        if(!currentCashRegisterSession) return res.status(statusCode.ERROR).json({error:'Cash register is not open.'});
+        if(!currentCashRegisterSession) return {error:'Cash register is not open.'};
         const user = await User.findOne({ username });
-        if (user === null) return res.status(statusCode.ERROR).json({ error: `User ${username} does not exist.` });
+        if (user === null) return { error: `User ${username} does not exist.` };
         const balance = parseInt(user.balance);
-        if(balance<refund) return res.status(statusCode.ERROR).json({error: `Not enough balance. User balance: ${balance}, wanted refund: ${refund}`})
+        if(balance<refund) return {error: `Not enough balance. User balance: ${balance}, wanted refund: ${refund}`}
         const newBalance = balance - parseInt(refund);
         const date = Date.now();
         const receipt = "00"+date.toString();
