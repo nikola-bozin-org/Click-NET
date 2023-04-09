@@ -1,0 +1,29 @@
+.internalSearch{
+    height: 70px;
+    color: white;
+    background-color: #171A1E;
+    font-size: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: ce;
+    border-bottom: 1px solid rgb(39, 39, 39);
+    gap:20px;
+}
+
+.search-input {
+    padding: 7px;
+    width: 200px;
+    font-size: 16px;
+    margin-left: 30px;
+    color:white;
+    background-color: #171A1E;
+    border: 1px solid rgb(39, 39, 39);
+}
+.search-button {
+    padding: 7px;
+    color: #ffffff;
+    font-size: 16px;
+    cursor: pointer;
+    border: 2px solid #685489;
+    background-color: #171A1E;
+}

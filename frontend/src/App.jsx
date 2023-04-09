@@ -3,7 +3,7 @@ import PaymentsTable from './components/payments-table/PaymentsTable';
 import PCMap from './components/PC-Map/PCMap';
 import Topbar from './components/topbar/Topbar';
 import CreateUser from './components/create-user/CreateUser';
-import { useState } from 'react';
+import { useState,useEffect } from 'react';
 import Sidebar from './components/sidebar/Sidebar';
 import Users from './components/users/Users';
 import CashRegister from './components/cash-register/CashRegister';
@@ -15,11 +15,37 @@ import users from './images/user-avatar.png'
 const IDs = [0,1,2,3,4,5];
 const images = [dashboard,pay,pcMap,pay,users,pay];
 
-function App() {
+const App = () => {
   const [selectedComponent, setSelectedComponent] = useState(0);
   const changeComponent = (componentIndex) => {
     setSelectedComponent(componentIndex);
   };
+
+
+  useEffect(() => {
+    const allUsers = async () => {
+      try {
+        const response = await fetch('https://clicknet-server.onrender.com/api/users', {
+          headers: {
+            'Content-Type': 'application/json',
+            'token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwicm9sZSI6IkFkbWluIiwiaWF0IjoxNjgxMDMyMDg1fQ.UDfyGTqRvklBnRPmybpbEtaXGjoPX-SIkklZwK--NX4'
+          }
+        });
+
+        if (!response.ok) {
+          throw new Error('Error fetching data');
+        }
+
+        const result = await response.json();
+        console.info(result);
+      } catch (error) {
+        console.error('Error:', error);
+      }
+    };
+
+    allUsers();
+  }, []);
+
 
   const renderComponent = () => {
     switch (selectedComponent) {
