@@ -7,7 +7,7 @@
 .appOther{
     display: grid;
     height: 100vh;
-    /* height: calc(100vh - 55px); */
+    height: calc(100vh - 61px);
     width: 100%;
     grid-template-columns: 60px 1fr;
     overflow: hidden;
