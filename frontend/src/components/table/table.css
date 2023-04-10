@@ -5,16 +5,13 @@
     flex-direction: column;
 }
 
-.table {
-    display: flex;
-    flex-direction: column;
-    padding: 2rem;
-    border-radius: 10px;
-    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.5);
-}
 table {
     border-collapse: collapse;
     width: 100%;
+    display: flex;
+    flex-direction: column;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.5);
 }
 
 .table-wrapper {
@@ -26,37 +23,52 @@ table {
 .roundTopLeftEdge {
     border-top-left-radius: 10px;
 }
-.roundTopRightEdge{
+
+.roundTopRightEdge {
     border-top-right-radius: 10px;
 }
 
-.borderRight{
-    border-right: 1px solid rgb(39, 39, 39);
-}
-.borderLeft{
+.borderLeft {
     border-left: 1px solid rgb(39, 39, 39);
 }
-.borderTop{
-    border-top:  1px solid rgb(39, 39, 39);
+
+.borderTop {
+    border-top: 1px solid rgb(39, 39, 39);
 }
-.borderBottom{
+
+.borderBottom {
     border-bottom: 1px solid rgb(39, 39, 39);
 }
 
-th,
-td {
+th {
     padding: 0.5rem;
     text-align: left;
-    border:  1px solid rgb(39, 39, 39);;
-}
-th {
-    background-color: #171A1E;
+    border-bottom: 1px solid rgb(39, 39, 39);
+    background-color: #1c2025;
     color: white;
+    border-left: 1px solid rgb(39,39,39);
+    text-indent: 10px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
 }
+
+td {
+    height: 30px;
+    padding: 0.5rem;
+    text-align: left;
+    text-indent: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
 tr:nth-child(even) {
     background-color: #171A1E;
     color: white;
 }
+
 tr:nth-child(odd) {
     color: white;
     background-color: #171A1E;
@@ -64,11 +76,12 @@ tr:nth-child(odd) {
 
 
 
-.total-amount{
+.total-amount {
     padding-top: 20px;
     text-align: right;
 }
-.table-info{
+
+.table-info {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     padding-bottom: 20px;
@@ -77,5 +90,6 @@ tr:nth-child(odd) {
 
 .table-row:hover td {
     background-color: black;
-    color: white; /* change the font color on hover to maintain readability */
-  }
+    color: white;
+    /* change the font color on hover to maintain readability */
+}

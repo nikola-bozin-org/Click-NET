@@ -1,13 +1,15 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import './sidebar.css';
+import { AppContext } from '../../contexts/AppContext';
 
 
-const Sidebar = ({changeComponent, IDs, images,currentSelectedComponent}) => {
+const Sidebar = ({IDs, images}) => {
+  const { currentSidebarSelection,setCurrentSidebarSelection } = useContext(AppContext);
   return (
     <div className="sidebar">
       <div className="sidebarButtons">
         {IDs.map((id) => (
-          <SidebarElement isSelected={currentSelectedComponent===id} key={id} img={images[id]} onClick={changeComponent} myId={id} />
+          <SidebarElement isSelected={currentSidebarSelection===id} key={id} img={images[id]} onClick={setCurrentSidebarSelection} myId={id} />
           ))}
       </div>
     </div>

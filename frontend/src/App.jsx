@@ -3,7 +3,7 @@ import Table from './components/table/Table';
 import PCMap from './components/PC-Map/PCMap';
 import Topbar from './components/topbar/Topbar';
 import CreateUser from './components/create-user/CreateUser';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import Sidebar from './components/sidebar/Sidebar';
 import Users from './components/users/Users';
 import CashRegister from './components/cash-register/CashRegister';
@@ -13,6 +13,9 @@ import pcMap from './images/site-map.png'
 import users from './images/user-avatar.png'
 import useIsMobile from './hooks/useIsMobile';
 import Skeleton from './skeletons/Skeleton';
+import {AppContext, AppContextProvider} from './contexts/AppContext'
+import { UsersContextProvider } from './contexts/UsersContext';
+import { CashRegisterContextProvider } from './contexts/CashRegisterContext';
 
 const IDs = [0, 1, 2, 3, 4, 5];
 const images = [dashboard, pay, pcMap, pay, users, pay];
@@ -31,11 +34,13 @@ const images = [dashboard, pay, pcMap, pay, users, pay];
 // }
 
 const App = () => {
-  const { isMobile, MobileNotSupported } = useIsMobile(560);
+  const { currentSidebarSelection,setCurrentSidebarSelection } = useContext(AppContext);
+
+  const {isMobile, MobileNotSupported} = useIsMobile(560);
   const [isLoading, setIsLoading] = useState(true);
-  const [selectedComponent, setSelectedComponent] = useState(0);
+
   const changeComponent = (componentIndex) => {
-    setSelectedComponent(componentIndex);
+    setCurrentSidebarSelection(componentIndex);
   };
   const [users, setUsers] = useState([]);
 
@@ -65,7 +70,6 @@ const App = () => {
 
     allUsers();
   }, []);
-  const headers = ['username', 'role', 'balance', 'discount', 'xp'];
 
 
   if (isMobile) return <MobileNotSupported />
@@ -77,28 +81,27 @@ const App = () => {
     <Skeleton type={"s-sidebar"} />
   </>;
 
-
   return (
     <div className="app">
       <Topbar />
       <div className="appOther">
         <div>
-          <Sidebar changeComponent={changeComponent} IDs={IDs} images={images} currentSelectedComponent={selectedComponent} />
+          <Sidebar IDs={IDs} images={images} currentSelectedComponent={currentSidebarSelection} />
         </div>
         {(() => {
-          switch (selectedComponent) {
+          switch (currentSidebarSelection) {
             case 1:
-              return <CashRegister />;
+              return <CashRegisterContextProvider><CashRegister /></CashRegisterContextProvider> ;
             case 2:
               return <PCMap />;
             case 3:
               return <PCMap />;
             case 4:
-              return <Users headers={headers} users={users} />;
+              return <> <UsersContextProvider> <Users users={users}/> </UsersContextProvider> </>;
             case 5:
               return <CreateUser />;
             default:
-              return <Users headers={headers} users={users} />;
+              return <> <UsersContextProvider> <Users users={users}/> </UsersContextProvider> </>;
           }
         })()}
       </div>
