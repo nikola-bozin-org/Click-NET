@@ -86,7 +86,7 @@ const _getCurrentSession = async()=>{
 }
 const _getCurrentSessionPayments = async()=>{
   try{
-    const session = await CurrentCashRegisterSession.findOne({}).populate('payments');
+    const session = await CurrentCashRegisterSession.findOne({}).populate({path:'payments',select:'-__v -_id'});
     return {currentSessionPayments:session.payments}
   }catch(e){
     return {error:e.message}

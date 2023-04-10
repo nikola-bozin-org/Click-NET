@@ -6,7 +6,7 @@ import { useState, useEffect, useContext } from 'react';
 const CashRegisterRefill = () => {
   useEffect(() => {
     const currentCashRegisterPayments = async () => {
-        const response = await fetch('https://clicknet-server.onrender.com/api/cashRegister/getCurrentSession', {
+        const response = await fetch('https://clicknet-server.onrender.com/api/cashRegister/getCurrentSessionPayments', {
           headers: {
             'Content-Type': 'application/json',
             'token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwicm9sZSI6IkFkbWluIiwiaWF0IjoxNjgxMDMyMDg1fQ.UDfyGTqRvklBnRPmybpbEtaXGjoPX-SIkklZwK--NX4'
