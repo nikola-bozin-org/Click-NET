@@ -1,7 +1,10 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import './createUser.css';
+import { UsersContext } from '../../contexts/UsersContext';
 
 const CreateUser = () => {
+  const { setShouldShowCreateUser } = useContext(UsersContext)
+  const [isSaveDisabled, setIsSaveDisabled] = useState(false);
   const [formData, setFormData] = useState({
     username: '',
     password: '',
@@ -19,48 +22,49 @@ const CreateUser = () => {
     });
   };
 
-  const handleSubmit = (event) => {
+  const onSave = async (event) => {
     event.preventDefault();
-
-    //vrati localhost i digni na neki drugi port da terstiras cors
-    //modifikuj ovo da uvati createduser true i da pokaze da je sucessfull i da skloni posle nekog vremena, 
-    //ili crveno da ne postoji il tako nesto
-    fetch('https://click-net-test.onrender.com/api/users', {
+    setIsSaveDisabled(true);
+    const response = await fetch('https://clicknet-server.onrender.com/api/users/createUser', {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwicm9sZSI6IkFkbWluIiwiaWF0IjoxNjgxMDMyMDg1fQ.UDfyGTqRvklBnRPmybpbEtaXGjoPX-SIkklZwK--NX4'
       },
       body: JSON.stringify(formData)
     })
-    .then(response => response.json())
-    .then(data => console.log(data))
-    .catch(error => console.error(error));
+    const result = await response.json();
+    if(result.error) console.error(result.error);
+    console.info(result)
+    setIsSaveDisabled(false);
   };
 
   return (
     <div className="create-user-container">
-      <form className="create-user-form" onSubmit={handleSubmit}>
+      <div className="create-user-form" onSubmit={onSave}>
         <h1>Create User</h1>
-        <label htmlFor="username">Username:</label>
+        <p htmlFor="username">*Username:</p>
         <input type="text" id="username" name="username" value={formData.username} onChange={handleInputChange} required />
 
-        <label htmlFor="password">Password:</label>
+        <p htmlFor="password">Password:</p>
         <input type="password" id="password" name="password" value={formData.password} onChange={handleInputChange} required />
 
-        <label htmlFor="firstName">First Name:</label>
+        <p htmlFor="firstName">First Name:</p>
         <input type="text" id="firstName" name="firstName" value={formData.firstName} onChange={handleInputChange} required />
 
-        <label htmlFor="lastName">Last Name:</label>
+        <p htmlFor="lastName">Last Name:</p>
         <input type="text" id="lastName" name="lastName" value={formData.lastName} onChange={handleInputChange} required />
 
-        <label htmlFor="email">Email:</label>
-        <input type="email" id="email" name="email" value={formData.email} onChange={handleInputChange} required />
+        <p htmlFor="email">Email:</p>
+        <input type="text" id="email" name="email" value={formData.email} onChange={handleInputChange} required />
 
-        <label htmlFor="phone">Phone:</label>
+        <p htmlFor="phone">Phone:</p>
         <input type="tel" id="phone" name="phone" value={formData.phone} onChange={handleInputChange} required />
-
-        <button type="submit">Create User</button>
-      </form>
+        <div className="controlButtons">
+          <button onClick={()=>{setShouldShowCreateUser(false)}} className="cancelCreation">Cancel</button>
+          <button onClick={onSave} disabled={isSaveDisabled} className={`saveCreation ${isSaveDisabled?'halfOpacity':''}`}>Save</button>
+        </div>
+      </div>
     </div>
   );
 };

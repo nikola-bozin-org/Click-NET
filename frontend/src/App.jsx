@@ -46,7 +46,6 @@ const App = () => {
 
   useEffect(() => {
     const allUsers = async () => {
-      try {
         setIsLoading(true);
         const response = await fetch('https://clicknet-server.onrender.com/api/users', {
           headers: {
@@ -60,12 +59,9 @@ const App = () => {
         }
 
         const result = await response.json();
+        if(result.error) {console.error(result.error); return}
         setUsers(result.users);
-      } catch (error) {
-        console.error('Error:', error);
-      } finally {
         setIsLoading(false);
-      }
     };
 
     allUsers();
@@ -85,8 +81,9 @@ const App = () => {
     <div className="app">
       <Topbar />
       <div className="appOther">
+      <UsersContextProvider>
         <div>
-          <Sidebar IDs={IDs} images={images} currentSelectedComponent={currentSidebarSelection} />
+        <Sidebar IDs={IDs} images={images} currentSelectedComponent={currentSidebarSelection} />
         </div>
         {(() => {
           switch (currentSidebarSelection) {
@@ -96,14 +93,16 @@ const App = () => {
               return <PCMap />;
             case 3:
               return <PCMap />;
-            case 4:
-              return <> <UsersContextProvider> <Users users={users}/> </UsersContextProvider> </>;
+            case 4:{
+              return (<Users users={users}/>);
+            }
             case 5:
-              return <CreateUser />;
+              return <></>;
             default:
-              return <> <UsersContextProvider> <Users users={users}/> </UsersContextProvider> </>;
+              return <Users users={users}/>;
           }
         })()}
+        </UsersContextProvider>
       </div>
     </div>
   )

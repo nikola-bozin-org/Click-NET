@@ -2,48 +2,77 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    height: calc(100% - 61px);
+    flex-direction: column;
+    position: absolute;
+    background-color: rgba(0, 0, 0, 0.8);
+    width: 100%;
+    z-index: 2;
 }
 
 .create-user-form {
+    width: 400px;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     padding: 2rem;
-    background-color: white;
+    background-color: #171A1E;
+    color: white;
     border-radius: 10px;
-    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.5);
+    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.75);
 }
 
-form > h1 {
+
+.create-user-container>div > h1 {
     margin-bottom: 1rem;
+    font-weight: normal;
 }
 
-form >label {
-    font-weight: bold;
+.create-user-container>div >p {
     margin-bottom: 0.5rem;
 }
 
-form >input {
+.create-user-container>div >input {
     width: 100%;
     padding: 0.5rem;
     margin-bottom: 1rem;
     border-radius: 5px;
     border: none;
+    background-color: #1c2025;
     box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.2);
-}
-
-form>button {
-    padding: 0.5rem 1rem;
-    border-radius: 5px;
-    border: none;
-    background-color: #5a189a;
     color: white;
-    font-size: 1.2rem;
-    cursor: pointer;
 }
 
-form>button:hover {
-    background-color: #5a189a;
+.controlButtons{
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    gap: 50px;
+    padding-top:50px ;
+}
+
+.saveCreation{
+    background-color: #554570;
+    border: none;
+    width: 160px;
+    height: 47px;
+    color: white;
+    cursor: pointer;
+    font-size: 20px;
+}
+
+.cancelCreation{
+    width: 160px;
+    height: 47px;
+    background-color: #171A1E;
+    border: none;
+    color: white;
+    border: 2px solid #554570;
+    cursor: pointer;
+    font-size: 20px;
+}
+
+.halfOpacity{
+    opacity: 0.5;
 }

@@ -6,6 +6,7 @@ import InternalSearch from '../internal-search/InternalSearch'
 import Table from '../table/Table'
 import { useState } from 'react'
 import { UsersContext} from '../../contexts/UsersContext'
+import CreateUser from '../create-user/CreateUser'
 
 const usersMainHeaders = ['username', 'role', 'balance', 'discount', 'xp'];
 const balanceHistoryHeaders = ['username','paymentAmount','paymentDate']
@@ -20,7 +21,6 @@ const filterObjectByKeys = (obj, keys) => {
 };
 
 const Users = ({users}) => {
-  // console.info(users);
   const usersContext = useContext(UsersContext);
   const [tableData,setTableData] = useState([]);
   const [headers,setHeaders] = useState([]);
@@ -42,12 +42,15 @@ const Users = ({users}) => {
   }, [usersContext.currentSelectionInternalOption]);
 
   return (
+    <>
+    {usersContext.shouldShowCreateUser && <CreateUser/>}
     <div className='users'>
         <InternalTopbar text={"Users"}/>
         <InternalOptions context={usersContext} options={['All users','Session history','Balance history','Receipt history','Passes history','Roles and user access','User types']}/>
         <InternalSearch/>
         <Table headers={headers} tableData={tableData}/>
     </div>
+    </>
   )
 }
 
