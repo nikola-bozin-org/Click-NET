@@ -12,8 +12,8 @@ const Sidebar = ({IDs, images}) => {
       <div className="sidebarButtons">
         {IDs.map((id) => {
           if(id===4)
-            return (<SidebarElement exec={()=>{setShouldShowCreateUser(true)}} isSelected={currentSidebarSelection===id} key={id} img={images[id]} onClick={setCurrentSidebarSelection} myId={id}/>)
-            return (<SidebarElement isSelected={currentSidebarSelection===id} key={id} img={images[id]} onClick={setCurrentSidebarSelection} myId={id}/>)
+            return (<SidebarElement exec={()=>{setShouldShowCreateUser(true)}} isSelected={currentSidebarSelection===id} key={id} img={images[id]}/>)
+            return (<SidebarElement exec={()=>{setShouldShowCreateUser(false)}} isSelected={currentSidebarSelection===id} key={id} img={images[id]} onClick={setCurrentSidebarSelection} myId={id}/>)
           })}
       </div>
     </div>
@@ -23,9 +23,9 @@ const Sidebar = ({IDs, images}) => {
 const SidebarElement = ({ img, onClick, myId, isSelected, exec }) => {
   const handleClick = (e) => {
     if (exec) {
-      e.stopPropagation();
       exec();
     }
+    if(onClick)
     onClick(myId);
   };
 

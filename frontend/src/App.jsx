@@ -14,7 +14,7 @@ import users from './images/user-avatar.png'
 import useIsMobile from './hooks/useIsMobile';
 import Skeleton from './skeletons/Skeleton';
 import {AppContext, AppContextProvider} from './contexts/AppContext'
-import { UsersContextProvider } from './contexts/UsersContext';
+import { UsersContext, UsersContextProvider } from './contexts/UsersContext';
 import { CashRegisterContextProvider } from './contexts/CashRegisterContext';
 
 const IDs = [0, 1, 2, 3, 4, 5];
@@ -35,7 +35,8 @@ const images = [dashboard, pay, pcMap, pay, users, pay];
 
 const App = () => {
   const { currentSidebarSelection,setCurrentSidebarSelection } = useContext(AppContext);
-
+  const usersContext = useContext(UsersContext);
+  const [lastRenderedComponent, setLastRenderedComponent] = useState(null);
   const {isMobile, MobileNotSupported} = useIsMobile(560);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -81,28 +82,28 @@ const App = () => {
     <div className="app">
       <Topbar />
       <div className="appOther">
-      <UsersContextProvider>
         <div>
         <Sidebar IDs={IDs} images={images} currentSelectedComponent={currentSidebarSelection} />
         </div>
+        {usersContext.shouldShowCreateUser && <CreateUser/>}
         {(() => {
           switch (currentSidebarSelection) {
+            case 0: return <Users users={users}/>
             case 1:
               return <CashRegisterContextProvider><CashRegister /></CashRegisterContextProvider> ;
             case 2:
-              return <PCMap />;
+              return <PCMap/>;
             case 3:
-              return <PCMap />;
+              return <PCMap/>;
             case 4:{
-              return (<Users users={users}/>);
+              return;
             }
             case 5:
               return <></>;
             default:
-              return <Users users={users}/>;
+              return ;
           }
         })()}
-        </UsersContextProvider>
       </div>
     </div>
   )

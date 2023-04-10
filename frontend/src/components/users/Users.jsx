@@ -42,15 +42,12 @@ const Users = ({users}) => {
   }, [usersContext.currentSelectionInternalOption]);
 
   return (
-    <>
-    {usersContext.shouldShowCreateUser && <CreateUser/>}
     <div className='users'>
         <InternalTopbar text={"Users"}/>
         <InternalOptions context={usersContext} options={['All users','Session history','Balance history','Receipt history','Passes history','Roles and user access','User types']}/>
         <InternalSearch/>
         <Table headers={headers} tableData={tableData}/>
     </div>
-    </>
   )
 }
 
