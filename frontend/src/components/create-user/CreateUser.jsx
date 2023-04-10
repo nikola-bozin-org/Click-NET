@@ -34,9 +34,9 @@ const CreateUser = () => {
       body: JSON.stringify(formData)
     })
     const result = await response.json();
-    if(result.error) console.error(result.error);
-    console.info(result)
     setIsSaveDisabled(false);
+    if(result.error) {console.error(result.error); return;};
+    console.info(result)
     setShouldShowCreateUser(false);
   };
 

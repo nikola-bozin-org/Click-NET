@@ -61,7 +61,6 @@ const App = () => {
         setUsers(result.users);
         setIsLoading(false);
     };
-
     allUsers();
   }, []);
 
