@@ -25,12 +25,13 @@ td {
     padding: 0.5rem;
     text-align: left;
     border-bottom: 1px solid #ddd;
+    font-weight: normal;
 }
 
 th {
     background-color: #5a189a;
     color: white;
-    font-weight: bold;
+    font-weight: normal;
 }
 
 th:nth-child(1),

@@ -49,11 +49,11 @@ const Table = ({ headers, tableData }) => {
               {headers.map((header, index) => {
                 const finalHeader = capitalizeFirstLetter(header);
                 if (index === 0) {
-                  return <th key={index} className='roundTopLeftEdge'>{finalHeader}</th>
+                  return <th style={{fontWeight:'normal'}} key={index} className='roundTopLeftEdge'>{finalHeader}</th>
                 } else if (index === headersLength - 1) {
-                  return <th key={index} className='roundTopRightEdge'>{finalHeader}</th>
+                  return <th style={{fontWeight:'normal'}} key={index} className='roundTopRightEdge'>{finalHeader}</th>
                 }
-                return <th key={index}>{finalHeader}</th>
+                return <th style={{fontWeight:'normal'}} key={index}>{finalHeader}</th>
               })}
             </tr>
           </thead>

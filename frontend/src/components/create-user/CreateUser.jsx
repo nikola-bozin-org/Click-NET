@@ -37,6 +37,7 @@ const CreateUser = () => {
     if(result.error) console.error(result.error);
     console.info(result)
     setIsSaveDisabled(false);
+    setShouldShowCreateUser(false);
   };
 
   return (

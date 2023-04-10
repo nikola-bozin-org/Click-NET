@@ -92,5 +92,4 @@ tr:nth-child(odd) {
 .table-row:hover td {
     background-color: black;
     color: white;
-    /* change the font color on hover to maintain readability */
 }
