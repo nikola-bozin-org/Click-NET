@@ -1,5 +1,5 @@
 import './app.css'
-import PaymentsTable from './components/payments-table/PaymentsTable';
+import Table from './components/table/Table';
 import PCMap from './components/PC-Map/PCMap';
 import Topbar from './components/topbar/Topbar';
 import CreateUser from './components/create-user/CreateUser';
@@ -15,16 +15,31 @@ import users from './images/user-avatar.png'
 const IDs = [0,1,2,3,4,5];
 const images = [dashboard,pay,pcMap,pay,users,pay];
 
+// const filterObject = (objs, keys) => {
+//   const filteredArr = [];
+  
+//   objs.forEach((obj,index)=>{
+//     keys.forEach((key) => {
+//       if (key in obj) {
+//           filteredArr.push({ key: key, value: obj[key] });
+//       }
+//   })});
+
+//   return filteredArr;
+// }
+
 const App = () => {
+  const [isLoading, setIsLoading] = useState(true);
   const [selectedComponent, setSelectedComponent] = useState(0);
   const changeComponent = (componentIndex) => {
     setSelectedComponent(componentIndex);
   };
-
+  const [users,setUsers] = useState([]);
 
   useEffect(() => {
     const allUsers = async () => {
       try {
+        setIsLoading(true);
         const response = await fetch('https://clicknet-server.onrender.com/api/users', {
           headers: {
             'Content-Type': 'application/json',
@@ -37,32 +52,23 @@ const App = () => {
         }
 
         const result = await response.json();
-        console.info(result);
+        setUsers(result.users);
       } catch (error) {
         console.error('Error:', error);
+      }finally {
+        setIsLoading(false);
       }
     };
 
     allUsers();
   }, []);
+  const headers = ['username','role','balance','discount','xp'];
 
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
 
-  const renderComponent = () => {
-    switch (selectedComponent) {
-      case 1:
-        return <CashRegister />;
-      case 2:
-        return <PaymentsTable />;
-      case 3:
-        return <PCMap />;
-      case 4:
-        return <Users />;
-      case 5:
-        return <CreateUser />;
-      default:
-        return <Users />;
-    }
-  };
+  console.info(users)
 
   return (
     <div className="app">
@@ -71,7 +77,22 @@ const App = () => {
         <div className="a">
           <Sidebar changeComponent={changeComponent} IDs={IDs} images={images} currentSelectedComponent={selectedComponent}/>
         </div>
-          {renderComponent()}
+        {(() => {
+          switch (selectedComponent) {
+            case 1:
+              return <CashRegister />;
+            case 2:
+              return <PCMap/>;
+            case 3:
+              return <PCMap />;
+            case 4:
+              return <Users headers={headers} users={users}/>;
+            case 5:
+              return <CreateUser />;
+            default:
+              return <Users headers={headers} users={users}/>;
+          }
+        })()}
       </div>
     </div>
   )

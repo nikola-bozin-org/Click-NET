@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import './adminDashboard.css'
 import { Navigate } from 'react-router-dom';
-import PaymentsTable from '../payments-table/PaymentsTable';
 import PaymentForm from '../payment-form/PaymentForm';
 import CreateUser from '../create-user/CreateUser'
 

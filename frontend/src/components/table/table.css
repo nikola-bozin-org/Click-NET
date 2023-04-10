@@ -1,26 +1,26 @@
-.payment-table-container {
+.table-container {
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    width: 600px;
-    border: 1px solid #f1f1f1;
-    
 }
 
-.payment-table {
+.table {
     display: flex;
     flex-direction: column;
     padding: 2rem;
-    background-color: white;
     border-radius: 10px;
     box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.5);
-    width: 100%;
 }
-
 table {
     border-collapse: collapse;
     width: 100%;
+}
+
+.table-wrapper {
+    width: 100%;
+    max-height: calc(100vh - 100px);
+    overflow-y: auto;
 }
 
 .roundTopLeftEdge {
@@ -31,66 +31,51 @@ table {
 }
 
 .borderRight{
-    border-right: 1px solid gray;
+    border-right: 1px solid rgb(39, 39, 39);
 }
 .borderLeft{
-    border-left: 1px solid gray;
+    border-left: 1px solid rgb(39, 39, 39);
 }
 .borderTop{
-    border-top: 1px solid gray;
+    border-top:  1px solid rgb(39, 39, 39);
 }
 .borderBottom{
-    border-bottom:1px solid gray;
+    border-bottom: 1px solid rgb(39, 39, 39);
 }
 
 th,
 td {
     padding: 0.5rem;
     text-align: left;
-    border-bottom: 1px solid #ddd;
+    border:  1px solid rgb(39, 39, 39);;
 }
-
 th {
-    background-color: #5a189a;
+    background-color: #171A1E;
     color: white;
-    font-weight: bold;
 }
-
-th:nth-child(1),
-td:nth-child(1) {
-    width: 200px;
-}
-
-th:nth-child(2),
-td:nth-child(2) {
-    width: 150px;
-}
-
-th:nth-child(3),
-td:nth-child(3) {
-    width: 150px;
-}
-
-th:nth-child(4),
-td:nth-child(4) {
-    width: 100px;
-}
-
 tr:nth-child(even) {
-    background-color: #f2f2f2;
+    background-color: #171A1E;
+    color: white;
+}
+tr:nth-child(odd) {
+    color: white;
+    background-color: #171A1E;
 }
 
-tr:hover {
-    background-color: #f1f1f1;
-}
+
 
 .total-amount{
     padding-top: 20px;
     text-align: right;
 }
-
 .table-info{
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     padding-bottom: 20px;
 }
+
+
+.table-row:hover td {
+    background-color: black;
+    color: white; /* change the font color on hover to maintain readability */
+  }

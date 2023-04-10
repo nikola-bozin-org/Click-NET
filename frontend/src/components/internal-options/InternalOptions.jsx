@@ -23,8 +23,10 @@ const Option = ({text,id,currentSelectedOption,onClick})=>{
         onClick(id)
     }
     return (
-        <div onClick={onClicked} className={`internalOption  ${id===currentSelectedOption?`bottomRedBorder`:``}`}>
+        <div onClick={onClicked} className={`internalOption`}>
+            <div className={`internalOptionWrap ${id===currentSelectedOption?`bottomRedBorder`:``}`}>
             <p className={`internalOptionText`}>{text}</p>
+            </div>
         </div>
     )
 }
