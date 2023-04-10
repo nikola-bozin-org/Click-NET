@@ -37,13 +37,9 @@ const images = [dashboard, pay, pcMap, pay, users, pay];
 const App = () => {
   const { currentSidebarSelection,setCurrentSidebarSelection } = useContext(AppContext);
   const usersContext = useContext(UsersContext);
-  const [lastRenderedComponent, setLastRenderedComponent] = useState(null);
   const {isMobile, MobileNotSupported} = useIsMobile(560);
   const [isLoading, setIsLoading] = useState(true);
-
-  const changeComponent = (componentIndex) => {
-    setCurrentSidebarSelection(componentIndex);
-  };
+  
   const [users, setUsers] = useState([]);
 
   useEffect(() => {

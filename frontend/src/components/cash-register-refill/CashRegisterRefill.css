@@ -1,0 +1,9 @@
+.cash-register-refill{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    height: calc(100% - 161px);
+}
+.cash-register-refill-left{
+}
+.cash-register-refill-right{
+}
