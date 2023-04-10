@@ -16,6 +16,7 @@ import Skeleton from './skeletons/Skeleton';
 import {AppContext, AppContextProvider} from './contexts/AppContext'
 import { UsersContext, UsersContextProvider } from './contexts/UsersContext';
 import { CashRegisterContextProvider } from './contexts/CashRegisterContext';
+import PoweredBy from './components/powered-by/PoweredBy';
 
 const IDs = [0, 1, 2, 3, 4, 5];
 const images = [dashboard, pay, pcMap, pay, users, pay];
@@ -89,8 +90,7 @@ const App = () => {
         {(() => {
           switch (currentSidebarSelection) {
             case 0: return <Users users={users}/>
-            case 1:
-              return <CashRegisterContextProvider><CashRegister /></CashRegisterContextProvider> ;
+            case 1: return <CashRegisterContextProvider><CashRegister/></CashRegisterContextProvider> ;
             case 2:
               return <PCMap/>;
             case 3:
@@ -105,6 +105,7 @@ const App = () => {
           }
         })()}
       </div>
+      <PoweredBy/>
     </div>
   )
 }

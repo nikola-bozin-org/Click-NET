@@ -26,7 +26,7 @@ const Topbar = () => {
   return (
     <div className="topbar-container">
       <div className="topbar-left">
-        <div className="topbar-left-logoWrapper">
+        <div onClick={()=>{window.open('https://clicksoft.us/','_blank','noopener,noreferrer')}} className="topbar-left-logoWrapper">
           <p>ClickNET</p>
         {/* <img src={clickLogo} alt="Logo" className="topbar-logo" /> */}
         </div>

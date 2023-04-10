@@ -18,6 +18,9 @@
     justify-content: center;
     position: relative;
 }
+.internalOption:hover{
+    background-color: black;
+}
 
 .bottomRedBorder{
     border-bottom: 4px solid #685489;

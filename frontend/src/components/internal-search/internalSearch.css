@@ -19,6 +19,12 @@
     background-color: #171A1E;
     border: 1px solid rgb(39, 39, 39);
 }
+
+.search-input:hover{
+    border:1px solid white;
+    border-radius:5px;
+}
+
 .search-button {
     padding: 7px;
     color: #ffffff;
@@ -26,4 +32,7 @@
     cursor: pointer;
     border: 2px solid #685489;
     background-color: #171A1E;
+}
+.search-button:hover{
+    background-color: black;
 }
