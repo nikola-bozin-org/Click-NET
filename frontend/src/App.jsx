@@ -3,7 +3,7 @@ import Table from './components/table/Table';
 import PCMap from './components/PC-Map/PCMap';
 import Topbar from './components/topbar/Topbar';
 import CreateUser from './components/create-user/CreateUser';
-import { useState,useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import Sidebar from './components/sidebar/Sidebar';
 import Users from './components/users/Users';
 import CashRegister from './components/cash-register/CashRegister';
@@ -11,13 +11,15 @@ import dashboard from './images/dashboard.png'
 import pay from './images/pay.png'
 import pcMap from './images/site-map.png'
 import users from './images/user-avatar.png'
+import useIsMobile from './hooks/useIsMobile';
+import Skeleton from './skeletons/Skeleton';
 
-const IDs = [0,1,2,3,4,5];
-const images = [dashboard,pay,pcMap,pay,users,pay];
+const IDs = [0, 1, 2, 3, 4, 5];
+const images = [dashboard, pay, pcMap, pay, users, pay];
 
 // const filterObject = (objs, keys) => {
 //   const filteredArr = [];
-  
+
 //   objs.forEach((obj,index)=>{
 //     keys.forEach((key) => {
 //       if (key in obj) {
@@ -29,12 +31,13 @@ const images = [dashboard,pay,pcMap,pay,users,pay];
 // }
 
 const App = () => {
+  const { isMobile, MobileNotSupported } = useIsMobile(560);
   const [isLoading, setIsLoading] = useState(true);
   const [selectedComponent, setSelectedComponent] = useState(0);
   const changeComponent = (componentIndex) => {
     setSelectedComponent(componentIndex);
   };
-  const [users,setUsers] = useState([]);
+  const [users, setUsers] = useState([]);
 
   useEffect(() => {
     const allUsers = async () => {
@@ -55,39 +58,47 @@ const App = () => {
         setUsers(result.users);
       } catch (error) {
         console.error('Error:', error);
-      }finally {
+      } finally {
         setIsLoading(false);
       }
     };
 
     allUsers();
   }, []);
-  const headers = ['username','role','balance','discount','xp'];
+  const headers = ['username', 'role', 'balance', 'discount', 'xp'];
 
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
+
+  if (isMobile) return <MobileNotSupported />
+
+  if (isLoading) return <>
+    <Skeleton type={"s-barh71"} />
+    <Skeleton type={"s-barh61"} />
+    <Skeleton type={"s-avatar"} />
+    <Skeleton type={"s-sidebar"} />
+  </>;
+
+
   return (
     <div className="app">
-      <Topbar/>
+      <Topbar />
       <div className="appOther">
         <div>
-          <Sidebar changeComponent={changeComponent} IDs={IDs} images={images} currentSelectedComponent={selectedComponent}/>
+          <Sidebar changeComponent={changeComponent} IDs={IDs} images={images} currentSelectedComponent={selectedComponent} />
         </div>
         {(() => {
           switch (selectedComponent) {
             case 1:
               return <CashRegister />;
             case 2:
-              return <PCMap/>;
+              return <PCMap />;
             case 3:
               return <PCMap />;
             case 4:
-              return <Users headers={headers} users={users}/>;
+              return <Users headers={headers} users={users} />;
             case 5:
               return <CreateUser />;
             default:
-              return <Users headers={headers} users={users}/>;
+              return <Users headers={headers} users={users} />;
           }
         })()}
       </div>
