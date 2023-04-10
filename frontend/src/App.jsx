@@ -67,14 +67,11 @@ const App = () => {
   if (isLoading) {
     return <div>Loading...</div>;
   }
-
-  console.info(users)
-
   return (
     <div className="app">
       <Topbar/>
       <div className="appOther">
-        <div className="a">
+        <div>
           <Sidebar changeComponent={changeComponent} IDs={IDs} images={images} currentSelectedComponent={selectedComponent}/>
         </div>
         {(() => {

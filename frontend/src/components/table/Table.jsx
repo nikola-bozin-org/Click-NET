@@ -8,6 +8,14 @@ const tableInfo = {
   openedAt: '2023-03-15',
 };
 
+const capitalizeFirstLetter = (str)=> {
+  if (!str || typeof str !== 'string') {
+    return '';
+  }
+  return str.charAt(0).toUpperCase() + str.slice(1);
+}
+
+
 const TableRow = ({data, headersLength}) => {
   // console.info(data);
   const keys = Object.keys(data);
@@ -46,12 +54,13 @@ const Table = ({headers,tableData}) => {
         <thead>
           <tr style={{display: "grid",gridTemplateColumns:`repeat(${headersLength}, 1fr)`}}>
             {headers.map((header,index)=>{
+              const finalHeader = capitalizeFirstLetter(header);
               if(index===0){
-                return <th key={index} className='roundTopLeftEdge'>{header}</th>
+                return <th key={index} className='roundTopLeftEdge'>{finalHeader}</th>
               }else if(index===headersLength-1){
-                return <th key={index} className='roundTopRightEdge'>{header}</th>
+                return <th key={index} className='roundTopRightEdge'>{finalHeader}</th>
               }
-                return <th key={index}>{header}</th>
+                return <th key={index}>{finalHeader}</th>
              })}
           </tr>
         </thead>
