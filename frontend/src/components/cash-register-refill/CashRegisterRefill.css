@@ -4,6 +4,11 @@
     height: calc(100% - 161px);
 }
 .cash-register-refill-left{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap:20px;
 }
 .cash-register-refill-right{
 }

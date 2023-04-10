@@ -58,7 +58,7 @@ const App = () => {
 
         const result = await response.json();
         if(result.error) {console.error(result.error); return}
-        setUsers(result.users);
+        setUsers(result.users.reverse());
         setIsLoading(false);
     };
     allUsers();
