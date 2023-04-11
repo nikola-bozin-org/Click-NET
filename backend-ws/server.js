@@ -13,11 +13,10 @@ const startServer = async () => {
     server.on("connection", async (ws, req) => {
       console.log(`Client connected:`);
       const queryParams = new URLSearchParams(url.parse(req.url).search);
-      const jwt = queryParams.get('jwt');
       const response = await axios.get('http://localhost:9876/api/session/verifyToken', {
         headers: {
           'Content-Type': 'application/json',
-          'token': jwt,
+          'token': queryParams.get('jwt'),
           'secret': 'secret-password-ce-018'
         },
       });
@@ -25,14 +24,13 @@ const startServer = async () => {
         console.error(response.data.error);
         ws.close(); return;
       }
-      //token is valid here
       console.log(response.data);
       let clientNumber = 0;
-      const sendCurrentTime = () => {
-        ws.send(clientNumber);
+      const updateClient = () => {
+        ws.send(clientNumber + " " +jwt);
         clientNumber++;
       };
-      const intervalId = setInterval(sendCurrentTime, 1000);
+      const intervalId = setInterval(updateClient, 1000);
     });
   });
 }
