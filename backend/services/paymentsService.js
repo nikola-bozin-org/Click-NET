@@ -12,7 +12,6 @@ const _payment = async (username,payment)=>{
       const balance = parseInt(user.balance);
       const newBalance = balance + parseInt(payment);
         const date = Date.now();
-        console.info(date);
         const receipt = "00"+date.toString();
         const paymentResult = await Payments.create({username,paymentAmount:payment,paymentDate:date,receipt});
         await User.updateOne({username},{

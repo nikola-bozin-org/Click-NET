@@ -1,8 +1,5 @@
-import React, { useContext } from 'react'
-import { useState } from 'react'
+import React from 'react'
 import './internalOptions.css'
-import { UsersContext } from '../../contexts/UsersContext'
-import { AppContext } from '../../contexts/AppContext'
 
 const InternalOptions = ({options,context}) =>{
     const updateCurrentSelectedOption = (optionId) =>{

@@ -89,14 +89,28 @@ tr:nth-child(odd) {
     text-align: right;
 }
 
-.table-info {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    padding-bottom: 20px;
+.table-head-row{
+    font-weight: normal;
+    overflow: hidden;
 }
 
+.table-row{
+    width: 100%;
+    display: grid; 
+}
+
+.table-row-data{
+    overflow: hidden;
+}
 
 .table-row:hover td {
     background-color: black;
     color: white;
+}
+
+
+@media (max-width:550px){
+    td,th{
+        text-indent: 0px;
+    }
 }

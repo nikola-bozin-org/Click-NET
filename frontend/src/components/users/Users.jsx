@@ -6,19 +6,10 @@ import InternalSearch from '../internal-search/InternalSearch'
 import Table from '../table/Table'
 import { useState } from 'react'
 import { UsersContext} from '../../contexts/UsersContext'
-import CreateUser from '../create-user/CreateUser'
+import { filterObjectByKeys } from '../../utils'
 
 const usersMainHeaders = ['username', 'role', 'balance', 'discount', 'xp'];
-const balanceHistoryHeaders = ['username','paymentAmount','paymentDate']
-
-const filterObjectByKeys = (obj, keys) => {
-  return keys.reduce((filteredObj, key) => {
-    if (obj.hasOwnProperty(key)) {
-      filteredObj[key] = obj[key];
-    }
-    return filteredObj;
-  }, {});
-};
+// const balanceHistoryHeaders = ['username','paymentAmount','paymentDate']
 
 const Users = ({users}) => {
   const usersContext = useContext(UsersContext);
@@ -35,7 +26,6 @@ const Users = ({users}) => {
       //   setTableData(paymentsHistoryData);
       //   break;
       // case 2:
-        break;
       default:
         setTableData([]);
     }

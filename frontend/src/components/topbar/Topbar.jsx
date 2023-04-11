@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { format } from 'date-fns';
 import './topbar.css'
 import user from '../../images/user.png'
-import clickLogo from '../../images/clickLogo.png'
+// import clickLogo from '../../images/clickLogo.png'
 
 const Topbar = () => {
     const [currentTime, setCurrentTime] = useState('');

@@ -1,14 +1,119 @@
-.cash-register-refill{
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    height: calc(100% - 161px);
+.cash-register-refill {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  height: calc(100% - 161px);
 }
-.cash-register-refill-left{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    gap:20px;
+
+.cash-register-refill-left {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap:100px;
 }
-.cash-register-refill-right{
+
+
+.cash-register-refill-amount {
+  height: 100px;
+  width: 620px;
+  margin-top: 20px;
+  background-color: black;
+  color: white;
+  border: none;
+  font-size: 40px;
+  text-align: center;
+}
+
+.cash-register-refill-username {
+  height: 100px;
+  width: 450px;
+  background-color: black;
+  color: white;
+  border: none;
+  font-size: 30px;
+  text-align: center;
+}
+
+.cash-register-refill-username::placeholder {
+  text-align: center;
+  position: absolute;
+  bottom: 10px;
+  font-size: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.cash-register-refill-username:focus::placeholder {
+  color: transparent;
+}
+
+
+.cash-register-refill-amount::placeholder {
+  text-align: center;
+  position: absolute;
+  bottom: 10px;
+  font-size: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.cash-register-refill-amount:focus::placeholder {
+  color: transparent;
+}
+
+.cash-register-refill-button {
+  border: 4px solid #685489;
+  width: 300px;
+  height: 100px;
+  background-color: #171A1E;
+  color: white;
+  font-size: 30px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.cash-register-refill-button-text {
+  z-index: 1;
+}
+
+.circle {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background-color: #685489;
+  border-radius: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  transition: transform 0.4s ease;
+  pointer-events: none;
+}
+
+.cash-register-refill-button:hover .circle {
+  transform: translate(-50%, -50%) scale(70);
+}
+
+/* ovo je da nema one kurce gore dole  */
+input[type="number"].cash-register-refill-amount::-webkit-outer-spin-button,
+input[type="number"].cash-register-refill-amount::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+
+
+.cash-register-error{
+  color: white;
+  font-size: 22px;
+  width: 500px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  background-color: #cc2234;
+  border:3px solid #cc2234;
+}
+.cash-register-error>p{
+  width: 100%;
 }

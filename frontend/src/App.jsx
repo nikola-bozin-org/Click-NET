@@ -1,5 +1,4 @@
 import './app.css'
-import Table from './components/table/Table';
 import PCMap from './components/PC-Map/PCMap';
 import Topbar from './components/topbar/Topbar';
 import CreateUser from './components/create-user/CreateUser';
@@ -13,8 +12,8 @@ import pcMap from './images/site-map.png'
 import users from './images/user-avatar.png'
 import useIsMobile from './hooks/useIsMobile';
 import Skeleton from './skeletons/Skeleton';
-import {AppContext, AppContextProvider} from './contexts/AppContext'
-import { UsersContext, UsersContextProvider } from './contexts/UsersContext';
+import {AppContext} from './contexts/AppContext'
+import { UsersContext} from './contexts/UsersContext';
 import { CashRegisterContextProvider } from './contexts/CashRegisterContext';
 import PoweredBy from './components/powered-by/PoweredBy';
 
@@ -35,9 +34,9 @@ const images = [dashboard, pay, pcMap, pay, users, pay];
 // }
 
 const App = () => {
-  const { currentSidebarSelection,setCurrentSidebarSelection } = useContext(AppContext);
+  const { currentSidebarSelection} = useContext(AppContext);
   const usersContext = useContext(UsersContext);
-  const {isMobile, MobileNotSupported} = useIsMobile(560);
+  const {isMobile, MobileNotSupported} = useIsMobile(460);
   const [isLoading, setIsLoading] = useState(true);
   
   const [users, setUsers] = useState([]);
@@ -89,7 +88,7 @@ const App = () => {
               return;
             }
             case 5:
-              return <></>;
+              return <></>
             default:
               return ;
           }
