@@ -23,7 +23,8 @@ const refund = async(req,res)=>{
   if (!verifyResult) return res.status(statusCode.ERROR).json({ error: "Invalid token" });
   if(!(verifyResult.role===userRoles.Admin) && !(verifyResult.role===userRoles.Employee)) return res.status(statusCode.ERROR).json({error:`User ${verifyResult.username} is not Admin or Employee`});
   const { username, refund } = req.body;
-  const result = await service._refund(username,refund,verifyResult.username);
+  const refundInt = parseInt(refund);
+  const result = await service._refund(username,refundInt,verifyResult.username);
   if(result.error) return res.status(statusCode.INTERNAL_SERVER_ERROR).json({error: `Server error: ${result.error}`})
   return res.status(statusCode.OK).json({ refundProcessed: result.refundProcessed})
 }
