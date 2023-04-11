@@ -16,6 +16,8 @@ const CashRegisterRefill = () => {
   const [amount, setAmount] = useState('');
   const [username, setUsername] = useState('');
   const [currentCashRegisterSessionPayments, setCurrentCashRegisterSessionPayments] = useState([]);
+  const [timerId, setTimerId] = useState(null);
+
   useEffect(() => {
     const currentCashRegisterPayments = async () => {
       const response = await fetch('https://clicknet-server.onrender.com/api/cashRegister/getCurrentSessionPayments', {
@@ -26,7 +28,7 @@ const CashRegisterRefill = () => {
         }
       });
       const result = await response.json();
-      if (result.error) { console.error(result.error); return }
+      if (result.error) {console.error(result.error); return }
       setCurrentCashRegisterSessionPayments(result.currentSessionPayments)
     };
 
@@ -40,6 +42,7 @@ const CashRegisterRefill = () => {
     inputUsernameRef.current.value = '';
     setUsername('');
     setAmount('');
+    clearTimeout(timerId);
       // const response = await fetch('http://localhost:9876/api/payments/payment', {
       const response = await fetch('https://clicknet-server.onrender.com/api/payments/payment', {
       method: 'POST',
@@ -58,10 +61,19 @@ const CashRegisterRefill = () => {
     if (result.error) {
       setInformationText(result.error)
       setShouldShowError(true);
+      const newTimerId = setTimeout(() => {
+        setShowInformation(false);
+      }, 6000);
+      setTimerId(newTimerId);
       return;
     }else if(result.paymentProcessed){
+      setCurrentCashRegisterSessionPayments([...currentCashRegisterSessionPayments,result.tableData])
       setInformationText("Payment Accepted!")
       setShouldShowError(false);
+      const newTimerId = setTimeout(() => {
+        setShowInformation(false);
+      }, 2000);
+      setTimerId(newTimerId);
     }
   };
   const handleMouseEnter = (e) => {
