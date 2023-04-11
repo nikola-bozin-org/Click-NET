@@ -40,7 +40,8 @@ const CashRegisterRefill = () => {
     inputUsernameRef.current.value = '';
     setUsername('');
     setAmount('');
-      const response = await fetch('http://localhost:9876/api/payments/payment', {
+      // const response = await fetch('http://localhost:9876/api/payments/payment', {
+      const response = await fetch('https://clicknet-server.onrender.com/api/payments/payment', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
