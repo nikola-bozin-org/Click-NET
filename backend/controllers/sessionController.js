@@ -13,8 +13,8 @@ const loginStaff = async(req,res)=>{
 const verifyToken = async(req,res)=>{
     if(req.headers.secret!==process.env.VERIFY_SECRET_PASSWORD) return res.status(statusCode.ERROR).json({error:"Unathorized"})
     const isValid = jwt.verify(req.headers.token);
-    if(isValid) return res.status(statusCode.OK).json({message:"Valid token."});
-    return res.status(statusCode.ERROR).json({error:"Invalid token."});
+    if(isValid) return res.status(statusCode.OK).json({isValid:true});
+    return res.status(statusCode.ERROR).json({isValid:false});
 }
 const loginUser = async (req,res) => {
     const { username, password, pcNumber } = req.body;
