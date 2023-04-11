@@ -8,7 +8,7 @@ router.get('/logedInUsers',controller.getLoggedInUsers);
 router.post('/loginStaff',controller.loginStaff);
 router.get('/logedInUsers',controller.getLoggedInUsers)
 router.post('/logoutAllUsers',controller.logoutAllUsers)
-router.get('./verifyToken',controller.verifyToken)
+router.get('/verifyToken',controller.verifyToken)
 
 module.exports=router;
 

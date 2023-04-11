@@ -51,11 +51,6 @@ const App = () => {
             'token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwicm9sZSI6IkFkbWluIiwiaWF0IjoxNjgxMDMyMDg1fQ.UDfyGTqRvklBnRPmybpbEtaXGjoPX-SIkklZwK--NX4'
           }
         });
-
-        if (!response.ok) {
-          throw new Error('Error fetching data');
-        }
-
         const result = await response.json();
         if(result.error) {console.error(result.error); return}
         setUsers(result.users.reverse());

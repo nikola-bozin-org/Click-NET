@@ -68,7 +68,7 @@
   align-items: center;
   border-radius: 20px;
   animation: slide-in 0.5s forwards, fade-out 0.5s 9.5s forwards;
-  z-index: 9999;
+  z-index: 5;
 }
 .notificationText{
   width: 90%;
