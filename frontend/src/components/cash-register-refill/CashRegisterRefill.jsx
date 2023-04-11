@@ -10,8 +10,9 @@ const CashRegisterRefill = () => {
   const inputAmountRef = useRef(null);
   const inputUsernameRef = useRef(null);
   const [shouldDisableRefill, setShouldDisableRefill] = useState(false);
-  const [showError, setShowError] = useState(false);
-  const [errorText, setErrorText] = useState('');
+  const [showInformation, setShowInformation] = useState(false);
+  const [shouldShowError,setShouldShowError] = useState(false);
+  const [informationText, setInformationText] = useState('');
   const [amount, setAmount] = useState('');
   const [username, setUsername] = useState('');
   const [currentCashRegisterSessionPayments, setCurrentCashRegisterSessionPayments] = useState([]);
@@ -21,7 +22,7 @@ const CashRegisterRefill = () => {
         // const response = await fetch('http://localhost:9876/api/cashRegister/getCurrentSessionPayments', {
         headers: {
           'Content-Type': 'application/json',
-          'token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwicm9sZSI6IkFkbWluIiwiaWF0IjoxNjgxMDMyMDg1fQ.UDfyGTqRvklBnRPmybpbEtaXGjoPX-SIkklZwK--NX4'
+          'token': localStorage.getItem('token')
         }
       });
       const result = await response.json();
@@ -33,15 +34,17 @@ const CashRegisterRefill = () => {
   }, []);
 
   const handleRefill = async () => {
-    setShowError(false);
+    setShowInformation(false);
     setShouldDisableRefill(true);
     inputAmountRef.current.value = '';
     inputUsernameRef.current.value = '';
+    setUsername('');
+    setAmount('');
       const response = await fetch('http://localhost:9876/api/payments/payment', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwicm9sZSI6IkFkbWluIiwiaWF0IjoxNjgxMDMyMDg1fQ.UDfyGTqRvklBnRPmybpbEtaXGjoPX-SIkklZwK--NX4'
+        'token': localStorage.getItem('token')
       },
       body: JSON.stringify({
         username: username,
@@ -49,13 +52,16 @@ const CashRegisterRefill = () => {
       }),
     });
     setShouldDisableRefill(false);
+    setShowInformation(true);
     const result = await response.json();
     if (result.error) {
-      setErrorText(result.error)
-      setShowError(true);
+      setInformationText(result.error)
+      setShouldShowError(true);
       return;
-    };
-    console.info(result);
+    }else if(result.paymentProcessed){
+      setInformationText("Payment Accepted!")
+      setShouldShowError(false);
+    }
   };
   const handleMouseEnter = (e) => {
     const rect = e.target.getBoundingClientRect();
@@ -75,8 +81,8 @@ const CashRegisterRefill = () => {
           <div ref={circleRef} className='circle'></div>
           <p className='cash-register-refill-button-text'>Refill</p>
         </button>
-        {showError && <div className="cash-register-error">
-          <p>{errorText}</p>
+        {showInformation && <div className={`cash-register-${shouldShowError?'error':'confirm'}`}>
+          <p>{informationText}</p>
         </div>}
       </div>
       <div className="cash-register-refill-right">

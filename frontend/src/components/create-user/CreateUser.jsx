@@ -29,7 +29,7 @@ const CreateUser = () => {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwicm9sZSI6IkFkbWluIiwiaWF0IjoxNjgxMDMyMDg1fQ.UDfyGTqRvklBnRPmybpbEtaXGjoPX-SIkklZwK--NX4'
+        'token': localStorage.getItem('token')
       },
       body: JSON.stringify(formData)
     })

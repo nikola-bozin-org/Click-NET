@@ -112,7 +112,25 @@ input[type="number"].cash-register-refill-amount::-webkit-inner-spin-button {
   text-align: center;
   background-color: #cc2234;
   border:3px solid #cc2234;
+  padding: 5px;
 }
+.cash-register-confirm{
+  color: white;
+  font-size: 22px;
+  width: 500px;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  background-color: #4d6e26;
+  border:3px solid #4d6e26;
+  padding: 5px;
+}
+
 .cash-register-error>p{
+  width: 100%;
+}
+
+
+.cash-register-confirm>p{
   width: 100%;
 }
