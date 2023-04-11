@@ -15,7 +15,7 @@ const _payment = async (username,payment)=>{
         console.info(date);
         const receipt = "00"+date.toString();
         const paymentResult = await Payments.create({username,paymentAmount:payment,paymentDate:date,receipt});
-        const resultUser = await User.updateOne({username},{
+        await User.updateOne({username},{
           $set:{balance:newBalance},
           $push:{
             actions:{
@@ -32,7 +32,7 @@ const _payment = async (username,payment)=>{
         const resultPayment = await CurrentCashRegisterSession.findOneAndUpdate({},{
               $push: { payments:paymentResult._id },$set:{amount:newTotalAmount}
         })
-        return {paymentProcessed:true}
+        return {paymentProcessed:true,tableData:{username:username,paymentAmount:payment,paymentDate:date,receipt:receipt}}
     }catch(e){
         return {error:e.message}
     }

@@ -31,9 +31,10 @@ const createUser = async (req, res) => {
     if(!verifyResult) return res.status(statusCode.ERROR).json({error:'Invalid Token.'});
     if(verifyResult.role!==userRoles.Admin && verifyResult.role!==userRoles.Employee) return res.status(statusCode.ERROR).json({error:'you are not Admin or Employee.'});
     const { username, password, firstName, lastName, email, phone } = req.body;
+    if(password==='') return res.status(statusCode.ERROR).json({error:'Password field missing.'})
     const result = await service._createUser(verifyResult.username,username,password,firstName,lastName,email,phone);
     if(result.error) return res.status(statusCode.INTERNAL_SERVER_ERROR).json({error:`Server error: ${result.error}`});
-    return res.status(statusCode.OK).json({ userCreated: result.userCreated});
+    return res.status(statusCode.OK).json({ userCreated: result.userCreated,user:result.user});
 }
 const changePassword = async(req,res)=>{
     const token = req.headers.token;

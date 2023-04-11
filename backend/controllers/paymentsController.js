@@ -13,7 +13,7 @@ const payment = async(req,res) =>{
   const { username, payment } = req.body;
   const result = await service._payment(username,payment);
   if(result.error) return res.status(statusCode.INTERNAL_SERVER_ERROR).json({error: `Server error: ${result.error}`})
-  return res.status(statusCode.OK).json({ paymentProcessed: result.paymentProcessed})
+  return res.status(statusCode.OK).json({ paymentProcessed: result.paymentProcessed,tableData:result.tableData})
 }
 const refund = async(req,res)=>{
   const token = req.headers.token;

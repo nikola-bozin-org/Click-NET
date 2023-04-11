@@ -3,6 +3,7 @@ const UserActions = require('../helpers/userActions')
 const UserActionDescription = require('../helpers/userActionsDescriptions')
 const bcrypt = require('bcrypt')
 const jwt = require('../jwt')
+const { userRoles } = require('../helpers/enums')
 require('dotenv').config()
 
 const _getUsers = async ()=>{
@@ -24,33 +25,32 @@ const _getUser = async(username) =>{
 }
 const _createUser = async(staffName,username,password,firstName,lastName,email,phone)=>{
     try {
+        const actionObject = {
+            name:UserActions.AccountCreation,
+            description:UserActionDescription.AccountCreation(staffName.username,username),
+            date:Date.now(),
+            pcNumber:-1,
+            balanceChange:0
+        }
         const hashedPassword = bcrypt.hashSync(password,parseInt(process.env.BCRYPT_SALT));
-            const createResult = await User.create({
+            await User.create({
                 username,
                  password: hashedPassword,
                   balance: 0,
                   discount: 0,
                   xp: 0,
-                  role:"Default",
+                  role:userRoles.Default,
                 basicInfo: {
                     firstName,
                     lastName,
                     email,
                     phone
                 },
-                actions:[
-                    {
-                        name:UserActions.AccountCreation,
-                        description:UserActionDescription.AccountCreation(staffName.username,username),
-                        date:Date.now(),
-                        pcNumber:-1,
-                        balanceChange:0
-                    }
-                ],
+                actions:[actionObject],
                 activeTickets:[],
                 payments:[]
             });
-            return {userCreated:true}
+            return {userCreated:true,user:{username:username,role:userRoles.Default,balance:0,discount:0,xp:0,action:actionObject,activeTickets:[],payments:[]}}
         }catch(e){
             return {error:e.message}
         }
