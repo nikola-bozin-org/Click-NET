@@ -17,7 +17,7 @@ const startServer = async () => {
           const response = await axios.get('http://localhost:9876/api/session/verifyToken', {
             headers: {
               'Content-Type': 'application/json',
-              'token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwicm9sZSI6IkFkbWluIiwiaWF0IjoxNjgxMDMyMDg1fQ.UDfyGTqRvklBnRPmybpbEtaXGjoPX-SIkklZwK--NX4',
+              'token': message,
               'secret':'secret-password-ce-018'
             },
           });
