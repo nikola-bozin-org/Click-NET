@@ -16,29 +16,16 @@ import {AppContext} from './contexts/AppContext'
 import { UsersContext} from './contexts/UsersContext';
 import { CashRegisterContextProvider } from './contexts/CashRegisterContext';
 import PoweredBy from './components/powered-by/PoweredBy';
+import { Navigate,useNavigate } from 'react-router-dom';
 
 const IDs = [0, 1, 2, 3, 4, 5];
 const images = [dashboard, pay, pcMap, pay, users, pay];
 
-// const filterObject = (objs, keys) => {
-//   const filteredArr = [];
-
-//   objs.forEach((obj,index)=>{
-//     keys.forEach((key) => {
-//       if (key in obj) {
-//           filteredArr.push({ key: key, value: obj[key] });
-//       }
-//   })});
-
-//   return filteredArr;
-// }
-
 const App = () => {
-  const { currentSidebarSelection} = useContext(AppContext);
+  const {isAuthorized,currentSidebarSelection} = useContext(AppContext);
   const usersContext = useContext(UsersContext);
   const {isMobile, MobileNotSupported} = useIsMobile(460);
   const [isLoading, setIsLoading] = useState(true);
-  
   const [users, setUsers] = useState([]);
 
   useEffect(() => {
@@ -58,6 +45,7 @@ const App = () => {
     allUsers();
   }, []);
 
+  if(!isAuthorized) return <Navigate to='/'/>
 
   if (isMobile) return <MobileNotSupported />
 

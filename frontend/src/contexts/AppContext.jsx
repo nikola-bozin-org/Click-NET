@@ -6,10 +6,12 @@ export const AppContext = createContext({});
 
 export const AppContextProvider = ({children})=>{
     const [currentSidebarSelection,setCurrentSidebarSelection] = useState(0);
-
+    const [isAuthorized,setIsAuthorized]=useState(false);
     const value = {
         currentSidebarSelection,
-        setCurrentSidebarSelection
+        setCurrentSidebarSelection,
+        isAuthorized,
+        setIsAuthorized
     }
 
     return (

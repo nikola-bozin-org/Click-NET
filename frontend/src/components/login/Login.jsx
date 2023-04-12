@@ -1,8 +1,10 @@
 import { useState } from "react";
 import "./login.css";
 import {Navigate} from 'react-router-dom'
+import { useContext } from "react";
+import { AppContext } from "../../contexts/AppContext";
 
-function Login() {
+const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [showNotification, setShowNotification] = useState(false);
@@ -11,6 +13,9 @@ function Login() {
   const [isFetching,setIsFetching] = useState(false);
   const [shouldNavigate,setShouldNavigate] = useState(false);
   const [disableLoginButton,setDisableLoginButton] = useState(false);
+
+
+  const {setIsAuthorized} = useContext(AppContext);
 
   const handleSubmit = async (e) => {
     setDisableLoginButton(true);
@@ -51,7 +56,7 @@ function Login() {
       setShouldNavigate(true);
   };
 
-  if(shouldNavigate) return <Navigate to='/dashboard'/>
+  if(shouldNavigate) { setIsAuthorized(true);  return <Navigate to='/dashboard'/> }
 
   return (
     <>
