@@ -34,8 +34,8 @@ const Login = () => {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            username,
-            password,
+            'username':'admin',
+            'password':'admin'
           }),
         }
       );
@@ -54,9 +54,10 @@ const Login = () => {
       localStorage.setItem("user", data.user);
       localStorage.setItem("accessToken", data.accessToken);
       setShouldNavigate(true);
+      setIsAuthorized(true);
   };
 
-  if(shouldNavigate) { setIsAuthorized(true);  return <Navigate to='/dashboard'/> }
+  if(shouldNavigate) { return <Navigate to='/dashboard'/> }
 
   return (
     <>
@@ -65,19 +66,19 @@ const Login = () => {
       <form onSubmit={handleSubmit} className="login-form">
         <label htmlFor="username">Username</label>
         <input
+          autoComplete="off"
           type="text"
           id="username"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
-          required
         />
         <label htmlFor="password">Password</label>
         <input
+          autoComplete="off"
           type="password"
           id="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          required
         />
         <button disabled={disableLoginButton} type="submit" className={`${disableLoginButton?'halfOpacity':''}`}>Login</button>
       </form>

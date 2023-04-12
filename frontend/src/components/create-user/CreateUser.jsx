@@ -45,22 +45,22 @@ const CreateUser = () => {
       <div className="create-user-form" onSubmit={onSave}>
         <h1>Create User</h1>
         <p htmlFor="username">*Username:</p>
-        <input type="text" id="username" name="username" value={formData.username} onChange={handleInputChange} required />
+        <input autoComplete='off' type="text" id="username" name="username" value={formData.username} onChange={handleInputChange} required />
 
-        <p htmlFor="password">Password:</p>
-        <input type="password" id="password" name="password" value={formData.password} onChange={handleInputChange} required />
+        <p htmlFor="password">*Password:</p>
+        <input autoComplete='off' type="password" id="password" name="password" value={formData.password} onChange={handleInputChange} required />
 
         <p htmlFor="firstName">First Name:</p>
-        <input type="text" id="firstName" name="firstName" value={formData.firstName} onChange={handleInputChange} required />
+        <input autoComplete='off' type="text" id="firstName" name="firstName" value={formData.firstName} onChange={handleInputChange} required />
 
         <p htmlFor="lastName">Last Name:</p>
-        <input type="text" id="lastName" name="lastName" value={formData.lastName} onChange={handleInputChange} required />
+        <input autoComplete='off' type="text" id="lastName" name="lastName" value={formData.lastName} onChange={handleInputChange} required />
 
         <p htmlFor="email">Email:</p>
-        <input type="text" id="email" name="email" value={formData.email} onChange={handleInputChange} required />
+        <input autoComplete='off' type="text" id="email" name="email" value={formData.email} onChange={handleInputChange} required />
 
         <p htmlFor="phone">Phone:</p>
-        <input type="tel" id="phone" name="phone" value={formData.phone} onChange={handleInputChange} required />
+        <input autoComplete='off' type="tel" id="phone" name="phone" value={formData.phone} onChange={handleInputChange} required />
         <div className="controlButtons">
           <button onClick={()=>{setShouldShowCreateUser(false)}} className="cancelCreation">Cancel</button>
           <button onClick={onSave} disabled={isSaveDisabled} className={`saveCreation ${isSaveDisabled?'halfOpacity':''}`}>Save</button>
