@@ -60,12 +60,13 @@ function Login() {
     }
   };
 
-  if(shouldNavigate) return <Navigate to='/admin-dashboard'/>
+  if(shouldNavigate) return <Navigate to='/dashboard'/>
 
   return (
+    <>
+    <div className="topbarClickNET">ClickNET</div>
     <div className="login-container">
       <form onSubmit={handleSubmit} className="login-form">
-        <h1>Login</h1>
         <label htmlFor="username">Username</label>
         <input
           type="text"
@@ -91,6 +92,7 @@ function Login() {
         <div className="fetching-notification">Processing...</div>
       )}
     </div>
+    </>
   );
 }
 

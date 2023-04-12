@@ -47,7 +47,7 @@ const App = () => {
         const response = await fetch('https://clicknet-server.onrender.com/api/users', {
           headers: {
             'Content-Type': 'application/json',
-            'token':localStorage.getItem('token')
+            'token':localStorage.getItem('accessToken')
           }
         });
         const result = await response.json();

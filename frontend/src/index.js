@@ -1,15 +1,22 @@
 import React from 'react';
+import {BrowserRouter as Router, Route,Routes,Navigate} from 'react-router-dom'
 import ReactDOM from 'react-dom/client';
 import App from './App';
+import Login from './components/login/Login'
 import { AppContextProvider } from './contexts/AppContext';
 import { UsersContextProvider } from './contexts/UsersContext';
-
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <AppContextProvider>
       <UsersContextProvider>
-    <App />
+        <Router>
+          <Routes>
+            <Route exact path='/' element={<Login/>}/>
+            <Route exact path='/dashboard' element={<App/>}/>
+            <Route path="*" element={<div>Not Found</div>}/>
+          </Routes>
+        </Router>
     </UsersContextProvider>
     </AppContextProvider>
   </React.StrictMode>
