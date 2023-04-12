@@ -3,7 +3,7 @@ import './CashRegisterRefill.css'
 import Table from '../table/Table'
 import { useState, useEffect, useRef } from 'react';
 import { fixPaymentsDate } from '../../utils'
-
+import coins from '../../images/dollar.png'
 
 const CashRegisterRefill = () => {
   const circleRef = useRef(null);
@@ -99,8 +99,16 @@ const CashRegisterRefill = () => {
         </div>}
       </div>
       <div className="cash-register-refill-right">
-        <Table headers={['username', 'paymentAmount', 'paymentDate', 'receipt']}
+        <div className="cash-register-refill-right-topbar">
+            <button className="cash-register-refill-right-topbar-zReport">Z Report</button>
+          <div className="cash-register-refill-right-topbar-current-cash-register-total-balance">
+            <p>Balance:</p>
+            <img src={coins} alt="" className="cash-register-refill-right-topbar-coins" />
+          </div>
+        </div>
+        <Table headers={['username', 'Amount', 'Date', 'Receipt']}
           tableData={fixPaymentsDate(currentCashRegisterSessionPayments).reverse()}
+          shouldRoundEdges={false}
         />
       </div>
     </div>

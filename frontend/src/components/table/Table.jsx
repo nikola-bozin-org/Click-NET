@@ -30,7 +30,7 @@ const TableRow = ({ data, headersLength }) => {
 };
 
 
-const Table = ({ headers, tableData }) => {
+const Table = ({ headers, tableData,shouldRoundEdges }) => {
   const headersLength = headers.length;
   return (
     <div className="table-container">
@@ -41,9 +41,9 @@ const Table = ({ headers, tableData }) => {
               {headers.map((header, index) => {
                 const finalHeader = capitalizeFirstLetter(header);
                 if (index === 0) {
-                  return <th key={index} className='table-head-row roundTopLeftEdge'>{finalHeader}</th>
+                  return <th key={index} className={`table-head-row ${shouldRoundEdges?'roundTopLeftEdge':''}`}>{finalHeader}</th>
                 } else if (index === headersLength - 1) {
-                  return <th key={index} className='table-head-row roundTopRightEdge'>{finalHeader}</th>
+                  return <th key={index} className={`table-head-row ${shouldRoundEdges?'roundTopRightEdge':''}`}>{finalHeader}</th>
                 }
                 return <th className='table-head-row' style={{fontWeight:'normal'}} key={index}>{finalHeader}</th>
               })}
