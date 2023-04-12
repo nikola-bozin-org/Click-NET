@@ -59,6 +59,7 @@ const App = () => {
   return (
     <div className="app">
       <Topbar />
+      <PoweredBy/>
       <div className="appOther">
         <div>
         <Sidebar IDs={IDs} images={images} currentSelectedComponent={currentSidebarSelection} />
@@ -82,7 +83,6 @@ const App = () => {
           }
         })()}
       </div>
-      <PoweredBy/>
     </div>
   )
 }
