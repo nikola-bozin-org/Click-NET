@@ -3,6 +3,7 @@ const userRoles = {
     Employee:'Employee',
     Default:'Default',
     Night:'Night',
+    Viewer:'Viewer'
 }
 
 const zones = {

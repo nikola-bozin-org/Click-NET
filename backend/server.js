@@ -18,7 +18,8 @@ const reportsRouter = require('./routers/reportsGeneratorRouter');
 const utilsRouter = require('./routers/utilsRouter')
 
 const dropDatabaseRouter = require('./routers/other/dropDatabaseRouter')
-const dummyRouter = require('./routers/other/dummyRouter')
+const dummyRouter = require('./routers/other/dummyRouter');
+const checkIfViewer = require('./helpers/viewerMiddleware');
 
 
 
@@ -32,6 +33,7 @@ server.use(express.urlencoded({ extended: true }));
 server.use(mongoSanitize());
 server.use(xss());
 // server.use(hpp());
+server.use(checkIfViewer)
 server.use('/api/users',usersRouter);
 server.use('/api/session',sessionsRouter);
 server.use('/api/tickets',ticketsRouter);

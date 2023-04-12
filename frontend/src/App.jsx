@@ -19,6 +19,7 @@ import PoweredBy from './components/powered-by/PoweredBy';
 import { Navigate,useNavigate } from 'react-router-dom';
 
 const IDs = [0, 1, 2, 3, 4, 5];
+
 const images = [dashboard, pay, pcMap, pay, users, pay];
 
 const App = () => {
