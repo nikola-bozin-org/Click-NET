@@ -72,22 +72,26 @@
   position: fixed;
   bottom: 200px;
 }
+.hide-notification-container{
+  display: none;
+}
+.show-notification-container{
+  display: flex;
+}
 .notification-container {
   position: fixed;
-  bottom: 100px;
+  bottom: 70px;
   left: 50%;
   transform: translateX(-50%);
-  width: 300px;
-  height: 50px;
-  background-color: #f44336;
   color: white;
-  display: flex;
-  text-align: center;
-  justify-content: center;
+  font-size: 22px;
+  width: 500px;
   align-items: center;
-  border-radius: 20px;
-  animation: slide-in 0.5s forwards, fade-out 0.5s 9.5s forwards;
-  z-index: 5;
+  text-align: center;
+  background-color: #cc2234;
+  border:3px solid #cc2234;
+  padding: 5px;
+  margin-top: 60px;
 }
 .notificationText{
   width: 90%;

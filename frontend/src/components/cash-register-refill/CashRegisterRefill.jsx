@@ -24,7 +24,7 @@ const CashRegisterRefill = () => {
         // const response = await fetch('http://localhost:9876/api/cashRegister/getCurrentSessionPayments', {
         headers: {
           'Content-Type': 'application/json',
-          'token': localStorage.getItem('token')
+          'token': localStorage.getItem('accessToken')
         }
       });
       const result = await response.json();
@@ -48,7 +48,7 @@ const CashRegisterRefill = () => {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'token': localStorage.getItem('token')
+        'token': localStorage.getItem('accessToken')
       },
       body: JSON.stringify({
         username: username,

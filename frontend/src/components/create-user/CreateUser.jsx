@@ -29,7 +29,7 @@ const CreateUser = () => {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'token': localStorage.getItem('token')
+        'token': localStorage.getItem('accessToken')
       },
       body: JSON.stringify(formData)
     })

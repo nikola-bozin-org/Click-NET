@@ -10,9 +10,10 @@ function Login() {
   const [currentNotificationTimeout,setCurrentNotificationTimeout] = useState(null);
   const [isFetching,setIsFetching] = useState(false);
   const [shouldNavigate,setShouldNavigate] = useState(false);
-
+  const [disableLoginButton,setDisableLoginButton] = useState(false);
 
   const handleSubmit = async (e) => {
+    setDisableLoginButton(true);
     if(currentNotificationTimeout){
       clearTimeout(currentNotificationTimeout);
       setCurrentNotificationTimeout(null);
@@ -20,7 +21,6 @@ function Login() {
     }
     setIsFetching(true);
     e.preventDefault();
-    try {
       const response = await fetch(
         "https://clicknet-server.onrender.com/api/session/loginStaff",
         {
@@ -36,28 +36,19 @@ function Login() {
       );
       const data = await response.json();
       setIsFetching(false);
+      setDisableLoginButton(false);
       if (data.error) {
         setShowNotification(true);
-        setNotificationMessage("Error: " +data.error);
+        setNotificationMessage(data.error);
         let timeout = setTimeout(() => {
           setShowNotification(false);
-        }, 10000);
+        }, 6000);
         setCurrentNotificationTimeout(timeout);
         return;
       }
       localStorage.setItem("user", data.user);
       localStorage.setItem("accessToken", data.accessToken);
       setShouldNavigate(true);
-    } catch (error) {
-      setIsFetching(false);
-      setShowNotification(true);
-      setNotificationMessage("Error: "+error);
-      let timeout = setTimeout(() => {
-        setShowNotification(false);
-      }, 10000);
-      setCurrentNotificationTimeout(timeout);
-      return;
-    }
   };
 
   if(shouldNavigate) return <Navigate to='/dashboard'/>
@@ -83,13 +74,11 @@ function Login() {
           onChange={(e) => setPassword(e.target.value)}
           required
         />
-        <button type="submit">Login</button>
+        <button disabled={disableLoginButton} type="submit" className={`${disableLoginButton?'halfOpacity':''}`}>Login</button>
       </form>
-      {showNotification && (
-        <div className="notification-container"><p className="notificationText">{notificationMessage}</p></div>
-      )}
+        <div className={`notification-container  ${showNotification?'show-notification-container':'hide-notification-container'}`}><p className={`notificationText`}>{notificationMessage}</p></div>
       {isFetching && (
-        <div className="fetching-notification">Processing...</div>
+        <div className="fetching-notification"></div>
       )}
     </div>
     </>
