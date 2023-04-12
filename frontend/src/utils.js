@@ -14,7 +14,6 @@ export const fixPaymentsDate = (payments) => {
     });
     return updatedPayments;
 }
-
 export const filterObjectByKeys = (obj, keys) => {
     return keys.reduce((filteredObj, key) => {
         if (obj.hasOwnProperty(key)) {
@@ -23,5 +22,7 @@ export const filterObjectByKeys = (obj, keys) => {
         return filteredObj;
     }, {});
 };
-
-
+//https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/NumberFormat
+export const formatNumber = (number) =>{
+    return Intl.NumberFormat().format(number);
+}
