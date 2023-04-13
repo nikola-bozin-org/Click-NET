@@ -11,7 +11,7 @@ const Sidebar = ({IDs, images}) => {
     <div className="sidebar">
       <div className="sidebarButtons">
         {IDs.map((id) => {
-          if(id===4)
+          if(id===3)
             return (<SidebarElement exec={()=>{setShouldShowCreateUser(true)}} isSelected={currentSidebarSelection===id} key={id} img={images[id]}/>)
             return (<SidebarElement exec={()=>{setShouldShowCreateUser(false)}} isSelected={currentSidebarSelection===id} key={id} img={images[id]} onClick={setCurrentSidebarSelection} myId={id}/>)
           })}

@@ -5,7 +5,6 @@ const initialState = {
     isAdmin: false,
 };
 
-
 const authSlice = createSlice({
     name: 'auth',
     initialState,

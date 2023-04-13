@@ -2,8 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { format } from 'date-fns';
 import './topbar.css'
 import user from '../../images/user.png'
-// import clickLogo from '../../images/clickLogo.png'
-
+// import more from '../../images/settings.png'
 const Topbar = () => {
     const [currentTime, setCurrentTime] = useState('');
     const [currentDate, setCurrentDate] = useState('');
@@ -37,6 +36,7 @@ const Topbar = () => {
       </div>
       <div className="topbar-right" onClick={handleClick}>
         <img src={user} alt="User" className="topbar-user-image" />
+        {/* <img src={more} alt="" className="topbar-user-more" /> */}
       </div>
     </div>
   )

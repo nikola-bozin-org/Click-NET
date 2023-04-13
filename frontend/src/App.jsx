@@ -9,7 +9,8 @@ import CashRegister from './components/cash-register/CashRegister';
 import dashboard from './images/dashboard.png'
 import pay from './images/pay.png'
 import pcMap from './images/site-map.png'
-import users from './images/user-avatar.png'
+import createUser from './images/user-avatar.png'
+import settings from './images/settings.png'
 import useIsMobile from './hooks/useIsMobile';
 import Skeleton from './skeletons/Skeleton';
 import {AppContext} from './contexts/AppContext'
@@ -18,9 +19,9 @@ import { CashRegisterContextProvider } from './contexts/CashRegisterContext';
 import PoweredBy from './components/powered-by/PoweredBy';
 import { Navigate,useNavigate } from 'react-router-dom';
 
-const IDs = [0, 1, 2, 3, 4, 5];
+const IDs = [0, 1, 2, 3, 4];
 
-const images = [dashboard, pay, pcMap, pay, users, pay];
+const images = [dashboard, pay, pcMap, createUser,settings];
 
 const App = () => {
   const {isAuthorized,currentSidebarSelection} = useContext(AppContext);
@@ -73,12 +74,6 @@ const App = () => {
             case 2:
               return <PCMap/>;
             case 3:
-              return <PCMap/>;
-            case 4:{
-              return;
-            }
-            case 5:
-              return <></>
             default:
               return ;
           }
