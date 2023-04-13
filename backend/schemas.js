@@ -9,7 +9,6 @@ const payments = new mongoose.Schema({
       receipt:{type:String}
 })
 
-
 const currentCashRegister = new mongoose.Schema({
   number:{
     type:Number
@@ -173,6 +172,19 @@ const levelsSchema = new mongoose.Schema({
   },
 });
 
+const utils = new mongoose.Schema({
+  utility:{
+    pcLimit:{
+      type:Number,
+      required:true
+    },
+    centerName:{
+      type:String,
+      required:true
+    }
+  }
+})
+
 
 module.exports = {
   User: mongoose.model("User", userSchema),
@@ -181,5 +193,6 @@ module.exports = {
   Tickets: mongoose.model("Tickets", ticketsSchema),
   CashRegisterSessions:mongoose.model("CashRegisterSessions",cashRegisterSessions),
   CurrentCashRegisterSession:mongoose.model("CurrentCashRegisterSessions",currentCashRegister),
-  Payments:mongoose.model("Payments",payments)
+  Payments:mongoose.model("Payments",payments),
+  Utils:mongoose.model("Utils",utils)
 };
