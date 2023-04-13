@@ -3,6 +3,8 @@ import "./login.css";
 import {Navigate} from 'react-router-dom'
 import { useContext } from "react";
 import { AppContext } from "../../contexts/AppContext";
+import {login} from '../../redux/authSlice'
+import {useDispatch} from 'react-redux'
 
 const Login = () => {
   const [username, setUsername] = useState("");
@@ -14,7 +16,7 @@ const Login = () => {
   const [shouldNavigate,setShouldNavigate] = useState(false);
   const [disableLoginButton,setDisableLoginButton] = useState(false);
 
-
+  const dispatch = useDispatch();
   const {setIsAuthorized} = useContext(AppContext);
 
   const handleSubmit = async (e,asViewer) => {
@@ -25,6 +27,9 @@ const Login = () => {
       setShowNotification(false);
     }
     setIsFetching(true);
+    console.info("This")
+    // if(username==='admin')
+    dispatch(login({isAdmin:true}))
     e.preventDefault();
       const response = await fetch(
         "https://clicknet-server.onrender.com/api/session/loginStaff",

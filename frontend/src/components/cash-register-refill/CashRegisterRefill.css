@@ -94,10 +94,11 @@
   transform: translate(-50%, -50%) scale(70);
 }
 
-/* ovo je da nema one kurce gore dole  */
+/* ovo je da nema one buttone gore dole  */
 input[type="number"].cash-register-refill-amount::-webkit-outer-spin-button,
 input[type="number"].cash-register-refill-amount::-webkit-inner-spin-button {
   -webkit-appearance: none;
+  appearance:none;
   margin: 0;
 }
 

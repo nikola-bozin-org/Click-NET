@@ -17,7 +17,6 @@ import { UsersContext} from './contexts/UsersContext';
 import { CashRegisterContextProvider } from './contexts/CashRegisterContext';
 import PoweredBy from './components/powered-by/PoweredBy';
 import { Navigate,useNavigate } from 'react-router-dom';
-import {endpoints} from './config'
 
 const IDs = [0, 1, 2, 3, 4, 5];
 

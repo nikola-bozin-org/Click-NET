@@ -41,7 +41,7 @@ const CreateUser = () => {
   };
 
   return (
-    <div className="create-user-container">
+    <div onClick={()=>{setShouldShowCreateUser(false)}} className="create-user-container">
       <div className="create-user-form" onSubmit={onSave}>
         <h1>Create User</h1>
         <p htmlFor="username">*Username:</p>

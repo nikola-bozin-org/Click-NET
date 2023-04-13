@@ -7,11 +7,14 @@ import Table from '../table/Table'
 import { useState } from 'react'
 import { UsersContext} from '../../contexts/UsersContext'
 import { filterObjectByKeys } from '../../utils'
+import { useSelector } from 'react-redux'
 
 const usersMainHeaders = ['username', 'role', 'balance', 'discount', 'xp'];
 // const balanceHistoryHeaders = ['username','paymentAmount','paymentDate']
 
 const Users = ({users}) => {
+  const isAdmin = useSelector((state) => state.auth.isAdmin);
+  console.info("ADMIN: " + isAdmin)
   const usersContext = useContext(UsersContext);
   const [tableData,setTableData] = useState([]);
   const [headers,setHeaders] = useState([]);
