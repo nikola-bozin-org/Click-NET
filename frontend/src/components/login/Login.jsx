@@ -34,8 +34,8 @@ const Login = () => {
             "Content-Type": "application/json",
           },
           body:JSON.stringify({
-            'username':'viewer',
-            'password':'viewer'
+            'username':'admin',
+            'password':'admin'
           })
         }
       );
