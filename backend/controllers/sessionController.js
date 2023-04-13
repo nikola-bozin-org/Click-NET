@@ -12,8 +12,8 @@ const loginStaff = async(req,res)=>{
 }
 const verifyToken = async(req,res)=>{
     if(req.headers.secret!==process.env.VERIFY_SECRET_PASSWORD) return res.status(statusCode.ERROR).json({error:"Unathorized"})
-    const isValid = jwt.verify(req.headers.token);
-    if(isValid) return res.status(statusCode.OK).json({isValid:true});
+    const verifyResult = jwt.verify(req.headers.token);
+    if(verifyResult) return res.status(statusCode.OK).json({isValid:true,verifyResult:verifyResult});
     return res.status(statusCode.ERROR).json({isValid:false});
 }
 const loginUser = async (req,res) => {
