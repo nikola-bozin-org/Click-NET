@@ -23,6 +23,7 @@ const IDs = [0, 1, 2, 3, 4, 5];
 const images = [dashboard, pay, pcMap, pay, users, pay];
 
 const App = () => {
+  console.info(process.env.ENV);
   const {isAuthorized,currentSidebarSelection} = useContext(AppContext);
   const usersContext = useContext(UsersContext);
   const {isMobile, MobileNotSupported} = useIsMobile(460);

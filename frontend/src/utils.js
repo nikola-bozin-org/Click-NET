@@ -26,3 +26,4 @@ export const filterObjectByKeys = (obj, keys) => {
 export const formatNumber = (number) =>{
     return Intl.NumberFormat().format(number);
 }
+
