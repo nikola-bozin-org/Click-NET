@@ -17,7 +17,7 @@ const Login = () => {
 
   const {setIsAuthorized} = useContext(AppContext);
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e,asViewer) => {
     setDisableLoginButton(true);
     if(currentNotificationTimeout){
       clearTimeout(currentNotificationTimeout);
@@ -33,10 +33,10 @@ const Login = () => {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({
-            'username':'admin',
-            'password':'admin'
-          }),
+          body:JSON.stringify({
+            'username':'viewer',
+            'password':'viewer'
+          })
         }
       );
       const data = await response.json();
@@ -57,13 +57,16 @@ const Login = () => {
       setIsAuthorized(true);
   };
 
+  const loginAsViewer = () =>{
+  }
+
   if(shouldNavigate) { return <Navigate to='/dashboard'/> }
 
   return (
     <>
     <div className="topbarClickNET">ClickNET</div>
     <div className="login-container">
-      <form onSubmit={handleSubmit} className="login-form">
+      <form onSubmit={(e)=>{handleSubmit(e,false)}} className="login-form">
         <label htmlFor="username">Username</label>
         <input
           autoComplete="off"
@@ -82,6 +85,7 @@ const Login = () => {
         />
         <button disabled={disableLoginButton} type="submit" className={`${disableLoginButton?'halfOpacity':''}`}>Login</button>
       </form>
+      <button onClick={(e)=>{handleSubmit(e,true)}} disabled={true} type="submit" className={` login-as-viewer-btn halfOpacity`}>Login As Viewer</button>
         <div className={`notification-container  ${showNotification?'show-notification-container':'hide-notification-container'}`}><p className={`notificationText`}>{notificationMessage}</p></div>
       {isFetching && (
         <div className="fetching-notification"></div>
