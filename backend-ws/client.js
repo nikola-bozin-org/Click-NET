@@ -9,8 +9,13 @@ ws.on("open", () => {
 });
 
 ws.on("message", (message) => {
-    console.info(message.toString("utf-8"))
+    const parsedMessage = JSON.parse(message.toString("utf-8"));
+    if (parsedMessage.event === 'userData') {
+       return console.log('Received custom event from server:', parsedMessage.data);
+    }
+    console.info("Message: " + message.toString("utf-8"))
 });
+
 
 ws.on("close",() => {
 });
