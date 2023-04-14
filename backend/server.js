@@ -5,7 +5,7 @@ const cors = require('cors');
 const mongoSanitize = require('express-mongo-sanitize')
 const xss = require('xss-clean')
 // const hpp = require('hpp')
-
+const rateLimit = require('express-rate-limit');
 const mongoConnect = require('./mongo-connect')
 const ticketsRouter = require('./routers/ticketsRouter')
 const levelsRouter = require('./routers/levelsRouter')
@@ -24,7 +24,14 @@ const dummyRouter = require('./routers/other/dummyRouter');
 
 const server = express();
 const port = 9876;
+const limiter = rateLimit({
+  windowMs: 1 * 60 * 1000, 
+  max: 30,
+  standardHeaders: true,
+  legacyHeaders: false,
+});
 
+server.use(limiter);
 server.use(helmet());
 server.use(cors());
 server.use(express.json()); 
