@@ -13,7 +13,6 @@ const CreateUser = () => {
     email: '',
     phone: ''
   });
-
   const handleInputChange = (event) => {
     const { name, value } = event.target;
     setFormData({
@@ -42,7 +41,7 @@ const CreateUser = () => {
 
   return (
     <div onClick={()=>{setShouldShowCreateUser(false)}} className="create-user-container">
-      <div className="create-user-form" onSubmit={onSave}>
+      <div className="create-user-form" onClick={(e)=>{e.stopPropagation()}}>
         <h1>Create User</h1>
         <p htmlFor="username">*Username:</p>
         <input autoComplete='off' type="text" id="username" name="username" value={formData.username} onChange={handleInputChange} required />

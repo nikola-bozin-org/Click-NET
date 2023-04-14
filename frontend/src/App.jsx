@@ -18,6 +18,7 @@ import { UsersContext} from './contexts/UsersContext';
 import { CashRegisterContextProvider } from './contexts/CashRegisterContext';
 import PoweredBy from './components/powered-by/PoweredBy';
 import { Navigate,useNavigate } from 'react-router-dom';
+import {endpoints} from './config'
 
 const IDs = [0, 1, 2, 3, 4];
 
@@ -33,7 +34,7 @@ const App = () => {
   useEffect(() => {
     const allUsers = async () => {
         setIsLoading(true);
-        const response = await fetch('https://clicknet-server.onrender.com/api/users', {
+        const response = await fetch(endpoints.allUsers, {
           headers: {
             'Content-Type': 'application/json',
             'token':localStorage.getItem('accessToken')

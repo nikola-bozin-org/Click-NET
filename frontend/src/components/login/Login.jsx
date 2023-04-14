@@ -5,6 +5,7 @@ import { useContext } from "react";
 import { AppContext } from "../../contexts/AppContext";
 import {login} from '../../redux/authSlice'
 import {useDispatch} from 'react-redux'
+import { endpoints } from "../../config";
 
 const Login = () => {
   const [username, setUsername] = useState("");
@@ -32,7 +33,7 @@ const Login = () => {
     dispatch(login({isAdmin:true}))
     e.preventDefault();
       const response = await fetch(
-        "https://clicknet-server.onrender.com/api/session/loginStaff",
+        endpoints.loginStaff,
         {
           method: "POST",
           headers: {
