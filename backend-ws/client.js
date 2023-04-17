@@ -1,7 +1,7 @@
 const WebSocket = require("ws");
 require('dotenv').config();
 
-const ws = new WebSocket(`ws://localhost:${process.env.PORT}/?jwt=${encodeURIComponent('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImMiLCJyb2xlIjoiRGVmYXVsdCIsInBjTnVtYmVyIjoxMSwiYWN0aXZlVGlja2V0cyI6W10sImJhbGFuY2UiOjMwNDQsImxhc3RTZXNzaW9uSWQiOiI2NDNkNmJkMTdiYWY0MzMxOWE2MDFmM2QiLCJkaXNjb3VudCI6MCwiaWF0IjoxNjgxNzQ2ODk3fQ.6IX55uMgndvEY9ZD0Iczi-c-TI4eWUxqJ8OzxQLUgg8')}`);
+const ws = new WebSocket(`ws://localhost:${process.env.PORT}/?jwt=${encodeURIComponent('jwt_token')}`);
 
 
 ws.on("open", () => {
