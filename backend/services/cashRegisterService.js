@@ -109,7 +109,7 @@ const _closeCashRegisterSession = async(user)=>{
         const currentCashRegisterSession = await CurrentCashRegisterSession.findOne({});
         if(!currentCashRegisterSession) return {error:"No cash register sessions."};
   
-        const oldSessionResult = await CashRegisterSessions.create({
+        await CashRegisterSessions.create({
             opener:currentCashRegisterSession.opener,
             openedAt:currentCashRegisterSession.openedAt,
             closedAt:Date.now(),
@@ -117,7 +117,7 @@ const _closeCashRegisterSession = async(user)=>{
             number:currentCashRegisterSession.number,
             amount:currentCashRegisterSession.payments.reduce((acc,cur)=> acc + cur.paymentAmount, 0),
         })
-        const deleteCurrentSessionResult = await CurrentCashRegisterSession.findOneAndDelete({});
+        await CurrentCashRegisterSession.findOneAndDelete({});
         return {sessionClosed:true}
     }catch(e){
         return {error:e.message}
@@ -135,7 +135,7 @@ const _openCashRegisterSession = async(opener,password)=>{
         const currentCashRegisterSession = await CurrentCashRegisterSession.findOne({});
         if(currentCashRegisterSession) return {error:`There is session already open. ID: ${currentCashRegisterSession.id}`}
         const numberOfDocuments = await CurrentCashRegisterSession.countDocuments({});
-        const crSession = await CurrentCashRegisterSession.create({
+        await CurrentCashRegisterSession.create({
             number:numberOfDocuments,
             opener:opener,
             openedAt:openDate,

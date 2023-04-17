@@ -8,6 +8,11 @@ const payments = new mongoose.Schema({
       paymentDate:{type:Date},
       receipt:{type:String}
 })
+const sessions = new mongoose.Schema({
+  startDate:{type:Date,required:true},
+  endDate:{type:Date},
+  minutes:{type:Number}
+})
 
 const currentCashRegister = new mongoose.Schema({
   number:{
@@ -125,7 +130,8 @@ const userSchema = new mongoose.Schema(
         enum:[zones.Pro,zones.Lobby,zones.Night]
       }
     }],
-    payments:[{type:mongoose.SchemaTypes.ObjectId,ref:'Payments'}]
+    payments:[{type:mongoose.SchemaTypes.ObjectId,ref:'Payments'}],
+    sessions:[{type:mongoose.SchemaTypes.ObjectId,ref:'Sessions'}]
   },{ timestamp: true }
 );
 const ticketsSchema = new mongoose.Schema({
@@ -194,5 +200,6 @@ module.exports = {
   CashRegisterSessions:mongoose.model("CashRegisterSessions",cashRegisterSessions),
   CurrentCashRegisterSession:mongoose.model("CurrentCashRegisterSessions",currentCashRegister),
   Payments:mongoose.model("Payments",payments),
-  Utils:mongoose.model("Utils",utils)
+  Utils:mongoose.model("Utils",utils),
+  Sessions:mongoose.model("Sessions",sessions)
 };

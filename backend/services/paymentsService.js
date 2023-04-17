@@ -28,7 +28,7 @@ const _payment = async (username,payment)=>{
         }});
         const prevAmount = currentCashRegisterSession.amount;
         const newTotalAmount = prevAmount+payment;
-        const resultPayment = await CurrentCashRegisterSession.findOneAndUpdate({},{
+        await CurrentCashRegisterSession.findOneAndUpdate({},{
               $push: { payments:paymentResult._id },$set:{amount:newTotalAmount}
         })
         return {paymentProcessed:true,tableData:{username:username,paymentAmount:payment,paymentDate:date,receipt:receipt}}
@@ -94,7 +94,7 @@ const _buyTicket = async(username,name,pcNumber)=>{
       console.info("New discount: " + newDiscount);
       console.info("Unchecked: User discount at max.");
       const date=Date.now();
-      const userResult = await User.updateOne({username},{
+      await User.updateOne({username},{
         $set:{
           xp:newUserXP,
           balance:newUserBalance,

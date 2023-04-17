@@ -8,7 +8,7 @@ require('dotenv').config()
 
 const _getUsers = async ()=>{
     try{
-        const users = await User.find({}).sort({ createdAt: -1 }).populate('payments');
+        const users = await User.find({}).sort({ createdAt: -1 }).populate(['payments','sessions']);
         return {users:users}
     }catch(e){
         return {error:e.message}
@@ -16,7 +16,7 @@ const _getUsers = async ()=>{
 }
 const _getUser = async(username) =>{
     try{
-        const user = await User.findOne({ username }).populate('payments');
+        const user = await User.findOne({ username }).populate(['payments','sessions']);
         if (user === null) return {erorr:`User ${username} not found.`};
         return { user: user };
     }catch(e){
@@ -61,7 +61,7 @@ const _changePassword = async(username,oldPassword,newPassword,pcNumber) =>{
         if(!user) return {error:`User ${username} does not exist.`};
         if(!bcrypt.compareSync(oldPassword,user.password)) return {error:'Wrong password.'};
         const hashedPassword = await bcrypt.hash(newPassword,parseInt(process.env.BCRYPT_SALT));
-        const updatePasswordResult = await User.findOneAndUpdate({username},{
+        await User.findOneAndUpdate({username},{
             password:hashedPassword,
             $push:{
                 actions:{

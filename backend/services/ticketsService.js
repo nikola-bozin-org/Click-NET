@@ -3,7 +3,7 @@ const {zones} = require('../helpers/enums')
 
 const _createTicket = async (name, cost, balance, zone, start, end) => {
   try {
-    const result = await Tickets.create({ name, cost, balance, zone,availability:{start:start,end:end} });
+    await Tickets.create({ name, cost, balance, zone,availability:{start:start,end:end} });
     return { message: `Ticket ${name} created.` };
   } catch (e) {
     return { error: e.message };
@@ -14,7 +14,7 @@ const _deleteTicket = async (name) => {
   try {
     const ticket = await Tickets.findOne({ name });
     if (!ticket) return { error: `Ticket ${name} does not exist.` };
-    const result = await Tickets.deleteOne({ name });
+    await Tickets.deleteOne({ name });
     return { message: `Deleted ${name} ticket.` };
   } catch (e) {
     return { error: e.message };
@@ -43,7 +43,7 @@ const _updateTicketCost = async (name, cost) => {
     const ticket = await Tickets.findOne({ name });
     if (!ticket) return { error: "Invalid ticket name." };
     ticket.cost = cost;
-    const resultUpdate = await Tickets.updateOne({ name }, ticket);
+    await Tickets.updateOne({ name }, ticket);
     return { message: `Ticket ${name} cost updated.` };
   } catch (e) {
     return { error: `Server error: ${e.message}` };
@@ -54,7 +54,7 @@ const _updateTicketBalance = async(name,balance)=>{
         const ticket = await Tickets.findOne({name});
         if(!ticket) {error:"Invalid ticket name."};
         ticket.balance=balance;
-        const result = await Tickets.updateOne({name},ticket);
+        await Tickets.updateOne({name},ticket);
         return {message:`Ticket ${name} cost updated.`};
     }catch(e){
         return {error:`Server error: ${e.message}`};
@@ -67,7 +67,7 @@ const _updateTicketZone = async(name,zone)=>{
         const ticket = await Tickets.findOne({name});
         if(!ticket) return {error:"Invalid ticket name."};
         ticket.zone=zone;
-        const result = await Tickets.updateOne({name},ticket);
+        await Tickets.updateOne({name},ticket);
         return {message:`Ticket ${name} zone updated.`};
     }catch(e){
         return {error:`Server error: ${e.message}`};

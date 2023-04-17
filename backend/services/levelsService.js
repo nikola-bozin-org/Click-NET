@@ -4,7 +4,7 @@ const {Levels} = require('../schemas')
 
 const _addLevel = async (level,xp)=>{
     try{
-        const resultCreate = await Levels.create({xp:xp,level:level});
+        await Levels.create({xp:xp,level:level});
         return {message:`Level created.`};
     }catch(e){
         return {error:e.message}
@@ -16,7 +16,7 @@ const _updateLevelXP = async(level,xp)=>{
         const foundLevel = await Levels.findOne({level});
         if(!foundLevel) return {error:`Level ${level} does not exist.`}
         foundLevel.xp=xp;
-        const result = await Levels.updateOne({level},foundLevel);
+        await Levels.updateOne({level},foundLevel);
         return {message:`Level ${level} XP updated.`};
     }catch(e){
         return {error:e.message}
