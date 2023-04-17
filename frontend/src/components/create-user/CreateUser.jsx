@@ -35,17 +35,16 @@ const CreateUser = () => {
     })
     const result = await response.json();
     setIsSaveDisabled(false);
-    if(result.error) {console.error(result.error); return;};
+    if (result.error) { console.error(result.error); return; };
     console.info(result)
     setShouldShowCreateUser(false);
   };
 
   return (
-    <div onClick={()=>{setShouldShowCreateUser(false)}} className="create-user-container">
-      <div className="create-user-form" onClick={(e)=>{e.stopPropagation()}}>
+    <div onClick={() => { setShouldShowCreateUser(false) }} className="create-user-container">
+      <div className="create-user-form" onClick={(e) => { e.stopPropagation() }}>
         <h1>Create User</h1>
-        <input type="text" style={{display:"none"}}/>
-        <input type="password" style={{display:"none"}}/>
+        <input type="text" style={{ display: "none" }} />
         <p htmlFor="username">*Username:</p>
         <input autoComplete='off' type="text" id="username" name="username" value={formData.username} onChange={handleInputChange} required />
         <p htmlFor="password">*Password:</p>
@@ -63,8 +62,8 @@ const CreateUser = () => {
         <p htmlFor="phone">Phone:</p>
         <input autoComplete='off' type="tel" id="phone" name="phone" value={formData.phone} onChange={handleInputChange} required />
         <div className="controlButtons">
-          <button onClick={()=>{setShouldShowCreateUser(false)}} className="cancelCreation">Cancel</button>
-          <button onClick={onSave} disabled={isSaveDisabled} className={`saveCreation ${isSaveDisabled?'halfOpacity':''}`}>Save</button>
+          <button onClick={() => { setShouldShowCreateUser(false) }} className="cancelCreation">Cancel</button>
+          <button onClick={onSave} disabled={isSaveDisabled} className={`saveCreation ${isSaveDisabled ? 'halfOpacity' : ''}`}>Save</button>
         </div>
       </div>
     </div>

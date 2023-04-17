@@ -20,7 +20,7 @@ const Login = () => {
   const dispatch = useDispatch();
   const {setIsAuthorized} = useContext(AppContext);
 
-  const handleSubmit = async (e,asViewer) => {
+  const handleSubmit = async (e) => {
     setDisableLoginButton(true);
     if(currentNotificationTimeout){
       clearTimeout(currentNotificationTimeout);
@@ -62,7 +62,6 @@ const Login = () => {
       setShouldNavigate(true);
       setIsAuthorized(true);
   };
-
   const loginAsViewer = () =>{
   }
 
@@ -73,6 +72,7 @@ const Login = () => {
     <div className="topbarClickNET">ClickNET</div>
     <div className="login-container">
       <form onSubmit={(e)=>{handleSubmit(e,false)}} className="login-form">
+      <input type="text" style={{display:"none"}}/>
         <label htmlFor="username">Username</label>
         <input
           autoComplete="off"
@@ -84,7 +84,7 @@ const Login = () => {
         <label htmlFor="password">Password</label>
         <input
           autoComplete="off"
-          type="password"
+          type="new-password"
           id="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}

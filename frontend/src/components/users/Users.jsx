@@ -8,9 +8,7 @@ import { useState } from 'react'
 import { UsersContext} from '../../contexts/UsersContext'
 import { filterObjectByKeys } from '../../utils'
 import { useSelector } from 'react-redux'
-
-const usersMainHeaders = ['username', 'role', 'balance', 'discount', 'xp'];
-// const balanceHistoryHeaders = ['username','paymentAmount','paymentDate']
+import {employeeHeaders_USERS,adminHeaders_USERS} from '../../config'
 
 const Users = ({users}) => {
   const isAdmin = useSelector((state) => state.auth.isAdmin);
@@ -18,12 +16,12 @@ const Users = ({users}) => {
   const usersContext = useContext(UsersContext);
   const [tableData,setTableData] = useState([]);
   const [headers,setHeaders] = useState([]);
-  const usersMainData = users.map((user) => filterObjectByKeys(user, usersMainHeaders));
   useEffect(() => {
     switch (usersContext.currentSelectionInternalOption) {
       case 0:
-        setTableData(usersMainData);
-        setHeaders(usersMainHeaders)
+        const headers = ['username', 'role', 'balance', 'discount', 'xp'];
+        setTableData(users.map((user) => filterObjectByKeys(user, headers)));
+        setHeaders(headers)
         break;
       // case 1: 
       //   setTableData(paymentsHistoryData);
@@ -37,7 +35,7 @@ const Users = ({users}) => {
   return (
     <div className='users'>
         <InternalTopbar text={"Users"}/>
-        <InternalOptions context={usersContext} options={['All users','Session history','Balance history','Receipt history','Passes history','Roles and user access','User types']}/>
+        <InternalOptions context={usersContext} options={isAdmin?[...employeeHeaders_USERS,...adminHeaders_USERS]:employeeHeaders_USERS}/>
         <InternalSearch/>
         <Table headers={headers} tableData={tableData} shouldRoundEdges={true} onClickTableRow={()=>{console.info("Row Clicked");}}/>
     </div>

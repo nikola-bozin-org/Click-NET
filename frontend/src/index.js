@@ -12,8 +12,22 @@ import { AppContextProvider } from "./contexts/AppContext";
 import { UsersContextProvider } from "./contexts/UsersContext";
 import { Provider } from "react-redux";
 import store from "./redux/store";
+import { useEffect, useContext } from 'react';
+import { AppContext } from './contexts/AppContext'; 
 
-const root = ReactDOM.createRoot(document.getElementById("root"));
+const DevelopmentWrapper = ({ component }) => {
+  const { setIsAuthorized } = useContext(AppContext);
+
+  useEffect(() => {
+    if (process.env.NODE_ENV === 'development') {
+      setIsAuthorized(true);
+    }
+  }, [setIsAuthorized]);
+
+  return component;
+};
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <Provider store={store}>
     <React.StrictMode>
@@ -21,7 +35,17 @@ root.render(
         <UsersContextProvider>
           <Router>
             <Routes>
-              <Route exact path="/" element={<Login />} />
+              <Route
+                exact
+                path="/"
+                element={
+                  process.env.NODE_ENV !== 'development' ? (
+                    <Login />
+                  ) : (
+                    <DevelopmentWrapper component={<App />} />
+                  )
+                }
+              />
               <Route exact path="/dashboard" element={<App />} />
               <Route path="*" element={<div>Not Found</div>} />
             </Routes>
@@ -31,7 +55,3 @@ root.render(
     </React.StrictMode>
   </Provider>
 );
-
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
