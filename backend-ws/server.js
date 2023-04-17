@@ -7,11 +7,11 @@ const url = require('url');
 
 const extractUserFromToken = async(req)=>{
   const queryParams = new URLSearchParams(url.parse(req.url).search);
-  const response = await axios.get('http://localhost:9876/api/session/verifyToken', {
+  const response = await axios.get(process.env.API_BASE_URL_LOCAL, {
     headers: {
       'Content-Type': 'application/json',
       'token': queryParams.get('jwt'),
-      'secret': 'secret-password-ce-018'
+      'secret': process.env.SERVER_SECRET
     },
   });
   if(response.data.isValid) return response.data.verifyResult;
@@ -29,10 +29,8 @@ const startServer = async () => {
       const extractedUser = await extractUserFromToken(req);
       if(!extractedUser) {ws.send("Invalid token!"); ws.close(); return; }
 
-      let clientNumber = 0;
       const updateClient = () => {
         ws.send(JSON.stringify({event:"userData",data:extractedUser}))
-        clientNumber++;
       };
       const intervalId = setInterval(updateClient, 1000);
     });

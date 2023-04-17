@@ -8,13 +8,13 @@ const capitalizeFirstLetter = (str) => {
   return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
-const TableRow = ({ data, headersLength }) => {
+const TableRow = ({ data, headersLength, onClick}) => {
   const keys = Object.keys(data);
   const isValidElement = (value) => {
     return !Array.isArray(value) && (typeof value !== 'object' || value === null);
   };
   return (
-    <tr style={{gridTemplateColumns: `repeat(${headersLength}, 1fr)` }} className='table-row'>
+    <tr onClick={onClick} style={{gridTemplateColumns: `repeat(${headersLength}, 1fr)` }} className='table-row'>
       {keys.map((key) => {
         if (isValidElement(data[key])) {
           return (
@@ -30,7 +30,7 @@ const TableRow = ({ data, headersLength }) => {
 };
 
 
-const Table = ({ headers, tableData,shouldRoundEdges }) => {
+const Table = ({ headers, tableData,shouldRoundEdges, onClickTableRow }) => {
   const headersLength = headers.length;
   return (
     <div className="table-container">
@@ -51,7 +51,7 @@ const Table = ({ headers, tableData,shouldRoundEdges }) => {
           </thead>
           <tbody className='table-body'>
             {tableData.map((data, index) => (
-              <TableRow key={index} data={data} headersLength={headersLength} />
+              <TableRow key={index} data={data} headersLength={headersLength} onClick={onClickTableRow}/>
             ))}
           </tbody>
         </table>

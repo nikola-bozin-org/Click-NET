@@ -4,16 +4,16 @@ import { AppContext } from '../../contexts/AppContext';
 import { UsersContext } from '../../contexts/UsersContext';
 
 
-const Sidebar = ({IDs, images}) => {
+const Sidebar = ({images}) => {
   const { currentSidebarSelection,setCurrentSidebarSelection } = useContext(AppContext);
   const {setShouldShowCreateUser} = useContext(UsersContext)
   return (
     <div className="sidebar">
       <div className="sidebarButtons">
-        {IDs.map((id) => {
+        {images.map((image, id) => {
           if(id===3)
-            return (<SidebarElement exec={()=>{setShouldShowCreateUser(true)}} isSelected={currentSidebarSelection===id} key={id} img={images[id]}/>)
-            return (<SidebarElement exec={()=>{setShouldShowCreateUser(false)}} isSelected={currentSidebarSelection===id} key={id} img={images[id]} onClick={setCurrentSidebarSelection} myId={id}/>)
+            return (<SidebarElement exec={()=>{setShouldShowCreateUser(true)}} isSelected={currentSidebarSelection===id} key={id} img={image}/>)
+            return (<SidebarElement exec={()=>{setShouldShowCreateUser(false)}} isSelected={currentSidebarSelection===id} key={id} img={image} onClick={setCurrentSidebarSelection} myId={id}/>)
           })}
       </div>
     </div>

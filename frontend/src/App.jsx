@@ -11,18 +11,19 @@ import pay from './images/pay.png'
 import pcMap from './images/site-map.png'
 import createUser from './images/user-avatar.png'
 import settings from './images/settings.png'
+import importUser from './images/importUser.png'
 import useIsMobile from './hooks/useIsMobile';
 import Skeleton from './skeletons/Skeleton';
 import {AppContext} from './contexts/AppContext'
 import { UsersContext} from './contexts/UsersContext';
 import { CashRegisterContextProvider } from './contexts/CashRegisterContext';
 import PoweredBy from './components/powered-by/PoweredBy';
+import ImportUser from './components/import-user/ImportUser'
 import { Navigate,useNavigate } from 'react-router-dom';
-import {endpoints} from './config'
+import {allUsers} from './config'
 
-const IDs = [0, 1, 2, 3, 4];
 
-const images = [dashboard, pay, pcMap, createUser,settings];
+const images = [dashboard, pay, pcMap, createUser,settings,importUser];
 
 const App = () => {
   const {isAuthorized,currentSidebarSelection} = useContext(AppContext);
@@ -32,9 +33,9 @@ const App = () => {
   const [users, setUsers] = useState([]);
 
   useEffect(() => {
-    const allUsers = async () => {
+    const getAllUsers = async () => {
         setIsLoading(true);
-        const response = await fetch(endpoints.allUsers, {
+        const response = await fetch(allUsers, {
           headers: {
             'Content-Type': 'application/json',
             'token':localStorage.getItem('accessToken')
@@ -45,7 +46,7 @@ const App = () => {
         setUsers(result.users.reverse());
         setIsLoading(false);
     };
-    allUsers();
+    getAllUsers();
   }, []);
 
   if(!isAuthorized) return <Navigate to='/'/>
@@ -65,7 +66,7 @@ const App = () => {
       <PoweredBy/>
       <div className="appOther">
         <div>
-        <Sidebar IDs={IDs} images={images} currentSelectedComponent={currentSidebarSelection} />
+        <Sidebar images={images} currentSelectedComponent={currentSidebarSelection} />
         </div>
         {usersContext.shouldShowCreateUser && <CreateUser/>}
         {(() => {
@@ -74,7 +75,8 @@ const App = () => {
             case 1: return <CashRegisterContextProvider><CashRegister/></CashRegisterContextProvider> ;
             case 2:
               return <PCMap/>;
-            case 3:
+            case 3: return;
+            case 5: return <ImportUser/>
             default:
               return ;
           }

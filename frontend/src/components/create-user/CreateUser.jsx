@@ -1,6 +1,7 @@
 import React, { useContext, useState } from 'react';
 import './createUser.css';
 import { UsersContext } from '../../contexts/UsersContext';
+import { createUser } from '../../config';
 
 const CreateUser = () => {
   const { setShouldShowCreateUser } = useContext(UsersContext)
@@ -24,7 +25,7 @@ const CreateUser = () => {
   const onSave = async (event) => {
     event.preventDefault();
     setIsSaveDisabled(true);
-    const response = await fetch('https://clicknet-server.onrender.com/api/users/createUser', {
+    const response = await fetch(createUser, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -43,11 +44,12 @@ const CreateUser = () => {
     <div onClick={()=>{setShouldShowCreateUser(false)}} className="create-user-container">
       <div className="create-user-form" onClick={(e)=>{e.stopPropagation()}}>
         <h1>Create User</h1>
+        <input type="text" style={{display:"none"}}/>
+        <input type="password" style={{display:"none"}}/>
         <p htmlFor="username">*Username:</p>
         <input autoComplete='off' type="text" id="username" name="username" value={formData.username} onChange={handleInputChange} required />
-
         <p htmlFor="password">*Password:</p>
-        <input autoComplete='off' type="password" id="password" name="password" value={formData.password} onChange={handleInputChange} required />
+        <input autoComplete='off' type="new-password" id="password" name="password" value={formData.password} onChange={handleInputChange} required />
 
         <p htmlFor="firstName">First Name:</p>
         <input autoComplete='off' type="text" id="firstName" name="firstName" value={formData.firstName} onChange={handleInputChange} required />

@@ -41,6 +41,7 @@
 .login-form label {
   font-weight: bold;
   margin-bottom: 0.5rem;
+  font-weight: normal;
 }
 
 .login-form input {

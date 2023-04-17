@@ -4,6 +4,7 @@ import Table from '../table/Table'
 import { useState, useEffect, useRef } from 'react';
 import { fixPaymentsDate, formatNumber } from '../../utils'
 import coins from '../../images/dollar.png'
+import {getCurrentSessionPayments} from '../../config'
 
 const CashRegisterRefill = () => {
   const circleRef = useRef(null);
@@ -24,8 +25,7 @@ const CashRegisterRefill = () => {
 
   useEffect(() => {
     const currentCashRegisterPayments = async () => {
-      const response = await fetch('https://clicknet-server.onrender.com/api/cashRegister/getCurrentSessionPayments', {
-        // const response = await fetch('http://localhost:9876/api/cashRegister/getCurrentSessionPayments', {
+      const response = await fetch(getCurrentSessionPayments, {
         headers: {
           'Content-Type': 'application/json',
           'token': localStorage.getItem('accessToken')
