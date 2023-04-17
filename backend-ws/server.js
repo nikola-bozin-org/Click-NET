@@ -4,19 +4,30 @@ const mongoConnect = require('./mongo-connect')
 const axios = require('axios');
 const url = require('url');
 
+const ratePerHour = 180;
+const ratePerMinute = ratePerHour/60;
+const ratePerSecond = ratePerMinute/60;
+const customRate = 2000;
 
-const extractUserFromToken = async(req)=>{
-  const queryParams = new URLSearchParams(url.parse(req.url).search);
-  const response = await axios.get(process.env.API_BASE_URL_LOCAL, {
-    headers: {
-      'Content-Type': 'application/json',
-      'token': queryParams.get('jwt'),
-      'secret': process.env.SERVER_SECRET
-    },
-  });
-  if(response.data.isValid) return response.data.verifyResult;
-  return false;
-}
+const extractUserFromToken = async (req) => {
+  try {
+    const queryParams = new URLSearchParams(url.parse(req.url).search);
+    const response = await axios.get(process.env.API_BASE_URL_LOCAL, {
+      headers: {
+        'Content-Type': 'application/json',
+        'token': queryParams.get('jwt'),
+        'secret': process.env.SERVER_SECRET,
+      },
+    });
+
+    if (response.data.isValid) return response.data.verifyResult;
+    return false;
+  } catch (error) {
+    console.error('Error extracting user from token:', error.code);
+    return false;
+  }
+};
+
 
 
 const startServer = async () => {
@@ -27,12 +38,21 @@ const startServer = async () => {
 
     server.on("connection", async (ws, req) => {
       const extractedUser = await extractUserFromToken(req);
-      if(!extractedUser) {ws.send("Invalid token!"); ws.close(); return; }
-
+      if(!extractedUser) {ws.send(JSON.stringify({event:"invalidToken",message: "Invalid token!"})); ws.close(); return; }
+      let clientBalance = extractedUser.balance;
+      const clientTickets = extractedUser.activeTickets;
+      
       const updateClient = () => {
-        ws.send(JSON.stringify({event:"userData",data:extractedUser}))
+        clientBalance-=customRate;
+        //updejt u bazu
+        if(clientBalance<=0 && clientTickets.length===0) {
+          ws.send(JSON.stringify({ event: "timeUp", message: "Time is up." }));
+          ws.close();
+          //updejt u bazu
+        } 
+        ws.send(JSON.stringify({event:"userData",data:{balance:clientBalance}}))
       };
-      const intervalId = setInterval(updateClient, 1000);
+      setInterval(updateClient, 1000);
     });
   });
 }

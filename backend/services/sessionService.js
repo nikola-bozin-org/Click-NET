@@ -59,7 +59,7 @@ const _loginUser = async (username, password, pcNumber) => {
                     sessions:newSession._id
                 }
             })
-        const accessToken = jwt.sign({ username: user.username, role: user.role, pcNumber: pcNumber,activeTickets:user.activeTickets,balance:user.balance,lastSessionId:newSession._id })
+        const accessToken = jwt.sign({ username: user.username, role: user.role, pcNumber: pcNumber,activeTickets:user.activeTickets,balance:user.balance,lastSessionId:newSession._id,discount:user.discount })
         return { accessToken: accessToken }
     } catch (e) {
         return { error: e.message }
