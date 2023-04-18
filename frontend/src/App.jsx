@@ -20,7 +20,7 @@ import { CashRegisterContextProvider } from './contexts/CashRegisterContext';
 import PoweredBy from './components/powered-by/PoweredBy';
 import ImportUser from './components/import-user/ImportUser'
 import { Navigate,useNavigate } from 'react-router-dom';
-import {allUsers} from './config'
+import {allSessions, allUsers} from './config'
 
 
 const images = [dashboard, pay, pcMap, createUser,settings,importUser];
@@ -31,10 +31,10 @@ const App = () => {
   const {isMobile, MobileNotSupported} = useIsMobile(460);
   const [isLoading, setIsLoading] = useState(true);
   const [users, setUsers] = useState([]);
+  const [sessions,setSessions] = useState([]);
 
   useEffect(() => {
     const getAllUsers = async () => {
-        setIsLoading(true);
         const response = await fetch(allUsers, {
           headers: {
             'Content-Type': 'application/json',
@@ -44,9 +44,25 @@ const App = () => {
         const result = await response.json();
         if(result.error) {console.error(result.error); return}
         setUsers(result.users.reverse());
-        setIsLoading(false);
     };
-    getAllUsers();
+    const getAllSessions = async()=>{
+      const response = await fetch(allSessions, {
+        headers: {
+          'Content-Type': 'application/json',
+          'token':localStorage.getItem('accessToken')
+        }
+      });
+      const result = await response.json();
+      if(result.error) {console.error(result.error); return}
+      setSessions(result.sessions.reverse());
+    }
+    const loadData = async () => {
+      setIsLoading(true);
+      await Promise.all([getAllUsers(), getAllSessions()]);
+      setIsLoading(false);
+    };
+  
+    loadData();
   }, []);
 
   if(!isAuthorized) return <Navigate to='/'/>
@@ -60,6 +76,7 @@ const App = () => {
     <Skeleton type={"s-sidebar"} />
   </>;
 
+  console.info(sessions)
   return (
     <div className="app">
       <Topbar />
@@ -71,7 +88,7 @@ const App = () => {
         {usersContext.shouldShowCreateUser && <CreateUser/>}
         {(() => {
           switch (currentSidebarSelection) {
-            case 0: return <Users users={users}/>
+            case 0: return <Users users={users} sessions={sessions}/>
             case 1: return <CashRegisterContextProvider><CashRegister/></CashRegisterContextProvider> ;
             case 2:
               return <PCMap/>;

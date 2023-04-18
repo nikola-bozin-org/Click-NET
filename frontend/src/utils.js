@@ -18,6 +18,8 @@ export const filterObjectByKeys = (obj, keys) => {
     return keys.reduce((filteredObj, key) => {
         if (obj.hasOwnProperty(key)) {
             filteredObj[key] = obj[key];
+        }else{
+            filteredObj[key] = '';
         }
         return filteredObj;
     }, {});

@@ -10,7 +10,7 @@ import { filterObjectByKeys } from '../../utils'
 import { useSelector } from 'react-redux'
 import {employeeHeaders_USERS,adminHeaders_USERS} from '../../config'
 
-const Users = ({users}) => {
+const Users = ({users,sessions}) => {
   const isAdmin = useSelector((state) => state.auth.isAdmin);
   console.info("ADMIN: " + isAdmin)
   const usersContext = useContext(UsersContext);
@@ -19,14 +19,16 @@ const Users = ({users}) => {
   useEffect(() => {
     switch (usersContext.currentSelectionInternalOption) {
       case 0:
-        const headers = ['username', 'role', 'balance', 'discount', 'xp'];
-        setTableData(users.map((user) => filterObjectByKeys(user, headers)));
-        setHeaders(headers)
+        const headersMain = ['username', 'role', 'balance', 'discount', 'xp'];
+        setTableData(users.map((user) => filterObjectByKeys(user, headersMain)));
+        setHeaders(headersMain)
         break;
-      // case 1: 
-      //   setTableData(paymentsHistoryData);
-      //   break;
-      // case 2:
+        case 1: 
+        const headersSessions = ['username','startDate','endDate','minutes','pcNumber'];
+        setTableData(sessions.map((session)=>filterObjectByKeys(session,headersSessions)));
+        setHeaders(['Username','Start Date','End Date','Minutes','PC Number'])
+        break;
+      case 2:
       default:
         setTableData([]);
     }
