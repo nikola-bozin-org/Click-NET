@@ -21,7 +21,7 @@ const FetchError = ({ showMessage, message, onDelayCompleted,marginTop }) => {
   }, [showMessage]);
 
   return (
-    <div style={{marginTop:`${marginTop}`}} className={`fetch-error-container ${showMessage ? 'show-fetch-error-container' : 'hide-fetch-error-container'}`}>
+    <div  className={`fetch-error-container ${showMessage ? 'show-fetch-error-container' : 'hide-fetch-error-container'}`}>
       <p className={`fetchErrorText`}>
         {message}
       </p>
