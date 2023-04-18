@@ -30,7 +30,7 @@ const _loginStaff = async (username, password) => {
                 }
             })
         const accessToken = jwt.sign({ username: user.username, role: user.role })
-        return { accessToken: accessToken }
+        return { accessToken: accessToken,user:user }
     } catch (e) {
         return { error: e.message }
     }
@@ -60,7 +60,7 @@ const _loginUser = async (username, password, pcNumber) => {
                 }
             })
         const accessToken = jwt.sign({ username: user.username, role: user.role, pcNumber: pcNumber,activeTickets:user.activeTickets,balance:user.balance,lastSessionId:newSession._id,discount:user.discount })
-        return { accessToken: accessToken }
+        return { accessToken: accessToken,user:user }
     } catch (e) {
         return { error: e.message }
     }
