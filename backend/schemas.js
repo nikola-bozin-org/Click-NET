@@ -11,7 +11,8 @@ const payments = new mongoose.Schema({
 const sessions = new mongoose.Schema({
   startDate:{type:Date,required:true},
   endDate:{type:Date},
-  minutes:{type:Number}
+  minutes:{type:Number},
+  pcNumber:{type:Number}
 })
 
 const currentCashRegister = new mongoose.Schema({

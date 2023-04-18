@@ -130,10 +130,21 @@ const _getLoggedInUsers = async () => {
     }
 }
 
+const _getAllSessions = async()=>{
+    try{
+        const sessions = await Sessions.find({});
+        return {sessions:sessions}
+    }catch(e){
+        return {error:e.message}
+    }
+}
+
+
 module.exports = {
     _loginStaff,
     _loginUser,
     _logoutUser,
     _logoutAllUsers,
     _getLoggedInUsers,
+    _getAllSessions,
 }
