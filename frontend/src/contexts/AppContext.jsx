@@ -9,6 +9,8 @@ export const AppContextProvider = ({children})=>{
     const [isAuthorized,setIsAuthorized]=useState(false);
     const [shouldShowCreateUser, setShouldShowCreateUser] = useState(false);
     const [shouldShowCloseCashRegister,setShouldShowCloseCashRegister] = useState(false);
+    const [isCashRegisterOpen,setIsCashRegisterOpen] = useState(false);
+
 
     const value = {
         currentSidebarSelection,
@@ -18,7 +20,9 @@ export const AppContextProvider = ({children})=>{
         shouldShowCreateUser,
         setShouldShowCreateUser, 
         shouldShowCloseCashRegister,
-        setShouldShowCloseCashRegister
+        setShouldShowCloseCashRegister,
+        isCashRegisterOpen,
+        setIsCashRegisterOpen
     }
 
     return (

@@ -90,7 +90,7 @@ const App = () => {
         {(() => {
           switch (currentSidebarSelection) {
             case 0: return <Users users={users} sessions={sessions}/>
-            case 1: return <CashRegisterContextProvider><CashRegister/></CashRegisterContextProvider> ;
+            case 1: return <> {appContext.isCashRegisterOpen?<CashRegisterContextProvider><CashRegister/></CashRegisterContextProvider>:<div>NotOpen</div>}  </> ;
             case 2:
               return <PCMap/>;
             case 3: return;

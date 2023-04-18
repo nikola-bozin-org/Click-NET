@@ -4,7 +4,7 @@ import Table from '../table/Table'
 import { useState, useEffect, useRef } from 'react';
 import { fixPaymentsDate, formatNumber } from '../../utils'
 import coins from '../../images/dollar.png'
-import {getCurrentSessionPayments} from '../../config'
+import {getCurrentCashRegisterSession, getCurrentSessionPayments} from '../../config'
 
 const CashRegisterRefill = () => {
   const circleRef = useRef(null);
@@ -38,7 +38,20 @@ const CashRegisterRefill = () => {
       setCashierBalance(total);
       setTotalRevenue(total);
     };
-    currentCashRegisterPayments();
+    const fetchCurrentCashRegisterSession = async()=>{
+      const response = await fetch(getCurrentCashRegisterSession,{
+        headers: {
+          'Content-Type': 'application/json',
+          'token': localStorage.getItem('accessToken')
+        }
+      })
+      const result = await response.json();
+      if (result.error) {console.error(result.error); return }
+      if(!result.currentSession) console.info("No session open.");
+      console.warn(result.currentSession);
+    }
+    fetchCurrentCashRegisterSession();
+    // currentCashRegisterPayments();
   }, []);
   
   const handleRefill = async () => {

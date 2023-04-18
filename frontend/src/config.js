@@ -15,7 +15,7 @@ export const payment=`${API_BASE_URL}/payments/payment`
 //CashRegister
 export const getCurrentSessionPayments=`${API_BASE_URL}/cashRegister/getCurrentSessionPayments`
 export const closeCashRegisterSession = `${API_BASE_URL}/cashRegister/closeCashRegisterSession`
-
+export const getCurrentCashRegisterSession = `${API_BASE_URL}/cashRegister/getCurrentSession`
 
 
 export const employeeHeaders_USERS = ['All users','Session history','Balance history','Receipt history','Passes history']
