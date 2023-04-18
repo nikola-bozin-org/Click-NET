@@ -28,10 +28,12 @@
 .search-button {
     padding: 7px;
     color: #ffffff;
-    font-size: 16px;
+    font-size: 16px!important;
     cursor: pointer;
-    border: 2px solid #685489;
+    border: 2px solid #685489!important;
     background-color: #171A1E;
+    width: auto!important;
+    height: auto!important;
 }
 .search-button:hover{
     background-color: black;

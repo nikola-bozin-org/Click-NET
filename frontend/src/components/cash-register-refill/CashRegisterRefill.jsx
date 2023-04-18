@@ -6,16 +6,18 @@ import { fixPaymentsDate, formatNumber } from '../../utils'
 import coins from '../../images/dollar.png'
 import {getCurrentCashRegisterSession, getCurrentSessionPayments, payment} from '../../config'
 import FetchError from '../fetch-error/FetchError';
+import FetchSuccess from '../fetch-success/FetchSuccess';
+
 import { useContext } from 'react';
 import { AppContext } from '../../contexts/AppContext';
 import HandleButton from '../handle-button/HandleButton'
-
 
 const CashRegisterRefill = () => {
   const inputAmountRef = useRef(null);
   const inputUsernameRef = useRef(null);
   const [shouldDisableRefill, setShouldDisableRefill] = useState(false);
   const [shouldShowError,setShouldShowError] = useState(false);
+  const [shouldShowSuccess,setShouldShowSuccess] = useState(false);
   const [informationText, setInformationText] = useState('');
   const [amount, setAmount] = useState('');
   const [username, setUsername] = useState('');
@@ -44,6 +46,8 @@ const CashRegisterRefill = () => {
   
   const handleRefill = async () => {
     setShouldDisableRefill(true);
+    setShouldShowError(false);
+    setShouldShowSuccess(false);
     inputAmountRef.current.value = '';
     inputUsernameRef.current.value = '';
     setUsername('');
@@ -68,7 +72,7 @@ const CashRegisterRefill = () => {
     }else if(result.paymentProcessed){
       setCurrentCashRegisterSessionPayments([...currentCashRegisterSessionPayments,result.tableData])
       setInformationText("Payment Accepted!")
-      setShouldShowError(false);
+      setShouldShowSuccess(true);
       setTotalRevenue(totalRevenue+result.tableData.paymentAmount)
       setCashierBalance(cashierBalance+result.tableData.paymentAmount)
     }
@@ -82,10 +86,11 @@ const CashRegisterRefill = () => {
         <input ref={inputUsernameRef} onChange={(e) => setUsername(e.target.value)} className="cash-register-refill-username" type='text' placeholder='Username' />
         <HandleButton shouldDisable={shouldDisableRefill}  onClick={handleRefill} text={"Refill"} className={`cash-register-refill-button ${shouldDisableRefill ? `halfOpacity` : ``}`}/>
         <FetchError showMessage={shouldShowError} message={informationText} onDelayCompleted={()=>{setShouldShowError(false)}} />
+        <FetchSuccess showMessage={shouldShowSuccess} message={informationText} onDelayCompleted={()=>{setShouldShowSuccess(false)}}/>
       </div>
       <div className="cash-register-refill-right">
         <div className="cash-register-refill-right-topbar">
-            <button className="cash-register-refill-right-topbar-zReport">Z Report</button>
+          <HandleButton text={'Z Report'} className={'cash-register-refill-right-topbar-zReport'} />
           <div
             onMouseEnter={() => setShowDailyRevenue(true)}
             onMouseLeave={() => setShowDailyRevenue(false)}

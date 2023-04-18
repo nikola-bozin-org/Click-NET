@@ -1,0 +1,43 @@
+.fetch-success-container {
+    left: 50%;
+    color: white;
+    font-size: 22px;
+    align-items: center;
+    text-align: center;
+    background-color: #4d6e26!important;
+    border:3px solid #4d6e26!important;
+    padding: 5px;
+  }
+  
+  .hide-fetch-success-container {
+    display: none;
+  }
+  
+  .show-fetch-success-container {
+    display: block;
+  }
+  
+  .fetchSuccessText {
+    height: 100%;
+  text-align: center;
+    margin: 0!important;
+  }
+  
+  @keyframes slide-in {
+    from {
+      transform: translateX(-50%) translateY(100%);
+    }
+    to {
+      transform: translateX(-50%) translateY(0%);
+    }
+  }
+  
+  @keyframes fade-out {
+    from {
+      opacity: 1;
+    }
+    to {
+      opacity: 0;
+    }
+  }
+  

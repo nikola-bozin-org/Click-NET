@@ -79,17 +79,6 @@
   z-index: 1;
 }
 
-.circle {
-  position: absolute;
-  width: 10px;
-  height: 10px;
-  background-color: #685489;
-  border-radius: 50%;
-  transform: translate(-50%, -50%) scale(0);
-  transition: transform 0.4s ease;
-  pointer-events: none;
-}
-
 .cash-register-refill-button:hover .circle {
   transform: translate(-50%, -50%) scale(70);
 }
@@ -105,39 +94,6 @@ input[type="number"].cash-register-refill-amount::-webkit-inner-spin-button {
 input[type=number] {
   -moz-appearance:textfield;
   appearance: textfield;
-}
-
-
-.cash-register-error{
-  color: white;
-  font-size: 22px;
-  width: 500px;
-  display: flex;
-  align-items: center;
-  text-align: center;
-  background-color: #cc2234;
-  border:3px solid #cc2234;
-  padding: 5px;
-}
-.cash-register-confirm{
-  color: white;
-  font-size: 22px;
-  width: 500px;
-  display: flex;
-  align-items: center;
-  text-align: center;
-  background-color: #4d6e26;
-  border:3px solid #4d6e26;
-  padding: 5px;
-}
-
-.cash-register-error>p{
-  width: 100%;
-}
-
-
-.cash-register-confirm>p{
-  width: 100%;
 }
 
 .cash-register-refill-right-topbar{
@@ -166,12 +122,14 @@ input[type=number] {
 }
 
 .cash-register-refill-right-topbar-zReport{
-  border: 2px solid #685489;
-  background-color: #171A1E;
+  border: 2px solid #685489!important;
+  background-color: #171A1E!important;
   color: white;
-  font-size: 21px;
-  padding: 0.5rem 2rem;
+  font-size: 21px!important;
+  padding: 0.5rem 2rem!important;
   cursor: pointer;
+  width: auto!important;
+  height: auto!important;
 }
 
 .cash-register-refill-right-topbar-zReport:hover{

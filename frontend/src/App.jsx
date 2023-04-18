@@ -65,7 +65,7 @@ const App = () => {
       })
       const result = await response.json();
       if (result.error) {console.error(result.error); return }
-      if(!result.currentSession) console.info("No session open.");
+      if(!result.currentSession) {console.info("No session open."); return}
       appContext.setIsCashRegisterOpen(true);
     }
     const loadData = async () => {
@@ -114,6 +114,5 @@ const App = () => {
     </div>
   )
 }
-// https://coolors.co/palette/000000-171a1e-343d51-feda84-ff9b83-976393-685489-43457f
 
 export default App;

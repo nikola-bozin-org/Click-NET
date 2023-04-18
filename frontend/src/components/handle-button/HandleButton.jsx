@@ -2,10 +2,11 @@ import React,{useRef} from 'react';
 import './HandleButton.css';
 
 const HandleButton = ({
-    shouldDisable,
+    shouldDisable=false,
     onClick,
     text,
     className,
+    circleColor = "#685489"
   }) => {
   const circleRef = useRef(null);
     const handleMouseEnter = (e) => {
@@ -16,7 +17,6 @@ const HandleButton = ({
       circleRef.current.style.left = `${x}px`;
       circleRef.current.style.top = `${y}px`;
     };
-
     return (
       <button
         disabled={shouldDisable}
@@ -24,7 +24,7 @@ const HandleButton = ({
         onClick={onClick}
         className={`handle-button ${className} ${shouldDisable ? `half-opacity` : ``}`}
       >
-        <div ref={circleRef} className='circle'></div>
+        <div style={{ backgroundColor:circleColor}} ref={circleRef} className='circle'></div>
         <p className='handle-button-text'>{text}</p>
       </button>
     );

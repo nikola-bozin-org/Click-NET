@@ -9,13 +9,14 @@
 }
 
 .cash-register-close-session-button{
-    margin-right: 20px;
-    border: 3px solid #cc2234;
+    margin-right: 20px!important;
+    border: 3px solid #cc2234!important;
     color: white;
-    background-color: #171A1E;
-    font-size: 1.2rem;
-    width: 170px;
+    background-color: #171A1E!important;
+    font-size: 1.2rem!important;
+    width: 170px!important;
     cursor: pointer;
+    height: auto!important;
 }
 
 .cash-register-close-session-button:hover{

@@ -5,6 +5,7 @@ import './cashRegister.css'
 import { CashRegisterContext } from '../../contexts/CashRegisterContext'
 import CashRegisterRefill from '../cash-register-refill/CashRegisterRefill'
 import { AppContext } from '../../contexts/AppContext'
+import HandleButton from '../handle-button/HandleButton'
 
 const CashRegister = () => {
   const cashRegisterContext = useContext(CashRegisterContext)
@@ -13,7 +14,7 @@ const CashRegister = () => {
     <div className='cashRegister'>
       <div className="cash-register-internal-topbar-wrapper">
         <InternalTopbar text={"Cash register"}/>
-        <button onClick={()=>{setShouldShowCloseCashRegister(true)}} className="cash-register-close-session-button">Close</button>
+        <HandleButton shouldDisable={false} onClick={()=>{setShouldShowCloseCashRegister(true)}} text={"Close"} className={"cash-register-close-session-button"} circleColor='#cc2234'/>
       </div>
         <InternalOptions context={cashRegisterContext} options={['Refill','Refund','Postpaid sessions','Shop']}/>
         {(() => {
