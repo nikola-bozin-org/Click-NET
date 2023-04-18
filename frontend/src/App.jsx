@@ -19,7 +19,7 @@ import { CashRegisterContextProvider } from './contexts/CashRegisterContext';
 import PoweredBy from './components/powered-by/PoweredBy';
 import ImportUser from './components/import-user/ImportUser'
 import { Navigate,useNavigate } from 'react-router-dom';
-import {allSessions, allUsers} from './config'
+import {allSessions, allUsers, getCurrentCashRegisterSession} from './config'
 import CloseCashRegister from './components/close-cash-register/CloseCashRegister';
 
 
@@ -34,7 +34,7 @@ const App = () => {
   const [sessions,setSessions] = useState([]);
 
   useEffect(() => {
-    const getAllUsers = async () => {
+    const fetchAllUsers = async () => {
         const response = await fetch(allUsers, {
           headers: {
             'Content-Type': 'application/json',
@@ -45,7 +45,7 @@ const App = () => {
         if(result.error) {console.error(result.error); return}
         setUsers(result.users.reverse());
     };
-    const getAllSessions = async()=>{
+    const fetchAllSessions = async()=>{
       const response = await fetch(allSessions, {
         headers: {
           'Content-Type': 'application/json',
@@ -56,9 +56,21 @@ const App = () => {
       if(result.error) {console.error(result.error); return}
       setSessions(result.sessions.reverse());
     }
+    const fetchCurrentCashRegisterSession = async()=>{
+      const response = await fetch(getCurrentCashRegisterSession,{
+        headers: {
+          'Content-Type': 'application/json',
+          'token': localStorage.getItem('accessToken')
+        }
+      })
+      const result = await response.json();
+      if (result.error) {console.error(result.error); return }
+      if(!result.currentSession) console.info("No session open.");
+      appContext.setIsCashRegisterOpen(true);
+    }
     const loadData = async () => {
       setIsLoading(true);
-      await Promise.all([getAllUsers(), getAllSessions()]);
+      await Promise.all([fetchAllUsers(), fetchAllSessions(),fetchCurrentCashRegisterSession()]);
       setIsLoading(false);
     };
   
@@ -76,7 +88,6 @@ const App = () => {
     <Skeleton type={"s-sidebar"} />
   </>;
 
-  console.info(users)
   return (
     <div className="app">
       <Topbar />

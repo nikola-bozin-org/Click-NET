@@ -1,0 +1,43 @@
+.fetch-error-container {
+    left: 50%;
+    color: white;
+    font-size: 22px;
+    align-items: center;
+    text-align: center;
+    background-color: #cc2234;
+    border: 3px solid #cc2234;
+    padding: 5px;
+  }
+  
+  .hide-fetch-error-container {
+    display: none;
+  }
+  
+  .show-fetch-error-container {
+    display: block;
+  }
+  
+  .fetchErrorText {
+    height: 100%;
+  text-align: center;
+    margin: 0!important;
+  }
+  
+  @keyframes slide-in {
+    from {
+      transform: translateX(-50%) translateY(100%);
+    }
+    to {
+      transform: translateX(-50%) translateY(0%);
+    }
+  }
+  
+  @keyframes fade-out {
+    from {
+      opacity: 1;
+    }
+    to {
+      opacity: 0;
+    }
+  }
+  

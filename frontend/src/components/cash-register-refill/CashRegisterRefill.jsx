@@ -4,7 +4,10 @@ import Table from '../table/Table'
 import { useState, useEffect, useRef } from 'react';
 import { fixPaymentsDate, formatNumber } from '../../utils'
 import coins from '../../images/dollar.png'
-import {getCurrentCashRegisterSession, getCurrentSessionPayments} from '../../config'
+import {getCurrentCashRegisterSession, getCurrentSessionPayments, payment} from '../../config'
+import FetchError from '../fetch-error/FetchError';
+import { useContext } from 'react';
+import { AppContext } from '../../contexts/AppContext';
 
 const CashRegisterRefill = () => {
   const circleRef = useRef(null);
@@ -17,11 +20,9 @@ const CashRegisterRefill = () => {
   const [amount, setAmount] = useState('');
   const [username, setUsername] = useState('');
   const [currentCashRegisterSessionPayments, setCurrentCashRegisterSessionPayments] = useState([]);
-  const [timerId, setTimerId] = useState(null);
   const [showDailyRevenue, setShowDailyRevenue] = useState(false);
   const [totalRevenue,setTotalRevenue]=useState(0);
   const [cashierBalance,setCashierBalance]=useState(0);
-
 
   useEffect(() => {
     const currentCashRegisterPayments = async () => {
@@ -38,19 +39,7 @@ const CashRegisterRefill = () => {
       setCashierBalance(total);
       setTotalRevenue(total);
     };
-    const fetchCurrentCashRegisterSession = async()=>{
-      const response = await fetch(getCurrentCashRegisterSession,{
-        headers: {
-          'Content-Type': 'application/json',
-          'token': localStorage.getItem('accessToken')
-        }
-      })
-      const result = await response.json();
-      if (result.error) {console.error(result.error); return }
-      if(!result.currentSession) console.info("No session open.");
-      console.warn(result.currentSession);
-    }
-    fetchCurrentCashRegisterSession();
+
     // currentCashRegisterPayments();
   }, []);
   
@@ -61,9 +50,7 @@ const CashRegisterRefill = () => {
     inputUsernameRef.current.value = '';
     setUsername('');
     setAmount('');
-    clearTimeout(timerId);
-      // const response = await fetch('http://localhost:9876/api/payments/payment', {
-      const response = await fetch('https://clicknet-server.onrender.com/api/payments/payment', {
+      const response = await fetch(payment, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -80,10 +67,6 @@ const CashRegisterRefill = () => {
     if (result.error) {
       setInformationText(result.error)
       setShouldShowError(true);
-      const newTimerId = setTimeout(() => {
-        setShowInformation(false);
-      }, 6000);
-      setTimerId(newTimerId);
       return;
     }else if(result.paymentProcessed){
       setCurrentCashRegisterSessionPayments([...currentCashRegisterSessionPayments,result.tableData])
@@ -91,10 +74,6 @@ const CashRegisterRefill = () => {
       setShouldShowError(false);
       setTotalRevenue(totalRevenue+result.tableData.paymentAmount)
       setCashierBalance(cashierBalance+result.tableData.paymentAmount)
-      const newTimerId = setTimeout(() => {
-        setShowInformation(false);
-      }, 2000);
-      setTimerId(newTimerId);
     }
   };
   const handleMouseEnter = (e) => {
@@ -109,15 +88,16 @@ const CashRegisterRefill = () => {
   return (
     <div className='cash-register-refill'>
       <div className="cash-register-refill-left">
-        <input ref={inputAmountRef} onChange={(e) => setAmount(e.target.value)} className="cash-register-refill-amount" type='number' placeholder='Amount' />
+        <input min={1} ref={inputAmountRef} onChange={(e) => setAmount(e.target.value)} className="cash-register-refill-amount" type='number' placeholder='Amount' />
         <input ref={inputUsernameRef} onChange={(e) => setUsername(e.target.value)} className="cash-register-refill-username" type='text' placeholder='Username' />
         <button disabled={shouldDisableRefill} onMouseEnter={handleMouseEnter} onClick={handleRefill} className={`cash-register-refill-button ${shouldDisableRefill ? `halfOpacity` : ``}`}>
           <div ref={circleRef} className='circle'></div>
           <p className='cash-register-refill-button-text'>Refill</p>
         </button>
-        {showInformation && <div className={`cash-register-${shouldShowError?'error':'confirm'}`}>
+        <FetchError showMessage={shouldShowError} message={informationText} onDelayCompleted={()=>{setShouldShowError(false)}} />
+        {/* {showInformation && <div className={`cash-register-${shouldShowError?'error':'confirm'}`}>
           <p>{informationText}</p>
-        </div>}
+        </div>} */}
       </div>
       <div className="cash-register-refill-right">
         <div className="cash-register-refill-right-topbar">

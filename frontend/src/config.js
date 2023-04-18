@@ -20,3 +20,6 @@ export const getCurrentCashRegisterSession = `${API_BASE_URL}/cashRegister/getCu
 
 export const employeeHeaders_USERS = ['All users','Session history','Balance history','Receipt history','Passes history']
 export const adminHeaders_USERS = ['Roles and user access','User types']
+
+export const delay_ERROR = 4000;
+export const delay_ACCEPT = 2500;

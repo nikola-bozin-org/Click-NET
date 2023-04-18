@@ -2,10 +2,13 @@ import React, { useContext, useState } from 'react';
 import './createUser.css';
 import { createUser } from '../../config';
 import { AppContext } from '../../contexts/AppContext';
+import FetchError from '../fetch-error/FetchError';
 
 const CreateUser = () => {
   const { setShouldShowCreateUser } = useContext(AppContext)
   const [isSaveDisabled, setIsSaveDisabled] = useState(false);
+  const [shouldShowError,setShouldShowError] = useState(false);
+  const [errorMessage,setErrorMessage] = useState('');
   const [formData, setFormData] = useState({
     username: '',
     password: '',
@@ -35,8 +38,7 @@ const CreateUser = () => {
     })
     const result = await response.json();
     setIsSaveDisabled(false);
-    if (result.error) { console.error(result.error); return; };
-    console.info(result)
+    if (result.error) { setShouldShowError(true); setErrorMessage(result.error); return; };
     setShouldShowCreateUser(false);
   };
 
@@ -66,9 +68,7 @@ const CreateUser = () => {
           <button onClick={onSave} disabled={isSaveDisabled} className={`saveCreation ${isSaveDisabled ? 'halfOpacity' : ''}`}>Save</button>
         </div>
       </div>
-      {/* <div className="create-user-error">
-        Error.
-      </div> */}
+      <FetchError showMessage={shouldShowError} message={errorMessage} onDelayCompleted={()=>{setShouldShowError(false);}}/>
     </div>
   );
 };

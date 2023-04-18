@@ -6,15 +6,15 @@ import { AppContext } from "../../contexts/AppContext";
 import { login } from '../../redux/authSlice'
 import { useDispatch } from 'react-redux'
 import { loginStaff } from "../../config";
+import FetchError from "../fetch-error/FetchError";
 
 const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [showNotification, setShowNotification] = useState(false);
-  const [notificationMessage, setNotificationMessage] = useState("");
-  const [currentNotificationTimeout, setCurrentNotificationTimeout] = useState(null);
   const [isFetching, setIsFetching] = useState(false);
+  const [showNotification, setShowNotification] = useState(false);
   const [shouldNavigate, setShouldNavigate] = useState(false);
+  const [notificationMessage, setNotificationMessage] = useState("");
   const [disableLoginButton, setDisableLoginButton] = useState(false);
 
   const dispatch = useDispatch();
@@ -22,11 +22,7 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     setDisableLoginButton(true);
-    if (currentNotificationTimeout) {
-      clearTimeout(currentNotificationTimeout);
-      setCurrentNotificationTimeout(null);
-      setShowNotification(false);
-    }
+    setShowNotification(false);
     setIsFetching(true);
     console.info("This")
     // if(username==='admin')
@@ -51,10 +47,6 @@ const Login = () => {
     if (data.error) {
       setShowNotification(true);
       setNotificationMessage(data.error);
-      let timeout = setTimeout(() => {
-        setShowNotification(false);
-      }, 6000);
-      setCurrentNotificationTimeout(timeout);
       return;
     }
     localStorage.setItem("user", data.user);
@@ -84,7 +76,7 @@ const Login = () => {
           <label htmlFor="password">Password</label>
           <input
             autoComplete="off"
-            type="new-password"
+            type="password"
             id="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
@@ -92,11 +84,7 @@ const Login = () => {
           <button disabled={disableLoginButton} type="submit" className={`${disableLoginButton ? 'halfOpacity' : ''}`}>Login</button>
         </form>
         <button onClick={(e) => { handleSubmit(e, true) }} disabled={true} type="submit" className={` login-as-viewer-btn halfOpacity`}>Login As Viewer</button>
-        <div className={`notification-container  ${showNotification ? 'show-notification-container' : 'hide-notification-container'}`}>
-          <p className={`notificationText`}>
-            {notificationMessage}
-          </p>
-        </div>
+        <FetchError showMessage={showNotification} message={notificationMessage} onDelayCompleted={()=>{setShowNotification(false); setShowNotification(false)}}/>
         {isFetching && (
           <div className="fetching-notification"></div>
         )}
