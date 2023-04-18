@@ -76,7 +76,7 @@ const App = () => {
     <Skeleton type={"s-sidebar"} />
   </>;
 
-  console.info(sessions)
+  console.info(users)
   return (
     <div className="app">
       <Topbar />

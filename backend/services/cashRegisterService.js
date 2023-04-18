@@ -106,16 +106,17 @@ const _closeCashRegisterSession = async(user)=>{
         const isLogedIn = await LogedInUsers.findOne({username})
         if(!isLogedIn) return {error:`${username} is not loged in.`}
         if(user.role!==userRoles.Admin && user.role!==userRoles.Employee) return {error:`User ${user.username} is not Admin or Employee`};
-        const currentCashRegisterSession = await CurrentCashRegisterSession.findOne({});
+        const currentCashRegisterSession = await CurrentCashRegisterSession.findOne({}).populate('payments');
         if(!currentCashRegisterSession) return {error:"No cash register sessions."};
-  
+        const totalAmount = currentCashRegisterSession.payments.reduce((acc,cur)=> acc + cur.paymentAmount, 0);
+        console.info(`Total: ${totalAmount}`)
         await CashRegisterSessions.create({
             opener:currentCashRegisterSession.opener,
             openedAt:currentCashRegisterSession.openedAt,
             closedAt:Date.now(),
             payments:currentCashRegisterSession.payments,
             number:currentCashRegisterSession.number,
-            amount:currentCashRegisterSession.payments.reduce((acc,cur)=> acc + cur.paymentAmount, 0),
+            amount:totalAmount,
         })
         await CurrentCashRegisterSession.findOneAndDelete({});
         return {sessionClosed:true}

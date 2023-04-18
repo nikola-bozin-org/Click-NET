@@ -48,7 +48,7 @@ const CreateUser = () => {
         <p htmlFor="username">*Username:</p>
         <input autoComplete='off' type="text" id="username" name="username" value={formData.username} onChange={handleInputChange} required />
         <p htmlFor="password">*Password:</p>
-        <input autoComplete='off' type="new-password" id="password" name="password" value={formData.password} onChange={handleInputChange} required />
+        <input autoComplete='off' type="password" id="password" name="password" value={formData.password} onChange={handleInputChange} required />
 
         <p htmlFor="firstName">First Name:</p>
         <input autoComplete='off' type="text" id="firstName" name="firstName" value={formData.firstName} onChange={handleInputChange} required />
