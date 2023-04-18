@@ -44,9 +44,8 @@ const CreateUser = () => {
 
   return (
     <div onClick={() => { setShouldShowCreateUser(false) }} className="create-user-container">
-      <div className="create-user-form" onClick={(e) => { e.stopPropagation() }}>
+      <form autoComplete="off" className="create-user-form" onClick={(e) => { e.stopPropagation() }}>
         <h1>Create User</h1>
-        <input type="text" style={{ display: "none" }} />
         <p htmlFor="username">*Username:</p>
         <input autoComplete='off' type="text" id="username" name="username" value={formData.username} onChange={handleInputChange} required />
         <p htmlFor="password">*Password:</p>
@@ -67,8 +66,8 @@ const CreateUser = () => {
           <button onClick={() => { setShouldShowCreateUser(false) }} className="cancelCreation">Cancel</button>
           <button onClick={onSave} disabled={isSaveDisabled} className={`saveCreation ${isSaveDisabled ? 'halfOpacity' : ''}`}>Save</button>
         </div>
-      </div>
-      <FetchError showMessage={shouldShowError} message={errorMessage} onDelayCompleted={()=>{setShouldShowError(false);}}/>
+      </form>
+      <FetchError marginTopValue={30} showMessage={shouldShowError} message={errorMessage} onDelayCompleted={()=>{setShouldShowError(false);}}/>
     </div>
   );
 };

@@ -26,16 +26,16 @@
 }
 
 
-.create-user-container>div > h1 {
+.create-user-container>form > h1 {
     margin-bottom: 1rem;
     font-weight: normal;
 }
 
-.create-user-container>div >p {
+.create-user-container>form >p {
     margin-bottom: 0.5rem;
 }
 
-.create-user-container>div >input {
+.create-user-container>form >input {
     width: 100%;
     padding: 0.5rem;
     margin-bottom: 1rem;

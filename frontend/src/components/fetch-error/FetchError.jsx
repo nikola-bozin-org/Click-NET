@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import './FetchError.css';
 import { delay_ERROR } from '../../config';
 
-const FetchError = ({ showMessage, message, onDelayCompleted,marginTop }) => {
+const FetchError = ({ showMessage, message, onDelayCompleted,marginTopValue }) => {
   const [timeoutId, setTimeoutId] = useState(null);
 
   useEffect(() => {
@@ -21,7 +21,7 @@ const FetchError = ({ showMessage, message, onDelayCompleted,marginTop }) => {
   }, [showMessage]);
 
   return (
-    <div  className={`fetch-error-container ${showMessage ? 'show-fetch-error-container' : 'hide-fetch-error-container'}`}>
+    <div style={{marginTop:`${marginTopValue}px`}} className={`fetch-error-container ${showMessage ? 'show-fetch-error-container' : 'hide-fetch-error-container'}`}>
       <p className={`fetchErrorText`}>
         {message}
       </p>
