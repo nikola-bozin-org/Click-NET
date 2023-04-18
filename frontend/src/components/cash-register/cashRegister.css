@@ -1,3 +1,23 @@
 .cashRegister{
     background-color: #171A1E;
 }
+
+.cash-register-internal-topbar-wrapper{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.cash-register-close-session-button{
+    margin-right: 20px;
+    border: 3px solid #cc2234;
+    color: white;
+    background-color: #171A1E;
+    font-size: 1.2rem;
+    width: 170px;
+    cursor: pointer;
+}
+
+.cash-register-close-session-button:hover{
+    background-color: #cc2234;
+}

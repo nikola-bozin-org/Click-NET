@@ -5,8 +5,7 @@ import { UsersContext } from '../../contexts/UsersContext';
 
 
 const Sidebar = ({images}) => {
-  const { currentSidebarSelection,setCurrentSidebarSelection } = useContext(AppContext);
-  const {setShouldShowCreateUser} = useContext(UsersContext)
+  const { currentSidebarSelection,setCurrentSidebarSelection,setShouldShowCreateUser } = useContext(AppContext);
   return (
     <div className="sidebar">
       <div className="sidebarButtons">

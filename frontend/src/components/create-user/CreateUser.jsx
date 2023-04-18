@@ -1,10 +1,10 @@
 import React, { useContext, useState } from 'react';
 import './createUser.css';
-import { UsersContext } from '../../contexts/UsersContext';
 import { createUser } from '../../config';
+import { AppContext } from '../../contexts/AppContext';
 
 const CreateUser = () => {
-  const { setShouldShowCreateUser } = useContext(UsersContext)
+  const { setShouldShowCreateUser } = useContext(AppContext)
   const [isSaveDisabled, setIsSaveDisabled] = useState(false);
   const [formData, setFormData] = useState({
     username: '',
@@ -66,6 +66,9 @@ const CreateUser = () => {
           <button onClick={onSave} disabled={isSaveDisabled} className={`saveCreation ${isSaveDisabled ? 'halfOpacity' : ''}`}>Save</button>
         </div>
       </div>
+      {/* <div className="create-user-error">
+        Error.
+      </div> */}
     </div>
   );
 };

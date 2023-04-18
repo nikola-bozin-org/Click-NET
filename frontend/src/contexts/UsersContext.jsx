@@ -10,14 +10,12 @@ export const UsersContextProvider = ({children})=>{
         setCurrentSelectionInternalOption(optionId)
     }
     
-    const [shouldShowCreateUser, setShouldShowCreateUser] = useState(false);
 
 
     const value = {
         currentSelectionInternalOption,
-        shouldShowCreateUser,
         onOptionClicked,
-        setShouldShowCreateUser, 
+
     }
 
 

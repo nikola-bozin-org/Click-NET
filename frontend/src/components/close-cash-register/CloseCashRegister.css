@@ -1,0 +1,19 @@
+.close-cash-register{
+    background-color: rgba(0, 0, 0, 0.8);
+    position: absolute;
+    height: calc(100% - 101px);
+    width: calc(100% - 60px);
+    z-index: 4;
+    right: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+}
+
+.close-cash-register-wrap{
+    width: 400px;
+    height: 400px;
+    background-color: #171A1E;
+
+}

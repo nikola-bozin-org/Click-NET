@@ -15,19 +15,19 @@ import importUser from './images/importUser.png'
 import useIsMobile from './hooks/useIsMobile';
 import Skeleton from './skeletons/Skeleton';
 import {AppContext} from './contexts/AppContext'
-import { UsersContext} from './contexts/UsersContext';
 import { CashRegisterContextProvider } from './contexts/CashRegisterContext';
 import PoweredBy from './components/powered-by/PoweredBy';
 import ImportUser from './components/import-user/ImportUser'
 import { Navigate,useNavigate } from 'react-router-dom';
 import {allSessions, allUsers} from './config'
+import CloseCashRegister from './components/close-cash-register/CloseCashRegister';
 
 
 const images = [dashboard, pay, pcMap, createUser,settings,importUser];
 
 const App = () => {
   const {isAuthorized,currentSidebarSelection} = useContext(AppContext);
-  const usersContext = useContext(UsersContext);
+  const appContext = useContext(AppContext);
   const {isMobile, MobileNotSupported} = useIsMobile(460);
   const [isLoading, setIsLoading] = useState(true);
   const [users, setUsers] = useState([]);
@@ -85,7 +85,8 @@ const App = () => {
         <div>
         <Sidebar images={images} currentSelectedComponent={currentSidebarSelection} />
         </div>
-        {usersContext.shouldShowCreateUser && <CreateUser/>}
+        {appContext.shouldShowCreateUser && <CreateUser/>}
+        {appContext.shouldShowCloseCashRegister && <CloseCashRegister/>}
         {(() => {
           switch (currentSidebarSelection) {
             case 0: return <Users users={users} sessions={sessions}/>

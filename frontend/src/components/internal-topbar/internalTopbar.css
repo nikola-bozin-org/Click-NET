@@ -5,7 +5,6 @@
     font-size: 25px;
     display: flex;
     align-items: flex-end;
-    border-bottom: 1px solid rgb(39, 39, 39);
     text-indent: 20px;
 }
 .internalTopbarText{

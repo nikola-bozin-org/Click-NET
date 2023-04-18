@@ -4,12 +4,17 @@ import InternalOptions from '../internal-options/InternalOptions'
 import './cashRegister.css'
 import { CashRegisterContext } from '../../contexts/CashRegisterContext'
 import CashRegisterRefill from '../cash-register-refill/CashRegisterRefill'
+import { AppContext } from '../../contexts/AppContext'
 
 const CashRegister = () => {
   const cashRegisterContext = useContext(CashRegisterContext)
+  const {setShouldShowCloseCashRegister} = useContext(AppContext);
   return (
     <div className='cashRegister'>
+      <div className="cash-register-internal-topbar-wrapper">
         <InternalTopbar text={"Cash register"}/>
+        <button onClick={()=>{setShouldShowCloseCashRegister(true)}} className="cash-register-close-session-button">Close</button>
+      </div>
         <InternalOptions context={cashRegisterContext} options={['Refill','Refund','Postpaid sessions','Shop']}/>
         {(() => {
           switch (cashRegisterContext.currentSelectionInternalOption) {
