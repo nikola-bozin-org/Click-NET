@@ -8,7 +8,7 @@ router.delete('/dropLevelsDatabase',controller.dropLevelsDatabase)
 router.delete('/dropUsersDatabase',controller.dropUsersDatabase)
 router.delete('/dropTicketsDatabase',controller.dropTicketsDatabase)
 router.delete('/dropLogedInUsers',controller.dropLogedInUsers)
-
+router.delete('/dropSessions',controller.dropSessions)
 
 
 

@@ -15,7 +15,7 @@ const _loginStaff = async (username, password) => {
         const isLogedIn = await LogedInUsers.findOne({ username })
         if (isLogedIn) return { error: `User with username: ${username} is already loged in.` };
         await LogedInUsers.create({ username: username });
-        const newSession = await Sessions.create({startDate:date})
+        const newSession = await Sessions.create({startDate:date,pcNumber:-1,username:username})
         await User.updateOne({ username },
             {
                 $push: {
@@ -45,7 +45,7 @@ const _loginUser = async (username, password, pcNumber) => {
         console.info("Calculate session rate by session type")
         const date = Date.now();
         await LogedInUsers.create({ username: username, pcNumber: pcNumber });
-        const newSession = await Sessions.create({startDate:date})
+        const newSession = await Sessions.create({startDate:date,pcNumber:pcNumber,username:username})
         await User.updateOne({ username },
             {
                 $push: {
@@ -119,7 +119,6 @@ const _logoutAllUsers = async (staffName) => {
         return { error: e.message }
     }
 }
-
 const _getLoggedInUsers = async () => {
     try {
         const users = await LogedInUsers.find({});
@@ -129,7 +128,6 @@ const _getLoggedInUsers = async () => {
         return { error: e.message }
     }
 }
-
 const _getAllSessions = async()=>{
     try{
         const sessions = await Sessions.find({});
