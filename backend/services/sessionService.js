@@ -146,8 +146,9 @@ const _logoutAllUsers = async (staffName) => {
     for (let i = 0; i < logedInUsers.length; i++) {
       const element = logedInUsers[i];
       const username = element.username;
+      console.info(element);
       const userSession = await Sessions.findById(element.sessionId);
-      const startDate = new Date(userSession.startDatxe);
+      const startDate = new Date(userSession.startDate);
       const minutes = Math.floor(
         (Math.floor(date / 1000) - Math.floor(startDate.getTime() / 1000)) / 60
       );

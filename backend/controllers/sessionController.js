@@ -28,7 +28,7 @@ const logoutUser = async (req,res) => {
     const verifyResult = jwt.verify(token);
     if(!verifyResult) return res.status(statusCode.ERROR).json({error:"Invalid token."})
     console.info(verifyResult)
-    const result = await service._logoutUser(verifyResult.username,verifyResult.pcNumber,verifyResult.sessionId);
+    const result = await service._logoutUser(verifyResult.username,verifyResult.pcNumber,verifyResult.lastSessionId);
     if(result.error) return res.status(statusCode.INTERNAL_SERVER_ERROR).json({error:`Server error: ${result.error}`});
     return res.status(statusCode.OK).json({message:`User ${verifyResult.username} logged out.`})
 }
