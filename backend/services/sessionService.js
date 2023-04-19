@@ -108,8 +108,7 @@ const _loginUser = async (username, password, pcNumber) => {
 const _logoutUser = async (username, pcNumber, lastSessionId) => {
   try {
     const isLogedIn = await LogedInUsers.findOne({ username });
-    if (!isLogedIn)
-      return { error: `User with username: ${username} is not loged in.` };
+    if (!isLogedIn) return { error: `User with username: ${username} is not loged in.` };
     const endDate = Date.now();
     await LogedInUsers.deleteOne({ username: username });
     const userSession = await Sessions.findById(lastSessionId);
@@ -139,6 +138,39 @@ const _logoutUser = async (username, pcNumber, lastSessionId) => {
     return { error: e.message };
   }
 };
+const _logoutUserByStaff = async (staffName, username, pcNumber) => {
+  try {
+    const user = await LogedInUsers.findOne({ username });
+    if (!user) return { error: `User with username: ${username} is not loged in.` };
+    const endDate = Date.now();
+    await LogedInUsers.deleteOne({ username: username });
+    const userSession = await Sessions.findById(user.sessionId);
+    const startDate = new Date(userSession.startDate);
+    const minutes = Math.floor(
+      (Math.floor(endDate / 1000) - Math.floor(startDate.getTime() / 1000)) / 60
+    );
+    userSession.endDate = endDate;
+    userSession.minutes = minutes;
+    userSession.save();
+        await User.updateOne(
+      { username: username },
+      {
+        $push: {
+          actions: {
+            name: UserActions.Logout,
+            description: UserActionsDescriptions.LogoutByStaff(staffName),
+            date: endDate,
+            pcNumber: user.pcNumber,
+            balanceChange: 0,
+          },
+        },
+      }
+    );
+    return { message: `User ${username} logged out.` }
+  } catch (e) {
+    return { error: e.message }
+  }
+}
 const _logoutAllUsers = async (staffName) => {
   try {
     const date = Date.now();
@@ -200,4 +232,5 @@ module.exports = {
   _logoutAllUsers,
   _getLoggedInUsers,
   _getAllSessions,
+  _logoutUserByStaff,
 };

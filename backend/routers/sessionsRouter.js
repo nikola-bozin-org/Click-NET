@@ -10,6 +10,7 @@ router.get('/logedInUsers',controller.getLoggedInUsers);
 router.post('/logoutAllUsers',controller.logoutAllUsers);
 router.get('/verifyToken',controller.verifyToken);
 router.get('/allSessions',controller.getSessions);
+router.post('/logoutUserByStaff',controller.logoutUserByStaff)
 
 module.exports=router;
 

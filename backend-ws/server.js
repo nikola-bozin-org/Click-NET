@@ -43,7 +43,7 @@ const startServer = async () => {
       const clientTickets = extractedUser.activeTickets;
       
       const updateClient = () => {
-        clientBalance-=ratePerMinute;
+        clientBalance-=ratePerSecond;
         //updejt u bazu
         if(clientBalance<=0 && clientTickets.length===0) {
           ws.send(JSON.stringify({ event: "timeUp", message: "Time is up." }));

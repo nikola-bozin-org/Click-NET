@@ -27,10 +27,20 @@ const logoutUser = async (req,res) => {
     if(!token) return res.status(statusCode.UNAUTHORIZED).json({error:"Unauthorized."});
     const verifyResult = jwt.verify(token);
     if(!verifyResult) return res.status(statusCode.ERROR).json({error:"Invalid token."})
-    console.info(verifyResult)
     const result = await service._logoutUser(verifyResult.username,verifyResult.pcNumber,verifyResult.lastSessionId);
     if(result.error) return res.status(statusCode.INTERNAL_SERVER_ERROR).json({error:`Server error: ${result.error}`});
     return res.status(statusCode.OK).json({message:`User ${verifyResult.username} logged out.`})
+}
+const logoutUserByStaff = async(req,res)=>{
+    const token = req.headers.token;
+    if(!token) return res.status(statusCode.UNAUTHORIZED).json({error:"Unauthorized."});
+    const verifyResult = jwt.verify(token);
+    if(!verifyResult) return res.status(statusCode.ERROR).json({error:"Invalid token."});
+    if(verifyResult.role!==userRoles.Admin && verifyResult.role!==userRoles.Employee) return res.status(statusCode.ERROR).json({error:"You are not Admin or Employee"});
+    const {username} = req.body;
+    const result = await service._logoutUserByStaff(verifyResult.username,username);
+    if(result.error) return res.status(statusCode.INTERNAL_SERVER_ERROR).json({error:`Server error: ${result.error}`});
+    return res.status(statusCode.OK).json({message:result.message});
 }
 const logoutAllUsers = async(req,res)=>{
     const token = req.headers.token;
@@ -76,4 +86,5 @@ module.exports={
     logoutAllUsers,
     verifyToken,
     getSessions,
+    logoutUserByStaff
 }
