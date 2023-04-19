@@ -52,7 +52,7 @@ server.use('/api/utils',utilsRouter)
 server.use('/api/',dropDatabaseRouter);
 server.use('/api/',dummyRouter);
 server.all('*',(req,res)=>{
-  res.status(404).json({error:`Cant find ${req.originalUrl} on this server.`})
+  return res.status(404).json({error:`Cant find ${req.originalUrl} on this server.`})
 })
 
 

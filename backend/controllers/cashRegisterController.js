@@ -4,8 +4,13 @@ const {userRoles} = require('../helpers/enums');
 const service = require('../services/cashRegisterService')
 
 const openCashRegisterSession = async(req,res)=>{
-  const {opener,password} = req.body;
-  const result = await service._openCashRegisterSession(opener,password);
+  const token = req.headers.token;
+  if (!token) return res.status(statusCode.UNAUTHORIZED).json({ error: "Unathorized." });
+  const verifyResult = jwt.verify(token);
+  if (!verifyResult) return res.status(statusCode.ERROR).json({ error: "Invalid token" });
+  if(!(verifyResult.role===userRoles.Admin) && !(verifyResult.role===userRoles.Employee)) return res.status(statusCode.ERROR).json({error:`User ${verifyResult.username} is not Admin or Employee.`});
+  const {password} = req.body;
+  const result = await service._openCashRegisterSession(verifyResult.username,password);
   if(result.error) return res.status(statusCode.INTERNAL_SERVER_ERROR).json({error:`Server error: ${result.error}`})
   return res.status(statusCode.OK).json({message:result.message});
 }
