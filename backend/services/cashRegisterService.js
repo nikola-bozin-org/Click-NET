@@ -100,7 +100,7 @@ const _getSessions = async()=>{
     return {error:e.message}
   }
 }
-const _closeCashRegisterSession = async(user)=>{
+const _closeCashRegisterSession = async(user,password)=>{
     try{
         const username=user.username;
         const isLogedIn = await LogedInUsers.findOne({username})
@@ -108,8 +108,8 @@ const _closeCashRegisterSession = async(user)=>{
         if(user.role!==userRoles.Admin && user.role!==userRoles.Employee) return {error:`User ${user.username} is not Admin or Employee`};
         const currentCashRegisterSession = await CurrentCashRegisterSession.findOne({}).populate('payments');
         if(!currentCashRegisterSession) return {error:"No cash register sessions."};
+        if (!bcrypt.compareSync(password, user.password)) return { error: `Wrong password.` }
         const totalAmount = currentCashRegisterSession.payments.reduce((acc,cur)=> acc + cur.paymentAmount, 0);
-        console.info(`Total: ${totalAmount}`)
         await CashRegisterSessions.create({
             opener:currentCashRegisterSession.opener,
             openedAt:currentCashRegisterSession.openedAt,

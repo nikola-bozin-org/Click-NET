@@ -21,6 +21,7 @@ import ImportUser from './components/import-user/ImportUser'
 import { Navigate,useNavigate } from 'react-router-dom';
 import {allSessions, allUsers, getCurrentCashRegisterSession} from './config'
 import CloseCashRegister from './components/close-cash-register/CloseCashRegister';
+import OpenCashRegister from './components/open-cash-register/OpenCashRegister';
 
 
 const images = [dashboard, pay, pcMap, createUser,settings,importUser];
@@ -101,7 +102,7 @@ const App = () => {
         {(() => {
           switch (currentSidebarSelection) {
             case 0: return <Users users={users} sessions={sessions}/>
-            case 1: return <> {appContext.isCashRegisterOpen?<CashRegisterContextProvider><CashRegister/></CashRegisterContextProvider>:<div>NotOpen</div>}  </> ;
+            case 1: return <> {appContext.isCashRegisterOpen?<CashRegisterContextProvider><CashRegister/></CashRegisterContextProvider>:<OpenCashRegister/>}  </> ;
             case 2:
               return <PCMap/>;
             case 3: return;

@@ -1,4 +1,4 @@
-const isDevelopment = process.env.NODE_ENV === 'development'
+const isDevelopment = process.env.NODE_ENV === 'developmentt'
 const API_BASE_URL = isDevelopment? process.env.REACT_APP_API_BASE_URL_LOCAL:process.env.REACT_APP_API_BASE_URL_PRODUCTION;
 
 //Users
@@ -16,7 +16,7 @@ export const payment=`${API_BASE_URL}/payments/payment`
 export const getCurrentSessionPayments=`${API_BASE_URL}/cashRegister/getCurrentSessionPayments`
 export const closeCashRegisterSession = `${API_BASE_URL}/cashRegister/closeCashRegisterSession`
 export const getCurrentCashRegisterSession = `${API_BASE_URL}/cashRegister/getCurrentSession`
-
+export const openCashRegisterSession = `${API_BASE_URL}/cashRegister/openCashRegisterSession`
 
 export const employeeHeaders_USERS = ['All users','Session history','Balance history','Receipt history','Passes history']
 export const adminHeaders_USERS = ['Roles and user access','User types']

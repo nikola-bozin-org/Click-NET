@@ -1,0 +1,17 @@
+.open-cash-register{
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    flex-direction: column;
+    gap:20px;
+    color: white;
+    font-size: 2rem;
+    margin-top: 250px;
+}
+
+
+.open-cash-register-open-button{
+    width: auto!important;
+    height: auto!important;
+    padding: 1rem 2rem!important;
+}
