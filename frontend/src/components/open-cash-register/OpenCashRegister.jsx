@@ -18,21 +18,19 @@ const OpenCashRegister = () => {
     setShouldDisableOpenButton(true);
     setShouldShowFetchError(false);
     setFetchErrorMessage('');
-    console.info(openCashRegisterSession)
     const response = await fetch(openCashRegisterSession, {
       headers: {
         'Content-Type': 'application/json',
         'token': localStorage.getItem('accessToken')
       },
       method: "POST",
-      body: {
-        'password': 123
-      }
+      body: JSON.stringify({
+        'password': password
+      })
     });
     const result = await response.json();
     if (result.error) {
-      console.error(result.error)
-      setFetchErrorMessage(response.error);
+      setFetchErrorMessage(result.error);
       setShouldShowFetchError(true);
       setShouldDisableOpenButton(false);
       return;

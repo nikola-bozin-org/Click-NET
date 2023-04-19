@@ -66,7 +66,7 @@ const App = () => {
       })
       const result = await response.json();
       if (result.error) {console.error(result.error); return }
-      if(!result.currentSession) {console.info("No session open."); return}
+      if(!result.currentSession) {return;}
       appContext.setIsCashRegisterOpen(true);
     }
     const loadData = async () => {

@@ -12,7 +12,6 @@ import {employeeHeaders_USERS,adminHeaders_USERS} from '../../config'
 
 const Users = ({users,sessions}) => {
   const isAdmin = useSelector((state) => state.auth.isAdmin);
-  console.info("ADMIN: " + isAdmin)
   const usersContext = useContext(UsersContext);
   const [tableData,setTableData] = useState([]);
   const [headers,setHeaders] = useState([]);

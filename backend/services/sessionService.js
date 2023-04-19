@@ -13,8 +13,8 @@ const _loginStaff = async (username, password) => {
         if (user.role !== userRoles.Admin && user.role !== userRoles.Employee) return { error: `You are not Admin or Employee` };
         const date = Date.now();
         const isLogedIn = await LogedInUsers.findOne({ username })
-        if (isLogedIn) return { error: `User with username: ${username} is already loged in.` };
-        await LogedInUsers.create({ username: username });
+        // if (isLogedIn) return { error: `User with username: ${username} is already loged in.` };
+        if(!isLogedIn){ await LogedInUsers.create({ username: username });
         const newSession = await Sessions.create({startDate:date,pcNumber:-1,username:username})
         await User.updateOne({ username },
             {
@@ -29,6 +29,7 @@ const _loginStaff = async (username, password) => {
                     sessions:newSession._id
                 }
             })
+        }
         const accessToken = jwt.sign({ username: user.username, role: user.role })
         return { accessToken: accessToken,user:user }
     } catch (e) {

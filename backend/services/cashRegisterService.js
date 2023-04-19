@@ -103,12 +103,13 @@ const _getSessions = async()=>{
 const _closeCashRegisterSession = async(user,password)=>{
     try{
         const username=user.username;
+        const userAbsolute = await User.findOne({username});
         const isLogedIn = await LogedInUsers.findOne({username})
         if(!isLogedIn) return {error:`${username} is not loged in.`}
         if(user.role!==userRoles.Admin && user.role!==userRoles.Employee) return {error:`User ${user.username} is not Admin or Employee`};
         const currentCashRegisterSession = await CurrentCashRegisterSession.findOne({}).populate('payments');
         if(!currentCashRegisterSession) return {error:"No cash register sessions."};
-        if (!bcrypt.compareSync(password, user.password)) return { error: `Wrong password.` }
+        if (!bcrypt.compareSync(password, userAbsolute.password)) return { error: `Wrong password.` }
         const totalAmount = currentCashRegisterSession.payments.reduce((acc,cur)=> acc + cur.paymentAmount, 0);
         await CashRegisterSessions.create({
             opener:currentCashRegisterSession.opener,
