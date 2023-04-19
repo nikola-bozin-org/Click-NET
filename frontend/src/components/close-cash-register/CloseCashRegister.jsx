@@ -4,6 +4,7 @@ import { useContext } from 'react'
 import { AppContext } from '../../contexts/AppContext'
 import { closeCashRegisterSession } from '../../config'
 import { useState } from 'react'
+import HandleButton from '../handle-button/HandleButton'
 
 const CloseCashRegister = () => {
   const [password, setPassword] = useState('');
@@ -38,8 +39,8 @@ const CloseCashRegister = () => {
           <input value={password} onChange={(e)=>setPassword(e.target.value)} autoComplete='off' type="password" id="password" name="password" required />
         </div>
         <div className="close-cash-register-control-buttons">
-          <button onClick={() => { setShouldShowCloseCashRegister(false) }} className="close-cash-register-cancel">Cancel</button>
-          <button onClick={onYesClicked} className="close-cash-register-yes">Yes</button>
+          <HandleButton onClick={() => { setShouldShowCloseCashRegister(false)}} className={`close-cash-register-cancel`}  text={"Cancel"}/>
+          <HandleButton onClick={onYesClicked} className={`close-cash-register-yes`} text={"Yes"}/>
         </div>
       </div>
     </div>

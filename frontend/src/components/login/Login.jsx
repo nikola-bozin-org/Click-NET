@@ -7,6 +7,7 @@ import { login } from '../../redux/authSlice'
 import { useDispatch } from 'react-redux'
 import { loginStaff } from "../../config";
 import FetchError from "../fetch-error/FetchError";
+import HandleButton from '../handle-button/HandleButton'
 
 const Login = () => {
   const [username, setUsername] = useState("");
@@ -54,16 +55,13 @@ const Login = () => {
     setShouldNavigate(true);
     setIsAuthorized(true);
   };
-  const loginAsViewer = () => {
-  }
-
   if (shouldNavigate) { return <Navigate to='/dashboard' /> }
 
   return (
     <>
-      <div className="topbarClickNET">ClickNET</div>
+      <div className="topbarClickNET">ClickSoft</div>
       <div className="login-container">
-        <form onSubmit={(e) => { handleSubmit(e, false) }} className="login-form">
+        <form  className="login-form">
           <input type="text" style={{ display: "none" }} />
           <label htmlFor="username">Username</label>
           <input
@@ -81,9 +79,8 @@ const Login = () => {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
-          <button disabled={disableLoginButton} type="submit" className={`${disableLoginButton ? 'halfOpacity' : ''}`}>Login</button>
+          <HandleButton shouldDisable={disableLoginButton} onClick={(e) => { handleSubmit(e, false) }} text={"Login"} className={`login-form-login-button ${disableLoginButton ? 'halfOpacity' : ''}`}/>
         </form>
-        <button onClick={(e) => { handleSubmit(e, true) }} disabled={true} type="submit" className={` login-as-viewer-btn halfOpacity`}>Login As Viewer</button>
         <FetchError showMessage={showNotification} message={notificationMessage} onDelayCompleted={()=>{setShowNotification(false); setShowNotification(false)}}/>
         {isFetching && (
           <div className="fetching-notification"></div>

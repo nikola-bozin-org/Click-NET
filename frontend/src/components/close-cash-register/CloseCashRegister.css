@@ -62,22 +62,22 @@
     gap: 50px;
 }
 .close-cash-register-cancel{
-width: 160px;
-height: 47px;
-background-color: #171A1E;
-border: none;
+width: 160px!important;
+height: 47px!important;
+background-color: #171A1E!important;
+border: none!important;
 color: white;
-border: 2px solid #554570;
+border: 2px solid #554570!important;
 cursor: pointer;
-font-size: 20px;
+font-size: 20px!important;
 }
 
 .close-cash-register-yes{
-    background-color: #554570;
-    border: none;
-    width: 160px;
-    height: 47px;
+    background-color: #171A1E!important;
+    border: 2px solid #554570!important;
+    width: 160px!important;
+    height: 47px!important;
     color: white;
     cursor: pointer;
-    font-size: 20px;
+    font-size: 20px!important;
 }

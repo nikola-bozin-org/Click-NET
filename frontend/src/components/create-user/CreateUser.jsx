@@ -3,6 +3,7 @@ import './createUser.css';
 import { createUser } from '../../config';
 import { AppContext } from '../../contexts/AppContext';
 import FetchError from '../fetch-error/FetchError';
+import HandleButton from '../handle-button/HandleButton'
 
 const CreateUser = () => {
   const { setShouldShowCreateUser } = useContext(AppContext)
@@ -63,8 +64,8 @@ const CreateUser = () => {
         <p htmlFor="phone">Phone:</p>
         <input autoComplete='off' type="tel" id="phone" name="phone" value={formData.phone} onChange={handleInputChange} required />
         <div className="controlButtons">
-          <button onClick={() => { setShouldShowCreateUser(false) }} className="cancelCreation">Cancel</button>
-          <button onClick={onSave} disabled={isSaveDisabled} className={`saveCreation ${isSaveDisabled ? 'halfOpacity' : ''}`}>Save</button>
+          <HandleButton onClick={() => { setShouldShowCreateUser(false) }} className={'cancelCreation'} text={'Cancel'} />
+          <HandleButton onClick={onSave} disabled={isSaveDisabled} className={`saveCreation ${isSaveDisabled ? 'halfOpacity' : ''}`} text={'Save'}/>
         </div>
       </form>
       <FetchError marginTopValue={30} showMessage={shouldShowError} message={errorMessage} onDelayCompleted={()=>{setShouldShowError(false);}}/>

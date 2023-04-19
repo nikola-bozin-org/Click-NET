@@ -41,6 +41,7 @@ const OpenCashRegister = () => {
 
   return (
     <div className='open-cash-register'>
+      Cash Register
       <p className="open-cash-register-center-name">Click Esport</p>
       <input
         autoComplete="off"
