@@ -36,7 +36,7 @@ const CloseCashRegister = () => {
         Close Cash Register Session?
         <div className="close-cash-register-inputs">
           <p htmlFor="password">Password:</p>
-          <input value={password} onChange={(e)=>setPassword(e.target.value)} autoComplete='off' type="password" id="password" name="password" required />
+          <input placeholder='password' value={password} onChange={(e)=>setPassword(e.target.value)} autoComplete='off' type="password" id="password" name="password" required />
         </div>
         <div className="close-cash-register-control-buttons">
           <HandleButton onClick={() => { setShouldShowCloseCashRegister(false)}} className={`close-cash-register-cancel`}  text={"Cancel"}/>

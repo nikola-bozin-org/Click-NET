@@ -27,8 +27,12 @@
     background-color: #1c2025;
     box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.2);
     color: white;
+    text-align: center;
+    font-size: 1rem;
 }
-
+.password-reauth::placeholder{
+    text-align: center;
+}
 
 .password-reauth:focus::placeholder {
     color: transparent;

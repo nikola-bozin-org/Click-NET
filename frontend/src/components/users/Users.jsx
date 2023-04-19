@@ -6,7 +6,7 @@ import InternalSearch from '../internal-search/InternalSearch'
 import Table from '../table/Table'
 import { useState } from 'react'
 import { UsersContext} from '../../contexts/UsersContext'
-import { filterObjectByKeys } from '../../utils'
+import { extractDate, extractHours, filterObjectByKeys } from '../../utils'
 import { useSelector } from 'react-redux'
 import {employeeHeaders_USERS,adminHeaders_USERS} from '../../config'
 
@@ -24,7 +24,18 @@ const Users = ({users,sessions}) => {
         break;
         case 1: 
         const headersSessions = ['username','startDate','endDate','minutes','pcNumber'];
-        setTableData(sessions.map((session)=>filterObjectByKeys(session,headersSessions)));
+        const filteredData = sessions.map((session)=>filterObjectByKeys(session,headersSessions));
+        const formattedData = filteredData.map((data) => {
+          const startDateFormatted = `${extractHours(data.startDate)} ${extractDate(data.startDate)}`;
+          const endDateFormatted = data.endDate !== ''
+          ? `${extractHours(data.endDate)} ${extractDate(data.endDate)}`
+          : '';
+          const newData = { ...data };
+          newData.startDate = startDateFormatted;
+          newData.endDate = endDateFormatted;
+          return newData;
+      });
+        setTableData(formattedData);
         setHeaders(['Username','Start Date','End Date','Minutes','PC Number'])
         break;
       case 2:
