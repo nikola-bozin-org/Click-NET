@@ -50,7 +50,7 @@ const startServer = async () => {
           ws.close();
           //updejt u bazu
         } 
-        ws.send(JSON.stringify({event:"userData",data:{balance:clientBalance}}))
+        ws.send(JSON.stringify({event:"balance",data:{balance:clientBalance}}))
       };
       setInterval(updateClient, 1000);
     });
