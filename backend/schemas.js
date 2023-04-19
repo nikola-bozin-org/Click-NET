@@ -13,7 +13,7 @@ const sessions = new mongoose.Schema({
   endDate:{type:Date},
   minutes:{type:Number},
   pcNumber:{type:Number,required:true},
-  username:{type:String,required:true}
+  username:{type:String,required:true},
 })
 
 const currentCashRegister = new mongoose.Schema({
@@ -62,6 +62,9 @@ const logedInUsersSchema = new mongoose.Schema({
   },
   pcNumber:{
     type:Number
+  },
+  sessionId:{
+    type:mongoose.SchemaTypes.ObjectId,ref:'Sessions'
   }
 })
 const userSchema = new mongoose.Schema(
