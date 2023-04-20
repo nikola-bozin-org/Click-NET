@@ -132,7 +132,7 @@ const userSchema = new mongoose.Schema(
       },
       zone:{
         type:String,
-        enum:[zones.Pro,zones.Lobby,zones.Night]
+        enum:[zones.Pro,zones.Lobby]
       }
     }],
     payments:[{type:mongoose.SchemaTypes.ObjectId,ref:'Payments'}],
@@ -155,7 +155,7 @@ const ticketsSchema = new mongoose.Schema({
   },
   zone:{
     type:String,
-    enum:[zones.Pro,zones.Lobby,zones.Night],
+    enum:[zones.Pro,zones.Lobby],
     required:true
   },
   availability:{

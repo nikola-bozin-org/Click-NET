@@ -1,18 +1,24 @@
 import React from 'react';
 import './table.css';
+import { capitalizeFirstLetter } from '../../utils';
+import { useContext } from 'react';
+import { UsersContext } from '../../contexts/UsersContext';
 
-const capitalizeFirstLetter = (str) => {
-  if (!str || typeof str !== 'string') {
-    return '';
+
+
+const isValidElement = (value) => {
+  return !Array.isArray(value) && (typeof value !== 'object' || value === null);
+};
+
+const TableRow = ({ data, headersLength}) => {
+  const username = data.username;
+  const usersContext = useContext(UsersContext);
+
+  const onClick = () =>{
+    usersContext.setShowUserData(true);
   }
-  return str.charAt(0).toUpperCase() + str.slice(1);
-}
 
-const TableRow = ({ data, headersLength, onClick}) => {
   const keys = Object.keys(data);
-  const isValidElement = (value) => {
-    return !Array.isArray(value) && (typeof value !== 'object' || value === null);
-  };
   return (
     <tr onClick={onClick} style={{gridTemplateColumns: `repeat(${headersLength}, 1fr)` }} className='table-row'>
       {keys.map((key) => {
@@ -22,6 +28,8 @@ const TableRow = ({ data, headersLength, onClick}) => {
               {data[key] === data.paymentAmount && data[key] >= 0 ? `+${data[key]}` : data[key]}
             </td>
           );
+        } else {
+          console.info("INVALIDDDDDDDD")
         }
         return null;
       })}
@@ -30,7 +38,7 @@ const TableRow = ({ data, headersLength, onClick}) => {
 };
 
 
-const Table = ({ headers, tableData,shouldRoundEdges, onClickTableRow }) => {
+const Table = ({ headers, tableData,shouldRoundEdges}) => {
   const headersLength = headers.length;
   return (
     <div className="table-container">
@@ -51,7 +59,7 @@ const Table = ({ headers, tableData,shouldRoundEdges, onClickTableRow }) => {
           </thead>
           <tbody className='table-body'>
             {tableData.map((data, index) => (
-              <TableRow key={index} data={data} headersLength={headersLength} onClick={onClickTableRow}/>
+              <TableRow key={index} data={data} headersLength={headersLength}/>
             ))}
           </tbody>
         </table>

@@ -31,6 +31,14 @@ export const filterObjectByKeys = (obj, keys) => {
         return filteredObj;
     }, {});
 };
+export const capitalizeFirstLetter = (str) => {
+    if (!str || typeof str !== 'string') {
+      return '';
+    }
+    return str.charAt(0).toUpperCase() + str.slice(1);
+  }
+
+
 //https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/NumberFormat
 export const formatNumber = (number) =>{
     return Intl.NumberFormat().format(number);

@@ -1,0 +1,100 @@
+.center{
+    display: grid;
+    grid-template-columns: 1fr 400px;
+    color: white;
+}
+
+.center-pc-map{
+    height: calc(100% - 40px);
+}
+
+.center-info{
+    background-color: #171A1E;
+    display: grid;
+    grid-template-rows: 80px 5px 80px 70px ;
+    height: calc(100% - 40px);
+    box-shadow: -2px 2px 4px rgb(0 0 0 / 70%);
+}
+
+.center-info-center-name{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+}
+.center-info-center-name-line{
+    background-color: #685489;
+}
+
+.center-info-occupancy{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0rem 1rem;
+    font-size: 1.8rem;
+    border-bottom: 1px solid rgb(39, 39, 39);
+}
+
+.center-info-occupancy-text{
+    font-size: 1.2rem;
+    position: relative;
+    top: 5px;
+}
+
+.center-info-select-all{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-bottom: 1px solid rgb(39, 39, 39);
+}
+
+.center-info-select-all-button{
+    width: 90%!important;
+    height: auto!important;
+    padding: 0rem 2rem!important;
+    font-size: 1.5rem!important;
+}
+
+.center-info-roles-user{
+    border-bottom: 1px solid rgb(39, 39, 39);
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.center-role{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.center-role-left{
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap:10px;
+}
+.center-role-right{
+    padding: 10px;
+}
+
+.center-role-left-box{
+    width: 10px;
+    height: 10px;
+}
+
+.center-info-roles-pc{
+    border-bottom: 1px solid rgb(39, 39, 39);
+}
+
+.center-role-circle{
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+}
+
+.center-info-pc-additional-info{
+    border-bottom: 1px solid rgb(39, 39, 39);
+}

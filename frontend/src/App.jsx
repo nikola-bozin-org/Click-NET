@@ -1,8 +1,7 @@
 import './app.css'
-import PCMap from './components/PC-Map/PCMap';
 import Topbar from './components/topbar/Topbar';
 import CreateUser from './components/create-user/CreateUser';
-import { useState, useEffect, useContext } from 'react';
+import { useEffect, useContext } from 'react';
 import Sidebar from './components/sidebar/Sidebar';
 import Users from './components/users/Users';
 import CashRegister from './components/cash-register/CashRegister';
@@ -22,6 +21,7 @@ import { Navigate } from 'react-router-dom';
 import {allSessions, allUsers, getCurrentCashRegisterSession} from './config'
 import CloseCashRegister from './components/close-cash-register/CloseCashRegister';
 import OpenCashRegister from './components/open-cash-register/OpenCashRegister';
+import Center from './components/center/Center';
 
 
 const images = [dashboard, pay, pcMap, createUser,settings,importUser];
@@ -100,7 +100,7 @@ const App = () => {
             case 0: return <Users users={appContext.users} sessions={appContext.sessions}/>
             case 1: return <> {appContext.currentCashRegisterSession!==null?<CashRegisterContextProvider><CashRegister/></CashRegisterContextProvider>:<OpenCashRegister/>}  </> ;
             case 2:
-              return <PCMap/>;
+              return <Center centerName={"Click Esports"} numberOfLoggedInUsers={0} licenceLimit={0}/>;
             case 3: return;
             case 5: return <ImportUser/>
             default:

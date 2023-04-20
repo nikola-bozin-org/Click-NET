@@ -23,3 +23,56 @@ export const adminHeaders_USERS = ['Roles and user access','User types']
 
 export const delay_ERROR = 4000;
 export const delay_ACCEPT = 2500;
+
+export const userRoles = [
+  {
+    name: 'Admin',
+    color: '#cc2234',
+  },
+  {
+    name: 'Employee',
+    color: '#e57028',
+  },
+  {
+    name: 'Default',
+    color: '#1dbbef',
+  },
+  {
+    name: 'Night',
+    color: '#3f62a3',
+  },
+  {
+    name: 'Postpaid',
+    color: '#ff5cb8',
+  },
+];
+export const zones = {
+    Pro:'Pro',
+    Lobby:'Lobby',
+}
+
+export const pcRole = [
+  {
+      name:'Offline',
+      color:'#b6babd'
+  },
+  {
+      name:'Online',
+      color:'#82c22d'
+  },
+  {
+      name:'Support',
+      color:'#ffdc51'
+  },
+]
+
+export const pcAdditionalInfo = [
+  {
+    name:"10 mins left",
+    color:'#7d1829'
+  },
+  {
+    name:"Reserved",
+    color:'#544db1'
+  }
+]

@@ -9,12 +9,14 @@ import { UsersContext} from '../../contexts/UsersContext'
 import { extractDate, extractHours, filterObjectByKeys } from '../../utils'
 import { useSelector } from 'react-redux'
 import {employeeHeaders_USERS,adminHeaders_USERS} from '../../config'
+import User from '../user/User'
 
 const Users = ({users,sessions}) => {
   const isAdmin = useSelector((state) => state.auth.isAdmin);
   const usersContext = useContext(UsersContext);
   const [tableData,setTableData] = useState([]);
   const [headers,setHeaders] = useState([]);
+
   useEffect(() => {
     switch (usersContext.currentSelectionInternalOption) {
       case 0:
@@ -45,12 +47,15 @@ const Users = ({users,sessions}) => {
   }, [usersContext.currentSelectionInternalOption]);
 
   return (
+    <>
+    {usersContext.showUserData && <User/>}
     <div className='users'>
         <InternalTopbar text={"Users"}/>
         <InternalOptions context={usersContext} options={isAdmin?[...employeeHeaders_USERS,...adminHeaders_USERS]:employeeHeaders_USERS}/>
         <InternalSearch/>
-        <Table headers={headers} tableData={tableData} shouldRoundEdges={true} onClickTableRow={()=>{console.info("Row Clicked");}}/>
+        <Table headers={headers} tableData={tableData} shouldRoundEdges={true}/>
     </div>
+    </>
   )
 }
 

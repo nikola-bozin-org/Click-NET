@@ -1,0 +1,9 @@
+.user-dashboard{
+    width: calc(100% - 60px);
+    height: calc(100% - 61px);
+    background-color:#171A1E;
+    position: absolute;
+    right: 0;
+    z-index: 2;
+    color: white;
+}

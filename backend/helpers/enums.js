@@ -3,12 +3,12 @@ const userRoles = {
     Employee:'Employee',
     Default:'Default',
     Night:'Night',
+    Postpaid:'Postpaid',
 }
 
 const zones = {
     Pro:'Pro',
     Lobby:'Lobby',
-    Night:'Night',
 }
 
 module.exports = {
