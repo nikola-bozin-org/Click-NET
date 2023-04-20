@@ -5,7 +5,6 @@ import HandleButton from '../handle-button/HandleButton'
 import { pcAdditionalInfo, pcRole, userRoles } from '../../config'
 
 const Center = ({ centerName, numberOfLoggedInUsers, licenceLimit }) => {
-    console.info(userRoles)
     return (
         <div className='center'>
             <div className="center-pc-map">

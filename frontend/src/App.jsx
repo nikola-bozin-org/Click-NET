@@ -22,6 +22,7 @@ import {allSessions, allUsers, getCurrentCashRegisterSession} from './config'
 import CloseCashRegister from './components/close-cash-register/CloseCashRegister';
 import OpenCashRegister from './components/open-cash-register/OpenCashRegister';
 import Center from './components/center/Center';
+import { PCMapContextProvider } from './contexts/PCMapContext';
 
 
 const images = [dashboard, pay, pcMap, createUser,settings,importUser];
@@ -100,7 +101,7 @@ const App = () => {
             case 0: return <Users users={appContext.users} sessions={appContext.sessions}/>
             case 1: return <> {appContext.currentCashRegisterSession!==null?<CashRegisterContextProvider><CashRegister/></CashRegisterContextProvider>:<OpenCashRegister/>}  </> ;
             case 2:
-              return <Center centerName={"Click Esports"} numberOfLoggedInUsers={0} licenceLimit={0}/>;
+              return <PCMapContextProvider><Center centerName={"Click Esports"} numberOfLoggedInUsers={0} licenceLimit={0}/> </PCMapContextProvider>;
             case 3: return;
             case 5: return <ImportUser/>
             default:
