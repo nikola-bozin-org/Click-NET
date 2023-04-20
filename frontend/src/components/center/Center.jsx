@@ -25,18 +25,18 @@ const Center = ({ centerName, numberOfLoggedInUsers, licenceLimit }) => {
                 </div>
                 <div className="center-info-roles">
                     <div className="center-info-roles-user">
-                        {userRoles.map((element) => (
-                            <Role text={element.name} color={element.color} logedInUsersAmountWithRole={0} useCircle={false}/>
+                        {userRoles.map((element,index) => (
+                            <Role key={index} text={element.name} color={element.color} logedInUsersAmountWithRole={0} useCircle={false}/>
                         ))}
                     </div>
                     <div className="center-info-roles-pc">
-                        {pcRole.map((element)=>(
-                            <Role text={element.name} color={element.color} logedInUsersAmountWithRole={0} useCircle={false}/>
+                        {pcRole.map((element,index)=>(
+                            <Role key={index} text={element.name} color={element.color} logedInUsersAmountWithRole={0} useCircle={false}/>
                         ))}
                     </div>
                     <div className="center-info-pc-additional-info">
-                        {pcAdditionalInfo.map((element)=>(
-                            <Role text={element.name} color={element.color} logedInUsersAmountWithRole={0} useCircle={true}/>
+                        {pcAdditionalInfo.map((element,index)=>(
+                            <Role key={index} text={element.name} color={element.color} logedInUsersAmountWithRole={0} useCircle={true}/>
                         ))}
                     </div>
                 </div>
