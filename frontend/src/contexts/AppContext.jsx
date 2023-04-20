@@ -9,8 +9,10 @@ export const AppContextProvider = ({children})=>{
     const [isAuthorized,setIsAuthorized]=useState(false);
     const [shouldShowCreateUser, setShouldShowCreateUser] = useState(false);
     const [shouldShowCloseCashRegister,setShouldShowCloseCashRegister] = useState(false);
-    const [isCashRegisterOpen,setIsCashRegisterOpen] = useState(false);
-
+    const [isLoading, setIsLoading] = useState(true);
+    const [users, setUsers] = useState([]);
+    const [sessions,setSessions] = useState([]);
+    const [currentCashRegisterSession,setCurrentCashRegisterSession] = useState(null);
 
     const value = {
         currentSidebarSelection,
@@ -21,8 +23,14 @@ export const AppContextProvider = ({children})=>{
         setShouldShowCreateUser, 
         shouldShowCloseCashRegister,
         setShouldShowCloseCashRegister,
-        isCashRegisterOpen,
-        setIsCashRegisterOpen
+        isLoading,
+        setIsLoading,
+        users,
+        setUsers,
+        sessions,
+        setSessions,
+        currentCashRegisterSession,
+        setCurrentCashRegisterSession,
     }
 
     return (

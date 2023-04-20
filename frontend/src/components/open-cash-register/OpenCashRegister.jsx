@@ -4,15 +4,15 @@ import HandleButton from '../handle-button/HandleButton'
 import FetchError from '../fetch-error/FetchError'
 import { useState } from 'react'
 import { openCashRegisterSession } from '../../config'
-import { useContext } from 'react'
 import { AppContext } from '../../contexts/AppContext'
+import { useContext } from 'react'
 
 const OpenCashRegister = () => {
   const [shouldDisableOpenButton, setShouldDisableOpenButton] = useState(false);
   const [shouldShowFetchError, setShouldShowFetchError] = useState(false);
   const [fetchErrorMessage, setFetchErrorMessage] = useState('');
-  const { setIsCashRegisterOpen } = useContext(AppContext);
   const [password,setPassword] = useState('');
+  const appContext = useContext(AppContext);
 
   const fetchOpenCashRegister = async () => {
     setShouldDisableOpenButton(true);
@@ -35,8 +35,10 @@ const OpenCashRegister = () => {
       setShouldDisableOpenButton(false);
       return;
     }
+    if(result.currentSession){
+      appContext.setCurrentCashRegisterSession(result.currentSession)
+    }
     setShouldDisableOpenButton(false);
-    setIsCashRegisterOpen(true);
   }
 
   return (

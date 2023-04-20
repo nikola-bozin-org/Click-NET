@@ -8,7 +8,7 @@ import HandleButton from '../handle-button/HandleButton'
 
 const CloseCashRegister = () => {
   const [password, setPassword] = useState('');
-  const { setShouldShowCloseCashRegister,setIsCashRegisterOpen } = useContext(AppContext)
+  const { setShouldShowCloseCashRegister,setCurrentCashRegisterSession } = useContext(AppContext)
 
   const onYesClicked = async ()=>{
     const response = await fetch(closeCashRegisterSession,{
@@ -26,7 +26,7 @@ const CloseCashRegister = () => {
     };
     if(result.sessionClosed){
       setShouldShowCloseCashRegister(false);
-      setIsCashRegisterOpen(false);
+      setCurrentCashRegisterSession(null);
     }
   }
 

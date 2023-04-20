@@ -18,7 +18,7 @@ import {AppContext} from './contexts/AppContext'
 import { CashRegisterContextProvider } from './contexts/CashRegisterContext';
 import PoweredBy from './components/powered-by/PoweredBy';
 import ImportUser from './components/import-user/ImportUser'
-import { Navigate,useNavigate } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 import {allSessions, allUsers, getCurrentCashRegisterSession} from './config'
 import CloseCashRegister from './components/close-cash-register/CloseCashRegister';
 import OpenCashRegister from './components/open-cash-register/OpenCashRegister';
@@ -27,12 +27,8 @@ import OpenCashRegister from './components/open-cash-register/OpenCashRegister';
 const images = [dashboard, pay, pcMap, createUser,settings,importUser];
 
 const App = () => {
-  const {isAuthorized,currentSidebarSelection} = useContext(AppContext);
   const appContext = useContext(AppContext);
   const {isMobile, MobileNotSupported} = useIsMobile(460);
-  const [isLoading, setIsLoading] = useState(true);
-  const [users, setUsers] = useState([]);
-  const [sessions,setSessions] = useState([]);
 
   useEffect(() => {
     const fetchAllUsers = async () => {
@@ -44,7 +40,7 @@ const App = () => {
         });
         const result = await response.json();
         if(result.error) {console.error(result.error); return}
-        setUsers(result.users.reverse());
+        appContext.setUsers(result.users.reverse());
     };
     const fetchAllSessions = async()=>{
       const response = await fetch(allSessions, {
@@ -55,7 +51,7 @@ const App = () => {
       });
       const result = await response.json();
       if(result.error) {console.error(result.error); return}
-      setSessions(result.sessions.reverse());
+      appContext.setSessions(result.sessions.reverse());
     }
     const fetchCurrentCashRegisterSession = async()=>{
       const response = await fetch(getCurrentCashRegisterSession,{
@@ -67,22 +63,22 @@ const App = () => {
       const result = await response.json();
       if (result.error) {console.error(result.error); return }
       if(!result.currentSession) {return;}
-      appContext.setIsCashRegisterOpen(true);
+      appContext.setCurrentCashRegisterSession(result.currentSession);
     }
     const loadData = async () => {
-      setIsLoading(true);
+      appContext.setIsLoading(true);
       await Promise.all([fetchAllUsers(), fetchAllSessions(),fetchCurrentCashRegisterSession()]);
-      setIsLoading(false);
+      appContext.setIsLoading(false);
     };
   
     loadData();
   }, []);
 
-  if(!isAuthorized) return <Navigate to='/'/>
+  if(!appContext.isAuthorized) return <Navigate to='/'/>
 
   if (isMobile) return <MobileNotSupported />
 
-  if (isLoading) return <>
+  if (appContext.isLoading) return <>
     <Skeleton type={"s-barh71"} />
     <Skeleton type={"s-barh61"} />
     <Skeleton type={"s-avatar"} />
@@ -95,14 +91,14 @@ const App = () => {
       <PoweredBy/>
       <div className="appOther">
         <div>
-        <Sidebar images={images} currentSelectedComponent={currentSidebarSelection} />
+        <Sidebar images={images} currentSelectedComponent={appContext.currentSidebarSelection} />
         </div>
         {appContext.shouldShowCreateUser && <CreateUser/>}
         {appContext.shouldShowCloseCashRegister && <CloseCashRegister/>}
         {(() => {
-          switch (currentSidebarSelection) {
-            case 0: return <Users users={users} sessions={sessions}/>
-            case 1: return <> {appContext.isCashRegisterOpen?<CashRegisterContextProvider><CashRegister/></CashRegisterContextProvider>:<OpenCashRegister/>}  </> ;
+          switch (appContext.currentSidebarSelection) {
+            case 0: return <Users users={appContext.users} sessions={appContext.sessions}/>
+            case 1: return <> {appContext.currentCashRegisterSession!==null?<CashRegisterContextProvider><CashRegister/></CashRegisterContextProvider>:<OpenCashRegister/>}  </> ;
             case 2:
               return <PCMap/>;
             case 3: return;

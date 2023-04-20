@@ -8,7 +8,6 @@ import {getCurrentCashRegisterSession, getCurrentSessionPayments, payment} from 
 import FetchError from '../fetch-error/FetchError';
 import FetchSuccess from '../fetch-success/FetchSuccess';
 
-import { useContext } from 'react';
 import { AppContext } from '../../contexts/AppContext';
 import HandleButton from '../handle-button/HandleButton'
 
@@ -25,6 +24,7 @@ const CashRegisterRefill = () => {
   const [showDailyRevenue, setShowDailyRevenue] = useState(false);
   const [totalRevenue,setTotalRevenue]=useState(0);
   const [cashierBalance,setCashierBalance]=useState(0);
+  const appContext = useState(AppContext);
 
   useEffect(() => {
     const currentCashRegisterPayments = async () => {
@@ -41,7 +41,7 @@ const CashRegisterRefill = () => {
       setCashierBalance(total);
       setTotalRevenue(total);
     };
-    // currentCashRegisterPayments();
+    currentCashRegisterPayments();
   }, []);
   
   const handleRefill = async () => {
@@ -77,7 +77,6 @@ const CashRegisterRefill = () => {
       setCashierBalance(cashierBalance+result.tableData.paymentAmount)
     }
   };
-
 
   return (
     <div className='cash-register-refill'>

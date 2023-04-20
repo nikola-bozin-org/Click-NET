@@ -144,7 +144,8 @@ const _openCashRegisterSession = async(opener,password)=>{
             payments:[],
             amount:0
         })
-        return {message:`Created new session. At ${openDate} by: ${opener}`}
+        const sessionCreated = await CurrentCashRegisterSession.findOne({});
+        return {currentSession:sessionCreated}
     }catch(e){
         return {error:e.message}
     }

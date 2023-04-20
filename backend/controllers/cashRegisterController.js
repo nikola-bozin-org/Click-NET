@@ -12,7 +12,7 @@ const openCashRegisterSession = async(req,res)=>{
   const {password} = req.body;
   const result = await service._openCashRegisterSession(verifyResult.username,password);
   if(result.error) return res.status(statusCode.INTERNAL_SERVER_ERROR).json({error:`Server error: ${result.error}`})
-  return res.status(statusCode.OK).json({message:result.message});
+  return res.status(statusCode.OK).json({currentSession:result.currentSession});
 }
 const closeCashRegisterSession = async(req,res)=>{
   const token = req.headers.token;
