@@ -6,7 +6,10 @@
     justify-content: center;
     display: flex;
 }
-.PCMain{
+.PC *{
+    pointer-events: none;
+}
+.PCNumber{
     width: 92%;
     height: 92%;
     text-align: center;

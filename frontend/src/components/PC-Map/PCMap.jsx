@@ -16,9 +16,9 @@ const PCMap = () => {
     <>
     <InternalOptions options={['Map - Managment Mode','Map - Configuration Mode']} context={pcMapContext}/>
     <div className='PCMap'>
-      <PC number={1} color={'black'} x={10} y={10} />
-      <PC number={2} color={'black'} x={20} y={20} />
-      <PC number={3} color={'black'} x={30} y={30} />
+      <PC number={1} color={'black'}/>
+      <PC number={2} color={'black'}/>
+      <PC number={3} color={'black'}/>
     </div>
     </>
   )
