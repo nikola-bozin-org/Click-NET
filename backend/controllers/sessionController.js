@@ -8,7 +8,7 @@ const loginStaff = async(req,res)=>{
     const {username,password} = req.body;
     const result = await service._loginStaff(username,password);
     if(result.error) return res.status(statusCode.INTERNAL_SERVER_ERROR).json({error:`Server error: ${result.error}`});
-    return res.status(statusCode.OK).json({accessToken:result.accessToken})
+    return res.status(statusCode.OK).json({accessToken:result.accessToken,user:result.user})
 }
 const verifyToken = async(req,res)=>{
     if(req.headers.secret!==process.env.VERIFY_SECRET_PASSWORD) return res.status(statusCode.ERROR).json({error:"Unathorized"})
@@ -20,7 +20,7 @@ const loginUser = async (req,res) => {
     const { username, password, pcNumber } = req.body;
     const result = await service._loginUser(username,password,pcNumber);
     if(result.error) return res.status(statusCode.INTERNAL_SERVER_ERROR).json({error:`Server error: ${result.error}`});
-    return res.status(statusCode.OK).json({accessToken:result.accessToken})
+    return res.status(statusCode.OK).json({accessToken:result.accessToken,user:result.user})
 }
 const logoutUser = async (req,res) => {
     const token = req.headers.token;

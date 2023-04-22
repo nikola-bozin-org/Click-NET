@@ -1,3 +1,4 @@
+const { dataVersion } = require("../clientResources");
 const { Utils } = require("../schemas");
 
 const _getUtility = async () => {
@@ -42,9 +43,19 @@ const _createUtility = async (limit, centerName) => {
   }
 };
 
+const _wakeUp = async(pcNumber)=>{
+  try{
+    return {data:{pcNumber:pcNumber,online:true,dataVersion:dataVersion}}
+  }catch(e){
+    return {error:e.message}
+  }
+}
+
+
 module.exports = {
   _getUtility,
   _setUtilityPCLimit,
   _setUtilityCenterName,
   _createUtility,
+  _wakeUp,
 };

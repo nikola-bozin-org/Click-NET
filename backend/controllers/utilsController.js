@@ -51,11 +51,18 @@ const setUtilityCenterName = async(req,res)=>{
     if(result.error) return res.status(statusCode.INTERNAL_SERVER_ERROR).json({error:`Server error: ${result.error}`});
     return res.status(statusCode.OK).json({message:result.message})
 }
+const wakeUp = async(req,res)=>{
+    const {pcNumber} = req.body;
+    const result = await service._wakeUp(pcNumber);
+    if(result.error) return res.status(statusCode.INTERNAL_SERVER_ERROR).json({error:`Server error: ${result.error}`});
+    return res.status(statusCode.OK).json({data:result.data})
+}
 
 
 module.exports={
     getUtility,
     setUtilityPCLimit,
     createUtility,
-    setUtilityCenterName
+    setUtilityCenterName,
+    wakeUp
 }

@@ -26,7 +26,7 @@ const server = express();
 const port = 9876;
 const limiter = rateLimit({
   windowMs: 1 * 60 * 1000, 
-  max: 50,
+  max: 150,
   standardHeaders: true,
   legacyHeaders: false,
 });

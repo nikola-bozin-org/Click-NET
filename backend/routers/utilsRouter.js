@@ -7,5 +7,6 @@ router.get('/',controller.getUtility)
 router.put('/centerName',controller.setUtilityCenterName)
 router.put('/pcLimit',controller.setUtilityPCLimit)
 router.post('/',controller.createUtility)
+router.post('/wakeUp',controller.wakeUp)
 
 module.exports=router;
