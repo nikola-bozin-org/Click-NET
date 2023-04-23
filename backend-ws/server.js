@@ -43,7 +43,7 @@ const startServer = async () => {
       const clientTickets = extractedUser.activeTickets;
       
       const updateClient = () => {
-        clientBalance-=ratePerSecond;
+        clientBalance-=ratePerMinute;
         //updejt u bazu
         if(clientBalance<=0 && clientTickets.length===0) {
           ws.send(JSON.stringify({ event: "timeUp", message: "Time is up." }));
@@ -54,6 +54,9 @@ const startServer = async () => {
       };
       setInterval(updateClient, 1000);
     });
+    server.on('close',async(ws)=>{
+      console.info('Client disconnected');
+    })
   });
 }
 

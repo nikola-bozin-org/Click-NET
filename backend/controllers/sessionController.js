@@ -18,6 +18,7 @@ const verifyToken = async(req,res)=>{
 }
 const loginUser = async (req,res) => {
     const { username, password, pcNumber } = req.body;
+    console.info(req.body)
     const result = await service._loginUser(username,password,pcNumber);
     if(result.error) return res.status(statusCode.INTERNAL_SERVER_ERROR).json({error:`Server error: ${result.error}`});
     return res.status(statusCode.OK).json({accessToken:result.accessToken,user:result.user})

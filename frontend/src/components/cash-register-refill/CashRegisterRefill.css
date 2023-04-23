@@ -80,7 +80,7 @@
 }
 
 .cash-register-refill-button:hover .circle {
-  transform: translate(-50%, -50%) scale(70);
+  transform: translate(-50%, -50%) scale(85);
 }
 
 input[type="number"].cash-register-refill-amount::-webkit-outer-spin-button,

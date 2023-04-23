@@ -1,18 +1,18 @@
-const { dataVersion } = require("../clientResources");
+const { utils } = require("xlsx");
 const { Utils } = require("../schemas");
 
 const _getUtility = async () => {
   try {
-    const utility = await Utils.find({});
+    const utility = await Utils.findOne({});
     return { utility: utility};
   } catch (e) {
     return { error: e.message };
   }
 };
 
-const _setUtilityPCLimit = async (newLimit) => {
+const _setWorkstationLimit = async (newLimit) => {
   try {
-    await Utils.findOneAndUpdate({}, { 'utility.pcLimit': newLimit });
+    await Utils.findOneAndUpdate({}, { 'utility.workstationLimit': newLimit });
     return { message: "New Limit Set: " + newLimit };
   } catch (e) {
     return { error: e.message };
@@ -29,12 +29,14 @@ const _setUtilityCenterName = async (newCenterName) => {
 
 const _createUtility = async (limit, centerName) => {
   try {
-    const utility = await Utils.find({});
+    const utility = await Utils.findOne({});
+    console.info(utility)
     if(utility) return {error:'Utility aleady exists.'}
     await Utils.create({
       utility: {
-        pcLimit: limit,
+        workstationLimit: limit,
         centerName: centerName,
+        numberOfWorkstations:0,
       },
     });
     return { message: "Utility created." };
@@ -43,19 +45,31 @@ const _createUtility = async (limit, centerName) => {
   }
 };
 
-const _wakeUp = async(pcNumber)=>{
+const _numberOfWorkstations = async()=>{
   try{
-    return {data:{pcNumber:pcNumber,online:true,dataVersion:dataVersion}}
+    const utility = await Utils.findOne({});
+    return {numberOfWorkstations:utility.utility.numberOfWorkstations};
+  }catch(e){
+    return {error:e.message}
+  }
+}
+const _workstationLimit = async()=>{
+  try{
+    const utility = await Utils.findOne({});
+    return {workstationLimit:utility.utility.workstationLimit}
   }catch(e){
     return {error:e.message}
   }
 }
 
 
+
+
 module.exports = {
   _getUtility,
-  _setUtilityPCLimit,
+  _setWorkstationLimit,
   _setUtilityCenterName,
   _createUtility,
-  _wakeUp,
+  _numberOfWorkstations,
+  _workstationLimit,
 };

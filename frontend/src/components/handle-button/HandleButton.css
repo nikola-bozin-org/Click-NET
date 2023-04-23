@@ -28,6 +28,6 @@
   }
   
   .handle-button:hover .circle {
-    transform: translate(-50%, -50%) scale(70);
+    transform: translate(-50%, -50%) scale(85);
   }
   
