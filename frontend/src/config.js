@@ -9,6 +9,7 @@ export const userXp=`${API_BASE_URL}/user/xp`
 //Users
 export const createUser=`${API_BASE_URL}/users/createUser`
 export const allUsers=`${API_BASE_URL}/users`
+export const deleteUser=`${API_BASE_URL}/users`
 
 //Sessions
 export const loginStaff=`${API_BASE_URL}/session/loginStaff`

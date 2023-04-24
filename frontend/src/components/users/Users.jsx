@@ -10,6 +10,7 @@ import { extractDate, extractHours, filterObjectByKeys } from '../../utils'
 import { useSelector } from 'react-redux'
 import {employeeHeaders_USERS,adminHeaders_USERS, tableRowClickedBehaviour} from '../../config'
 import User from '../user/User'
+import { AppContext } from '../../contexts/AppContext'
 
 const Users = ({users,sessions}) => {
   const isAdmin = useSelector((state) => state.auth.isAdmin);
@@ -44,7 +45,7 @@ const Users = ({users,sessions}) => {
       default:
         setTableData([]);
     }
-  }, [usersContext.currentSelectionInternalOption]);
+  }, [usersContext.currentSelectionInternalOption,useContext(AppContext).users]);
 
   return (
     <>

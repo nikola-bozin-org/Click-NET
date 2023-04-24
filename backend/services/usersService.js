@@ -50,7 +50,8 @@ const _createUser = async(staffName,username,password,firstName,lastName,email,p
                 activeTickets:[],
                 payments:[]
             });
-            return {userCreated:true,user:{username:username,role:userRoles.Default,balance:0,discount:0,xp:0,action:actionObject,activeTickets:[],payments:[]}}
+            const user = await User.findOne({username})
+            return {userCreated:true,user:user}
         }catch(e){
             return {error:e.message}
         }

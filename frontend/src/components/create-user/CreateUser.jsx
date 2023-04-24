@@ -6,7 +6,7 @@ import FetchError from '../fetch-error/FetchError';
 import HandleButton from '../handle-button/HandleButton'
 
 const CreateUser = () => {
-  const { setShouldShowCreateUser } = useContext(AppContext)
+  const { setShouldShowCreateUser,updateUsers,users } = useContext(AppContext)
   const [isSaveDisabled, setIsSaveDisabled] = useState(false);
   const [shouldShowError,setShouldShowError] = useState(false);
   const [errorMessage,setErrorMessage] = useState('');
@@ -41,6 +41,10 @@ const CreateUser = () => {
     setIsSaveDisabled(false);
     if (result.error) { setShouldShowError(true); setErrorMessage(result.error); return; };
     setShouldShowCreateUser(false);
+    if(!result.userCreated) return;
+    console.info(users);
+    updateUsers(result.user);
+    console.info(result.user);
   };
 
   return (

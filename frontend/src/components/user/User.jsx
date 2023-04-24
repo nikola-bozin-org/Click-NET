@@ -66,8 +66,8 @@ const User = () => {
 
   return (
     <>
-    <div className='user-dashboard'>
-      <div className="user-topbar">
+    <div className={`user-dashboard ${usersContext.shouldAnimateDelete?'transition-to-black':''}`}>
+      <div className={`user-topbar ${usersContext.shouldAnimateDelete?'slide-out-1':''}`}>
         <div className="user-topbar-username">
           {userData.username}
         </div>
@@ -75,7 +75,7 @@ const User = () => {
           Created at: {extractDate(dateCreated)}
         </div>
       </div>
-      <div className="user-topbar-2">
+      <div className={`user-topbar-2 ${usersContext.shouldAnimateDelete?'slide-out-2':''}`}>
         <div onClick={returnToList} className="user-topback-back-to-list">
           {'⇽ Back to the list'}
         </div>
@@ -84,7 +84,7 @@ const User = () => {
         <img src={bin} alt="" className="delete-user-img invertColor" />
         </div>
       </div>
-      <div className="user-dashboard-data">
+      <div className={`user-dashboard-data ${usersContext.shouldAnimateDelete?'slide-out-3':''}`}>
         <div className="user-dashboard-data-blocks">
           <DataBlock circleColor={'#cc2234'} text={'Balance'} value={balance} onClick={()=>{}} buttonText={'Balance history'}/>
           <DataBlock circleColor={'#cc2234'} text={'Discount'} value={`${discount}%`} onClick={()=>{}} buttonText={'Set discount'}/>
@@ -97,8 +97,8 @@ const User = () => {
         <p className="empty-text">empty</p>
         </div>
       </div>
-        <p className='user-basic-info-text'>Basic Info</p>
-      <div className="user-basic-infos">
+        <p className={`user-basic-info-text ${usersContext.shouldAnimateDelete?'slide-out-4':''}`}>Basic Info</p>
+      <div className={`user-basic-infos ${usersContext.shouldAnimateDelete?'slide-out-5':''}`}>
       <BasicInfo type={'First name'} value={userData.basicInfo.firstName}/>
       <BasicInfo type={'Last name'} value={userData.basicInfo.lastName}/>
       <BasicInfo type={'Email'} value={userData.basicInfo.email}/>

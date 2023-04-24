@@ -14,6 +14,13 @@ export const AppContextProvider = ({children})=>{
     const [sessions,setSessions] = useState([]);
     const [currentCashRegisterSession,setCurrentCashRegisterSession] = useState(null);
 
+    const updateUsers = (user) =>{
+        setUsers([user,...users])
+    }
+    const deleteUser = (username) =>{
+        setUsers(users.filter((user)=>user.username!==username))
+    }
+
     const value = {
         currentSidebarSelection,
         setCurrentSidebarSelection,
@@ -27,6 +34,8 @@ export const AppContextProvider = ({children})=>{
         setIsLoading,
         users,
         setUsers,
+        deleteUser,
+        updateUsers,
         sessions,
         setSessions,
         currentCashRegisterSession,

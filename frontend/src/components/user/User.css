@@ -6,7 +6,12 @@
     right: 0;
     z-index: 2;
     color: white;
-    overflow-y: scroll;
+    overflow-y: auto;
+    transition: background-color 3s;
+}
+
+.user-dashboard.transition-to-black {
+    background-color: #000000;
 }
 
 .user-topback-back-to-list{
@@ -129,3 +134,34 @@
 .basic-info-value{
     font-size: 1.8rem;
 }
+
+
+@keyframes slideOut {
+    0% {
+      transform: translateX(0);
+      opacity: 100%;
+    }
+    100% {
+      opacity: 0%;
+      transform: translateX(100%);
+    }
+  }
+  
+  .slide-out-1 {
+    animation: slideOut 0.5s forwards;
+  }
+  
+  .slide-out-2 {
+    animation: slideOut 0.5s 0.1s forwards;
+  }
+  
+  .slide-out-3 {
+    animation: slideOut 0.5s 0.2s forwards;
+  }
+  .slide-out-4 {
+    animation: slideOut 0.5s 0.3s forwards;
+  }
+  .slide-out-5 {
+    animation: slideOut 0.5s 0.4s forwards;
+  }
+  

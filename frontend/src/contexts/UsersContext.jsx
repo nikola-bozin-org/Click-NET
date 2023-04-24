@@ -9,12 +9,15 @@ export const UsersContextProvider = ({children})=>{
     const [showUserData,setShowUserData] = useState(false);
     const [userData,setUserData] = useState({});
     const [showDeleteUser,setShowDeleteUser] = useState(false);
+    const [shouldAnimateDelete,setShouldAnimateDelete] = useState(false);
    
     const onOptionClicked = (optionId)=>{
         setCurrentSelectionInternalOption(optionId)
     }
     
     const value = {
+        shouldAnimateDelete,
+        setShouldAnimateDelete,
         currentSelectionInternalOption,
         onOptionClicked,
         showUserData,
