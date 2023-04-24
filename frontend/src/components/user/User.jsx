@@ -88,6 +88,7 @@ const User = () => {
         <div className="user-dashboard-data-blocks">
           <DataBlock circleColor={'#cc2234'} text={'Balance'} value={balance} onClick={()=>{}} buttonText={'Balance history'}/>
           <DataBlock circleColor={'#cc2234'} text={'Discount'} value={`${discount}%`} onClick={()=>{}} buttonText={'Set discount'}/>
+          <DataBlock circleColor={'#cc2234'} text={'XP'} value={xp} onClick={()=>{}} buttonText={'Passes history'}/>
           <DataBlock circleColor={'#cc2234'} text={'User type'} value={userData.role} onClick={()=>{}} buttonText={'Set role'}/>
         </div>
         <div className="user-dashboard-actions">
