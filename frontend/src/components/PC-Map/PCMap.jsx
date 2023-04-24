@@ -4,22 +4,14 @@ import PC from '../PC/PC'
 import InternalOptions from '../internal-options/InternalOptions';
 import {PCMapContext} from '../../contexts/PCMapContext'
 import { useContext } from 'react';
-
-const numberOfPCs = 12;
-
-const N=6;
-const M=6;
+import PcMapManagment from './managment-mode/PcMapManagment';
 
 const PCMap = () => {
   const pcMapContext = useContext(PCMapContext);
   return (
     <>
     <InternalOptions options={['Map - Managment Mode','Map - Configuration Mode']} context={pcMapContext}/>
-    <div className='PCMap'>
-      <PC number={1} color={'black'}/>
-      <PC number={2} color={'black'}/>
-      <PC number={3} color={'black'}/>
-    </div>
+    {pcMapContext.currentSelectionInternalOption===0?<PcMapManagment centerName={'Click Esports'}/>:<div>Configuration</div>}
     </>
   )
 }

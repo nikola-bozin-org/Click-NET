@@ -87,3 +87,7 @@ export const tableRowClickedBehaviour={
   NotClickable:-1,
   User:0,
 }
+
+
+export const pcMap_N = 6;
+export const pcMap_M = 6;

@@ -1,10 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import './pc.css';
+import { PCMapContext } from '../../contexts/PCMapContext';
 
 const PC = ({ number, color }) => {
   const [dragging, setDragging] = useState(false);
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [offset, setOffset] = useState({ x: 0, y: 0 });
+  const pcMapContext = useContext(PCMapContext);
 
   useEffect(() => {
     if (dragging) {
@@ -31,6 +33,7 @@ const PC = ({ number, color }) => {
   }, [dragging, offset]);
 
   const handleMouseDown = (e) => {
+    if(pcMapContext.currentSelectionInternalOption === 0) return;
     e.preventDefault();
     const offsetX = e.clientX - position.x;
     const offsetY = e.clientY - position.y;
