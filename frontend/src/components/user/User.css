@@ -116,7 +116,7 @@
 }
 .basic-info{
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    grid-template-rows: repeat(auto-fit, minmax(30px, 1fr));
     gap:20px;
     padding: 1rem;
     justify-content: center;
@@ -124,4 +124,8 @@
 }
 .user-basic-info-text{
     padding-top:10px ;
+}
+
+.basic-info-value{
+    font-size: 1.8rem;
 }
