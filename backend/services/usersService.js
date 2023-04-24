@@ -77,11 +77,20 @@ const _changePassword = async(username,oldPassword,newPassword,pcNumber) =>{
         return {error:e.message}
     }
 }
+const _deleteUser = async(username) =>{
+    try{
+        await User.deleteOne({username});
+        return {message:`User ${username} deleted.`}
+    }catch(e){
+        return {error:e.message}
+    }
+}
 
 
 module.exports={
     _getUsers,
     _getUser,
     _createUser,
-    _changePassword
+    _changePassword,
+    _deleteUser,
 }

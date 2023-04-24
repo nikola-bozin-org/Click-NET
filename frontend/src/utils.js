@@ -44,3 +44,7 @@ export const formatNumber = (number) =>{
     return Intl.NumberFormat().format(number);
 }
 
+export const isValidElement = (value) => {
+    return !Array.isArray(value) && (typeof value !== 'object' || value === null);
+  };
+  

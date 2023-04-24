@@ -7,6 +7,7 @@ export const UsersContext = createContext({});
 export const UsersContextProvider = ({children})=>{
     const [currentSelectionInternalOption,setCurrentSelectionInternalOption] = useState(0);
     const [showUserData,setShowUserData] = useState(false);
+    const [userData,setUserData] = useState({});
    
    
     const onOptionClicked = (optionId)=>{
@@ -18,6 +19,8 @@ export const UsersContextProvider = ({children})=>{
         onOptionClicked,
         showUserData,
         setShowUserData,
+        userData,
+        setUserData
     }
 
 

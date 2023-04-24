@@ -23,6 +23,7 @@ import CloseCashRegister from './components/close-cash-register/CloseCashRegiste
 import OpenCashRegister from './components/open-cash-register/OpenCashRegister';
 import Center from './components/center/Center';
 import { PCMapContextProvider } from './contexts/PCMapContext';
+import User from './components/user/User';
 
 
 const images = [dashboard, pay, pcMap, createUser,settings,importUser];

@@ -1,9 +1,28 @@
 .user-dashboard{
     width: calc(100% - 60px);
-    height: calc(100% - 61px);
+    height: calc(100% - 101px);
     background-color:#171A1E;
     position: absolute;
     right: 0;
     z-index: 2;
     color: white;
+}
+
+.user-topbar{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    font-size: 1.5rem;
+    border-bottom: 1px solid rgb(39, 39, 39);
+}
+.user-topback-back-to-list{
+    padding: 1rem;
+    width: 100%;
+    border-bottom: 1px solid rgb(39, 39, 39);
+    cursor: pointer;
+}
+
+.user-topback-back-to-list:hover{
+    background-color: black;
 }

@@ -1,21 +1,20 @@
 import React from 'react';
 import './table.css';
-import { capitalizeFirstLetter } from '../../utils';
+import { capitalizeFirstLetter, isValidElement } from '../../utils';
 import { useContext } from 'react';
 import { UsersContext } from '../../contexts/UsersContext';
+import { AppContext } from '../../contexts/AppContext';
 
 
 
-const isValidElement = (value) => {
-  return !Array.isArray(value) && (typeof value !== 'object' || value === null);
-};
 
 const TableRow = ({ data, headersLength}) => {
-  const username = data.username;
   const usersContext = useContext(UsersContext);
+  const appContext = useContext(AppContext);
 
   const onClick = () =>{
     usersContext.setShowUserData(true);
+    usersContext.setUserData(appContext.users.find(user=>user.username===data.username));
   }
 
   const keys = Object.keys(data);
