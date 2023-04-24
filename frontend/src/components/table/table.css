@@ -105,6 +105,9 @@ tr:nth-child(odd) {
     color: white;
 }
 
+.cursor-is-pointer{
+    cursor: pointer;
+}
 
 @media (max-width:550px){
     td,th{

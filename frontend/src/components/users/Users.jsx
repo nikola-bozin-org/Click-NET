@@ -8,7 +8,7 @@ import { useState } from 'react'
 import { UsersContext} from '../../contexts/UsersContext'
 import { extractDate, extractHours, filterObjectByKeys } from '../../utils'
 import { useSelector } from 'react-redux'
-import {employeeHeaders_USERS,adminHeaders_USERS} from '../../config'
+import {employeeHeaders_USERS,adminHeaders_USERS, tableRowClickedBehaviour} from '../../config'
 import User from '../user/User'
 
 const Users = ({users,sessions}) => {
@@ -53,7 +53,7 @@ const Users = ({users,sessions}) => {
         <InternalTopbar text={"Users"}/>
         <InternalOptions context={usersContext} options={isAdmin?[...employeeHeaders_USERS,...adminHeaders_USERS]:employeeHeaders_USERS}/>
         <InternalSearch/>
-        <Table headers={headers} tableData={tableData} shouldRoundEdges={true}/>
+        <Table headers={headers} tableData={tableData} shouldRoundEdges={true} rowClickedBehaviour={tableRowClickedBehaviour.User}/>
     </div>
     </>
   )

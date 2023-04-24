@@ -81,3 +81,8 @@ export const pcAdditionalInfo = [
     color:'#544db1'
   }
 ]
+
+export const tableRowClickedBehaviour={
+  NotClickable:-1,
+  User:0,
+}

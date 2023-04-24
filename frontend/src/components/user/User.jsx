@@ -8,7 +8,7 @@ import HandleButton from '../handle-button/HandleButton'
 import { userBalance, userDiscount, userXp } from '../../config';
 import { useState } from 'react';
 import Table from '../table/Table'
-import { filterObjectByKeys } from '../../utils';
+import { extractDate, filterObjectByKeys } from '../../utils';
 
 const User = () => {
   const [balance,setBalance] = useState(0);
@@ -16,7 +16,7 @@ const User = () => {
   const [xp,setXp] = useState(0);
   const usersContext = useContext(UsersContext)
   const userData = usersContext.userData;
-  console.info(userData)
+  const dateCreated = userData.actions[0].date;
   const returnToList = ()=>{
     usersContext.setShowUserData(false);
   }
@@ -73,7 +73,7 @@ const User = () => {
           {userData.username}
         </div>
         <div className="user-topbar-time-created">
-          Created at:00.00.0000
+          Created at: {extractDate(dateCreated)}
         </div>
       </div>
       <div className="user-topbar-2">
