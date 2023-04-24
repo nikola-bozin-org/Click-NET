@@ -30,4 +30,9 @@
   .handle-button:hover .circle {
     transform: translate(-50%, -50%) scale(85);
   }
-  
+  .handle-button:focus .circle {
+    transform: translate(-50%, -50%) scale(85);
+  }
+  .handle-button:focus{
+    outline: none!important;
+  }
