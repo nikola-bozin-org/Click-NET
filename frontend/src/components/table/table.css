@@ -24,7 +24,6 @@
 
 .table-wrapper {
     width: 100%;
-    max-height: calc(100vh - 300px);
     overflow-y: auto;
 }
 
@@ -55,7 +54,6 @@ th {
     background-color: #1c2025;
     color: white;
     border-left: 1px solid rgb(39,39,39);
-    text-indent: 10px;
     height: 40px;
     display: flex;
     align-items: center;
@@ -66,7 +64,6 @@ td {
     height: 30px;
     padding: 0.5rem;
     text-align: left;
-    text-indent: 10px;
     display: flex;
     align-items: center;
     justify-content: flex-start;

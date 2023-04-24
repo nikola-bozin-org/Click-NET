@@ -37,11 +37,11 @@ const TableRow = ({ data, headersLength}) => {
 };
 
 
-const Table = ({ headers, tableData,shouldRoundEdges}) => {
+const Table = ({ headers, tableData,shouldRoundEdges, heightReduction=300}) => {
   const headersLength = headers.length;
   return (
     <div className="table-container">
-      <div className="table-wrapper">
+      <div style={{maxHeight:`calc(100vh - ${heightReduction}px)`}} className="table-wrapper">
         <table className="table">
           <thead>
             <tr style={{ display: "grid", gridTemplateColumns: `repeat(${headersLength}, 1fr)` }}>
