@@ -22,16 +22,11 @@ const TableRow = ({ data, headersLength, clickedBehaviour }) => {
   return (
     <tr onClick={onClick} style={{ gridTemplateColumns: `repeat(${headersLength}, 1fr)` }} className='table-row'>
       {keys.map((key) => {
-        if (isValidElement(data[key])) {
           return (
             <td className={`${clickedBehaviour===tableRowClickedBehaviour.NotClickable?'':'cursor-is-pointer'} borderBottom borderRight borderLeft table-row-data`} key={key}>
               {data[key] === data.paymentAmount && data[key] >= 0 ? `+${data[key]}` : data[key]}
             </td>
           );
-        } else {
-          console.info("INVALIDDDDDDDD")
-        }
-        return null;
       })}
     </tr>
   );

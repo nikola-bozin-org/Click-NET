@@ -8,15 +8,17 @@ import { useState } from 'react'
 import { UsersContext} from '../../contexts/UsersContext'
 import { extractDate, extractHours, filterObjectByKeys } from '../../utils'
 import { useSelector } from 'react-redux'
-import {employeeHeaders_USERS,adminHeaders_USERS, tableRowClickedBehaviour} from '../../config'
+import {employeeHeaders_USERS,adminHeaders_USERS, tableRowClickedBehaviour, allUsers} from '../../config'
 import User from '../user/User'
 import { AppContext } from '../../contexts/AppContext'
+import HandleButton from '../handle-button/HandleButton'
 
 const Users = ({users,sessions}) => {
   const isAdmin = useSelector((state) => state.auth.isAdmin);
   const usersContext = useContext(UsersContext);
   const [tableData,setTableData] = useState([]);
   const [headers,setHeaders] = useState([]);
+  const appContext = useContext(AppContext)
 
   useEffect(() => {
     switch (usersContext.currentSelectionInternalOption) {
@@ -47,13 +49,28 @@ const Users = ({users,sessions}) => {
     }
   }, [usersContext.currentSelectionInternalOption,useContext(AppContext).users]);
 
+  const refreshUsers = async()=>{
+    const response = await fetch(allUsers, {
+      headers: {
+        'Content-Type': 'application/json',
+        'token':localStorage.getItem('accessToken')
+      }
+    });
+    const result = await response.json();
+    if(result.error) {console.error(result.error); return}
+    appContext.setUsers(result.users.reverse());
+  }
+
   return (
     <>
     {usersContext.showUserData && <User/>}
     <div className='users'>
         <InternalTopbar text={"Users"}/>
         <InternalOptions context={usersContext} options={isAdmin?[...employeeHeaders_USERS,...adminHeaders_USERS]:employeeHeaders_USERS}/>
-        <InternalSearch/>
+        <div className="search-and-refresh">
+          <InternalSearch/>
+          <HandleButton onClick={refreshUsers} text={'Refresh'} className={'refresh-users'} />
+        </div>
         <Table headers={headers} tableData={tableData} shouldRoundEdges={true} rowClickedBehaviour={tableRowClickedBehaviour.User}/>
     </div>
     </>

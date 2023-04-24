@@ -8,7 +8,7 @@ import HandleButton from '../handle-button/HandleButton'
 import { userBalance, userDiscount, userXp } from '../../config';
 import { useState } from 'react';
 import Table from '../table/Table'
-import { extractDate, filterObjectByKeys } from '../../utils';
+import { extractDate, extractHours, filterObjectByKeys } from '../../utils';
 
 const User = () => {
   const [balance,setBalance] = useState(0);
@@ -93,7 +93,27 @@ const User = () => {
         </div>
         <div className="user-dashboard-actions">
           <p className='user-dashboard-actions-text'>Actions</p>
-        <Table shouldRoundEdges={true} heightReduction={600} headers={['Action','Description','Date','PC Number','Balance Change']} tableData={userData.actions.map((action)=>filterObjectByKeys(action,['name','description','date','pcNumber','balanceChange']))}/>
+      <Table shouldRoundEdges={true} heightReduction={600} headers={['Action','Description','Date','PC Number','Balance Change']}
+       tableData={
+        userData.actions.map((action) => {
+          const filteredAction = filterObjectByKeys(action, [
+            'name',
+            'description',
+            'date',
+            'pcNumber',
+            'balanceChange',
+          ]);
+        
+          Object.keys(filteredAction).forEach((key) => {
+            if (key === 'date') {
+              const date = extractDate(filteredAction[key]);
+              const time = extractHours(filteredAction[key]);
+              filteredAction[key] = `${date} - ${time}`;
+            }
+          });
+        
+          return filteredAction;
+        }).reverse()}/>
         <p className="empty-text">empty</p>
         </div>
       </div>

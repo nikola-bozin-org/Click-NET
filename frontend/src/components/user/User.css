@@ -8,6 +8,7 @@
     color: white;
     overflow-y: auto;
     transition: background-color 3s;
+    overflow-x:hidden;
 }
 
 .user-dashboard.transition-to-black {

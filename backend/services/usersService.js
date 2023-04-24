@@ -27,7 +27,7 @@ const _createUser = async(staffName,username,password,firstName,lastName,email,p
     try {
         const actionObject = {
             name:UserActions.AccountCreation,
-            description:UserActionDescription.AccountCreation(staffName.username,username),
+            description:UserActionDescription.AccountCreation(staffName,username),
             date:Date.now(),
             pcNumber:-1,
             balanceChange:0
@@ -53,6 +53,8 @@ const _createUser = async(staffName,username,password,firstName,lastName,email,p
             const user = await User.findOne({username})
             return {userCreated:true,user:user}
         }catch(e){
+            if(e.message && e.message.includes("User validation failed")) return {error:`Invalid data.`}
+            if(e.code===11000) return {error:`User ${username} already exist.`}
             return {error:e.message}
         }
 }

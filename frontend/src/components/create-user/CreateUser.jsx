@@ -42,9 +42,7 @@ const CreateUser = () => {
     if (result.error) { setShouldShowError(true); setErrorMessage(result.error); return; };
     setShouldShowCreateUser(false);
     if(!result.userCreated) return;
-    console.info(users);
     updateUsers(result.user);
-    console.info(result.user);
   };
 
   return (
