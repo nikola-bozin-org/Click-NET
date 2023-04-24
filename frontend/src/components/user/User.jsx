@@ -66,7 +66,6 @@ const User = () => {
 
   return (
     <>
-    {usersContext.showDeleteUser && <DeleteUser />}
     <div className='user-dashboard'>
       <div className="user-topbar">
         <div className="user-topbar-username">
@@ -81,6 +80,7 @@ const User = () => {
           {'⇽ Back to the list'}
         </div>
         <div onClick={onBinClicked} className="delete-user">
+          {usersContext.showDeleteUser && <DeleteUser username={userData.username}/>}
         <img src={bin} alt="" className="delete-user-img invertColor" />
         </div>
       </div>
