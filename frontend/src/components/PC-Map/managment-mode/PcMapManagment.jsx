@@ -10,6 +10,7 @@ import lock from '../../../images/lock.png'
 import tickets from '../../../images/tickets.png'
 import comment from '../../../images/comment.png'
 import warning from '../../../images/warning.png'
+import Map from '../map/Map';
 
 
 const PcMapManagment = ({centerName}) => {
@@ -31,6 +32,9 @@ const PcMapManagment = ({centerName}) => {
                 <img title='Flag' src={flag} alt="" className="pc-managment-other-control invertColor" />
                 <img title='Lock' src={lock} alt="" className="pc-managment-other-control invertColor" />
             </div>
+        </div>
+        <div className="map-wrapper">
+          <Map/>
         </div>
     </div>
   )

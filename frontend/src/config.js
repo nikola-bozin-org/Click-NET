@@ -89,5 +89,5 @@ export const tableRowClickedBehaviour={
 }
 
 
-export const pcMap_N = 6;
-export const pcMap_M = 6;
+export const pcMap_N = 8;
+export const pcMap_M = 11;
