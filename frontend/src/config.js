@@ -25,7 +25,7 @@ export const getCurrentCashRegisterSession = `${API_BASE_URL}/cashRegister/getCu
 export const openCashRegisterSession = `${API_BASE_URL}/cashRegister/openCashRegisterSession`
 
 //Workstation
-export const addWorkStation=`${API_BASE_URL}/workstation/`
+export const addNewWorkstation=`${API_BASE_URL}/workstation/`
 
 //-------------------------------------------------------------------------------------------------------------------
 

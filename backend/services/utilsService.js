@@ -53,6 +53,16 @@ const _numberOfWorkstations = async()=>{
     return {error:e.message}
   }
 }
+const _incrementNumberOfWorkstations = async()=>{
+  try{
+    const utility = await Utils.findOne({});
+    utility.utility.numberOfWorkstations+=1;
+    utility.save();    
+  }catch(e){
+    return {error:e.message}
+  }
+}
+
 const _workstationLimit = async()=>{
   try{
     const utility = await Utils.findOne({});
@@ -72,4 +82,5 @@ module.exports = {
   _createUtility,
   _numberOfWorkstations,
   _workstationLimit,
+  _incrementNumberOfWorkstations
 };
