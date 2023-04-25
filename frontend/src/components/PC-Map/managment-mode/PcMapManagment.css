@@ -21,6 +21,7 @@
     width: 17.5px;
     height: 17.5px;
     cursor: pointer;
+    opacity: 0.7;
 }
 .pc-managment-other-controls{
     display: flex;
@@ -34,4 +35,12 @@
     width: 17.5px;
     height: 17.5px;
     cursor: pointer;
+    opacity: 0.7;
+}
+
+.pc-managment-remote-control-option:hover{
+    opacity:1;
+}
+.pc-managment-other-control:hover{
+    opacity:1;
 }
