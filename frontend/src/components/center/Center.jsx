@@ -1,10 +1,17 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import './Center.css'
 import PCMap from '../PC-Map/PCMap'
 import HandleButton from '../handle-button/HandleButton'
 import { pcAdditionalInfo, pcRole, userRoles } from '../../config'
+import { useContext } from 'react'
+import { AppContext } from '../../contexts/AppContext'
 
 const Center = ({ centerName, numberOfLoggedInUsers, licenceLimit }) => {
+    const appContext = useContext(AppContext);
+    useEffect(() => {
+        appContext.setShouldShowCloseCashRegister(false);
+    },[])
+    
     return (
         <div className='center'>
             <div className="center-pc-map">

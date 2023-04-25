@@ -7,7 +7,7 @@
     position: absolute;
     background-color: rgba(0, 0, 0, 0.8);
     width: calc(100% - 60px);
-    z-index: 100;
+    z-index: 9999;
     right: 0;
 }
 

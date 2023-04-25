@@ -7,6 +7,7 @@
 
 .center-pc-map{
     height: calc(100% - 40px);
+    z-index: 10;
 }
 
 .center-info{

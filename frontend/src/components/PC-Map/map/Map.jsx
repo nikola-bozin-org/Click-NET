@@ -10,7 +10,6 @@ const range = (length) => Array.from({ length }, (_, i) => i);
 
 const Map = () => {
   const pcMapContext = useContext(PCMapContext);
-  console.info(pcMapContext.currentSelectionInternalOption)
   const gridElements = range(pcMap_N * pcMap_M).map((_, index) => {
     return (
       pcMapContext.currentSelectionInternalOption === 0 ? (

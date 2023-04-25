@@ -5,14 +5,17 @@ export const PCMapContext = createContext({});
 
 
 export const PCMapContextProvider = ({children})=>{
-    const [currentSelectionInternalOption,setCurrentSelectionInternalOption] = useState(0);
-    
+    const [currentSelectionInternalOption,setCurrentSelectionInternalOption] = useState(1);
+    const [showAddWorkStation,setShowAddWorkStation] = useState(false);
+
     const onOptionClicked = (optionId)=>{
         setCurrentSelectionInternalOption(optionId)
     }
     const value ={
         currentSelectionInternalOption,
-        onOptionClicked
+        onOptionClicked,
+        showAddWorkStation,
+        setShowAddWorkStation
     }
 
     return (
