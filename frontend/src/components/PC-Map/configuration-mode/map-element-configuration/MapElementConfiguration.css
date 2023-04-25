@@ -1,0 +1,44 @@
+.map-element-configuration{
+    width: 70px;
+    height: 70px;
+    border: 1px solid rgb(39,39,39);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.map-element-configuration-add{
+    width: 20px;
+    height: 20px;
+    opacity: 0;
+    transition: opacity 0.5s;
+}
+
+.map-element-configuration:hover .map-element-configuration-add {
+    display: block;
+    opacity: 0.9;
+  }
+
+.hidden {
+    display: none;
+}
+
+.map-element-configuration:hover .hidden {
+    display: block;
+}
+
+.map-element-cfg-img-wrapper{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 60px;
+    height: 60px;
+    border-radius: 5px;
+    background-color: rgb(48, 48, 48);
+    opacity: 0;
+    transition: opacity 0.5s;
+}
+
+.map-element-configuration:hover .map-element-cfg-img-wrapper {
+    opacity: 0.9;
+  }

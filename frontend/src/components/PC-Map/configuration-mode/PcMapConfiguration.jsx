@@ -1,11 +1,15 @@
 import React from 'react'
 import './PcMapConfiguration.css'
 import InternalTopbar from '../../internal-topbar/InternalTopbar'
+import Map from '../map/Map'
 
-const PcMapConfiguration = ({centerName}) => {
+const PcMapConfiguration = ({ centerName }) => {
     return (
         <div className='PcMapConfiguration'>
-            <InternalTopbar text={centerName}/>
+            <div className="pc-map-config-center-name">{centerName}</div>
+            <div className="map-wrapper-configuration">
+                <Map />
+            </div>
         </div>
     )
 }

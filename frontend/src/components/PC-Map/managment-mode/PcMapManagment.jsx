@@ -33,7 +33,7 @@ const PcMapManagment = ({centerName}) => {
                 <img title='Lock' src={lock} alt="" className="pc-managment-other-control invertColor" />
             </div>
         </div>
-        <div className="map-wrapper">
+        <div className="map-wrapper-managment">
           <Map/>
         </div>
     </div>

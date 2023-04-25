@@ -48,7 +48,7 @@
     opacity:1;
 }
 
-.map-wrapper{
+.map-wrapper-managment{
     display: flex;
     align-items: flex-start;
     justify-content: center;  

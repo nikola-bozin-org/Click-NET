@@ -1,14 +1,25 @@
 import React from 'react';
 import './Map.css';
 import { pcMap_N, pcMap_M } from '../../../config';
+import MapElementManagment from '../managment-mode/map-element-managment/MapElementManagment';
+import MapElementConfiguration from '../configuration-mode/map-element-configuration/MapElementConfiguration';
+import { useContext } from 'react';
+import {PCMapContext} from '../../../contexts/PCMapContext'
 
 const range = (length) => Array.from({ length }, (_, i) => i);
 
 const Map = () => {
-  const gridElements = range(pcMap_N * pcMap_M).map((_, index) => (
-    <MapElement key={index} index={index} />
-  ));
-
+  const pcMapContext = useContext(PCMapContext);
+  console.info(pcMapContext.currentSelectionInternalOption)
+  const gridElements = range(pcMap_N * pcMap_M).map((_, index) => {
+    return (
+      pcMapContext.currentSelectionInternalOption === 0 ? (
+        <MapElementManagment key={index} index={index} />
+      ) : (
+        <MapElementConfiguration key={index}/>
+      )
+    );
+  });
   return (
     <div
       style={{
@@ -23,9 +34,7 @@ const Map = () => {
 };
 
 
-const MapElement = ({ index }) => {
-  return <div className="map-element">{index}</div>;
-};
+
 
 
 export default Map;

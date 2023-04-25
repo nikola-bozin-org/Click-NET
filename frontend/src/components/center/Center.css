@@ -2,6 +2,7 @@
     display: grid;
     grid-template-columns: 1fr 400px;
     color: white;
+    z-index: 103;
 }
 
 .center-pc-map{

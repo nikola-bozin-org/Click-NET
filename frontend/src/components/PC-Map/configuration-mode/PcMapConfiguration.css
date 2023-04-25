@@ -1,0 +1,14 @@
+.map-wrapper-configuration {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 20px;
+    overflow-y: auto;
+    max-height: calc(100vh - 250px);
+}
+
+.pc-map-config-center-name{
+    padding: 1rem;
+    border-bottom: 1px solid rgb(39,39,39);
+    font-size: 1.2rem;
+}
