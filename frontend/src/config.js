@@ -24,6 +24,13 @@ export const closeCashRegisterSession = `${API_BASE_URL}/cashRegister/closeCashR
 export const getCurrentCashRegisterSession = `${API_BASE_URL}/cashRegister/getCurrentSession`
 export const openCashRegisterSession = `${API_BASE_URL}/cashRegister/openCashRegisterSession`
 
+//Workstation
+export const addWorkStation=`${API_BASE_URL}/workstation/`
+
+//-------------------------------------------------------------------------------------------------------------------
+
+
+
 export const employeeHeaders_USERS = ['All users','Session history','Balance history','Receipt history','Passes history']
 export const adminHeaders_USERS = ['Roles and user access','User types']
 

@@ -11,7 +11,7 @@
     width: 20px;
     height: 20px;
     opacity: 0;
-    transition: opacity 0.5s;
+    transition: opacity 0.2s;
 }
 
 .map-element-configuration:hover .map-element-configuration-add {
@@ -36,7 +36,7 @@
     border-radius: 5px;
     background-color: rgb(48, 48, 48);
     opacity: 0;
-    transition: opacity 0.5s;
+    transition: opacity 0.2s;
 }
 
 .map-element-configuration:hover .map-element-cfg-img-wrapper {

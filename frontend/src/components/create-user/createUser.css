@@ -54,15 +54,6 @@
     padding-top:50px ;
 }
 
-.saveCreation{
-    background-color: #171A1E!important;
-    border: 2px solid #554570!important;
-    width: 160px!important;
-    height: 47px!important;
-    color: white;
-    cursor: pointer;
-    font-size: 20px!important;
-}
 
 .cancelCreation{
     width: 160px!important;
@@ -72,6 +63,17 @@
     color: white!important;
     border: 2px solid #554570!important;
     cursor: pointer!important;
+    font-size: 20px!important;
+}
+
+
+.saveCreation{
+    background-color: #171A1E!important;
+    border: 2px solid #554570!important;
+    width: 160px!important;
+    height: 47px!important;
+    color: white;
+    cursor: pointer;
     font-size: 20px!important;
 }
 

@@ -49,9 +49,9 @@ const CreateUser = () => {
     <div onClick={() => { setShouldShowCreateUser(false) }} className="create-user-container">
       <form autoComplete="off" className="create-user-form" onClick={(e) => { e.stopPropagation() }}>
         <h1>Create User</h1>
-        <p htmlFor="username">*Username:</p>
+        <p htmlFor="username">Username:</p>
         <input autoComplete='off' type="text" id="username" name="username" value={formData.username} onChange={handleInputChange} required />
-        <p htmlFor="password">*Password:</p>
+        <p htmlFor="password">Password:</p>
         <input autoComplete='off' type="password" id="password" name="password" value={formData.password} onChange={handleInputChange} required />
 
         <p htmlFor="firstName">First Name:</p>
