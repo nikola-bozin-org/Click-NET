@@ -6,21 +6,22 @@ import { CashRegisterContext } from '../../contexts/CashRegisterContext'
 import CashRegisterRefill from '../cash-register-refill/CashRegisterRefill'
 import { AppContext } from '../../contexts/AppContext'
 import HandleButton from '../handle-button/HandleButton'
+import CashRegisterRefund from '../cash-register-refund/CashRegisterRefund'
 
-const CashRegister = () => {
+const CashRegister = ({centerName}) => {
   const cashRegisterContext = useContext(CashRegisterContext)
   const {setShouldShowCloseCashRegister} = useContext(AppContext);
   return (
     <div className='cashRegister'>
       <div className="cash-register-internal-topbar-wrapper">
-        <InternalTopbar text={"Cash register"}/>
+        <InternalTopbar text={`Cash register ${centerName}`}/>
         <HandleButton shouldDisable={false} onClick={()=>{setShouldShowCloseCashRegister(true)}} text={"Close"} className={"cash-register-close-session-button"} circleColor='#cc2234'/>
       </div>
         <InternalOptions context={cashRegisterContext} options={['Refill','Refund','Postpaid sessions','Shop']}/>
         {(() => {
           switch (cashRegisterContext.currentSelectionInternalOption) {
             case 0: return <CashRegisterRefill/>;
-            case 1: return <>1</>;
+            case 1: return <CashRegisterRefund/>;
             case 2: return <>2</>;
             case 3: return <>3</>;
             default:

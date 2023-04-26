@@ -1,0 +1,18 @@
+.CashRegisterRefund {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    height: calc(100% - 161px);
+}
+
+.cash-register-refund-left {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap:100px;
+    margin-top: 50px;
+}
+
+
+.cash-register-refill-right{
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.7);
+  }

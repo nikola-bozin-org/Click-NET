@@ -100,7 +100,7 @@ const App = () => {
         {(() => {
           switch (appContext.currentSidebarSelection) {
             case 0: return <PCMapContextProvider><Center centerName={"Click Esports"} numberOfLoggedInUsers={0} licenceLimit={0}/> </PCMapContextProvider>;
-            case 1: return <> {appContext.currentCashRegisterSession!==null?<CashRegisterContextProvider><CashRegister/></CashRegisterContextProvider>:<OpenCashRegister/>}  </> ;
+            case 1: return <> {appContext.currentCashRegisterSession!==null?<CashRegisterContextProvider><CashRegister centerName={'Click Esports'}/></CashRegisterContextProvider>:<OpenCashRegister/>}  </> ;
             case 2:return <Users users={appContext.users} sessions={appContext.sessions}/>
             case 3: return;
             case 5: return <ImportUser/>
