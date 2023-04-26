@@ -5,6 +5,7 @@ const API_BASE_URL = isDevelopment? process.env.REACT_APP_API_BASE_URL_LOCAL:pro
 export const userBalance=`${API_BASE_URL}/user/balance`
 export const userDiscount=`${API_BASE_URL}/user/discount`
 export const userXp=`${API_BASE_URL}/user/xp`
+export const userActions =`${API_BASE_URL}/user/actions`
 
 //Users
 export const createUser=`${API_BASE_URL}/users/createUser`

@@ -5,7 +5,7 @@ import { UsersContext } from '../../contexts/UsersContext';
 import bin from '../../images/bin.png'
 import DeleteUser from '../delete-user/DeleteUser'
 import HandleButton from '../handle-button/HandleButton'
-import { userBalance, userDiscount, userXp } from '../../config';
+import { userActions, userBalance, userDiscount, userXp } from '../../config';
 import { useState } from 'react';
 import Table from '../table/Table'
 import { extractDate, extractHours, filterObjectByKeys } from '../../utils';
@@ -14,6 +14,7 @@ const User = () => {
   const [balance,setBalance] = useState(0);
   const [discount,setDiscount]= useState(0);
   const [xp,setXp] = useState(0);
+  const [tableData,setTableData]=useState([]);
   const usersContext = useContext(UsersContext)
   const userData = usersContext.userData;
   const dateCreated = userData.actions[0].date;
@@ -22,6 +23,29 @@ const User = () => {
   }
   const onBinClicked = ()=>{
     usersContext.setShowDeleteUser(true);
+  }
+
+  const refactorAndSetTableData = (actions)=>{
+    const refactored = actions.map((action) => {
+      const filteredAction = filterObjectByKeys(action, [
+        'name',
+        'description',
+        'date',
+        'pcNumber',
+        'balanceChange',
+      ]);
+    
+      Object.keys(filteredAction).forEach((key) => {
+        if (key === 'date') {
+          const date = extractDate(filteredAction[key]);
+          const time = extractHours(filteredAction[key]);
+          filteredAction[key] = `${date} - ${time}`;
+        }
+      });
+    
+      return filteredAction;
+    }).reverse()
+    setTableData(refactored)
   }
 
   useEffect(() => {
@@ -58,11 +82,22 @@ const User = () => {
       if(result.error) {console.error(result.error); return}
       setXp(result.xp);
     }
+    refactorAndSetTableData(userData.actions);
     fetchUserBalance();
     fetchUserDiscount();
     fetchUserXp();
   },[])
-  
+  const refreshActions = async()=>{
+    const response = await fetch(`${userActions}/${userData.username}`, {
+      headers: {
+        'Content-Type': 'application/json',
+        'token':localStorage.getItem('accessToken')
+      },
+    });
+    const result = await response.json();
+    if(result.error) {console.error(result.error); return}
+    refactorAndSetTableData(result.actions)
+  }
 
   return (
     <>
@@ -93,27 +128,9 @@ const User = () => {
         </div>
         <div className="user-dashboard-actions">
           <p className='user-dashboard-actions-text'>Actions</p>
+          <HandleButton onClick={refreshActions} text={'Refresh'} className={'refresh-actions'} />
       <Table shouldRoundEdges={true} heightReduction={600} headers={['Action','Description','Date','PC Number','Balance Change']}
-       tableData={
-        userData.actions.map((action) => {
-          const filteredAction = filterObjectByKeys(action, [
-            'name',
-            'description',
-            'date',
-            'pcNumber',
-            'balanceChange',
-          ]);
-        
-          Object.keys(filteredAction).forEach((key) => {
-            if (key === 'date') {
-              const date = extractDate(filteredAction[key]);
-              const time = extractHours(filteredAction[key]);
-              filteredAction[key] = `${date} - ${time}`;
-            }
-          });
-        
-          return filteredAction;
-        }).reverse()}/>
+       tableData={tableData}/>
         <p className="empty-text">empty</p>
         </div>
       </div>
