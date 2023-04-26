@@ -10,6 +10,7 @@ const HandleButton = ({
   }) => {
   const circleRef = useRef(null);
     const handleMouseEnter = (e) => {
+      if(shouldDisable) return;
       const rect = e.target.getBoundingClientRect();
       const x = e.clientX - rect.left;
       const y = e.clientY - rect.top;
@@ -22,9 +23,10 @@ const HandleButton = ({
         disabled={shouldDisable}
         onMouseEnter={handleMouseEnter}
         onClick={onClick}
+        style={{cursor:`${shouldDisable?'not-allowed':''}`}}
         className={`handle-button ${className} ${shouldDisable ? `half-opacity` : ``}`}
       >
-        <div style={{ backgroundColor:circleColor}} ref={circleRef} className='circle'></div>
+        <div style={{ backgroundColor:circleColor,display:`${shouldDisable?'none':''}`}} ref={circleRef} className='circle'></div>
         <p className='handle-button-text'>{text}</p>
       </button>
     );

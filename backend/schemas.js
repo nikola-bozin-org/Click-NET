@@ -19,7 +19,8 @@ const workstation = new mongoose.Schema({
   nubmer:{type:Number},
   IP:{type:String},
   MAC:{type:String},
-  zone:{type:String,enum:[zones.Pro,zones.Lobby]}
+  zone:{type:String,enum:[zones.Pro,zones.Lobby]},
+  gridPosition:{x:{type:Number,required:true},y:{type:Number,required:true}}
 })
 
 const currentCashRegister = new mongoose.Schema({
@@ -69,7 +70,8 @@ const userSchema = new mongoose.Schema({
       zone:{type:String,enum:[zones.Pro,zones.Lobby]}
     }],
     payments:[{type:mongoose.SchemaTypes.ObjectId,ref:'Payments'}],
-    sessions:[{type:mongoose.SchemaTypes.ObjectId,ref:'Sessions'}]
+    sessions:[{type:mongoose.SchemaTypes.ObjectId,ref:'Sessions'}],
+    favoriteGames:[{type:Number}]
   },{ timestamp: true }
 );
 const ticketsSchema = new mongoose.Schema({
