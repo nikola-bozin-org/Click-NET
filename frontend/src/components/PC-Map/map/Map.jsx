@@ -21,7 +21,7 @@ const Map = () => {
     const workstationNumber = isWorkstation ? workstation.number : null;
     return (
       pcMapContext.currentSelectionInternalOption === 0 ? (
-        <MapElementManagment borderColor={pcRole.Offline} key={index} index={index} renderWorkstation={isWorkstation} number={workstationNumber}/>
+        <MapElementManagment isOnline={false} row={row} collumn={col} borderColor={pcRole.Offline} key={index} index={index} renderWorkstation={isWorkstation} number={workstationNumber}/>
       ) : (
         <MapElementConfiguration key={index}/>
       )

@@ -3,10 +3,29 @@ import './WorkstationManagment.css'
 import { calculateTime } from '../../../../utils'
 import { zoneColors } from '../../../../config'
 
-const WorkstationManagment = ({ number, borderColor }) => {
+const directions = {
+  TOP:0,
+  DOWN:1,
+  LEFT:2,
+  RIGHT:3
+}
+
+const WorkstationManagment = ({ isOnline, number, borderColor,row,collumn }) => {
+  const loginInfoRowsIntake = 4;
+  const loginInfoCollumnsIntake = 6;
+  let directionVertical = directions.TOP;
+  let directionHorizontal= directions.RIGHT;
+  if(row<=loginInfoRowsIntake){
+    directionVertical=directions.BOT;
+  }
+  if(collumn>=loginInfoCollumnsIntake){
+    directionHorizontal=directions.LEFT;
+  }
   return (
     <div className='WorkstationManagment'>
-      <WorkstationLogedinUserInformation
+      {isOnline && <WorkstationLogedinUserInformation
+        xTranslation={`${directionHorizontal===directions.RIGHT?`${50}`:`${-50}`}`}
+        yTranslation={`${directionVertical===directions.TOP?`${-62}`:`${62}`}`}
         zone={'Lobby'}
         username={'nikola98'}
         firstName={'nikola'}
@@ -14,7 +33,7 @@ const WorkstationManagment = ({ number, borderColor }) => {
         level={'0'}
         discount={'0'}
         remainingBalance={'500'}
-      />
+      />}
       <div style={{ borderColor: `${borderColor}` }} className="workstation-managment-wrap">
         <p className="workstationNumber">{number}</p>
       </div>
@@ -22,9 +41,10 @@ const WorkstationManagment = ({ number, borderColor }) => {
   )
 }
 
-const WorkstationLogedinUserInformation = ({ zone, username, firstName, rate, level, discount, remainingBalance }) => {
+//this  takes up: 4rows and 6collumns
+const WorkstationLogedinUserInformation = ({xTranslation,yTranslation, zone, username, firstName, rate, level, discount, remainingBalance }) => {
   return (
-    <div className="workstation-logedin-user-information">
+    <div style={{transform:`translate3d(${xTranslation}%,${yTranslation}%,0)`}} className="workstation-logedin-user-information">
       <div className="workstation-logedin-user-information-zone">
         <div style={{ backgroundColor:`${zone==='Lobby'?`${zoneColors.Lobby}`:`${zoneColors.Pro}`}` }} className="workstation-logedin-user-information-zone-color"></div>
         <p>{zone}</p>

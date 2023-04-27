@@ -15,6 +15,16 @@ export const PCMapContextProvider = ({children})=>{
             number:10,
         },
         {
+            x:0,
+            y:0,
+            number:2,
+        },
+        {
+            x:10,
+            y:2,
+            number:3,
+        },
+        {
             x:1,
             y:5,
             number:6
@@ -23,6 +33,11 @@ export const PCMapContextProvider = ({children})=>{
             x:5,
             y:5,
             number:1
+        },
+        {
+            x:0,
+            y:1,
+            number:4
         }
     ]);
 
