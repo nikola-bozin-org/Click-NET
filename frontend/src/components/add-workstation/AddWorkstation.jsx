@@ -13,7 +13,8 @@ const AddWorkstation = () => {
   const { setShowAddWorkStation } = useContext(PCMapContext)
 
 
-  const addWorkstation = async() =>{
+  const addWorkstation = async(e) =>{
+    e.preventDefault();
       const response = await fetch(addNewWorkstation, {
         headers: {
           'Content-Type': 'application/json',
@@ -21,7 +22,10 @@ const AddWorkstation = () => {
         },
         method:'POST',
         body:JSON.stringify({
-
+          number:number,
+          IP:ip,
+          MAC:mac,
+          zone:zone
         })
       });
       const result = await response.json();
@@ -35,13 +39,13 @@ const AddWorkstation = () => {
       <form className="add-workstation-form">
         <p>Add Workstation</p>
         <p htmlFor="number">Number:</p>
-        <input className='add-workstation-number-input' autoComplete='off' type="number" id="number" name="number" onChange={(e) => { setNumber(e.target.value) }} required />
+        <input className='add-workstation-number-input' autoComplete='off' type="number" id="number" name="number" onChange={(e) => { setNumber(e.target.value) }}  />
         <p htmlFor="ip">IP:</p>
-        <input autoComplete='off' type="text" id="ip" name="ip"  onChange={(e) => { setIP(e.target.value) }} required />
+        <input autoComplete='off' type="text" id="ip" name="ip"  onChange={(e) => { setIP(e.target.value) }}  />
         <p htmlFor="mac">MAC:</p>
-        <input autoComplete='off' type="text" id="mac" name="mac" onChange={(e) => { setMAC(e.target.value) }} required />
+        <input autoComplete='off' type="text" id="mac" name="mac" onChange={(e) => { setMAC(e.target.value) }}  />
         <label htmlFor="zone">Zone:</label>
-        <select id="zone" name="zone" onChange={(e) => { setZone(e.target.value) }} required>
+        <select id="zone" name="zone" onChange={(e) => { setZone(e.target.value) }} >
           <option value="Lobby">Lobby</option>
           <option value="Pro">Pro</option>
         </select>

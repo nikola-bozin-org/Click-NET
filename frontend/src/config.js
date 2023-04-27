@@ -25,6 +25,9 @@ export const closeCashRegisterSession = `${API_BASE_URL}/cashRegister/closeCashR
 export const getCurrentCashRegisterSession = `${API_BASE_URL}/cashRegister/getCurrentSession`
 export const openCashRegisterSession = `${API_BASE_URL}/cashRegister/openCashRegisterSession`
 
+//Utils
+export const workstationLimit = `${API_BASE_URL}/utils/workstationLimit`
+
 //Workstation
 export const addNewWorkstation=`${API_BASE_URL}/workstation/`
 

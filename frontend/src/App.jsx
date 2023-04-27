@@ -18,7 +18,7 @@ import { CashRegisterContextProvider } from './contexts/CashRegisterContext';
 import PoweredBy from './components/powered-by/PoweredBy';
 import ImportUser from './components/import-user/ImportUser'
 import { Navigate } from 'react-router-dom';
-import {allSessions, allUsers, getCurrentCashRegisterSession} from './config'
+import {allSessions, allUsers, getCurrentCashRegisterSession, workstationLimit} from './config'
 import CloseCashRegister from './components/close-cash-register/CloseCashRegister';
 import OpenCashRegister from './components/open-cash-register/OpenCashRegister';
 import Center from './components/center/Center';
@@ -33,6 +33,17 @@ const App = () => {
   const {isMobile, MobileNotSupported} = useIsMobile(460);
 
   useEffect(() => {
+    const fetchWorkstationLimit = async () => {
+      const response = await fetch(workstationLimit, {
+        headers: {
+          'Content-Type': 'application/json',
+          'token':localStorage.getItem('accessToken')
+        }
+      });
+      const result = await response.json();
+      if(result.error) {console.error(result.error); return}
+      console.info(result);
+  };
     const fetchAllUsers = async () => {
         const response = await fetch(allUsers, {
           headers: {
@@ -69,7 +80,7 @@ const App = () => {
     }
     const loadData = async () => {
       appContext.setIsLoading(true);
-      await Promise.all([fetchAllUsers(), fetchAllSessions(),fetchCurrentCashRegisterSession()]);
+      await Promise.all([fetchAllUsers(), fetchAllSessions(),fetchCurrentCashRegisterSession(),fetchWorkstationLimit()]);
       appContext.setIsLoading(false);
     };
   

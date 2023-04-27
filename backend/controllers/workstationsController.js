@@ -10,8 +10,8 @@ const addWorkstation = async(req,res)=>{
     const verifyResult = jwt.verify(token);
     if(!verifyResult) return res.status(statusCode.ERROR).json({error:"Invalid token."});
     if(verifyResult.role!==userRoles.Admin) return res.status(statusCode.ERROR).json({error:"You are not Admin!"});
-    const {number,IP,MAC,zone} = req.body;
-    const result = await service._addWorkstation(number,IP,MAC,zone);
+    const {number,IP,MAC,zone,x,y} = req.body;
+    const result = await service._addWorkstation(number,IP,MAC,zone,x,y);
     if(result.error) return res.status(statusCode.INTERNAL_SERVER_ERROR).json({error:`Server error: ${result.error}`});
     return res.status(statusCode.OK).json({message:result.message})
 }
@@ -23,6 +23,8 @@ const wakeUp = async(req,res)=>{
     if(result.error) return res.status(statusCode.INTERNAL_SERVER_ERROR).json({error:`Server error: ${result.error}`});
     return res.status(statusCode.OK).json({data:result.data})
 }
+
+
 module.exports = {
     addWorkstation,
     wakeUp

@@ -6,5 +6,4 @@ const controller = require('../controllers/workstationsController')
 router.post('/',controller.addWorkstation);
 router.post('/wakeUp',controller.wakeUp)
 
-
 module.exports=router;
