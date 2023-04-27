@@ -64,21 +64,16 @@ export const zones = {
     Pro:'Pro',
     Lobby:'Lobby',
 }
+export const zoneColors = {
+  Pro:'green',
+  Lobby:'red'
+}
 
-export const pcRole = [
-  {
-      name:'Offline',
-      color:'#b6babd'
-  },
-  {
-      name:'Online',
-      color:'#82c22d'
-  },
-  {
-      name:'Support',
-      color:'#ffdc51'
-  },
-]
+export const pcRole = {
+  Offline:'rgb(48,48,48)',
+  Online:'#82c22d',
+  Support:'#ffdc51'
+}
 
 export const pcAdditionalInfo = [
   {

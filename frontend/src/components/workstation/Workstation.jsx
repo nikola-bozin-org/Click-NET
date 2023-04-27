@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import './pc.css';
+import './Workstation.css';
 import { PCMapContext } from '../../contexts/PCMapContext';
 
 const PC = ({ number, color }) => {
@@ -49,11 +49,11 @@ const PC = ({ number, color }) => {
         top: `${position.y}px`,
         position: `absolute`,
       }}
-      className="PC"
+      className="Workstation"
       onMouseDown={handleMouseDown}
     >
-      <div className="PCNumber">
-        <p className="PCNumberText">{number}</p>
+      <div className="workstation-number">
+        <p className="workstation-number-text">{number}</p>
       </div>
     </div>
   );

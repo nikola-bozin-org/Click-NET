@@ -1,0 +1,91 @@
+.WorkstationManagment{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    position: relative;
+}
+.WorkstationManagment:hover .workstation-logedin-user-information{
+    display: grid;
+}
+
+.workstation-managment-wrap{
+    width: 80%;
+    height: 80%;
+    border-radius: 10px;
+    background-color: rgb(48,48,48); 
+    border: 2px solid;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+}
+
+.workstation-logedin-user-information{
+    display: none;
+    grid-template-rows: 30px 1fr 1fr 1fr;
+    position: absolute;
+    top: -280px;
+    background-color: #171A1E;
+    box-shadow: 0px 0px 4px rgb(0 0 0 / 70%);
+}
+.workstation-logedin-user-information-zone{
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 10px;
+    padding: 10px;
+}
+
+.workstation-logedin-user-information-zone-color{
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    border: none;
+}
+.workstation-logedin-user-information-username{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-left: 15rem;
+    padding-right: 15rem;
+    padding-bottom: 0.3rem;
+    font-size: 2rem;
+    border-bottom: 1px solid rgb(39,39,39);
+    flex-direction: column;
+}
+
+.workstation-logedin-user-information-username-first-name{
+    font-size: 1.4rem;
+}
+
+.workstation-logedin-user-information-rate-and-level,.workstation-logedin-user-information-time-and-balance{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    border-bottom: 1px solid rgb(39,39,39);
+}
+.workstation-logedin-user-information-time-and-balance{
+    border: none;
+}
+
+.workstation-logedin-user-information-rate-wrap{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    flex-direction: column;
+    gap: 4px;
+    font-size: 1.2rem;
+}
+.workstation-logedin-user-information-rate-wrap-text{
+    opacity: 0.7;
+}
+.workstation-logedin-user-information-rate-wrap-value{
+    font-size: 1.4rem;
+}
+
+.use-border-right{
+    border-right: 1px solid rgb(39,39,39);
+}

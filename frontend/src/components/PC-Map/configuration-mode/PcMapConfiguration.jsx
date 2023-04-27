@@ -1,6 +1,5 @@
 import React from 'react'
 import './PcMapConfiguration.css'
-import InternalTopbar from '../../internal-topbar/InternalTopbar'
 import Map from '../map/Map'
 
 const PcMapConfiguration = ({ centerName }) => {

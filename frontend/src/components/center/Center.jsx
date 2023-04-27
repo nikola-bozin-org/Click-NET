@@ -36,8 +36,8 @@ const Center = ({ centerName, numberOfLoggedInUsers, licenceLimit }) => {
                         ))}
                     </div>
                     <div className="center-info-roles-pc">
-                        {pcRole.map((element,index)=>(
-                            <Role key={index} text={element.name} color={element.color} logedInUsersAmountWithRole={0} useCircle={false}/>
+                        {Object.entries(pcRole).map(([name,color],index)=>(
+                            <Role key={index} text={name} color={color} logedInUsersAmountWithRole={0} useCircle={false}/>
                         ))}
                     </div>
                     <div className="center-info-pc-additional-info">

@@ -1,8 +1,12 @@
 import React from 'react'
 import './MapElementManagment.css'
-
-const MapElementManagment = ({ index }) => {
-    return <div className="map-element-managment"></div>;
+import WorkstationManagment from '../workstation-managment/WorkstationManagment'
+const MapElementManagment = ({renderWorkstation,number,borderColor}) => {
+    return (
+        <div className="map-element-managment">
+            {renderWorkstation && <WorkstationManagment number={number} borderColor={borderColor} />}
+        </div>
+    )
 }
 
 export default MapElementManagment

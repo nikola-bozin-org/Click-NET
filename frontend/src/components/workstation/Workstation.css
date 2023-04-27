@@ -1,4 +1,4 @@
-.PC{
+.Workstation{
     width: 40px;
     height: 40px;
     position: absolute;
@@ -6,10 +6,10 @@
     justify-content: center;
     display: flex;
 }
-.PC *{
+.Workstation *{
     pointer-events: none;
 }
-.PCNumber{
+.workstation-number{
     width: 92%;
     height: 92%;
     text-align: center;

@@ -1,6 +1,5 @@
 import React from 'react'
 import './pcMap.css'
-import PC from '../PC/PC'
 import InternalOptions from '../internal-options/InternalOptions';
 import {PCMapContext} from '../../contexts/PCMapContext'
 import { useContext } from 'react';
@@ -14,7 +13,11 @@ const PCMap = () => {
     <>
     <InternalOptions options={['Map - Managment Mode','Map - Configuration Mode']} context={pcMapContext}/>
     {pcMapContext.showAddWorkStation && <AddWorkstation/>}
-    {pcMapContext.currentSelectionInternalOption===0?<PcMapManagment centerName={'Click Esports'}/>:<PcMapConfiguration centerName={'Click Esports'}/>}
+    {pcMapContext.currentSelectionInternalOption===0?
+    <PcMapManagment centerName={'Click Esports'}/>
+    :
+    <PcMapConfiguration centerName={'Click Esports'}/>
+    }
     </>
   )
 }

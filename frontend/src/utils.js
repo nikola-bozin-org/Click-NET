@@ -47,4 +47,14 @@ export const formatNumber = (number) =>{
 export const isValidElement = (value) => {
     return !Array.isArray(value) && (typeof value !== 'object' || value === null);
   };
-  
+
+
+export const calculateTime = (rate, balance) => {
+    const ratePerMinute = rate / 60;
+    const totalMinutes = balance / ratePerMinute;
+    const hours = Math.floor(totalMinutes / 60);
+    const minutes = Math.floor(totalMinutes % 60);
+    const formattedHours = hours.toString().padStart(2, '0');
+    const formattedMinutes = minutes.toString().padStart(2, '0');
+    return `${formattedHours}:${formattedMinutes}`;
+  }
