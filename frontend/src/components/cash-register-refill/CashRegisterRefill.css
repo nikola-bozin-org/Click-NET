@@ -31,6 +31,7 @@
   border: none;
   font-size: 30px;
   text-align: center;
+  z-index:1;
 }
 
 .cash-register-refill-username::placeholder {
@@ -39,13 +40,14 @@
   bottom: 10px;
   font-size: 20px;
   left: 50%;
-  transform: translateX(-50%);
 }
 
 .cash-register-refill-username:focus::placeholder {
   color: transparent;
 }
-
+.cash-register-refill-username:focus{
+  outline: none!important;
+}
 
 .cash-register-refill-amount::placeholder {
   text-align: center;

@@ -1,7 +1,7 @@
 const { Tickets, User, CurrentCashRegisterSession, LogedInUsers, Levels, Payments } = require("../schemas");
 const UserActions = require("../helpers/userActions");
 const UserActionsDescriptions = require("../helpers/userActionsDescriptions");
-
+const userService = require('../services/userService')
 
 const _payment = async (username,payment)=>{
     try{     
@@ -120,6 +120,19 @@ const _buyTicket = async(username,name,pcNumber)=>{
     }
 }
 
+const _getPaymentByReceipt = async(receipt)=>{
+  try{
+    const paymentDoc = await Payments.findOne({receipt: String(receipt).trim()})
+    if(!paymentDoc) return {error:'Receipt does not exist.'}
+    const userBalance = await userService._getUserBalance(paymentDoc.username);
+    const payment = paymentDoc.toObject();
+    payment.userBalance = userBalance.balance;
+    return {payment:payment}
+  }catch(e){
+    return {error:e.message}
+  }
+}
+
 
 const calculateDiscount = async(userXP)=>{
   const levels = await Levels.find({});
@@ -140,4 +153,5 @@ module.exports = {
     _payment,
     _refund,
     _buyTicket,
+    _getPaymentByReceipt
 }

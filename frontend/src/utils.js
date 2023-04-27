@@ -57,4 +57,4 @@ export const calculateTime = (rate, balance) => {
     const formattedHours = hours.toString().padStart(2, '0');
     const formattedMinutes = minutes.toString().padStart(2, '0');
     return `${formattedHours}:${formattedMinutes}`;
-  }
+}

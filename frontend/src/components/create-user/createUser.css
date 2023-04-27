@@ -1,6 +1,6 @@
 .create-user-container {
     display: flex;
-    justify-content: start;
+    justify-content: flex-start;
     align-items: center;
     height: calc(100% - 101px);
     flex-direction: column;

@@ -18,6 +18,7 @@ export const allSessions = `${API_BASE_URL}/session/allSessions`
 
 //Payments
 export const payment=`${API_BASE_URL}/payments/payment`
+export const paymentByReceipt = `${API_BASE_URL}/payments/getPaymentByReceipt`
 
 //CashRegister
 export const getCurrentSessionPayments=`${API_BASE_URL}/cashRegister/getCurrentSessionPayments`
@@ -97,3 +98,5 @@ export const tableRowClickedBehaviour={
 
 export const pcMap_N = 8;
 export const pcMap_M = 11;
+
+export const maxRefundTimeLimitHours = 48;

@@ -80,7 +80,7 @@
     height: auto!important;
     padding: 0.5rem!important;
     align-items: flex-start!important;
-    justify-content: start;
+    justify-content: flex-start;
 }
 
 .user-dashboard-actions{

@@ -29,7 +29,7 @@ const WorkstationManagment = ({ isOnline, number, borderColor,row,collumn }) => 
         zone={'Lobby'}
         username={'nikola98'}
         firstName={'nikola'}
-        rate={'180'}
+        rate={'Pro 5h / 180 / 160'}
         level={'0'}
         discount={'0'}
         remainingBalance={'500'}
@@ -62,8 +62,8 @@ const WorkstationLogedinUserInformation = ({xTranslation,yTranslation, zone, use
         <WorkstationLogedInUserElement title={'Level (discount)'} data={`${level}(${discount}%)`} useBorderRight={false}/>
       </div>
       <div className="workstation-logedin-user-information-time-and-balance">
-        <WorkstationLogedInUserElement title={'Remaining time'} data={calculateTime(rate,remainingBalance)} />
-        <WorkstationLogedInUserElement title={'Remaining Balance'} data={remainingBalance} useBorderRight={false}/>
+        <WorkstationLogedInUserElement title={'Remaining time'} data={calculateTime(160,remainingBalance)} />
+        <WorkstationLogedInUserElement title={'Remaining Balance'} data={`${remainingBalance} RSD`} useBorderRight={false}/>
       </div>
     </div>
   )
