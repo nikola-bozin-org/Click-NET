@@ -49,9 +49,9 @@ const CashRegisterRefund = () => {
     <div className='CashRegisterRefund'>
       <div className="cash-register-refund-left">
         <div className="input-container-receipt">
-          <input onKeyDown={handleKeyDown} ref={inputReceiptRef} onChange={(e) => setReceiptNumber(e.target.value)} className="cash-register-refill-username refund-actually" type='text' placeholder='Receipt' />
-          <div className="input-container-receipt-img-wrap">
-          <img src={enter} alt="" className="cash-register-refill-username-actually-receipt-img" />
+          <div className="input-wrapper">
+            <input onKeyDown={handleKeyDown} ref={inputReceiptRef} onChange={(e) => setReceiptNumber(e.target.value)} className="cash-register-refill-username refund-actually" type='text' placeholder='Receipt' />
+            <img src={enter} alt="" className="cash-register-refill-username-actually-receipt-img" />
           </div>
         </div>
         <div className="cash-register-refund-receipt-status">
@@ -60,7 +60,7 @@ const CashRegisterRefund = () => {
               Status:
             </p>
             <p className="receipt-status-value">
-              {`${currentReceiptData?``:'...'}`}
+              {`${currentReceiptData ? `` : '...'}`}
             </p>
           </div>
           <div className="receipt-amount-can-refund">
@@ -68,7 +68,7 @@ const CashRegisterRefund = () => {
               Available amount to refund:
             </p>
             <p className="receipt-amount-can-refund-value">
-              {`${currentReceiptData?``:'...'}`}
+              {`${currentReceiptData ? `` : '...'}`}
             </p>
           </div>
         </div>
