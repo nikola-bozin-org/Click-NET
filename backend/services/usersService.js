@@ -8,7 +8,7 @@ require('dotenv').config()
 
 const _getUsers = async ()=>{
     try{
-        const users = await User.find({}).sort({ createdAt: -1 }).populate(['payments','sessions']);
+        const users = await User.find({},{password: 0, __v: 0}).populate(['payments','sessions']);
         return {users:users}
     }catch(e){
         return {error:e.message}
@@ -16,7 +16,7 @@ const _getUsers = async ()=>{
 }
 const _getUser = async(username) =>{
     try{
-        const user = await User.findOne({ username }).populate(['payments','sessions']);
+        const user = await User.findOne({ username },{password: 0, __v: 0}).populate(['payments','sessions']);
         if (user === null) return {erorr:`User ${username} not found.`};
         return { user: user };
     }catch(e){
@@ -50,7 +50,7 @@ const _createUser = async(staffName,username,password,firstName,lastName,email,p
                 activeTickets:[],
                 payments:[]
             });
-            const user = await User.findOne({username})
+            const user = await User.findOne({username},{password: 0, __v: 0})
             return {userCreated:true,user:user}
         }catch(e){
             if(e.message && e.message.includes("User validation failed")) return {error:`Invalid data.`}

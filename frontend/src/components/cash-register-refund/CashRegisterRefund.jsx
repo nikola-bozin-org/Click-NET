@@ -49,7 +49,7 @@ const CashRegisterRefund = () => {
     <div className='CashRegisterRefund'>
       <div className="cash-register-refund-left">
         <div className="input-container-receipt">
-          <input onKeyDown={handleKeyDown} ref={inputReceiptRef} onChange={(e) => setReceiptNumber(e.target.value)} className="cash-register-refill-username" type='text' placeholder='Receipt' />
+          <input onKeyDown={handleKeyDown} ref={inputReceiptRef} onChange={(e) => setReceiptNumber(e.target.value)} className="cash-register-refill-username refund-actually" type='text' placeholder='Receipt' />
           <div className="input-container-receipt-img-wrap">
           <img src={enter} alt="" className="cash-register-refill-username-actually-receipt-img" />
           </div>

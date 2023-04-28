@@ -11,6 +11,8 @@ import tickets from '../../../images/tickets.png'
 import comment from '../../../images/comment.png'
 import warning from '../../../images/warning.png'
 import Map from '../map/Map';
+import stop from '../../../images/stop.png'
+import history from '../../../images/history.png'
 
 
 const PcMapManagment = ({centerName}) => {
@@ -29,8 +31,10 @@ const PcMapManagment = ({centerName}) => {
                 <img title='Buy Ticket' src={tickets} alt="" className="pc-managment-other-control invertColor" />
                 <img title='Send Warning' src={warning} alt="" className="pc-managment-other-control invertColor" />
                 <img title='Send Message' src={comment} alt="" className="pc-managment-other-control invertColor" />
-                <img title='Flag' src={flag} alt="" className="pc-managment-other-control invertColor" />
+                <img title='Maintenence' src={flag} alt="" className="pc-managment-other-control invertColor" />
                 <img title='Lock' src={lock} alt="" className="pc-managment-other-control invertColor" />
+                <img title='Stop' src={stop} alt="" className="pc-managment-other-control invertColor" />
+                <img title='History' src={history} alt="" className="pc-managment-other-control invertColor" />
             </div>
         </div>
         <div className="map-wrapper-managment">
