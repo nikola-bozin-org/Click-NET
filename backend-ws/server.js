@@ -41,17 +41,26 @@ const startServer = async () => {
       if(!extractedUser) {ws.send(JSON.stringify({event:"invalidToken",message: "Invalid token!"})); ws.close(); return; }
       let clientBalance = extractedUser.balance;
       const clientTickets = extractedUser.activeTickets;
+      const clientDiscount = extractedUser.discount;
       
       const updateClient = () => {
-        clientBalance-=ratePerMinute;
-        //updejt u bazu
-        if(clientBalance<=0 && clientTickets.length===0) {
-          ws.send(JSON.stringify({ event: "timeUp", message: "Time is up." }));
-          ws.close();
-          //updejt u bazu
-        } 
-        ws.send(JSON.stringify({event:"balance",data:{balance:clientBalance}}))
+        clientBalance -= ratePerMinute;
+        // Update the database
+        if (clientDiscount === 100) {
+          return;
+        }
+       //ovo bolje...odradi.. ne mora stalno da se pita za tiket
+        if (clientBalance > 0 || clientTickets.length > 0) {
+          ws.send(JSON.stringify({ event: "balance", data: { balance: clientBalance } }));
+          return;
+        }
+      
+        ws.send(JSON.stringify({ event: "timeUp", message: "Time is up." }));
+        ws.close();
+        // Update the database
+        ws.send(JSON.stringify({ event: "balance", data: { balance: clientBalance } }));
       };
+
       setInterval(updateClient, 1000);
     });
     server.on('close',async(ws)=>{

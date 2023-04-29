@@ -69,6 +69,7 @@ const userSchema = new mongoose.Schema({
       balance:{type:Number},
       zone:{type:String,enum:[zones.Pro,zones.Lobby]}
     }],
+    activeTicketIndex:{type:Number},
     payments:[{type:mongoose.SchemaTypes.ObjectId,ref:'Payments'}],
     sessions:[{type:mongoose.SchemaTypes.ObjectId,ref:'Sessions'}],
     favoriteGames:[{type:Number}]
@@ -94,6 +95,7 @@ const utils = new mongoose.Schema({
     workstationLimit:{type:Number,required:true},
     centerName:{type:String,required:true},
     numberOfWorkstations:{type:Number},
+    currency:{type:String}
   }
 })
 

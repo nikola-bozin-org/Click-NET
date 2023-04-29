@@ -105,6 +105,7 @@ const _buyTicket = async(username,name,pcNumber)=>{
             name:ticket.name,
             balance:ticket.balance
           },
+          activeTicketIndex:user.activeTickets.length,
           actions:{
             name:UserActions.TicketBought(ticket.name,ticket.balance),
             description:UserActionsDescriptions.TicketBought,
