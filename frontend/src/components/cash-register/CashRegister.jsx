@@ -17,7 +17,8 @@ const CashRegister = ({centerName}) => {
         <InternalTopbar text={`Cash register ${centerName}`}/>
         <HandleButton shouldDisable={false} onClick={()=>{setShouldShowCloseCashRegister(true)}} text={"Close"} className={"cash-register-close-session-button"} circleColor='#cc2234'/>
       </div>
-        <InternalOptions context={cashRegisterContext} options={['Refill','Refund']}/>
+        {/* <InternalOptions context={cashRegisterContext} options={['Refill','Refund']}/> */}
+        <InternalOptions context={cashRegisterContext} options={['Refill']}/>
         {(() => {
           switch (cashRegisterContext.currentSelectionInternalOption) {
             case 0: return <CashRegisterRefill/>;
