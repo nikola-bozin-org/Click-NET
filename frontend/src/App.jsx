@@ -22,14 +22,14 @@ import {allSessions, allUsers, getCurrentCashRegisterSession, workstationLimit} 
 import CloseCashRegister from './components/close-cash-register/CloseCashRegister';
 import OpenCashRegister from './components/open-cash-register/OpenCashRegister';
 import Center from './components/center/Center';
-import { PCMapContextProvider } from './contexts/PCMapContext';
-import User from './components/user/User';
+import { CenterContext, CenterContextProvider } from './contexts/CenterContext';
 
 
 const images = [pcMap, pay, dashboard, createUser,settings,importUser];
 
 const App = () => {
   const appContext = useContext(AppContext);
+  const centerContext = useContext(CenterContext);
   const {isMobile, MobileNotSupported} = useIsMobile(460);
 
   useEffect(() => {
@@ -42,7 +42,8 @@ const App = () => {
       });
       const result = await response.json();
       if(result.error) {console.error(result.error); return}
-      console.info(result);
+      console.info(centerContext)
+      centerContext.setWorkstationLimit(result.workstationLimit);
   };
     const fetchAllUsers = async () => {
         const response = await fetch(allUsers, {
@@ -110,7 +111,7 @@ const App = () => {
         {appContext.shouldShowCloseCashRegister && <CloseCashRegister/>}
         {(() => {
           switch (appContext.currentSidebarSelection) {
-            case 0: return <PCMapContextProvider><Center centerName={"Click Esports"} numberOfLoggedInUsers={0} licenceLimit={0}/> </PCMapContextProvider>;
+            case 0: return <Center centerName={"Click Esports"} numberOfLoggedInUsers={0} licenceLimit={centerContext.workstationLimit}/>;
             case 1: return <> {appContext.currentCashRegisterSession!==null?<CashRegisterContextProvider><CashRegister centerName={'Click Esports'}/></CashRegisterContextProvider>:<OpenCashRegister/>}  </> ;
             case 2:return <Users users={appContext.users} sessions={appContext.sessions}/>
             case 3: return;

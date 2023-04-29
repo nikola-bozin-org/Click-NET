@@ -1,10 +1,10 @@
 import React, { useContext,useRef } from 'react'
 import './MapElementConfiguration.css'
 import add from '../../../../images/add.png'
-import { PCMapContext } from '../../../../contexts/PCMapContext'
+import { CenterContext } from '../../../../contexts/CenterContext'
 
 const MapElementConfiguration = ({}) => {
-  const {setShowAddWorkStation,setLastWorkstationGridElementPosition} = useContext(PCMapContext)
+  const {setShowAddWorkStation,setLastWorkstationGridElementPosition} = useContext(CenterContext)
   const mapElementRef = useRef(null);
 
   const onClick = () =>{

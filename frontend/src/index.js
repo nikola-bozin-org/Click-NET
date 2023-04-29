@@ -13,6 +13,7 @@ import { Provider } from "react-redux";
 import store from "./redux/store";
 import { useEffect, useContext } from 'react';
 import { AppContext } from './contexts/AppContext'; 
+import { CenterContextProvider } from "./contexts/CenterContext";
 
 const DevelopmentWrapper = ({ component }) => {
   const { setIsAuthorized } = useContext(AppContext);
@@ -41,7 +42,7 @@ root.render(
                   process.env.NODE_ENV !== 'development' ? (
                     <Login />
                   ) : (
-                    <DevelopmentWrapper component={<App />} />
+                    <DevelopmentWrapper component={<CenterContextProvider> <App /> </CenterContextProvider>} />
                   )
                 }
               />

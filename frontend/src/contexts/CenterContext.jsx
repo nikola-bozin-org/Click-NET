@@ -1,13 +1,14 @@
 import { createContext,useState } from "react";
 
-export const PCMapContext = createContext({});
+export const CenterContext = createContext({});
 
 
 
-export const PCMapContextProvider = ({children})=>{
+export const CenterContextProvider = ({children})=>{
     const [currentSelectionInternalOption,setCurrentSelectionInternalOption] = useState(0);
     const [showAddWorkStation,setShowAddWorkStation] = useState(false);
     const [lastWorkstationGridElementPosition,setLastWorkstationGridElementPosition] = useState([]);
+    const [workstationLimit,setWorkstationLimit] = useState(0);
     const [workstations,setWorkstations] = useState([
         {
             x:2,
@@ -52,10 +53,12 @@ export const PCMapContextProvider = ({children})=>{
         lastWorkstationGridElementPosition,
         setLastWorkstationGridElementPosition,
         workstations,
-        setWorkstations
+        setWorkstations,
+        workstationLimit,
+        setWorkstationLimit
     }
 
     return (
-        <PCMapContext.Provider value={value}>{children}</PCMapContext.Provider>
+        <CenterContext.Provider value={value}>{children}</CenterContext.Provider>
     )
 }

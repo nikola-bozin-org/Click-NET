@@ -4,7 +4,7 @@ import { createContext } from "react";
 export const CashRegisterContext = createContext({})
 
 export const CashRegisterContextProvider = ({children})=>{
-    const [currentSelectionInternalOption,setCurrentSelectionInternalOption] = useState(0);
+    const [currentSelectionInternalOption,setCurrentSelectionInternalOption] = useState(1);
     const [currentCashRegisterSessionPayments, setCurrentCashRegisterSessionPayments] = useState([]);
     const [totalRevenue,setTotalRevenue]=useState(0);
     const [cashierBalance,setCashierBalance]=useState(0);

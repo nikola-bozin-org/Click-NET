@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import './Center.css'
-import PCMap from '../PC-Map/PCMap'
+import PCMap from '../PC-Map/WorkstationMap'
 import HandleButton from '../handle-button/HandleButton'
 import { pcAdditionalInfo, pcRole, userRoles } from '../../config'
 import { useContext } from 'react'

@@ -58,7 +58,7 @@ const workstationLimit = async(req,res)=>{
     const verifyResult = jwt.verify(token);
     if(!verifyResult) return res.status(statusCode.ERROR).json({error:"Invalid token."});
     if(!(verifyResult.role===userRoles.Admin) && !(verifyResult.role===userRoles.Employee)) return res.status(statusCode.ERROR).json({error:"You are not Admin or Employee!"});
-    const result = service._workstationLimit();
+    const result = await service._workstationLimit();
     if(result.error) return res.status(statusCode.INTERNAL_SERVER_ERROR).json({error:`Server error: ${result.error}`});
     return res.status(statusCode.OK).json({workstationLimit:result.workstationLimit})
 }

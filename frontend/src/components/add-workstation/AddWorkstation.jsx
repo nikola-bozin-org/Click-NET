@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import './AddWorkstation.css'
 import { useContext } from 'react'
-import { PCMapContext } from '../../contexts/PCMapContext'
+import { CenterContext } from '../../contexts/CenterContext'
 import HandleButton from '../handle-button/HandleButton'
 import {addNewWorkstation} from '../../config'
 
@@ -10,7 +10,7 @@ const AddWorkstation = () => {
   const [ip, setIP] = useState('');
   const [mac, setMAC] = useState('');
   const [zone, setZone] = useState('');
-  const { setShowAddWorkStation } = useContext(PCMapContext)
+  const { setShowAddWorkStation } = useContext(CenterContext)
 
 
   const addWorkstation = async(e) =>{

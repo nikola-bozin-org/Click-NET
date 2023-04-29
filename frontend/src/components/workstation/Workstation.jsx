@@ -1,12 +1,12 @@
 import React, { useState, useEffect, useContext } from 'react';
 import './Workstation.css';
-import { PCMapContext } from '../../contexts/PCMapContext';
+import { CenterContext } from '../../contexts/CenterContext';
 
 const PC = ({ number, color }) => {
   const [dragging, setDragging] = useState(false);
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [offset, setOffset] = useState({ x: 0, y: 0 });
-  const pcMapContext = useContext(PCMapContext);
+  const centerContext = useContext(CenterContext);
 
   useEffect(() => {
     if (dragging) {
@@ -33,7 +33,7 @@ const PC = ({ number, color }) => {
   }, [dragging, offset]);
 
   const handleMouseDown = (e) => {
-    if(pcMapContext.currentSelectionInternalOption === 0) return;
+    if(centerContext.currentSelectionInternalOption === 0) return;
     e.preventDefault();
     const offsetX = e.clientX - position.x;
     const offsetY = e.clientY - position.y;
