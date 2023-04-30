@@ -65,7 +65,8 @@ const _loginUser = async (username, password, pcNumber) => {
       return { error: `User with username: ${username} is already loged in.` };
     if (!bcrypt.compareSync(password, user.password))
       return { error: `Wrong password.` };
-    if(user.balance===0 && user.activeTickets.length===0) return {error:`You dont have any time left.`}
+    
+    if(user.balance===0 && user.activeTickets.length===0 && user.discount!==100) return {error:`You dont have any time left.`}
     console.info("Calculate session rate by session type");
     const date = Date.now();
     const newSession = await Sessions.create({
