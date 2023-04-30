@@ -32,7 +32,7 @@ const images = [pcMap, pay, dashboard, createUser,settings,gameController, impor
 const App = () => {
   const appContext = useContext(AppContext);
   const centerContext = useContext(CenterContext);
-  const {isMobile, MobileNotSupported} = useIsMobile(460);
+  const {isMobile, MobileNotSupported} = useIsMobile(260);
 
   useEffect(() => {
     const fetchWorkstationLimit = async () => {

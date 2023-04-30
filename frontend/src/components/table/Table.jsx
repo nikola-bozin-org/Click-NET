@@ -1,17 +1,17 @@
 import React from 'react';
 import './table.css';
-import { capitalizeFirstLetter, isValidElement } from '../../utils';
+import { capitalizeFirstLetter} from '../../utils';
 import { useContext } from 'react';
 import { UsersContext } from '../../contexts/UsersContext';
 import { AppContext } from '../../contexts/AppContext';
 import { tableRowClickedBehaviour } from '../../config'
 
-const TableRow = ({ data, headersLength, clickedBehaviour,imageKeyIndexes = [] }) => {
+const TableRow = ({ data, headersLength, clickedBehaviour }) => {
   const usersContext = useContext(UsersContext);
   const appContext = useContext(AppContext);
 
   const onClick = () => {
-    if(clickedBehaviour === tableRowClickedBehaviour.NotClickable) return;
+    if (clickedBehaviour === tableRowClickedBehaviour.NotClickable) return;
     if (clickedBehaviour === tableRowClickedBehaviour.User) {
       usersContext.setShowUserData(true);
       usersContext.setUserData(appContext.users.find(user => user.username === data.username));
@@ -21,34 +21,29 @@ const TableRow = ({ data, headersLength, clickedBehaviour,imageKeyIndexes = [] }
   const keys = Object.keys(data);
   return (
     <tr
-    onClick={onClick}
-    style={{ gridTemplateColumns: `repeat(${headersLength}, 1fr)` }}
-    className="table-row"
-  >
-    {keys.map((key) => {
-      return (
-        <td
-          className={`${
-            clickedBehaviour === tableRowClickedBehaviour.NotClickable
-              ? ""
-              : "cursor-is-pointer"
-          } borderBottom borderRight borderLeft table-row-data`}
-          key={key}
-        >
-          {imageKeyIndexes.includes(key) ? (
-            <img src={data[key]} alt={`${key}-image`} className={`${key}-image`} />
-          ) : (
-            data[key]
-          )}
-        </td>
-      );
-    })}
-  </tr>
+      onClick={onClick}
+      style={{ gridTemplateColumns: `repeat(${headersLength}, 1fr)` }}
+      className="table-row"
+    >
+      {keys.map((key) => {
+        return (
+          <td
+            className={`${clickedBehaviour === tableRowClickedBehaviour.NotClickable
+                ? ""
+                : "cursor-is-pointer"
+              } borderBottom borderRight borderLeft table-row-data`}
+            key={key}
+          >
+            {data[key]}
+          </td>
+        );
+      })}
+    </tr>
   );
 };
 
 
-const Table = ({ headers, tableData, shouldRoundEdges, heightReduction = 300, rowClickedBehaviour = tableRowClickedBehaviour.NotClickable,imageKeyIndexes = []}) => {
+const Table = ({ headers, tableData, shouldRoundEdges, heightReduction = 300, rowClickedBehaviour = tableRowClickedBehaviour.NotClickable }) => {
   const headersLength = headers.length;
   return (
     <div className="table-container">
