@@ -30,7 +30,6 @@ const _setUtilityCenterName = async (newCenterName) => {
 const _createUtility = async (limit, centerName) => {
   try {
     const utility = await Utils.findOne({});
-    console.info(utility)
     if(utility) return {error:'Utility aleady exists.'}
     await Utils.create({
       utility: {

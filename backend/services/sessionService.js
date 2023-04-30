@@ -7,7 +7,7 @@ const jwt = require("../jwt");
 
 const _loginStaff = async (username, password) => {
   try {
-    const user = await User.findOne({ username },{password:0,__v:0}).populate(['payments','sessions']);
+    const user = await User.findOne({ username },{__v:0}).populate(['payments','sessions']);
     if (user === null)
       return { error: `User with username: ${username} does not exist.` };
     if (!bcrypt.compareSync(password, user.password))
@@ -56,7 +56,7 @@ const _loginStaff = async (username, password) => {
 };
 const _loginUser = async (username, password, pcNumber) => {
   try {
-    const user = await User.findOne({ username },{password:0,__v:0}).populate(['payments','sessions']);
+    const user = await User.findOne({ username },{__v:0}).populate(['payments','sessions']);
     if (user === null)
       return { error: `User with username: ${username} does not exist.` };
     const isLogedIn = false;

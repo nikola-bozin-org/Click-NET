@@ -9,6 +9,7 @@ require('dotenv').config()
 const _getUsers = async ()=>{
     try{
         const users = await User.find({},{password: 0, __v: 0}).populate(['payments','sessions']);
+        console.info('not sorted')
         return {users:users}
     }catch(e){
         return {error:e.message}
