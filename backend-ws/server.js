@@ -1,6 +1,5 @@
 const WebSocket = require("ws");
 require('dotenv').config();
-const mongoConnect = require('./mongo-connect')
 const axios = require('axios');
 const url = require('url');
 
@@ -31,7 +30,6 @@ const extractUserFromToken = async (req) => {
 
 
 const startServer = async () => {
-  mongoConnect.connect(mongoConnect.connectionLink, () => {
     const server = new WebSocket.Server({ port: process.env.PORT }, () => {
       console.info(`Listening on: localhost:${process.env.PORT}`);
     });
@@ -66,7 +64,6 @@ const startServer = async () => {
     server.on('close',async(ws)=>{
       console.info('Client disconnected');
     })
-  });
 }
 
 

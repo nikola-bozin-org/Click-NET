@@ -5,8 +5,7 @@
     font-size: 25px;
     display: flex;
     align-items: center;
-    justify-content: ce;
-    border-bottom: 1px solid rgb(39, 39, 39);
+    justify-content: center;
     gap:20px;
 }
 

@@ -10,3 +10,7 @@
 .internalTopbarText{
     margin-bottom: 5px;
 }
+
+.use-border-bottom{
+    border-bottom:1px solid rgb(39,39,39);
+}

@@ -7,6 +7,7 @@ import Users from './components/users/Users';
 import CashRegister from './components/cash-register/CashRegister';
 import dashboard from './images/dashboard.png'
 import pay from './images/pay.png'
+import gameController from './images/game-control.png'
 import pcMap from './images/site-map.png'
 import createUser from './images/user-avatar.png'
 import settings from './images/settings.png'
@@ -23,9 +24,10 @@ import CloseCashRegister from './components/close-cash-register/CloseCashRegiste
 import OpenCashRegister from './components/open-cash-register/OpenCashRegister';
 import Center from './components/center/Center';
 import { CenterContext, CenterContextProvider } from './contexts/CenterContext';
+import Games from './components/games/Games';
 
 
-const images = [pcMap, pay, dashboard, createUser,settings,importUser];
+const images = [pcMap, pay, dashboard, createUser,settings,gameController, importUser];
 
 const App = () => {
   const appContext = useContext(AppContext);
@@ -115,7 +117,8 @@ const App = () => {
             case 1: return <> {appContext.currentCashRegisterSession!==null?<CashRegisterContextProvider><CashRegister centerName={'Click Esports'}/></CashRegisterContextProvider>:<OpenCashRegister/>}  </> ;
             case 2:return <Users users={appContext.users} sessions={appContext.sessions}/>
             case 3: return;
-            case 5: return <ImportUser/>
+            case 5: return <Games/>;
+            case 6: return <ImportUser/>
             default:
               return ;
           }

@@ -1,0 +1,25 @@
+.games{
+    color: white;
+}
+
+.games-search-and-add{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid rgb(39,39,39);
+}
+
+.add-game-button{
+    margin-right: 20px!important;
+    border: 3px solid #cc2234!important;
+    color: white;
+    background-color: #171A1E!important;
+    font-size: 1.2rem!important;
+    width: 170px!important;
+    cursor: pointer;
+    height: auto!important;
+}
+
+.add-game-button:hover{
+    background-color: #cc2234;
+}

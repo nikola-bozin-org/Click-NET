@@ -5,7 +5,7 @@ import { createContext } from "react";
 export const AppContext = createContext({});
 
 export const AppContextProvider = ({children})=>{
-    const [currentSidebarSelection,setCurrentSidebarSelection] = useState(1);
+    const [currentSidebarSelection,setCurrentSidebarSelection] = useState(5);
     const [isAuthorized,setIsAuthorized]=useState(false);
     const [shouldShowCreateUser, setShouldShowCreateUser] = useState(false);
     const [shouldShowCloseCashRegister,setShouldShowCloseCashRegister] = useState(false);
