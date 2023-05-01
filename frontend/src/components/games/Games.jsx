@@ -6,6 +6,7 @@ import HandleButton from '../handle-button/HandleButton';
 import Table from '../table/Table';
 import { tableRowClickedBehaviour } from '../../config';
 import x from '../../images/clickLogo.png'
+import statistics from '../../images/statistics.png'
 
 const Games = () => {
 
@@ -60,7 +61,7 @@ const GameRow = ({ name, icon, category, lastModified, isJustIconText = false, i
         {lastModified}
       </div>
       <div className={`gr-open-stats ${useBorderRight ? 'use-border-right' : ''}`}>
-        {isJustStatsText?'Stats': <button className="stats-button">Stats</button>}
+        {isJustStatsText?'Stats': <img src={statistics} className="stats-img invertColor"/>}
       </div>
       <div className={`gr-is-enabled `}>
         {/* ovo crveno za disabled i zeleno za enabled */}

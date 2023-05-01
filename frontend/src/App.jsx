@@ -44,7 +44,6 @@ const App = () => {
       });
       const result = await response.json();
       if(result.error) {console.error(result.error); return}
-      console.info(centerContext)
       centerContext.setWorkstationLimit(result.workstationLimit);
   };
     const fetchAllUsers = async () => {

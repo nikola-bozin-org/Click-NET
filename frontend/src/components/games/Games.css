@@ -24,11 +24,7 @@
     background-color: #cc2234;
 }
 
-.game-row {
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-}
+
 
 .gr-select-clickable {
     border: 1px solid white;
@@ -57,6 +53,7 @@
     border-bottom: 1px solid rgb(39, 39, 39);
     text-indent: 10px;
     box-sizing: border-box;
+    font-size: 1.5rem;
 }
 
 
@@ -98,9 +95,6 @@
     align-items: center;
     display: flex;
 }
-.gr-icon-img{
-    max-width: 40%;
-}
 
 .gr-is-enabled {
     width: 10%;
@@ -126,20 +120,16 @@
     position: sticky;
     z-index: 2;
     top: 0;
+    font-size: 1.2rem!important;
 }
 
 .gr-icon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.gr-icon {
-    width: 10%;
-    text-align: center;
-    text-indent: 0%;
+    width: 5%;
     height: 100%;
     align-items: center;
     display: flex;
+    justify-content: center;
+    text-indent: 0%;
 }
 .gr-open-stats{
     width: 5%;
@@ -149,7 +139,17 @@
     justify-content: center;
     text-indent: 0%;
     min-width: 80px;
+    opacity: 0.5;
 }
+.gr-icon-img{
+    width: 60px;
+    height: 60px;
+}
+.stats-img{
+    width: 30px;
+    height: 30px;
+}
+
 
 
 @media (max-width:880px){
@@ -169,8 +169,8 @@
 }
 
 
-@media (max-width:675px){
-    .gr-last-modified{
-        text-align: center;
+@media (max-width:700px){
+    .all-games{
+        display: none;
     }
 }

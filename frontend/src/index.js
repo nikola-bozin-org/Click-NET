@@ -33,6 +33,7 @@ root.render(
     <React.StrictMode>
       <AppContextProvider>
         <UsersContextProvider>
+        <CenterContextProvider>
           <Router>
             <Routes>
               <Route
@@ -42,7 +43,7 @@ root.render(
                   process.env.NODE_ENV !== 'development' ? (
                     <Login />
                   ) : (
-                    <DevelopmentWrapper component={<CenterContextProvider> <App /> </CenterContextProvider>} />
+                    <DevelopmentWrapper component={ <App /> } />
                   )
                 }
               />
@@ -50,6 +51,7 @@ root.render(
               <Route path="*" element={<div>Not Found</div>} />
             </Routes>
           </Router>
+          </CenterContextProvider>
         </UsersContextProvider>
       </AppContextProvider>
     </React.StrictMode>
