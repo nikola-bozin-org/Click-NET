@@ -70,7 +70,17 @@ const _workstationLimit = async()=>{
     return {error:e.message}
   }
 }
-
+const _incrementGamesVersion = async()=>{
+  try{
+    const utility = await Utils.findOne({});
+    const currentVersion = utility.utility.gamesVersion; 
+    utility.utility.gamesVersion+=1;
+    utility.save();
+    return {message:`New Games Version: ${currentVersion}`}
+  }catch(e){
+    return {error:e.message}
+  }
+}
 
 
 
@@ -81,5 +91,6 @@ module.exports = {
   _createUtility,
   _numberOfWorkstations,
   _workstationLimit,
-  _incrementNumberOfWorkstations
+  _incrementNumberOfWorkstations,
+  _incrementGamesVersion
 };

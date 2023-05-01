@@ -17,6 +17,7 @@ const cashRegisterRouter = require('./routers/cashRegisterRouter')
 const reportsRouter = require('./routers/reportsGeneratorRouter');
 const utilsRouter = require('./routers/utilsRouter')
 const workstationRouter = require('./routers/workstationRouter')
+const gamesRouter = require('./routers/gamesRouter')
 
 const dropDatabaseRouter = require('./routers/other/dropDatabaseRouter')
 const dummyRouter = require('./routers/other/dummyRouter');
@@ -50,6 +51,7 @@ server.use('/api/cashRegister',cashRegisterRouter);
 server.use('/api/reportsGenerator',reportsRouter);
 server.use('/api/utils',utilsRouter);
 server.use('/api/workstation',workstationRouter);
+server.use('/api/games',gamesRouter)
 
 server.use('/api/',dropDatabaseRouter);
 server.use('/api/',dummyRouter);

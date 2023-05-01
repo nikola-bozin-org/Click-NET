@@ -95,9 +95,18 @@ const utils = new mongoose.Schema({
     workstationLimit:{type:Number,required:true},
     centerName:{type:String,required:true},
     numberOfWorkstations:{type:Number},
-    currency:{type:String}
+    currency:{type:String},
+    gamesVersion:{type:Number}
   }
 })
+const games = new mongoose.Schema({
+  name: { type: String, required: true,unique:true },
+  category: { type: String, enum: ["App", "Game"], required: true },
+  lastModified: { type: Date, required: true },
+  enabled: { type: Boolean },
+  image: { data: Buffer, contentType: String },
+  installationPath: { type: String, required: true }
+});
 
 
 module.exports = {
@@ -110,5 +119,6 @@ module.exports = {
   Payments:mongoose.model("Payments",payments),
   Utils:mongoose.model("Utils",utils),
   Sessions:mongoose.model("Sessions",sessions),
-  Workstation:mongoose.model("Workstation",workstation)
+  Workstation:mongoose.model("Workstation",workstation),
+  Games:mongoose.model("Games",games),
 };
