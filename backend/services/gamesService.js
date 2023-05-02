@@ -11,7 +11,7 @@ const _addGame = async(name,category,enabled,installationPath)=>{
         return {error:e.message}
     }
 }
-
+ 
 const _allGames = async()=>{
     try{
         const allGames = await Games.find({},{__v:0}).lean();
@@ -19,6 +19,10 @@ const _allGames = async()=>{
     }catch(e){
         return {error:e.message}
     }
+}
+
+const _updateInstallatioPath = async(name)=>{
+
 }
 
 //update install path i updejt verziju
