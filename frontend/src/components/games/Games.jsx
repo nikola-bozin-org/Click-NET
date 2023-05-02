@@ -28,7 +28,7 @@ const Games = () => {
       <InternalTopbar text={'Games'} useBorderBottom={true} />
       <div className="games-search-and-add">
         <InternalSearch placeholderText={'Game...'} useBorderBottom={false} />
-        <HandleButton onClick={onClickAddGame} text={'Add game'} className={'add-game-button'} circleColor={'#cc2234'} />
+        <HandleButton onClick={onClickAddGame} text={'Add game'} className={'add-game-button'}/>
       </div>
       <div className="all-games">
         <GameRow className='custom-game-row' name={'Name'} category={'Category'} lastModified={'Last Modified'} isJustIconText={true} isJustStatsText={true} isJustEnabledText={true} />

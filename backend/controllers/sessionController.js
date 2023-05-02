@@ -24,6 +24,7 @@ const loginUser = async (req,res) => {
     return res.status(statusCode.OK).json({accessToken:result.accessToken,user:result.user})
 }
 const logoutUser = async (req,res) => {
+    console.info(req.headers);
     const token = req.headers.token;
     if(!token) return res.status(statusCode.UNAUTHORIZED).json({error:"Unauthorized."});
     const verifyResult = jwt.verify(token);
