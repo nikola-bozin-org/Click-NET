@@ -1,17 +1,20 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import './Games.css';
 import InternalTopbar from '../internal-topbar/InternalTopbar'
 import InternalSearch from '../internal-search/InternalSearch'
 import HandleButton from '../handle-button/HandleButton';
-import Table from '../table/Table';
-import { tableRowClickedBehaviour } from '../../config';
 import x from '../../images/clickLogo.png'
 import statistics from '../../images/statistics.png'
+import { useSelector } from 'react-redux'
+import {extractDate, extractHours} from '../../utils'
+
 
 const Games = () => {
 
-  const onClickAddGame = () => {
+  const allGames = useSelector((state)=>state.games.allGames);
+  console.info(allGames)
 
+  const onClickAddGame = () => {
   }
 
   return (
@@ -23,25 +26,15 @@ const Games = () => {
       </div>
       <div className="all-games">
         <GameRow className='custom-game-row' name={'Name'} category={'Category'} lastModified={'Last Modified'} isJustIconText={true} isJustStatsText={true} isJustEnabledText={true} />
-        <GameRow name={'Steam'} icon={x} category={'App'} lastModified={'16.6.2021 - 16:24'} />
-        <GameRow name={'Steam'} icon={x} category={'Game'} lastModified={'16.6.2021 - 16:24'} />
-        <GameRow name={'Steam'} icon={x} category={'Game'} lastModified={'16.6.2021 - 16:24'} />
-        <GameRow name={'Steam'} icon={x} category={'Game'} lastModified={'16.6.2021 - 16:24'} />
-        <GameRow name={'Steam'} icon={x} category={'Game'} lastModified={'16.6.2021 - 16:24'} />
-        <GameRow name={'Steam'} icon={x} category={'Game'} lastModified={'16.6.2021 - 16:24'} />
-        <GameRow name={'Steam'} icon={x} category={'Game'} lastModified={'16.6.2021 - 16:24'} />
-        <GameRow name={'Steam'} icon={x} category={'Game'} lastModified={'16.6.2021 - 16:24'} />
-        <GameRow name={'Steam'} icon={x} category={'Game'} lastModified={'16.6.2021 - 16:24'} />
-        <GameRow name={'Steam'} icon={x} category={'Game'} lastModified={'16.6.2021 - 16:24'} />
-        <GameRow name={'Steam'} icon={x} category={'Game'} lastModified={'16.6.2021 - 16:24'} />
-        <GameRow name={'Steam'} icon={x} category={'Game'} lastModified={'16.6.2021 - 16:24'} />
-        <GameRow name={'Steam'} icon={x} category={'Game'} lastModified={'16.6.2021 - 16:24'} />
+        {allGames.map((game,index)=>(
+          <GameRow name={game.name} icon={x} category={game.category} lastModified={`${extractDate(game.lastModified)} - ${extractHours(game.lastModified)}`}/>
+        ))}
       </div>
     </div>
   )
 }
 
-const GameRow = ({ name, icon, category, lastModified, isJustIconText = false, isJustStatsText = false, isJustEnabledText = false, useBorderRight = true, className = '' }) => {
+const GameRow = ({ name, icon, category, lastModified, isEnabled, isJustIconText = false, isJustStatsText = false, isJustEnabledText = false, useBorderRight = true, className = '' }) => {
   return (
     <div className={`game-row ${className}`}>
       <div className={`gr-select ${useBorderRight ? 'use-border-right' : ''}`}>
@@ -49,7 +42,7 @@ const GameRow = ({ name, icon, category, lastModified, isJustIconText = false, i
         </div>
       </div>
       <div className={`gr-icon ${useBorderRight ? 'use-border-right' : ''}`}>
-        {isJustIconText ? 'Icon' : <img src={icon} className='gr-icon-img' />}
+        {isJustIconText ? 'Icon' : <img alt=''   src={icon} className='gr-icon-img' />}
       </div>
       <div className={`gr-name ${useBorderRight ? 'use-border-right' : ''}`}>
         <p>{name}</p>
@@ -61,7 +54,7 @@ const GameRow = ({ name, icon, category, lastModified, isJustIconText = false, i
         {lastModified}
       </div>
       <div className={`gr-open-stats ${useBorderRight ? 'use-border-right' : ''}`}>
-        {isJustStatsText?'Stats': <img src={statistics} className="stats-img invertColor"/>}
+        {isJustStatsText?'Stats': <img alt='' src={statistics} className="stats-img invertColor"/>}
       </div>
       <div className={`gr-is-enabled `}>
         {/* ovo crveno za disabled i zeleno za enabled */}

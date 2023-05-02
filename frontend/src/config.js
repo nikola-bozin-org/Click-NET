@@ -32,6 +32,10 @@ export const workstationLimit = `${API_BASE_URL}/utils/workstationLimit`
 //Workstation
 export const addNewWorkstation=`${API_BASE_URL}/workstation/`
 
+//Games
+export const allGames = `${API_BASE_URL}/games/`
+
+
 //-------------------------------------------------------------------------------------------------------------------
 
 

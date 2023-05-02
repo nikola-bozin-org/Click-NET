@@ -19,13 +19,14 @@ import { CashRegisterContextProvider } from './contexts/CashRegisterContext';
 import PoweredBy from './components/powered-by/PoweredBy';
 import ImportUser from './components/import-user/ImportUser'
 import { Navigate } from 'react-router-dom';
-import {allSessions, allUsers, getCurrentCashRegisterSession, workstationLimit} from './config'
+import {allGames, allSessions, allUsers, getCurrentCashRegisterSession, workstationLimit} from './config'
 import CloseCashRegister from './components/close-cash-register/CloseCashRegister';
 import OpenCashRegister from './components/open-cash-register/OpenCashRegister';
 import Center from './components/center/Center';
-import { CenterContext, CenterContextProvider } from './contexts/CenterContext';
+import { CenterContext } from './contexts/CenterContext';
 import Games from './components/games/Games';
-
+import { setGames } from './redux/gamesSlice';
+import { useDispatch } from 'react-redux';
 
 const images = [pcMap, pay, dashboard, createUser,settings,gameController, importUser];
 
@@ -33,8 +34,20 @@ const App = () => {
   const appContext = useContext(AppContext);
   const centerContext = useContext(CenterContext);
   const {isMobile, MobileNotSupported} = useIsMobile(260);
+  const dispatch = useDispatch();
 
   useEffect(() => {
+    const fetchAllGames = async () => {
+      const response = await fetch(allGames, {
+        headers: {
+          'Content-Type': 'application/json',
+          'token':localStorage.getItem('accessToken')
+        }
+      });
+      const result = await response.json();
+      if(result.error) {console.error(result.error); return}
+      dispatch(setGames({games:result.games}));
+    }
     const fetchWorkstationLimit = async () => {
       const response = await fetch(workstationLimit, {
         headers: {
@@ -82,7 +95,12 @@ const App = () => {
     }
     const loadData = async () => {
       appContext.setIsLoading(true);
-      await Promise.all([fetchAllUsers(), fetchAllSessions(),fetchCurrentCashRegisterSession(),fetchWorkstationLimit()]);
+      await Promise.all([
+        fetchAllUsers(),
+        fetchAllSessions(),
+        fetchCurrentCashRegisterSession(),
+        fetchWorkstationLimit(),
+      fetchAllGames()]);
       appContext.setIsLoading(false);
     };
   
