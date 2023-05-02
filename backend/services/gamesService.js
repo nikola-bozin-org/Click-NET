@@ -1,12 +1,12 @@
 const {Games} = require('../schemas')
 const utilsService = require('./utilsService')
 
-const _addGame = async(name,category,enabled,installationPath)=>{
+const _addGame = async(name,category,enabled,installationPath,zone)=>{
     try{
         const date = Date.now();
-        await Games.create({name:name,category:category,lastModified:date,enabled:enabled,installationPath:installationPath})
+        await Games.create({name:name,category:category,lastModified:date,enabled:enabled,installationPath:installationPath,zone:zone})
         await utilsService._incrementGamesVersion();
-        return {message:"New game added."}
+        return {message:"New game added.",game:{name:name,category:category,lastModified:date,enabled:enabled,installationPath:installationPath,zone:zone}}
     }catch(e){
         return {error:e.message}
     }

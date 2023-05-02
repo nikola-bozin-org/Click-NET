@@ -1,0 +1,77 @@
+.AddGame{
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    background-color: rgba(0, 0, 0, 0.8);
+    position: absolute;
+    width: calc(100% - 61px);
+    height: calc(100% - 101px);
+    z-index: 3;
+    right: 0;
+}
+.ag-add-game-text{
+    font-size: 1.5rem;
+}
+.add-game-content{
+    margin-top: 50px;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap:20px;
+    background-color: #171A1E;
+    padding: 2rem;
+    box-shadow: 0px 0px 4px black;
+}
+.ag-element{
+    display: grid;
+    grid-template-columns: 200px 300px;
+}
+
+.ag-input-name{
+    padding: 0.5rem;
+    margin-bottom: 1rem;
+    border-radius: 5px;
+    border: none;
+    background-color: #1c2025;
+    box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.2);
+    color: white;
+    font-size: 1rem!important;
+}
+.ag-enable-now-checkbox{
+    border: 1px solid rgb(39,39,39);
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+}
+.ag-enable-now-checkbox-wrap{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.ag-icon-img{
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+}
+.ag-enable-now-check{
+    width: 20px;
+    height: 20px;
+}
+
+.ag-buttons{
+    width: 100%;
+}
+
+.ag-buttons-wrap{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.ag-enable-now{
+    padding-bottom: 30px;
+    border-bottom: 1px solid rgb(39,39,39);
+}

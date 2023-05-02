@@ -1,4 +1,4 @@
-const isDevelopment = process.env.NODE_ENV !== 'development'
+const isDevelopment = process.env.NODE_ENV === 'development'
 const API_BASE_URL = isDevelopment? process.env.REACT_APP_API_BASE_URL_LOCAL:process.env.REACT_APP_API_BASE_URL_PRODUCTION;
 
 //User
@@ -34,6 +34,7 @@ export const addNewWorkstation=`${API_BASE_URL}/workstation/`
 
 //Games
 export const allGames = `${API_BASE_URL}/games/`
+export const addGame = `${API_BASE_URL}/games/`
 
 
 //-------------------------------------------------------------------------------------------------------------------
@@ -97,6 +98,11 @@ export const pcAdditionalInfo = [
 export const tableRowClickedBehaviour={
   NotClickable:-1,
   User:0,
+}
+
+export const appCategories = {
+  Game:'Game',
+  App:'App'
 }
 
 

@@ -13,6 +13,7 @@
     margin-right: 20px !important;
     border: 3px solid #cc2234 !important;
     color: white;
+    padding: 0.2rem;
     background-color: #171A1E !important;
     font-size: 1.2rem !important;
     width: 170px !important;
@@ -54,6 +55,7 @@
     text-indent: 10px;
     box-sizing: border-box;
     font-size: 1.5rem;
+    cursor: pointer;
 }
 
 
@@ -149,7 +151,9 @@
     width: 30px;
     height: 30px;
 }
-
+.game-row:hover{
+    background-color: black;
+}
 
 
 @media (max-width:880px){

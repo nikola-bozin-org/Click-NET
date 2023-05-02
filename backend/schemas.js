@@ -105,7 +105,8 @@ const games = new mongoose.Schema({
   lastModified: { type: Date, required: true },
   enabled: { type: Boolean },
   image: { data: Buffer, contentType: String },
-  installationPath: { type: String, required: true }
+  installationPath: { type: String, required: true },
+  zone:{type:String,enum:[zones.Lobby,zones.Pro],required:true}
 });
 
 

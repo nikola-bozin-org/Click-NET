@@ -9,11 +9,10 @@ const addGame = async(req,res)=>{
     const verifyResult = jwt.verify(token);
     if(!verifyResult) return res.status(statusCode.ERROR).json({error:"Invalid token."});
     if(verifyResult.role!==userRoles.Admin) return res.status(statusCode.ERROR).json({error:"You are not Admin!"});
-    const {name,category,isEnabled,installationPath} = req.body;
-    console.info(req.body)
-    const result = await service._addGame(name,category,Boolean(isEnabled),installationPath);
+    const {name,category,isEnabled,installationPath,zone} = req.body;
+    const result = await service._addGame(name,category,Boolean(isEnabled),installationPath,zone);
     if(result.error) return res.status(statusCode.INTERNAL_SERVER_ERROR).json({error:`Server error: ${result.error}`})
-    return res.status(statusCode.OK).json({message:result.message});
+    return res.status(statusCode.OK).json({message:result.message,game:result.game});
 }
 const allGames = async(req,res)=>{
     // const token = req.headers.token;

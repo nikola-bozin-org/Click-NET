@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import './Games.css';
 import InternalTopbar from '../internal-topbar/InternalTopbar'
 import InternalSearch from '../internal-search/InternalSearch'
@@ -7,17 +7,23 @@ import x from '../../images/clickLogo.png'
 import statistics from '../../images/statistics.png'
 import { useSelector } from 'react-redux'
 import {extractDate, extractHours} from '../../utils'
+import AddGame from '../add-game/AddGame';
 
 
 const Games = () => {
-
   const allGames = useSelector((state)=>state.games.allGames);
-  console.info(allGames)
+  const [shouldShowAddGame,setShouldShowAddGame] = useState(false);
 
   const onClickAddGame = () => {
+    setShouldShowAddGame(true);
+  }
+  const addGameOnCancelClick = () =>{
+    setShouldShowAddGame(false);
   }
 
   return (
+    <>
+    {shouldShowAddGame&& <AddGame onCancelClick={addGameOnCancelClick}/>}
     <div className='games'>
       <InternalTopbar text={'Games'} useBorderBottom={true} />
       <div className="games-search-and-add">
@@ -27,20 +33,21 @@ const Games = () => {
       <div className="all-games">
         <GameRow className='custom-game-row' name={'Name'} category={'Category'} lastModified={'Last Modified'} isJustIconText={true} isJustStatsText={true} isJustEnabledText={true} />
         {allGames.map((game,index)=>(
-          <GameRow name={game.name} icon={x} category={game.category} lastModified={`${extractDate(game.lastModified)} - ${extractHours(game.lastModified)}`}/>
+          <GameRow key={index} name={game.name} icon={x} category={game.category} lastModified={`${extractDate(game.lastModified)} - ${extractHours(game.lastModified)}`}/>
         ))}
       </div>
     </div>
+    </>
   )
 }
 
 const GameRow = ({ name, icon, category, lastModified, isEnabled, isJustIconText = false, isJustStatsText = false, isJustEnabledText = false, useBorderRight = true, className = '' }) => {
   return (
     <div className={`game-row ${className}`}>
-      <div className={`gr-select ${useBorderRight ? 'use-border-right' : ''}`}>
+      {/* <div className={`gr-select ${useBorderRight ? 'use-border-right' : ''}`}>
         <div className="gr-select-clickable">
         </div>
-      </div>
+      </div> */}
       <div className={`gr-icon ${useBorderRight ? 'use-border-right' : ''}`}>
         {isJustIconText ? 'Icon' : <img alt=''   src={icon} className='gr-icon-img' />}
       </div>
