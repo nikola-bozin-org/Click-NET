@@ -4,14 +4,14 @@ const axios = require('axios');
 const url = require('url');
 
 const ratePerHour = 180;
-const ratePerMinute = ratePerHour/60;
+const ratePerMinute = ratePerHour/60 + 10;
 const ratePerSecond = ratePerMinute/60;
 const customRate = 2000;
 
 const extractUserFromToken = async (req) => {
   try {
     const queryParams = new URLSearchParams(url.parse(req.url).search);
-    const response = await axios.get(process.env.API_BASE_URL_LOCAL, {
+    const response = await axios.get(process.env.API_BASE_URL_PRODUCTION, {
       headers: {
         'Content-Type': 'application/json',
         'token': queryParams.get('jwt'),
