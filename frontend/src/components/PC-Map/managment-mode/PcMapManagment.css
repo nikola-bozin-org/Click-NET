@@ -53,6 +53,7 @@
     align-items: flex-start;
     justify-content: center;  
     padding: 20px;
-  overflow-y: auto; 
-  max-height: calc(100vh - 250px);
+    padding-bottom: 100px;
+    overflow-y: auto; 
+    max-height: calc(100vh - 250px);
 }

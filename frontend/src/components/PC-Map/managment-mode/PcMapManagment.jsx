@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import './PcMapManagment.css';
 import off from '../../../images/off.png'
 import remoteControl from '../../../images/remote-control.png'
@@ -13,9 +13,22 @@ import warning from '../../../images/warning.png'
 import Map from '../map/Map';
 import stop from '../../../images/stop.png'
 import history from '../../../images/history.png'
-
+import { CenterContext } from '../../../contexts/CenterContext';
+import { useDispatch } from 'react-redux';
+import { clearSelectedWorkstation } from '../../../redux/workstationsSlice';
 
 const PcMapManagment = ({centerName}) => {
+
+  const centerContext = useContext(CenterContext);
+  const dispatch = useDispatch();
+
+
+
+  const deselectAllWorkstations = ()=>{
+    centerContext.workstationDeselector()
+    dispatch(clearSelectedWorkstation());
+  }
+
   return (
     <div className='PcMapManagment'>
         <div className="pc-managment-controls">
@@ -37,7 +50,7 @@ const PcMapManagment = ({centerName}) => {
                 <img title='History' src={history} alt="" className="pc-managment-other-control invertColor" />
             </div>
         </div>
-        <div  className="map-wrapper-managment">
+        <div onClick={deselectAllWorkstations}  className="map-wrapper-managment">
           <Map/>
         </div>
     </div>
