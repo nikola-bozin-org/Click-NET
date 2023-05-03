@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import './PcMapManagment.css';
+import './WorkstationMapManagment.css';
 import off from '../../../images/off.png'
 import remoteControl from '../../../images/remote-control.png'
 import restart from '../../../images/restart.png'

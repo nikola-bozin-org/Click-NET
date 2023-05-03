@@ -1,5 +1,5 @@
 import React from 'react'
-import './PcMapConfiguration.css'
+import './WorkstationMapConfiguration.css'
 import Map from '../map/Map'
 
 const PcMapConfiguration = ({ centerName }) => {

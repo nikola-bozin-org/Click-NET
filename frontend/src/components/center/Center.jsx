@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import './Center.css'
-import PCMap from '../PC-Map/WorkstationMap'
+import WorkstationMap from '../workstation-map/WorkstationMap'
 import HandleButton from '../handle-button/HandleButton'
 import { pcAdditionalInfo, pcRole, userRoles } from '../../config'
 import { useContext } from 'react'
@@ -17,7 +17,7 @@ const Center = ({ centerName, numberOfLoggedInUsers, licenceLimit }) => {
     return (
         <div className='center'>
             <div className="center-pc-map">
-                <PCMap />
+                <WorkstationMap />
             </div>
             <div className="center-info">
                 <div className="center-info-center-name">
