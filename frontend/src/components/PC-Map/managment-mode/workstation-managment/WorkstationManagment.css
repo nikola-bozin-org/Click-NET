@@ -89,3 +89,26 @@
 .use-border-right{
     border-right: 1px solid rgb(39,39,39);
 }
+
+.show-clicked-border{
+    border: 2px solid #c18e6a!important;
+}
+
+.workstation-loading{
+    width: 20px;
+    height: 20px;
+}
+
+
+@keyframes rotate {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  
+  .rotate-indefinitely {
+    animation: rotate 2s linear infinite;
+  }

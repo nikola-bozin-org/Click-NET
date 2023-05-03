@@ -4,6 +4,7 @@ const initialState = {
     maxWorkstations:0,
     onlineWorkstations:0,
     workstationsData:[],
+    currentSelectedWorkstation:{},
 }
 
 const workstationsSlice = createSlice({
@@ -24,9 +25,18 @@ const workstationsSlice = createSlice({
         },
         updateWorkstationData:(state,action)=>{
             state.workstationsData=[...state.workstationsData,action.payload.newWorkstation]
+        },
+        selectWorkstation:(state,action)=>{
+            if(state.currentSelectedWorkstation.number!==action.payload.workstation.number){
+                state.currentSelectedWorkstation=action.payload.workstation;
+                return
+            }
+        },
+        clearSelectedWorkstation:(state)=>{
+            state.currentSelectedWorkstation={};
         }
     }
 })
 
-export const {setMaxWorkstations,onWorkstationOffline,onWorkstationOnline,setWorkstationData,updateWorkstationData} = workstationsSlice.actions;
+export const {selectWorkstation,clearSelectedWorkstation, setMaxWorkstations,onWorkstationOffline,onWorkstationOnline,setWorkstationData,updateWorkstationData} = workstationsSlice.actions;
 export default workstationsSlice.reducer;

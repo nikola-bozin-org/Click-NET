@@ -4,6 +4,11 @@ import { calculateTime } from '../../../../utils'
 import { zoneColors } from '../../../../config'
 import { useContext } from 'react'
 import { CenterContext } from '../../../../contexts/CenterContext'
+import { useState } from 'react'
+import loading from '../../../../images/loading.png'
+import { clearSelectedWorkstation, selectWorkstation } from '../../../../redux/workstationsSlice'
+import {useDispatch, useSelector} from 'react-redux'
+import { useEffect } from 'react'
 
 const directions = {
   TOP:0,
@@ -13,9 +18,34 @@ const directions = {
 }
 
 const WorkstationManagment = ({ isOnline, number, borderColor,row,collumn }) => {
-  const {currency} = useContext(CenterContext)
   const loginInfoRowsIntake = 4;
   const loginInfoCollumnsIntake = 6;
+  const dispatch = useDispatch();
+  const [showClickedBorder,setShowClickedBorder] = useState(false);
+  const [showLoading,setShowLoading] = useState(false);
+  const centerContext = useContext(CenterContext);
+
+  const deselector = ()=>{
+    setShowClickedBorder(false);
+  }
+
+  const selected = useSelector((state)=>state.workstations.currentSelectedWorkstation)
+  useEffect(()=>{
+    setShowClickedBorder(selected.number===number)
+  })
+  const onClicked = (e)=>{
+    e.stopPropagation();
+    centerContext.workstationDeselector();
+    if(!showClickedBorder){
+      centerContext.setWorkstationDeselector(()=>deselector)
+      dispatch(selectWorkstation({workstation:{number:number}}))
+    }else{
+      centerContext.setWorkstationDeselector(()=>()=>{})
+      dispatch(clearSelectedWorkstation());
+    }
+    setShowClickedBorder(!showClickedBorder)
+  }
+
   let directionVertical = directions.TOP;
   let directionHorizontal= directions.RIGHT;
   if(row<=loginInfoRowsIntake){
@@ -24,8 +54,9 @@ const WorkstationManagment = ({ isOnline, number, borderColor,row,collumn }) => 
   if(collumn>=loginInfoCollumnsIntake){
     directionHorizontal=directions.LEFT;
   }
+
   return (
-    <div className='WorkstationManagment'>
+    <div onClick={onClicked} className={`WorkstationManagment`}>
       {isOnline && <WorkstationLogedinUserInformation
         xTranslation={`${directionHorizontal===directions.RIGHT?`${50}`:`${-50}`}`}
         yTranslation={`${directionVertical===directions.TOP?`${-62}`:`${62}`}`}
@@ -36,10 +67,13 @@ const WorkstationManagment = ({ isOnline, number, borderColor,row,collumn }) => 
         level={'0'}
         discount={'0'}
         remainingBalance={'500'}
-        currency={currency}
+        currency={centerContext.currency}
       />}
-      <div style={{ borderColor: `${borderColor}` }} className="workstation-managment-wrap">
+      <div style={{ borderColor: `${borderColor}` }} className={`workstation-managment-wrap ${showClickedBorder?'show-clicked-border':''}`}>
+        {!showLoading?
         <p className="workstationNumber">{number}</p>
+        :
+        <img src={loading} alt="" className={`invertColor workstation-loading ${showLoading?'rotate-indefinitely':''}`} />}
       </div>
     </div>
   )

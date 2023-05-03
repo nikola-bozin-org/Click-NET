@@ -5,16 +5,27 @@ import HandleButton from '../handle-button/HandleButton'
 import { pcAdditionalInfo, pcRole, userRoles } from '../../config'
 import { useContext } from 'react'
 import { AppContext } from '../../contexts/AppContext'
+import { CenterContext } from '../../contexts/CenterContext'
+import { useDispatch } from 'react-redux'
+import { clearSelectedWorkstation } from '../../redux/workstationsSlice'
+
 
 const Center = ({ centerName, numberOfLoggedInUsers, licenceLimit }) => {
     const appContext = useContext(AppContext);
+    const centerContext = useContext(CenterContext);
+    const dispatch = useDispatch();
+  
+    const deselectAllWorkstations = ()=>{
+        centerContext.workstationDeselector()
+        dispatch(clearSelectedWorkstation());
+    }
     useEffect(() => {
         appContext.setShouldShowCloseCashRegister(false);
     },[])
     
     return (
         <div className='center'>
-            <div className="center-pc-map">
+            <div onClick={deselectAllWorkstations} className="center-pc-map">
                 <PCMap />
             </div>
             <div className="center-info">

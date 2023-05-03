@@ -42,6 +42,9 @@ export const CenterContextProvider = ({children})=>{
             number:4
         }
     ]);
+    const [workstationDeselector,setWorkstationDeselector] = useState(() => () => {});
+    const [workstationLoadingIndicators,setWorkstationLoadingIndicators] = useState(()=>()=>{})
+
 
     const onOptionClicked = (optionId)=>{
         setCurrentSelectionInternalOption(optionId)
@@ -59,6 +62,10 @@ export const CenterContextProvider = ({children})=>{
         setWorkstationLimit,
         currency,
         setCurrency,
+        workstationDeselector,
+        setWorkstationDeselector,
+        workstationLoaders: workstationLoadingIndicators,
+        setWorkstationLoaders: setWorkstationLoadingIndicators,
     }
 
     return (
