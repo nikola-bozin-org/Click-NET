@@ -4,10 +4,11 @@ import { Navigate } from 'react-router-dom'
 import { useContext } from "react";
 import { AppContext } from "../../contexts/AppContext";
 import { login } from '../../redux/authSlice'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { loginStaff } from "../../config";
 import FetchError from "../fetch-error/FetchError";
 import HandleButton from '../handle-button/HandleButton'
+import { connect } from "../../clientRemoteController";
 
 const Login = () => {
   const [username, setUsername] = useState("");
@@ -17,6 +18,7 @@ const Login = () => {
   const [shouldNavigate, setShouldNavigate] = useState(false);
   const [notificationMessage, setNotificationMessage] = useState("");
   const [disableLoginButton, setDisableLoginButton] = useState(false);
+  const isConnectedToWebSocket = useSelector((state)=>state.auth.isConnectedToWebSocket);
 
   const dispatch = useDispatch();
   const { setIsAuthorized } = useContext(AppContext);
@@ -50,12 +52,13 @@ const Login = () => {
       setNotificationMessage(data.error);
       return;
     }
+    connect(data.accessToken);
     localStorage.setItem("user", data.user);
     localStorage.setItem("accessToken", data.accessToken);
     setShouldNavigate(true);
     setIsAuthorized(true);
   };
-  if (shouldNavigate) { return <Navigate to='/dashboard' /> }
+  if (isConnectedToWebSocket && shouldNavigate) { return <Navigate to='/dashboard' /> }
 
   return (
     <>
