@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { loginStaff } from "../../config";
 import FetchError from "../fetch-error/FetchError";
 import HandleButton from '../handle-button/HandleButton'
-import { connect } from "../../clientRemoteController";
+import { connect, sendMessage } from "../../clientRemoteController";
 
 const Login = () => {
   const [username, setUsername] = useState("");
@@ -52,9 +52,9 @@ const Login = () => {
       setNotificationMessage(data.error);
       return;
     }
-    connect(data.accessToken);
     localStorage.setItem("user", data.user);
     localStorage.setItem("accessToken", data.accessToken);
+    connect(data.accessToken);
     setShouldNavigate(true);
     setIsAuthorized(true);
   };

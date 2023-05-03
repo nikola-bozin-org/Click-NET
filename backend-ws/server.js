@@ -1,7 +1,7 @@
 const WebSocket = require("ws");
 require('dotenv').config();
 const url = require('url');
-const { extractUserFromToken, logoutUser } = require("./utils");
+const { extractUserFromToken, logoutUser, sendMessageToClient } = require("./utils");
 
 const ratePerHour = 180;
 const ratePerMinute = ratePerHour / 60 + 10;
@@ -29,7 +29,9 @@ const startServer = async () => {
     ws.on("message",(message)=>{
       try {
         const data = JSON.parse(message);
-        if (data.event === "sendMessage" && data.recipientUsername && data.message) {
+        console.info(data);
+        if (data.event === "sendMessage_Staff" && data.recipientUsername && data.message) {
+          if(extractedUser.role === 'Admin' || extractedUser.role==='Employee')
           sendMessageToClient(username, data.recipientUsername, data.message);
         } else {
           console.error("Invalid message format or missing data");
@@ -39,7 +41,7 @@ const startServer = async () => {
       }
     })
 
-    
+
     const updateClient = () => {
       if (clientDiscount === 100) {
         return;

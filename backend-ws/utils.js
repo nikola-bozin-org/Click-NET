@@ -19,7 +19,7 @@ const extractUserFromToken = async (token) => {
 
 const logoutUser = async (token) => {
     try {
-      const response = await axios.post(`${process.env.API_BASE_URL_LOCAL}/session/logout`,{}, {
+      const response = await axios.post(`${process.env.API_BASE_URL_PRODUCTION}/session/logout`,{}, {
         headers: {
           'Content-Type': 'application/json',
           'token': token,
