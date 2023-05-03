@@ -2,8 +2,8 @@ import React, { useContext,useRef } from 'react'
 import './MapElementConfiguration.css'
 import add from '../../../../images/add.png'
 import { CenterContext } from '../../../../contexts/CenterContext'
-
-const MapElementConfiguration = ({}) => {
+import Workstation from '../../../workstation/Workstation'
+const MapElementConfiguration = ({renderWorkstation,number}) => {
   const {setShowAddWorkStation,setLastWorkstationGridElementPosition} = useContext(CenterContext)
   const mapElementRef = useRef(null);
 
@@ -18,8 +18,12 @@ const MapElementConfiguration = ({}) => {
   return (
     <div ref={mapElementRef} onClick={onClick} className='map-element-configuration'>
       <div className="map-element-cfg-img-wrapper">
+        {!renderWorkstation?
         <img src={add} alt="" className="map-element-configuration-add invertColor" />
-      </div>
+        :
+        <Workstation number={number} color={'red'}/>
+        }
+        </div>
     </div>
   )
 }

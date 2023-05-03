@@ -106,7 +106,6 @@ const WorkstationLogedinUserInformation = ({xTranslation,yTranslation, zone, use
     </div>
   )
 }
-
 const WorkstationLogedInUserElement = ({ title, data,useBorderRight=true }) => {
   return (
     <div className="workstation-logedin-user-information-rate">

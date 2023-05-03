@@ -23,7 +23,7 @@ const Map = () => {
       centerContext.currentSelectionInternalOption === 0 ? (
         <MapElementManagment isOnline={true} row={row} collumn={col} borderColor={pcRole.Offline} key={index} index={index} renderWorkstation={isWorkstation} number={workstationNumber}/>
       ) : (
-        <MapElementConfiguration key={index}/>
+        <MapElementConfiguration renderWorkstation={isWorkstation} number={workstationNumber} key={index}/>
       )
     );
   });

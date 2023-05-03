@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import './Workstation.css';
 import { CenterContext } from '../../contexts/CenterContext';
 
-const PC = ({ number, color }) => {
+const Workstation = ({ number, color }) => {
   const [dragging, setDragging] = useState(false);
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [offset, setOffset] = useState({ x: 0, y: 0 });
@@ -59,4 +59,4 @@ const PC = ({ number, color }) => {
   );
 };
 
-export default PC;
+export default Workstation;
