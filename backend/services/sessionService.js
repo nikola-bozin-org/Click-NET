@@ -8,12 +8,9 @@ const jwt = require("../jwt");
 const _loginStaff = async (username, password) => {
   try {
     const user = await User.findOne({ username },{__v:0}).populate(['payments','sessions']);
-    if (user === null)
-      return { error: `User with username: ${username} does not exist.` };
-    if (!bcrypt.compareSync(password, user.password))
-      return { error: `Wrong password.` };
-    if (user.role !== userRoles.Admin && user.role !== userRoles.Employee)
-      return { error: `You are not Admin or Employee` };
+    if (user === null)return { error: `User with username: ${username} does not exist.` };
+    if (!bcrypt.compareSync(password, user.password))return { error: `Wrong password.` };
+    if (user.role !== userRoles.Admin && user.role !== userRoles.Employee)return { error: `You are not Admin or Employee` };
     const date = Date.now();
     const isLogedIn = await LogedInUsers.findOne({ username });
     // if (isLogedIn) return { error: `User with username: ${username} is already loged in.` };
@@ -110,15 +107,16 @@ const _loginUser = async (username, password, pcNumber) => {
 };
 const _logoutUser = async (username, pcNumber, lastSessionId) => {
   try {
-    const isLogedIn = await LogedInUsers.findOne({ username });
-    if (!isLogedIn) return { error: `User with username: ${username} is not loged in.` };
+    // const isLogedIn = await LogedInUsers.findOne({ username });
+    // if (!isLogedIn) return { error: `User with username: ${username} is not loged in.` };
     const endDate = Date.now();
-    await LogedInUsers.deleteOne({ username: username });
+    // await LogedInUsers.deleteOne({ username: username });
     const userSession = await Sessions.findById(lastSessionId);
     const startDate = new Date(userSession.startDate);
     const minutes = Math.floor(
       (Math.floor(endDate / 1000) - Math.floor(startDate.getTime() / 1000)) / 60
     );
+    if(userSession.pcNumber!==pcNumber) return {error:`User cannot be logged out by diffrent workstation!`}
     userSession.endDate = endDate;
     userSession.minutes = minutes;
     userSession.save();
@@ -131,7 +129,7 @@ const _logoutUser = async (username, pcNumber, lastSessionId) => {
             description: UserActionsDescriptions.Logout,
             date: endDate,
             pcNumber: pcNumber,
-            balanceChange: 0,
+            balanceChange: userSession.minutes*180,
           },
         },
       }
@@ -164,7 +162,7 @@ const _logoutUserByStaff = async (staffName, username) => {
             description: UserActionsDescriptions.LogoutByStaff(staffName),
             date: endDate,
             pcNumber: user.pcNumber,
-            balanceChange: 0,
+            balanceChange: userSession.minutes*180,
           },
         },
       }
@@ -200,7 +198,7 @@ const _logoutAllUsers = async (staffName) => {
               description: UserActionsDescriptions.LogoutByStaff(staffName),
               date: date,
               pcNumber: -1,
-              balanceChange: 0,
+              balanceChange: userSession.minutes*180,
             },
           },
         }

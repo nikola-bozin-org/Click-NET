@@ -9,6 +9,7 @@ export const CenterContextProvider = ({children})=>{
     const [showAddWorkStation,setShowAddWorkStation] = useState(false);
     const [lastWorkstationGridElementPosition,setLastWorkstationGridElementPosition] = useState([]);
     const [workstationLimit,setWorkstationLimit] = useState(0);
+    const [currency,setCurrency] = useState('');
     const [workstations,setWorkstations] = useState([
         {
             x:2,
@@ -55,7 +56,9 @@ export const CenterContextProvider = ({children})=>{
         workstations,
         setWorkstations,
         workstationLimit,
-        setWorkstationLimit
+        setWorkstationLimit,
+        currency,
+        setCurrency,
     }
 
     return (

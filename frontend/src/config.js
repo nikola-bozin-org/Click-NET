@@ -28,6 +28,7 @@ export const openCashRegisterSession = `${API_BASE_URL}/cashRegister/openCashReg
 
 //Utils
 export const workstationLimit = `${API_BASE_URL}/utils/workstationLimit`
+export const fullUtility = `${API_BASE_URL}/utils/`
 
 //Workstation
 export const addNewWorkstation=`${API_BASE_URL}/workstation/`

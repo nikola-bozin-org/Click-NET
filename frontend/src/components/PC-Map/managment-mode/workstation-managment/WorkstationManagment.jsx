@@ -2,6 +2,8 @@ import React from 'react'
 import './WorkstationManagment.css'
 import { calculateTime } from '../../../../utils'
 import { zoneColors } from '../../../../config'
+import { useContext } from 'react'
+import { CenterContext } from '../../../../contexts/CenterContext'
 
 const directions = {
   TOP:0,
@@ -11,6 +13,7 @@ const directions = {
 }
 
 const WorkstationManagment = ({ isOnline, number, borderColor,row,collumn }) => {
+  const {currency} = useContext(CenterContext)
   const loginInfoRowsIntake = 4;
   const loginInfoCollumnsIntake = 6;
   let directionVertical = directions.TOP;
@@ -33,6 +36,7 @@ const WorkstationManagment = ({ isOnline, number, borderColor,row,collumn }) => 
         level={'0'}
         discount={'0'}
         remainingBalance={'500'}
+        currency={currency}
       />}
       <div style={{ borderColor: `${borderColor}` }} className="workstation-managment-wrap">
         <p className="workstationNumber">{number}</p>
@@ -42,7 +46,7 @@ const WorkstationManagment = ({ isOnline, number, borderColor,row,collumn }) => 
 }
 
 //this  takes up: 4rows and 6collumns
-const WorkstationLogedinUserInformation = ({xTranslation,yTranslation, zone, username, firstName, rate, level, discount, remainingBalance }) => {
+const WorkstationLogedinUserInformation = ({xTranslation,yTranslation, zone, username, firstName, rate, level, discount, remainingBalance,currency }) => {
   return (
     <div style={{transform:`translate3d(${xTranslation}%,${yTranslation}%,0)`}} className="workstation-logedin-user-information">
       <div className="workstation-logedin-user-information-zone">
@@ -63,7 +67,7 @@ const WorkstationLogedinUserInformation = ({xTranslation,yTranslation, zone, use
       </div>
       <div className="workstation-logedin-user-information-time-and-balance">
         <WorkstationLogedInUserElement title={'Remaining time'} data={calculateTime(160,remainingBalance)} />
-        <WorkstationLogedInUserElement title={'Remaining Balance'} data={`${remainingBalance} RSD`} useBorderRight={false}/>
+        <WorkstationLogedInUserElement title={'Remaining Balance'} data={`${remainingBalance} ${currency}`} useBorderRight={false}/>
       </div>
     </div>
   )

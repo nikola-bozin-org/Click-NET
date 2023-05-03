@@ -11,6 +11,7 @@ const loginStaff = async(req,res)=>{
     return res.status(statusCode.OK).json({accessToken:result.accessToken,user:result.user})
 }
 const verifyToken = async(req,res)=>{
+    const reqIP = req.ip;
     if(req.headers.secret!==process.env.VERIFY_SECRET_PASSWORD) return res.status(statusCode.ERROR).json({error:"Unathorized"})
     const verifyResult = jwt.verify(req.headers.token);
     if(verifyResult) return res.status(statusCode.OK).json({isValid:true,verifyResult:verifyResult});
@@ -18,13 +19,11 @@ const verifyToken = async(req,res)=>{
 }
 const loginUser = async (req,res) => {
     const { username, password, pcNumber } = req.body;
-    console.info(req.body)
     const result = await service._loginUser(username,password,pcNumber);
     if(result.error) return res.status(statusCode.INTERNAL_SERVER_ERROR).json({error:`Server error: ${result.error}`});
     return res.status(statusCode.OK).json({accessToken:result.accessToken,user:result.user})
 }
 const logoutUser = async (req,res) => {
-    console.info(req.headers);
     const token = req.headers.token;
     if(!token) return res.status(statusCode.UNAUTHORIZED).json({error:"Unauthorized."});
     const verifyResult = jwt.verify(token);
