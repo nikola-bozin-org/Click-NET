@@ -34,6 +34,5 @@
 }
 
 .map-element-configuration:hover .map-element-cfg-img-wrapper {
-    background-color: rgb(48, 48, 48);
-    opacity: 0.9;
+    opacity: 1;
 }
