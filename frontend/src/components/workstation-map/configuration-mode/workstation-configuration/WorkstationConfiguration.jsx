@@ -8,7 +8,6 @@ const WorkstationConfiguration = ({number}) => {
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [offset, setOffset] = useState({ x: 0, y: 0 });
   const dndCC = useContext(DndControllerContext);
-  console.info(dndCC); 
 
   useEffect(() => {
     if (dragging) {
@@ -20,6 +19,7 @@ const WorkstationConfiguration = ({number}) => {
       const handleMouseUp = (e) => {
         if (!dragging) return;
         setDragging(false);
+        dndCC.setIsDragging(false)
         window.removeEventListener('mousemove', handleMouseMove);
         window.removeEventListener('mouseup', handleMouseUp);
       };
@@ -40,6 +40,7 @@ const WorkstationConfiguration = ({number}) => {
     const offsetY = e.clientY - position.y;
     setOffset({ x: offsetX, y: offsetY });
     setDragging(true);
+    dndCC.setIsDragging(true)
   };
   return (
     <div

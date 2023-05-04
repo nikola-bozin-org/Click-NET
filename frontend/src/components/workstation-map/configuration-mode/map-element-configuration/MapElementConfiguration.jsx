@@ -3,21 +3,32 @@ import './MapElementConfiguration.css'
 import add from '../../../../images/add.png'
 import { CenterContext } from '../../../../contexts/CenterContext'
 import WorkstationConfiguration from '../workstation-configuration/WorkstationConfiguration'
-const MapElementConfiguration = ({ renderWorkstation, number }) => {
+import { DndControllerContext } from '../../../../contexts/DndControllerContext'
+import { useState } from 'react'
+const MapElementConfiguration = ({ workstationComponent,renderWorkstation, number }) => {
   const { setShowAddWorkStation} = useContext(CenterContext)
+  const dndCC = useContext(DndControllerContext);
+
 
   const onClick = () => {
     if(!renderWorkstation)
     setShowAddWorkStation(true);
   }
+  const onMouseEnter = () =>{
+    console.info("Enter")
+  }
+
+  const renderAddWorkstationElement=()=>{
+    return <img src={add} alt="" className="map-element-configuration-add invertColor" />
+  }
 
   return (
-    <div onClick={onClick} className='map-element-configuration'>
+    <div onMouseEnter={onMouseEnter} onClick={onClick} className='map-element-configuration'>
       <div className="map-element-cfg-img-wrapper">
         {!renderWorkstation ?
-          <img src={add} alt="" className="map-element-configuration-add invertColor" />
+          renderAddWorkstationElement()
           :
-          <WorkstationConfiguration number={number} />
+          workstationComponent
         }
       </div>
     </div>

@@ -5,12 +5,17 @@ import MapElementManagment from '../managment-mode/map-element-managment/MapElem
 import MapElementConfiguration from '../configuration-mode/map-element-configuration/MapElementConfiguration';
 import { useContext } from 'react';
 import {CenterContext} from '../../../contexts/CenterContext'
+import WorkstationConfiguration from '../configuration-mode/workstation-configuration/WorkstationConfiguration';
 
 const range = (length) => Array.from({ length }, (_, i) => i);
 
 const Map = () => {
   const centerContext = useContext(CenterContext);
   const workstations = centerContext.workstations;
+  const workstationComponents = workstations.reduce((acc, ws) => {
+    acc[ws.number] = <WorkstationConfiguration key={ws.number} number={ws.number} />;
+    return acc;
+  }, {});
   const gridElements = range(pcMap_N * pcMap_M).map((_, index) => {
     const row = Math.floor(index / pcMap_M);
     const col = index % pcMap_M;
@@ -23,7 +28,7 @@ const Map = () => {
       centerContext.currentSelectionInternalOption === 0 ? (
         <MapElementManagment isOnline={true} row={row} collumn={col} borderColor={pcRole.Offline} key={index} index={index} renderWorkstation={isWorkstation} number={workstationNumber}/>
       ) : (
-        <MapElementConfiguration renderWorkstation={isWorkstation} number={workstationNumber} key={index}/>
+        <MapElementConfiguration workstationComponent={workstationComponents[workstationNumber]} renderWorkstation={isWorkstation} number={workstationNumber} key={index}/>
       )
     );
   });

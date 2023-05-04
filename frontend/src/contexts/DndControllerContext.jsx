@@ -5,10 +5,13 @@ export const DndControllerContext = createContext({});
 
 export const DndControllerContextProvider = ({children})=>{
     const [isDragging,setIsDragging] = useState(false);
+    const [currentComponent,setCurrentComponent] = useState();
 
     const value = {
         isDragging,
-        setIsDragging
+        setIsDragging,
+        currentComponent,
+        setCurrentComponent,
     }
 
     return (
