@@ -3,10 +3,10 @@ import './Workstation.css';
 import { CenterContext } from '../../contexts/CenterContext';
 
 const Workstation = ({ number, color }) => {
+  const centerContext = useContext(CenterContext);
   const [dragging, setDragging] = useState(false);
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [offset, setOffset] = useState({ x: 0, y: 0 });
-  const centerContext = useContext(CenterContext);
 
   useEffect(() => {
     if (dragging) {
