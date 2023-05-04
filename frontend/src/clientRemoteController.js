@@ -6,7 +6,7 @@ const {
 const store = require("./redux/store").default;
 
 let ws;
-const connect = (accessToken) => {
+export const connect = (accessToken) => {
     console.info(accessToken)
     ws = new WebSocket(
     `ws://localhost:${9875}/?jwt=${encodeURIComponent(accessToken)}`
@@ -21,19 +21,13 @@ const connect = (accessToken) => {
     console.info(message)
   };
 };
-const disconnect = () => {
+export const disconnect = () => {
   if (!ws) return "Unable to disconnect. (Not Connected to Websocket)";
   ws.close();
   store.dispatch(setDisconnectedFromWebsocket());
   console.log("Disconnected from server");
 };
-const sendMessage = (from, to, message) => {
+export const sendMessage = (from, to, message) => {
   if (!ws) return "Unable to disconnect. (Not Connected to Websocket)";
   ws.send("Hello");
-};
-
-module.exports = {
-  connect,
-  disconnect,
-  sendMessage,
 };
