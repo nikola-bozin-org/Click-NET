@@ -26,11 +26,12 @@ import Center from './components/center/Center';
 import { CenterContext } from './contexts/CenterContext';
 import Games from './components/games/Games';
 import { setGames } from './redux/gamesSlice';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 const images = [pcMap, pay, dashboard, createUser,settings,gameController, importUser];
 
 const App = () => {
+  const centerName = useSelector((state)=>state.other.centerName);
   const appContext = useContext(AppContext);
   const centerContext = useContext(CenterContext);
   const {isMobile, MobileNotSupported} = useIsMobile(260);
@@ -131,8 +132,8 @@ const App = () => {
         {appContext.shouldShowCloseCashRegister && <CloseCashRegister/>}
         {(() => {
           switch (appContext.currentSidebarSelection) {
-            case 0: return <Center centerName={"Click Esports"} numberOfLoggedInUsers={0} licenceLimit={centerContext.workstationLimit}/>;
-            case 1: return <> {appContext.currentCashRegisterSession!==null?<CashRegisterContextProvider><CashRegister centerName={'Click Esports'}/></CashRegisterContextProvider>:<OpenCashRegister/>}  </> ;
+            case 0: return <Center centerName={centerName} numberOfLoggedInUsers={0} licenceLimit={centerContext.workstationLimit}/>;
+            case 1: return <> {appContext.currentCashRegisterSession!==null?<CashRegisterContextProvider><CashRegister centerName={centerName}/></CashRegisterContextProvider>:<OpenCashRegister/>}  </> ;
             case 2:return <Users users={appContext.users} sessions={appContext.sessions}/>
             case 3: return;
             case 5: return <Games/>;

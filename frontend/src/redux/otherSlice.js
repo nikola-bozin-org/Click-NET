@@ -1,15 +1,15 @@
 import { createSlice } from "@reduxjs/toolkit"
 
 const initialState = {
-    currency:''
+    centerName:'Click Esports',
 }
 
 const otherSlice = createSlice({
     name:'other',
     initialState,
     reducers:{
-        setCurrency:(state,action)=>{
-            state.currency=action.payload.currency;
+        setCenterName:(state,action)=>{
+            state.centerName=action.payload.centerName;
         }
     }
 })

@@ -16,6 +16,7 @@
     grid-template-rows: 80px 5px 80px 70px ;
     height: calc(100% - 40px);
     box-shadow: -2px 2px 4px rgb(0 0 0 / 70%);
+    z-index: 10;
 }
 
 .center-info-center-name{

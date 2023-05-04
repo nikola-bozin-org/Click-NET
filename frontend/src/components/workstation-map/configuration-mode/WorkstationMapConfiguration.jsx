@@ -2,7 +2,7 @@ import React from 'react'
 import './WorkstationMapConfiguration.css'
 import Map from '../map/Map'
 
-const PcMapConfiguration = ({ centerName }) => {
+const WorkstationMapConfiguration = ({ centerName }) => {
     return (
         <div className='PcMapConfiguration'>
             <div className="pc-map-config-center-name">{centerName}</div>
@@ -13,4 +13,4 @@ const PcMapConfiguration = ({ centerName }) => {
     )
 }
 
-export default PcMapConfiguration
+export default WorkstationMapConfiguration
