@@ -101,6 +101,7 @@ tr:nth-child(odd) {
 
 .table-row-data{
     overflow: hidden;
+    min-width: 130px;
 }
 
 .table-row:hover td {

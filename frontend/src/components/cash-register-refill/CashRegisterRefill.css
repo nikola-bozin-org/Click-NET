@@ -187,3 +187,21 @@ input[type=number] {
 .revnue-value{
   font-size: 28px;
 }
+
+
+
+
+
+
+
+
+
+@media (max-width:1360px){
+  .cash-register-refill-amount,.cash-register-refill-username{
+    width: 450px;
+  }
+  .cash-register-refill-button{
+    width:250px;
+    height: 85px;
+  }
+}
