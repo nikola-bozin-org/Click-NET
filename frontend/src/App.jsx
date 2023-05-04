@@ -16,6 +16,7 @@ import useIsMobile from './hooks/useIsMobile';
 import Skeleton from './skeletons/Skeleton';
 import {AppContext} from './contexts/AppContext'
 import { CashRegisterContextProvider } from './contexts/CashRegisterContext';
+import { DndControllerContextProvider } from './contexts/DndControllerContext';
 import PoweredBy from './components/powered-by/PoweredBy';
 import ImportUser from './components/import-user/ImportUser'
 import { Navigate } from 'react-router-dom';
@@ -132,7 +133,7 @@ const App = () => {
         {appContext.shouldShowCloseCashRegister && <CloseCashRegister/>}
         {(() => {
           switch (appContext.currentSidebarSelection) {
-            case 0: return <Center centerName={centerName} numberOfLoggedInUsers={0} licenceLimit={centerContext.workstationLimit}/>;
+            case 0: return <DndControllerContextProvider><Center centerName={centerName} numberOfLoggedInUsers={0} licenceLimit={centerContext.workstationLimit}/></DndControllerContextProvider>;
             case 1: return <> {appContext.currentCashRegisterSession!==null?<CashRegisterContextProvider><CashRegister centerName={centerName}/></CashRegisterContextProvider>:<OpenCashRegister/>}  </> ;
             case 2:return <Users users={appContext.users} sessions={appContext.sessions}/>
             case 3: return;

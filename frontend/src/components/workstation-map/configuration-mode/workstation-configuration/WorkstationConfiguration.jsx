@@ -1,10 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import './WorkstationConfiguration.css'
+import { useContext } from 'react';
+import {DndControllerContext} from '../../../../contexts/DndControllerContext'
 
 const WorkstationConfiguration = ({number}) => {
   const [dragging, setDragging] = useState(false);
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [offset, setOffset] = useState({ x: 0, y: 0 });
+  const dndCC = useContext(DndControllerContext);
+  console.info(dndCC); 
 
   useEffect(() => {
     if (dragging) {
