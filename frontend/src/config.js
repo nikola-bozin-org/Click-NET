@@ -32,6 +32,7 @@ export const fullUtility = `${API_BASE_URL}/utils/`
 
 //Workstation
 export const addNewWorkstation=`${API_BASE_URL}/workstation/`
+export const getWorkstations = `${API_BASE_URL}/workstation/`
 
 //Games
 export const allGames = `${API_BASE_URL}/games/`

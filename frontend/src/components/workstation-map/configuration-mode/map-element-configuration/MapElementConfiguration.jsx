@@ -1,11 +1,11 @@
 import React, { useContext, useRef, useState, useEffect } from 'react';
 import './MapElementConfiguration.css';
 import add from '../../../../images/add.png';
-import { CenterContext } from '../../../../contexts/CenterContext';
+import { CenterContext, CenterContextProvider } from '../../../../contexts/CenterContext';
 import { DndControllerContext } from '../../../../contexts/DndControllerContext';
 
-const MapElementConfiguration = ({ workstationComponent, renderWorkstation }) => {
-  const { setShowAddWorkStation } = useContext(CenterContext);
+const MapElementConfiguration = ({ workstationComponent, renderWorkstation,row,collumn }) => {
+  const  centerContext  = useContext(CenterContext);
   const dndCC = useContext(DndControllerContext);
 
   const [position, setPosition] = useState({ x: 0, y: 0 });
@@ -29,12 +29,14 @@ const MapElementConfiguration = ({ workstationComponent, renderWorkstation }) =>
 
   const onClick = () => {
     if (!renderWorkstation) {
-      setShowAddWorkStation(true);
+      centerContext.setLastWorkstationClickedPositionInGrid({x:row,y:collumn})
+      centerContext.setShowAddWorkStation(true);
     }
   };
 
   const onMouseEnter = () => {
-    console.info(position)
+    // console.info(position)
+    console.info(dndCC.currentComponent);
   };
 
   const renderAddWorkstationElement = () => {

@@ -10,38 +10,8 @@ export const CenterContextProvider = ({children})=>{
     const [lastWorkstationGridElementPosition,setLastWorkstationGridElementPosition] = useState([]);
     const [workstationLimit,setWorkstationLimit] = useState(0);
     const [currency,setCurrency] = useState('');
-    const [workstations,setWorkstations] = useState([
-        {
-            x:2,
-            y:2,
-            number:10,
-        },
-        {
-            x:0,
-            y:0,
-            number:2,
-        },
-        {
-            x:10,
-            y:2,
-            number:3,
-        },
-        {
-            x:1,
-            y:5,
-            number:6
-        },
-        {
-            x:5,
-            y:5,
-            number:1
-        },
-        {
-            x:0,
-            y:1,
-            number:4
-        }
-    ]);
+    const [lastWorkstationClickedPositionInGrid,setLastWorkstationClickedPositionInGrid] = useState({x:0,y:0});
+    const [workstations,setWorkstations] = useState([]);
     const [workstationDeselector,setWorkstationDeselector] = useState(() => () => {});
     const [workstationLoadingIndicators,setWorkstationLoadingIndicators] = useState(()=>()=>{})
 
@@ -66,6 +36,8 @@ export const CenterContextProvider = ({children})=>{
         setWorkstationDeselector,
         workstationLoaders: workstationLoadingIndicators,
         setWorkstationLoaders: setWorkstationLoadingIndicators,
+        lastWorkstationClickedPositionInGrid,
+        setLastWorkstationClickedPositionInGrid
     }
 
     return (

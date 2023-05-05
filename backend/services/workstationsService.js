@@ -22,10 +22,20 @@ const _wakeUp = async(pcNumber)=>{
     }catch(e){
       return {error:e.message}
     }
+}
+
+const _getWorkStations = async()=>{
+  try{
+    const workstations = await Workstation.find({},{IP:0,MAC:0,__v:0});
+    return {workstations:workstations}
+  }catch(e){
+    return {error:e.message}
   }
+}
 
 
 module.exports={
     _addWorkstation,
     _wakeUp,
+    _getWorkStations
 }

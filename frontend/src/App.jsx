@@ -20,7 +20,7 @@ import { DndControllerContextProvider } from './contexts/DndControllerContext';
 import PoweredBy from './components/powered-by/PoweredBy';
 import ImportUser from './components/import-user/ImportUser'
 import { Navigate } from 'react-router-dom';
-import {allGames, allSessions, allUsers, fullUtility, getCurrentCashRegisterSession, workstationLimit} from './config'
+import {allGames, allSessions, allUsers, fullUtility, getCurrentCashRegisterSession, getWorkstations, workstationLimit} from './config'
 import CloseCashRegister from './components/close-cash-register/CloseCashRegister';
 import OpenCashRegister from './components/open-cash-register/OpenCashRegister';
 import Center from './components/center/Center';
@@ -39,6 +39,17 @@ const App = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    const fetchWorkstations = async () =>{
+      const response = await fetch(getWorkstations, {
+        headers: {
+          'Content-Type': 'application/json',
+          'token':localStorage.getItem('accessToken')
+        }
+      });
+      const result = await response.json();
+      if(result.error) {console.error(result.error); return}
+      console.info(result);
+    }
     const fetchAllGames = async () => {
       const response = await fetch(allGames, {
         headers: {
@@ -103,7 +114,8 @@ const App = () => {
         fetchAllSessions(),
         fetchCurrentCashRegisterSession(),
         fetchUtility(),
-      fetchAllGames()]);
+        fetchWorkstations(),
+        fetchAllGames()]);
       appContext.setIsLoading(false);
     };
   
