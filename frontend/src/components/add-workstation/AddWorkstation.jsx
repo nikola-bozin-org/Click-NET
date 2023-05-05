@@ -10,7 +10,7 @@ const AddWorkstation = () => {
   const [ip, setIP] = useState('');
   const [mac, setMAC] = useState('');
   const [zone, setZone] = useState('Lobby');
-  const { setShowAddWorkStation,lastWorkstationClickedPositionInGrid } = useContext(CenterContext)
+  const { setShowAddWorkStation,lastWorkstationClickedPositionInGrid,addNewWorkstationElement } = useContext(CenterContext)
 
 
   const addWorkstation = async(e) =>{
@@ -32,8 +32,8 @@ const AddWorkstation = () => {
       });
       const result = await response.json();
       if(result.error) {console.error(result.error); return}
-      console.info(result);
       setShowAddWorkStation(false);
+      addNewWorkstationElement({number:number,gridPosition:{x:lastWorkstationClickedPositionInGrid.x,y:lastWorkstationClickedPositionInGrid.y},zone:zone})
   }
 
   return (

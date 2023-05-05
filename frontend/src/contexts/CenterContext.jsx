@@ -19,6 +19,9 @@ export const CenterContextProvider = ({children})=>{
     const onOptionClicked = (optionId)=>{
         setCurrentSelectionInternalOption(optionId)
     }
+    const addNewWorkstationElement = (workstation)=>{
+        setWorkstations([...workstations,workstation])
+    }
     const value ={
         currentSelectionInternalOption,
         onOptionClicked,
@@ -37,7 +40,8 @@ export const CenterContextProvider = ({children})=>{
         workstationLoaders: workstationLoadingIndicators,
         setWorkstationLoaders: setWorkstationLoadingIndicators,
         lastWorkstationClickedPositionInGrid,
-        setLastWorkstationClickedPositionInGrid
+        setLastWorkstationClickedPositionInGrid,
+        addNewWorkstationElement,
     }
 
     return (

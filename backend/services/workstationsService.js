@@ -8,8 +8,8 @@ const _addWorkstation = async(number,ip,mac,zone,x,y)=>{
         const workstationLimit = await utilsService._workstationLimit();
         if(numOfWorkStations.numberOfWorkstations===workstationLimit.workstationLimit)
         { return {error:'Workstation limit reached.'}}
-        await utilsService._incrementNumberOfWorkstations();
         await Workstation.create({number:number,IP:ip,MAC:mac,zone:zone,gridPosition:{x:x,y:y}})
+        await utilsService._incrementNumberOfWorkstations();
         return {message:"Workstation added.",workstation:{number:number,zone:zone}}
     }catch(e){
         return {error:e.message};

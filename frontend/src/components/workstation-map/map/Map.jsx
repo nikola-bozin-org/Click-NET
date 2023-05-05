@@ -22,7 +22,6 @@ const Map = () => {
     const workstation = workstations.find(
       (ws) => ws.gridPosition.x === row && ws.gridPosition.y === col
     );
-    console.info(workstation)
     const isWorkstation = !!workstation;
     const workstationNumber = isWorkstation ? workstation.number : null;
     return (
