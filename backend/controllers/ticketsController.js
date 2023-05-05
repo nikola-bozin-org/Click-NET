@@ -71,6 +71,17 @@ const updateTicketZone = async(req,res)=>{
     return res.status(statusCode.OK).json({message:result.message})
 }
 
+const getTicketsByZone = async(req,res)=>{
+    const token = req.headers.token;
+    if(!token) return res.status(statusCode.UNAUTHORIZED).json({error:"Unauthorized"});
+    const verifyResult = jwt.verify(token);
+    if(!verifyResult) return res.status(statusCode.ERROR).json({error:"Invalid token."});
+    const {zone} = req.params;
+    const result = await service._getTicketsByZone(zone);
+    if(result.error) return res.status(statusCode.INTERNAL_SERVER_ERROR).json({error:`Server error: ${result.error}`});
+    return res.status(statusCode.OK).json({tickets:result.tickets})
+}
+
 
 
 module.exports={
@@ -81,4 +92,5 @@ module.exports={
     updateTicketCost,
     updateTicketBalance,
     updateTicketZone,
+    getTicketsByZone,
 }

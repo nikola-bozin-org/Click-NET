@@ -46,7 +46,7 @@ const _updateTicketCost = async (name, cost) => {
     await Tickets.updateOne({ name }, ticket);
     return { message: `Ticket ${name} cost updated.` };
   } catch (e) {
-    return { error: `Server error: ${e.message}` };
+    return { error:e.message };
   }
 };
 const _updateTicketBalance = async(name,balance)=>{
@@ -57,7 +57,7 @@ const _updateTicketBalance = async(name,balance)=>{
         await Tickets.updateOne({name},ticket);
         return {message:`Ticket ${name} cost updated.`};
     }catch(e){
-        return {error:`Server error: ${e.message}`};
+        return {error:e.message};
     }
 }
 
@@ -70,8 +70,17 @@ const _updateTicketZone = async(name,zone)=>{
         await Tickets.updateOne({name},ticket);
         return {message:`Ticket ${name} zone updated.`};
     }catch(e){
-        return {error:`Server error: ${e.message}`};
+        return {error:e.message};
     }
+}
+
+const _getTicketsByZone = async(zone)=>{
+  try{
+    const tickets = await Tickets.find({zone});
+    return {tickets:tickets} 
+  }catch{
+    return {error:e.message};
+  }
 }
 
 const isZoneValid = (zone) =>{
@@ -89,4 +98,5 @@ module.exports = {
   _updateTicketCost,
   _updateTicketBalance,
   _updateTicketZone,
+  _getTicketsByZone,
 };

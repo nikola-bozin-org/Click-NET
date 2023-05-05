@@ -8,6 +8,7 @@ router.get('/:name',controller.getTicket);
 router.put('/updateCost',controller.updateTicketCost)
 router.put('/updateBalance',controller.updateTicketBalance)
 router.put('/updateZone',controller.updateTicketZone)
+router.get('/zoneTickets',controller.getTicketsByZone)
 
 
 module.exports = router;
