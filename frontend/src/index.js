@@ -40,7 +40,7 @@ root.render(
                 exact
                 path="/"
                 element={
-                  process.env.NODE_ENV !== 'development' ? (
+                  process.env.NODE_ENV === 'development' ? (
                     <Login />
                   ) : (
                     <DevelopmentWrapper component={ <App /> } />

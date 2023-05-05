@@ -2,7 +2,7 @@ const axios = require('axios');
 
 const extractUserFromToken = async (token) => {
     try {
-      const response = await axios.get(`${process.env.API_BASE_URL_PRODUCTION}/session/verifyToken`, {
+      const response = await axios.get(`${process.env.API_BASE_URL_LOCAL}/session/verifyToken`, {
         headers: {
           'Content-Type': 'application/json',
           'token': token,
@@ -12,14 +12,14 @@ const extractUserFromToken = async (token) => {
       if (response.data.isValid) return response.data.verifyResult;
       return false;
     } catch (error) {
-      console.error('Error extracting user from token:', error.code);
+      console.error('Error extracting user from token:', error.message);
       return false;
     }
 };
 
 const logoutUser = async (token) => {
     try {
-      const response = await axios.post(`${process.env.API_BASE_URL_PRODUCTION}/session/logout`,{}, {
+      const response = await axios.post(`${process.env.API_BASE_URL_LOCAL}/session/logout`,{}, {
         headers: {
           'Content-Type': 'application/json',
           'token': token,

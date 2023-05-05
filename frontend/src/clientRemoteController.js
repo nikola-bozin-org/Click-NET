@@ -7,7 +7,6 @@ const store = require("./redux/store").default;
 
 let ws;
 export const connect = (accessToken) => {
-    console.info(accessToken)
     ws = new WebSocket(
     `ws://localhost:${9875}/?jwt=${encodeURIComponent(accessToken)}`
   );

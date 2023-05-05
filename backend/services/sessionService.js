@@ -45,6 +45,10 @@ const _loginStaff = async (username, password) => {
       username: user.username,
       role: user.role,
       sessionId: newSession._id,
+      activeTickets: user.activeTickets,
+      balance: user.balance,
+      lastSessionId: newSession._id,
+      discount: user.discount,
     });
     return { accessToken: accessToken, user: user };
   } catch (e) {
@@ -116,7 +120,9 @@ const _logoutUser = async (username, pcNumber, lastSessionId) => {
     const minutes = Math.floor(
       (Math.floor(endDate / 1000) - Math.floor(startDate.getTime() / 1000)) / 60
     );
-    if(userSession.pcNumber!==pcNumber) return {error:`User cannot be logged out by diffrent workstation!`}
+    console.info(userSession.pcNumber);
+    console.info(pcNumber)
+    // if(userSession.pcNumber!==pcNumber) return {error:`User cannot be logged out by diffrent workstation!`}
     userSession.endDate = endDate;
     userSession.minutes = minutes;
     userSession.save();
@@ -179,7 +185,6 @@ const _logoutAllUsers = async (staffName) => {
     for (let i = 0; i < logedInUsers.length; i++) {
       const element = logedInUsers[i];
       const username = element.username;
-      console.info(element);
       const userSession = await Sessions.findById(element.sessionId);
       const startDate = new Date(userSession.startDate);
       const minutes = Math.floor(

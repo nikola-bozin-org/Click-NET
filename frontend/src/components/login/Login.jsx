@@ -49,8 +49,6 @@ const Login = () => {
     data = await response.json();
     }catch(e){
       console.info(e)
-      console.info('=======================')
-      console.error(e.message);
     }
     setIsFetching(false);
     setDisableLoginButton(false);
@@ -61,12 +59,12 @@ const Login = () => {
     }
     localStorage.setItem("user", data.user);
     localStorage.setItem("accessToken", data.accessToken);
-    // connect(data.accessToken);
+    connect(data.accessToken);
     setShouldNavigate(true);
     setIsAuthorized(true);
   };
-  // if (isConnectedToWebSocket && shouldNavigate) { return <Navigate to='/dashboard' /> }
-  if (shouldNavigate) { return <Navigate to='/dashboard' /> }
+  if (isConnectedToWebSocket && shouldNavigate) { return <Navigate to='/dashboard' /> }
+  // if (shouldNavigate) { return <Navigate to='/dashboard' /> }
 
   return (
     <>

@@ -5,7 +5,7 @@ export const CenterContext = createContext({});
 
 
 export const CenterContextProvider = ({children})=>{
-    const [currentSelectionInternalOption,setCurrentSelectionInternalOption] = useState(1);
+    const [currentSelectionInternalOption,setCurrentSelectionInternalOption] = useState(0);
     const [showAddWorkStation,setShowAddWorkStation] = useState(false);
     const [lastWorkstationGridElementPosition,setLastWorkstationGridElementPosition] = useState([]);
     const [workstationLimit,setWorkstationLimit] = useState(0);

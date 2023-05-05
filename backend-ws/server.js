@@ -25,6 +25,7 @@ const startServer = async () => {
     let clientBalance = extractedUser.balance;
     const clientTickets = extractedUser.activeTickets;
     const clientDiscount = extractedUser.discount;
+    const clientRole = extractedUser.role;
     
     ws.on("message",(message)=>{
       try {
@@ -43,6 +44,9 @@ const startServer = async () => {
 
 
     const updateClient = () => {
+      if(clientRole==='Admin' || clientRole==='Employee'){
+        return;
+      }
       if (clientDiscount === 100) {
         return;
       }
@@ -62,7 +66,6 @@ const startServer = async () => {
 
     setInterval(updateClient, 1000);
     ws.on('close', async () => {
-      console.info('Client disconnected');
       clients.delete(username);
       logoutUser(token)
     })
