@@ -50,7 +50,7 @@ const WorkstationConfiguration = ({number}) => {
       position: `relative`,
     }}
     onMouseDown={handleMouseDown}
-     className='WorkstationConfiguration'>
+    className={`WorkstationConfiguration${dragging ? ' disable-pointer-events' : ''}`}>
       <div className={`workstation-configuration-wrap`}>
           <p className="workstationNumber">{number}</p>
       </div>
