@@ -22,7 +22,7 @@
     gap:20px;
     background-color: #171A1E;
     padding: 2rem;
-    box-shadow: 0px 0px 4px black;
+    box-shadow: 0px 0px 4px rgba(0,0,0,70%);
 }
 .ag-element{
     display: grid;

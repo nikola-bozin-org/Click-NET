@@ -4,12 +4,15 @@ import { useContext } from 'react'
 import { CenterContext } from '../../contexts/CenterContext'
 import HandleButton from '../handle-button/HandleButton'
 import {addNewWorkstation} from '../../config'
+import FetchError from '../fetch-error/FetchError'
 
 const AddWorkstation = () => {
   const [number, setNumber] = useState(0);
   const [ip, setIP] = useState('');
   const [mac, setMAC] = useState('');
   const [zone, setZone] = useState('Lobby');
+  const [showError,setShowError] = useState(false);
+  const [errorMessage,setErrorMessage] = useState('');
   const { setShowAddWorkStation,lastWorkstationClickedPositionInGrid,addNewWorkstationElement } = useContext(CenterContext)
 
 
@@ -31,15 +34,16 @@ const AddWorkstation = () => {
         })
       });
       const result = await response.json();
-      if(result.error) {console.error(result.error); return}
+      if(result.error) {setErrorMessage(result.error); setShowError(true); return}
       setShowAddWorkStation(false);
       addNewWorkstationElement({number:number,gridPosition:{x:lastWorkstationClickedPositionInGrid.x,y:lastWorkstationClickedPositionInGrid.y},zone:zone})
+      setErrorMessage('');
   }
 
   return (
     <div className='AddWorkstation'>
       <form className="add-workstation-form">
-        <p>Add Workstation</p>
+        <p className='add-workstation-text-title'>Add Workstation</p>
         <p htmlFor="number">Number:</p>
         <input className='add-workstation-number-input' autoComplete='off' type="number" id="number" name="number" onChange={(e) => { setNumber(e.target.value) }}  />
         <p htmlFor="ip">IP:</p>
@@ -56,6 +60,7 @@ const AddWorkstation = () => {
           <HandleButton onClick={addWorkstation} text={'Save'} className={'save-add-workstation'} />
         </div>
       </form>
+      <FetchError marginTopValue={50} showMessage={showError} message={errorMessage} onDelayCompleted={()=>{setShowError(false)}} />
     </div>
   )
 }

@@ -2,19 +2,20 @@
     background-color: rgba(0, 0, 0, 0.8);
     position: absolute;
     height: calc(100% - 101px);
-    width: calc(100% - 60px);
+    width: calc(100% - 460px);
     z-index: 5;
     left: 60px;
     top: 60px;
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
     color: white;
     font-size: 1.5rem;
+    flex-direction: column;
 }
 
 .add-workstation-form{
-    margin-top: 20px;
+    margin-top: 80px;
     width: 400px;
     display: flex;
     flex-direction: column;
@@ -26,8 +27,9 @@
     border-radius: 10px;
     box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.75);
 }
-
-
+.add-workstation-text-title{
+    padding-bottom: 20px;
+}
 .AddWorkstation>form > h1 {
     margin-bottom: 1rem;
     font-weight: normal;

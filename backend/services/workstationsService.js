@@ -1,9 +1,12 @@
 const { Workstation} = require("../schemas");
 const utilsService = require('../services/utilsService')
 const { dataVersion } = require("../clientResources");
+const {isValidIP,isValidMAC} = require('../helpers/validators')
 
 const _addWorkstation = async(number,ip,mac,zone,x,y)=>{
     try{
+        if(!isValidIP(ip)) return {error:`Invalid IP address.`};
+        if(!isValidMAC(mac)) return {error:`Invalid MAC address.`}
         const numOfWorkStations =await utilsService._numberOfWorkstations();
         const workstationLimit = await utilsService._workstationLimit();
         if(numOfWorkStations.numberOfWorkstations===workstationLimit.workstationLimit)
@@ -12,6 +15,7 @@ const _addWorkstation = async(number,ip,mac,zone,x,y)=>{
         await utilsService._incrementNumberOfWorkstations();
         return {message:"Workstation added.",workstation:{number:number,zone:zone}}
     }catch(e){
+        if(e.code===11000) return {error:`Workstation with number ${number} is already registered.`}
         return {error:e.message};
     }
 }
@@ -26,7 +30,7 @@ const _wakeUp = async(pcNumber)=>{
 
 const _getWorkStations = async()=>{
   try{
-    const workstations = await Workstation.find({},{IP:0,MAC:0,__v:0});
+    const workstations = await Workstation.find({},{__v:0});
     return {workstations:workstations}
   }catch(e){
     return {error:e.message}
