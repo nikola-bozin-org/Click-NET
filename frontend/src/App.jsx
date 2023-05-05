@@ -48,7 +48,7 @@ const App = () => {
       });
       const result = await response.json();
       if(result.error) {console.error(result.error); return}
-      console.info(result);
+      centerContext.setWorkstations(result.workstations);
     }
     const fetchAllGames = async () => {
       const response = await fetch(allGames, {

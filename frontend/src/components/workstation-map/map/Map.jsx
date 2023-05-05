@@ -20,8 +20,9 @@ const Map = () => {
     const row = Math.floor(index / pcMap_M);
     const col = index % pcMap_M;
     const workstation = workstations.find(
-      (ws) => ws.x === col && ws.y === row
+      (ws) => ws.gridPosition.x === row && ws.gridPosition.y === col
     );
+    console.info(workstation)
     const isWorkstation = !!workstation;
     const workstationNumber = isWorkstation ? workstation.number : null;
     return (

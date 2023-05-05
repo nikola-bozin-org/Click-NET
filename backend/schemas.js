@@ -16,7 +16,7 @@ const sessions = new mongoose.Schema({
   pcNumber:{type:Number,required:true},
 })
 const workstation = new mongoose.Schema({
-  nubmer:{type:Number},
+  number:{type:Number},
   IP:{type:String},
   MAC:{type:String},
   zone:{type:String,enum:[zones.Pro,zones.Lobby]},
