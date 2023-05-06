@@ -17,7 +17,7 @@ const directions = {
   RIGHT:3
 }
 
-const WorkstationManagment = ({ isOnline, number, borderColor,row,collumn }) => {
+const WorkstationManagment = ({number, borderColor,row,collumn }) => {
   const loginInfoRowsIntake = 4;
   const loginInfoCollumnsIntake = 6;
   const dispatch = useDispatch();
@@ -57,7 +57,7 @@ const WorkstationManagment = ({ isOnline, number, borderColor,row,collumn }) => 
 
   return (
     <div onClick={onClicked} className={`WorkstationManagment`}>
-      {isOnline && <WorkstationLogedinUserInformation
+      {true && <WorkstationLogedinUserInformation
         xTranslation={`${directionHorizontal===directions.RIGHT?`${50}`:`${-50}`}`}
         yTranslation={`${directionVertical===directions.TOP?`${-62}`:`${62}`}`}
         zone={'Lobby'}

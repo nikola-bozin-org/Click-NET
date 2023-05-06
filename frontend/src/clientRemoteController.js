@@ -1,8 +1,7 @@
-const {
-  setConnectedToWebsocket,
-  setDisconnectedFromWebsocket,
-} = require("./redux/authSlice");
+import { fetchConnectedClients } from "./utils";
 
+const {setConnectedToWebsocket,setDisconnectedFromWebsocket} = require("./redux/authSlice");
+const {onWorkstationOnline,onWorkstationOffline, addWorkstationRole} = require("./redux/workstationsSlice")
 const store = require("./redux/store").default;
 
 let ws;
@@ -14,10 +13,19 @@ export const connect = (accessToken) => {
     console.log("Connected to websocket server");
     store.dispatch(setConnectedToWebsocket());
     // sendMessage('a','b','c')
-
   };
   ws.onmessage = async (message) => {
-    console.info(message)
+    const parsedMessage = JSON.parse(message.data);
+    const parsedMessageEvent = parsedMessage.event;
+    if(parsedMessageEvent==='newConnection'){
+      try{
+        const result = await fetchConnectedClients();
+        store.dispatch(onWorkstationOnline());
+        store.dispatch(addWorkstationRole({number:result.pcNumber,role:result.role}))
+      }catch(e){
+        console.info(e);
+      }
+    }
   };
 };
 export const disconnect = () => {

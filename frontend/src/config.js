@@ -1,6 +1,6 @@
 const isDevelopment = process.env.NODE_ENV === 'development'
 const API_BASE_URL = isDevelopment? process.env.REACT_APP_API_BASE_URL_LOCAL:process.env.REACT_APP_API_BASE_URL_PRODUCTION;
-
+export const CLIENTS_BASE_URL = isDevelopment? 'http://localhost:9874/api':'http://?:9874/api'
 //User
 export const userBalance=`${API_BASE_URL}/user/balance`
 export const userDiscount=`${API_BASE_URL}/user/discount`
@@ -38,6 +38,8 @@ export const getWorkstations = `${API_BASE_URL}/workstation/`
 export const allGames = `${API_BASE_URL}/games/`
 export const addGame = `${API_BASE_URL}/games/`
 
+export const logedInClients = `${API_BASE_URL}/clients`
+export const logedInStaffClients = `${API_BASE_URL}/staffClients`
 
 //-------------------------------------------------------------------------------------------------------------------
 

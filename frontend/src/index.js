@@ -14,6 +14,7 @@ import store from "./redux/store";
 import { useEffect, useContext } from 'react';
 import { AppContext } from './contexts/AppContext'; 
 import { CenterContextProvider } from "./contexts/CenterContext";
+import { MEMBorderColorProvider } from "./contexts/MEMBorderColorContext";
 
 const DevelopmentWrapper = ({ component }) => {
   const { setIsAuthorized } = useContext(AppContext);
@@ -34,6 +35,7 @@ root.render(
       <AppContextProvider>
         <UsersContextProvider>
         <CenterContextProvider>
+          <MEMBorderColorProvider>
           <Router>
             <Routes>
               <Route
@@ -51,6 +53,7 @@ root.render(
               <Route path="*" element={<div>Not Found</div>} />
             </Routes>
           </Router>
+          </MEMBorderColorProvider>
           </CenterContextProvider>
         </UsersContextProvider>
       </AppContextProvider>

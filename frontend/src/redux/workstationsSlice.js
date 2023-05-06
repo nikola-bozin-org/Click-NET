@@ -1,19 +1,16 @@
 import { createSlice } from "@reduxjs/toolkit"
 
 const initialState = {
-    maxWorkstations:0,
     onlineWorkstations:0,
     workstationsData:[],
     currentSelectedWorkstation:{},
+    workstationCurrentRole: {},
 }
 
 const workstationsSlice = createSlice({
     name:'workstations',
     initialState,
     reducers:{
-        setMaxWorkstations:(state,action)=>{
-            state.maxWorkstations=action.payload.maxWorkstations;
-        },
         onWorkstationOnline:(state,action)=>{
             state.onlineWorkstations++;
         },
@@ -29,14 +26,23 @@ const workstationsSlice = createSlice({
         selectWorkstation:(state,action)=>{
             if(state.currentSelectedWorkstation.number!==action.payload.workstation.number){
                 state.currentSelectedWorkstation=action.payload.workstation;
-                return
+                return;
             }
         },
         clearSelectedWorkstation:(state)=>{
             state.currentSelectedWorkstation={};
-        }
+        },
+        setNumberOfOnlineWorkstations:(state,action)=>{
+            state.onlineWorkstations=action.payload.numberOfOnlineWorkstations;
+        },
+        addWorkstationRole: (state, action) => {
+            state.workstationCurrentRole[action.payload.number] = action.payload.role;
+        },
+        removeWorkstationRole: (state, action) => {
+            delete state.workstationCurrentRole[action.payload.number];
+        },
     }
 })
 
-export const {selectWorkstation,clearSelectedWorkstation, setMaxWorkstations,onWorkstationOffline,onWorkstationOnline,setWorkstationData,updateWorkstationData} = workstationsSlice.actions;
+export const {addWorkstationRole,removeWorkstationRole,selectWorkstation,setNumberOfOnlineWorkstations,clearSelectedWorkstation,onWorkstationOffline,onWorkstationOnline,setWorkstationData,updateWorkstationData} = workstationsSlice.actions;
 export default workstationsSlice.reducer;

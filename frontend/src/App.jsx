@@ -28,17 +28,27 @@ import { CenterContext } from './contexts/CenterContext';
 import Games from './components/games/Games';
 import { setGames } from './redux/gamesSlice';
 import { useDispatch, useSelector } from 'react-redux';
+import { fetchConnectedClients } from './utils';
+import { addWorkstationRole, setNumberOfOnlineWorkstations } from './redux/workstationsSlice';
 
 const images = [pcMap, pay, dashboard, createUser,settings,gameController, importUser];
 
 const App = () => {
   const centerName = useSelector((state)=>state.other.centerName);
+  const numberOfOnlineWorkstations = useSelector((state)=>state.workstations.onlineWorkstations)
   const appContext = useContext(AppContext);
   const centerContext = useContext(CenterContext);
   const {isMobile, MobileNotSupported} = useIsMobile(260);
   const dispatch = useDispatch();
 
   useEffect(() => {
+    const fetchAllClients = async ()=>{
+      const clients = await fetchConnectedClients();
+      dispatch(setNumberOfOnlineWorkstations({numberOfOnlineWorkstations:clients.length}))
+      clients.forEach(client => {
+        dispatch(addWorkstationRole({number:client.pcNumber,role:client.role}))
+      });
+    }
     const fetchWorkstations = async () =>{
       const response = await fetch(getWorkstations, {
         headers: {
@@ -115,7 +125,9 @@ const App = () => {
         fetchCurrentCashRegisterSession(),
         fetchUtility(),
         fetchWorkstations(),
-        fetchAllGames()]);
+        fetchAllGames(),
+        fetchAllClients()
+        ]);
       appContext.setIsLoading(false);
     };
   
@@ -145,7 +157,7 @@ const App = () => {
         {appContext.shouldShowCloseCashRegister && <CloseCashRegister/>}
         {(() => {
           switch (appContext.currentSidebarSelection) {
-            case 0: return <DndControllerContextProvider><Center centerName={centerName} numberOfLoggedInUsers={0} licenceLimit={centerContext.workstationLimit}/></DndControllerContextProvider>;
+            case 0: return <DndControllerContextProvider><Center centerName={centerName} numberOfLoggedInUsers={numberOfOnlineWorkstations} licenceLimit={centerContext.workstationLimit}/></DndControllerContextProvider>;
             case 1: return <> {appContext.currentCashRegisterSession!==null?<CashRegisterContextProvider><CashRegister centerName={centerName}/></CashRegisterContextProvider>:<OpenCashRegister/>}  </> ;
             case 2:return <Users users={appContext.users} sessions={appContext.sessions}/>
             case 3: return;

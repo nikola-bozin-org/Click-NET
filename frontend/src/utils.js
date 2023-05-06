@@ -1,3 +1,6 @@
+const {CLIENTS_BASE_URL, userRoles} = require('./config')
+
+
 export const extractHours = (date) => {
     const dateObj = new Date(date);
     const hours = dateObj.getHours().toString().padStart(2, '0');
@@ -57,4 +60,18 @@ export const calculateTime = (rate, balance) => {
     const formattedHours = hours.toString().padStart(2, '0');
     const formattedMinutes = minutes.toString().padStart(2, '0');
     return `${formattedHours}:${formattedMinutes}`;
+}
+
+export const fetchConnectedClients = async()=>{
+    const response = await fetch(`${CLIENTS_BASE_URL}/clients`, {
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      });
+      const result = await response.json();
+      return result;
+}
+
+export const getColorByRole = (role)=>{
+    return userRoles.find((userRole)=>userRole.name===role)?.color;
 }

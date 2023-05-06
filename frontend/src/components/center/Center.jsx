@@ -9,7 +9,6 @@ import { AppContext } from '../../contexts/AppContext'
 const Center = ({ centerName, numberOfLoggedInUsers, licenceLimit }) => {
     const appContext = useContext(AppContext);
 
-
     useEffect(() => {
         appContext.setShouldShowCloseCashRegister(false);
     },[])
