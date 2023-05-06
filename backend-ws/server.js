@@ -18,10 +18,14 @@ const startServer = async () => {
     const clientDiscount = extractedUser.discount;
     const clientRole = extractedUser.role;
     let clientBalance = extractedUser.balance;
-    if(clientRole==='Admin' || clientRole==='Employee') staffClients.set(username,{ws:ws,user:extractUserFromToken});
-    else clients.set(username,{ws:ws,user:extractedUser});
+    if(clientRole==='Admin' || clientRole==='Employee'){
+      staffClients.set(username,{ws:ws,user:extractedUser});
+    } 
+    else{
+      clients.set(username,{ws:ws,user:extractedUser});
+      informStaffAboutNewConnection();
+    } 
     ws.send(JSON.stringify({event:"entryAllowed"}))
-    informStaffAboutNewConnection();
     
     ws.on("message",(message)=>{
       try {

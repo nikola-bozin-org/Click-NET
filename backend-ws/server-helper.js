@@ -1,4 +1,5 @@
 const {staffClients,clients} = require('./server-storage')
+const cors = require('cors')
 
 const express = require("express");
 const httpServer = express();
@@ -16,6 +17,7 @@ const ipWhitelist=(req, res, next) =>{
 
 
 httpServer.use(ipWhitelist)
+httpServer.use(cors());
 httpServer.get("/api/clients", (req, res) => {
   const clientsData = Array.from(clients.entries()).map(([username, clientData]) => {
       return { username, ...clientData.user };
