@@ -16,13 +16,13 @@ const ipWhitelist=(req, res, next) =>{
 
 
 httpServer.use(ipWhitelist)
-httpServer.get("/clients", (req, res) => {
+httpServer.get("/api/clients", (req, res) => {
   const clientsData = Array.from(clients.entries()).map(([username, clientData]) => {
       return { username, ...clientData.user };
   });
   res.json(clientsData);
 });
-httpServer.get("/staffClients", (req, res) => {
+httpServer.get("/api/staffClients", (req, res) => {
   const staffClientsData = Array.from(staffClients.entries()).map(([username, clientData]) => {
       return { username, ...clientData.user };
   });
