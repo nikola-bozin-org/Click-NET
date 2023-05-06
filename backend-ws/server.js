@@ -1,34 +1,27 @@
 const WebSocket = require("ws");
 require('dotenv').config();
-const url = require('url');
-const { extractUserFromToken, logoutUser, sendMessageToClient } = require("./utils");
-
-
-const ratePerHour = 180;
-const ratePerMinute = ratePerHour / 60;
-const ratePerSecond = ratePerMinute / 60;
-const customRate = 2000;
-
-const clients = new Map();
-const importantClients = new Map();
+const {ratePerHour,ratePerMinute,ratePerSecond,customRate,clients,staffClients} = require('./server-storage')
+const { extractUserFromToken, logoutUser, sendMessageToClient, grabAccessToken, informStaffAboutNewConnection } = require("./utils");
+const { startHttpServer } = require("./server-helper");
 
 const startServer = async () => {
   const server = new WebSocket.Server({ port: process.env.PORT }, () => {
-    console.info(`Listening on: localhost:${process.env.PORT}`);
+    console.info(`WS: Listening on: localhost:${process.env.PORT}`);
   });
 
   server.on("connection", async (ws, req) => {
-    const queryParams = new URLSearchParams(url.parse(req.url).search);
-    const token = queryParams.get('jwt');
+    const token = grabAccessToken(req);
     const extractedUser = await extractUserFromToken(token);
     if (!extractedUser) { ws.send(JSON.stringify({ event: "invalidToken", message: "Invalid token!" })); ws.close(); return; }
     const username = extractedUser.username;
-    let clientBalance = extractedUser.balance;
     const clientTickets = extractedUser.activeTickets;
     const clientDiscount = extractedUser.discount;
     const clientRole = extractedUser.role;
-    if(clientRole==='Admin' || clientRole==='Employee') importantClients.set(username,{ws:ws,user:extractUserFromToken});
+    let clientBalance = extractedUser.balance;
+    if(clientRole==='Admin' || clientRole==='Employee') staffClients.set(username,{ws:ws,user:extractUserFromToken});
     else clients.set(username,{ws:ws,user:extractedUser});
+    ws.send(JSON.stringify({event:"entryAllowed"}))
+    informStaffAboutNewConnection();
     
     ws.on("message",(message)=>{
       try {
@@ -53,7 +46,7 @@ const startServer = async () => {
       if (clientDiscount === 100) {
         return;
       }
-      clientBalance -= ratePerMinute;
+      clientBalance -= ratePerSecond;
       // Update the database
 
       //ovo bolje...odradi.. ne mora stalno da se pita za tiket
@@ -75,13 +68,6 @@ const startServer = async () => {
   });
 
 }
-const logClients = ()=>{
-  setInterval(()=>{
-    console.info(clients.keys())
-    console.info(importantClients.keys())
-  },1000)
-}
-
 
 startServer();
-logClients();
+startHttpServer();

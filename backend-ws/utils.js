@@ -1,4 +1,6 @@
 const axios = require('axios');
+const { staffClients } = require('./server-storage');
+const url = require('url');
 
 const extractUserFromToken = async (token) => {
     try {
@@ -16,7 +18,6 @@ const extractUserFromToken = async (token) => {
       return false;
     }
 };
-
 const logoutUser = async (token) => {
     try {
       const response = await axios.post(`${process.env.API_BASE_URL_LOCAL}/session/logout`,{}, {
@@ -31,8 +32,6 @@ const logoutUser = async (token) => {
       console.info(e.response.data.error)
     }
 }
-
-
 const sendMessageToClient = (senderUsername, recipientUsername, message) => {
     const recipientWs = clients.get(recipientUsername);
     if (recipientWs) {
@@ -46,12 +45,22 @@ const sendMessageToClient = (senderUsername, recipientUsername, message) => {
     } else {
       console.error(`Recipient with username ${recipientUsername} not found`);
     }
-  };
-  
+};
+const grabAccessToken = (req)=>{
+  const queryParams = new URLSearchParams(url.parse(req.url).search);
+  return queryParams.get('jwt');
+}
+const informStaffAboutNewConnection = ()=>{
+  staffClients.forEach((staffClient)=>{
+    staffClient.ws.send(JSON.stringify({event:'newConnection'}))
+  });
+}
 
 
 module.exports = {
     extractUserFromToken,
     logoutUser,
-    sendMessageToClient
+    sendMessageToClient,
+    grabAccessToken,
+    informStaffAboutNewConnection,
 }
