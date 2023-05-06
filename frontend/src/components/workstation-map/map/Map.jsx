@@ -15,11 +15,11 @@ const range = (length) => Array.from({ length }, (_, i) => i);
 const Map = () => {
   const centerContext = useContext(CenterContext);
   const {borderChangers} = useContext(MEMBorderColorContext);
-  const workstationCurrentRoles = useSelector((state)=>state.workstations.workstationCurrentRole)
+  const workstationCurrentRoles = useSelector((state)=>state.workstations.workstationCurrentRoles)
   console.info('lose...sredjuj...nema da svaki managment pravi svoje ws-ove')
   useEffect(()=>{
     Object.entries(borderChangers).forEach(([id, borderChangerFunction]) => {
-      borderChangerFunction(getColorByRole(workstationCurrentRoles[id]))
+      borderChangerFunction(getColorByRole(workstationCurrentRoles[id]?.role))
     });
   },[borderChangers]);
   const workstations = centerContext.workstations;

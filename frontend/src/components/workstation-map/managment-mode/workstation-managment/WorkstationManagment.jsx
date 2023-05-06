@@ -18,18 +18,30 @@ const directions = {
 }
 
 const WorkstationManagment = ({number, borderColor,row,collumn }) => {
+  console.info('ne radi brate kad se konektuje klient..jbg..to mora resis..')
   const loginInfoRowsIntake = 4;
   const loginInfoCollumnsIntake = 6;
   const dispatch = useDispatch();
   const [showClickedBorder,setShowClickedBorder] = useState(false);
   const [showLoading,setShowLoading] = useState(false);
   const centerContext = useContext(CenterContext);
+  const selected = useSelector((state)=>state.workstations.currentSelectedWorkstation)
+  const workstationCurrentRoles = useSelector((state)=>state.workstations.workstationCurrentRoles)
+  const [currentData,setCurrentData] = useState({
+    zone:'Lobby',
+    username:'nikola98',
+    firstName:'nikola',
+    rate:'Pro 5h / 180 / 160',
+    level:'0',
+    discount:'0',
+    remainingBalance:'500',
+    currency:centerContext.currency
+  });
 
   const deselector = ()=>{
     setShowClickedBorder(false);
   }
 
-  const selected = useSelector((state)=>state.workstations.currentSelectedWorkstation)
   useEffect(()=>{
     setShowClickedBorder(selected.number===number)
   })
@@ -45,6 +57,10 @@ const WorkstationManagment = ({number, borderColor,row,collumn }) => {
     }
     setShowClickedBorder(!showClickedBorder)
   }
+  const onMouseEnter = (e)=>{
+    e.stopPropagation();
+    console.info('fetch user balance and discount. videti dal to raditi u bazi il na klienta.. koj kurac nzm')
+  }
 
   let directionVertical = directions.TOP;
   let directionHorizontal= directions.RIGHT;
@@ -56,18 +72,18 @@ const WorkstationManagment = ({number, borderColor,row,collumn }) => {
   }
 
   return (
-    <div onClick={onClicked} className={`WorkstationManagment`}>
+    <div onMouseEnter={onMouseEnter} onClick={onClicked} className={`WorkstationManagment`}>
       {true && <WorkstationLogedinUserInformation
         xTranslation={`${directionHorizontal===directions.RIGHT?`${50}`:`${-50}`}`}
         yTranslation={`${directionVertical===directions.TOP?`${-62}`:`${62}`}`}
-        zone={'Lobby'}
-        username={'nikola98'}
-        firstName={'nikola'}
-        rate={'Pro 5h / 180 / 160'}
-        level={'0'}
-        discount={'0'}
-        remainingBalance={'500'}
-        currency={centerContext.currency}
+        zone={currentData.zone}
+        username={currentData.username}
+        firstName={currentData.firstName}
+        rate={currentData.rate}
+        level={currentData.level}
+        discount={currentData.discount}
+        remainingBalance={currentData.remainingBalance}
+        currency={currentData.currency}
       />}
       <div style={{ borderColor: `${borderColor}` }} className={`workstation-managment-wrap ${showClickedBorder?'show-clicked-border':''}`}>
         {!showLoading?

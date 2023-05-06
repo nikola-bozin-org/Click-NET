@@ -46,7 +46,7 @@ const App = () => {
       const clients = await fetchConnectedClients();
       dispatch(setNumberOfOnlineWorkstations({numberOfOnlineWorkstations:clients.length}))
       clients.forEach(client => {
-        dispatch(addWorkstationRole({number:client.pcNumber,role:client.role}))
+        dispatch(addWorkstationRole({number:client.pcNumber,role:client.role,username:client.username}))
       });
     }
     const fetchWorkstations = async () =>{

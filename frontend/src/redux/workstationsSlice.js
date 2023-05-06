@@ -2,9 +2,8 @@ import { createSlice } from "@reduxjs/toolkit"
 
 const initialState = {
     onlineWorkstations:0,
-    workstationsData:[],
     currentSelectedWorkstation:{},
-    workstationCurrentRole: {},
+    workstationCurrentRoles: {},
 }
 
 const workstationsSlice = createSlice({
@@ -16,12 +15,6 @@ const workstationsSlice = createSlice({
         },
         onWorkstationOffline:(state,action)=>{
             state.onlineWorkstations--;
-        },
-        setWorkstationData:(state,action)=>{
-            state.workstationsData=action.payload.workstationData;
-        },
-        updateWorkstationData:(state,action)=>{
-            state.workstationsData=[...state.workstationsData,action.payload.newWorkstation]
         },
         selectWorkstation:(state,action)=>{
             if(state.currentSelectedWorkstation.number!==action.payload.workstation.number){
@@ -36,10 +29,10 @@ const workstationsSlice = createSlice({
             state.onlineWorkstations=action.payload.numberOfOnlineWorkstations;
         },
         addWorkstationRole: (state, action) => {
-            state.workstationCurrentRole[action.payload.number] = action.payload.role;
+            state.workstationCurrentRoles[action.payload.number] = {role:action.payload.role,username:action.payload.username};
         },
         removeWorkstationRole: (state, action) => {
-            delete state.workstationCurrentRole[action.payload.number];
+            delete state.workstationCurrentRoles[action.payload.number];
         },
     }
 })
