@@ -16,7 +16,7 @@
   background-color: #f1f1f1;
   flex-direction: column;
   gap:20px;
-  height: 100vh;
+  height: calc(100vh - 40px);
   background-color: #171A1E;
   font-weight: normal;
   font-size: 26px;
