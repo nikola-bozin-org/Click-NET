@@ -8,7 +8,6 @@ const connect = (connectionLink, connectedCallback) => {
   mongoose
     .connect(connectionLink)
     .then(() => {
-      console.info("Connected to database.");
       connectedCallback();
     })
     .catch((error) => {

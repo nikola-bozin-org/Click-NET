@@ -6,11 +6,16 @@ const isValidIP = (ipAddress)=> {
 const isValidMAC = (macAddress)=> {
     const macRegex = /^([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})$/;
     return macRegex.test(macAddress);
-  }
-  
+}
+
+const checkLocalHostIP = (ip)=>{
+    if(ip==='::1') return '192.168.0.10';
+    return ip;
+}
 
 
 module.exports={
     isValidIP,
-    isValidMAC
+    isValidMAC,
+    checkLocalHostIP,
 }

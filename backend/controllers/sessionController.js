@@ -3,6 +3,7 @@ const jwt = require('../jwt')
 const statusCode = require('../statusCodes')
 const {userRoles} = require('../helpers/enums')
 const service = require('../services/sessionService')
+const { checkLocalHostIP } = require('../helpers/validators')
 
 const loginStaff = async(req,res)=>{
     const {username,password} = req.body;
@@ -18,8 +19,9 @@ const verifyToken = async(req,res)=>{
     return res.status(statusCode.ERROR).json({isValid:false});
 }
 const loginUser = async (req,res) => {
-    const { username, password, pcNumber } = req.body;
-    const result = await service._loginUser(username,password,pcNumber);
+    const { username, password} = req.body;
+    const ip = checkLocalHostIP(req.ip)
+    const result = await service._loginUser(username,password,ip);
     if(result.error) return res.status(statusCode.INTERNAL_SERVER_ERROR).json({error:`Server error: ${result.error}`});
     return res.status(statusCode.OK).json({accessToken:result.accessToken,user:result.user})
 }

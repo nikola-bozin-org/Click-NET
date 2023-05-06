@@ -3,12 +3,14 @@ require('dotenv').config();
 const url = require('url');
 const { extractUserFromToken, logoutUser, sendMessageToClient } = require("./utils");
 
+
 const ratePerHour = 180;
-const ratePerMinute = ratePerHour / 60 + 10;
+const ratePerMinute = ratePerHour / 60;
 const ratePerSecond = ratePerMinute / 60;
 const customRate = 2000;
 
 const clients = new Map();
+const importantClients = new Map();
 
 const startServer = async () => {
   const server = new WebSocket.Server({ port: process.env.PORT }, () => {
@@ -21,11 +23,12 @@ const startServer = async () => {
     const extractedUser = await extractUserFromToken(token);
     if (!extractedUser) { ws.send(JSON.stringify({ event: "invalidToken", message: "Invalid token!" })); ws.close(); return; }
     const username = extractedUser.username;
-    clients.set(username,ws);
     let clientBalance = extractedUser.balance;
     const clientTickets = extractedUser.activeTickets;
     const clientDiscount = extractedUser.discount;
     const clientRole = extractedUser.role;
+    if(clientRole==='Admin' || clientRole==='Employee') importantClients.set(username,{ws:ws,user:extractUserFromToken});
+    else clients.set(username,{ws:ws,user:extractedUser});
     
     ws.on("message",(message)=>{
       try {
@@ -72,6 +75,13 @@ const startServer = async () => {
   });
 
 }
+const logClients = ()=>{
+  setInterval(()=>{
+    console.info(clients.keys())
+    console.info(importantClients.keys())
+  },1000)
+}
 
 
 startServer();
+logClients();

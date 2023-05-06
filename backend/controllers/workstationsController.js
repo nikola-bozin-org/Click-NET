@@ -1,8 +1,8 @@
 const statusCode = require('../statusCodes')
 const {userRoles} = require('../helpers/enums');
 const jwt = require('../jwt')
-const service = require('../services/workstationsService')
-
+const service = require('../services/workstationsService');
+const { checkLocalHostIP } = require('../helpers/validators');
 
 const addWorkstation = async(req,res)=>{
     const token = req.headers.token;
@@ -17,9 +17,8 @@ const addWorkstation = async(req,res)=>{
 }
 
 const wakeUp = async(req,res)=>{
-    let ip = req.ip;
-    if(ip==='::1') ip = '192.168.0.10';
-    const result = await service._wakeUp(-1);
+    const ip = checkLocalHostIP(req.ip)
+    const result = await service._wakeUp(ip);
     if(result.error) return res.status(statusCode.INTERNAL_SERVER_ERROR).json({error:`Server error: ${result.error}`});
     return res.status(statusCode.OK).json({data:result.data})
 }

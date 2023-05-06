@@ -41,6 +41,7 @@ server.use(express.urlencoded({ extended: true }));
 server.use(mongoSanitize());
 server.use(xss());
 // server.use(hpp());
+
 server.use('/api/users',usersRouter);
 server.use('/api/session',sessionsRouter);
 server.use('/api/tickets',ticketsRouter);

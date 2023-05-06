@@ -1,7 +1,8 @@
 const { Workstation} = require("../schemas");
-const utilsService = require('../services/utilsService')
+const utilsService = require('./utilsService')
 const { dataVersion } = require("../clientResources");
 const {isValidIP,isValidMAC} = require('../helpers/validators')
+const ticketsService =require('./ticketsService')
 
 const _addWorkstation = async(number,ip,mac,zone,x,y)=>{
     try{
@@ -20,9 +21,12 @@ const _addWorkstation = async(number,ip,mac,zone,x,y)=>{
     }
 }
 
-const _wakeUp = async(pcNumber)=>{
+const _wakeUp = async(IP)=>{
     try{
-      return {data:{pcNumber:pcNumber,online:true,dataVersion:dataVersion}}
+      const workstation = await Workstation.findOne({IP});
+      if(!workstation) return {error:`Invalid workstation.`}
+      const workstationTickets = await ticketsService._getTicketsByZone();
+      return {data:{number:workstation.number,online:true,dataVersion:dataVersion,tickets:workstationTickets}}
     }catch(e){
       return {error:e.message}
     }

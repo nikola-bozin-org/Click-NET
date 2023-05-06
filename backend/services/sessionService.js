@@ -1,6 +1,6 @@
-const { User, LogedInUsers, Sessions } = require("../schemas");
+const { User, LogedInUsers, Sessions, Workstation } = require("../schemas");
 const bcrypt = require("bcrypt");
-const { userRoles } = require("../helpers/enums");
+const { userRoles, zones, zoneRate } = require("../helpers/enums");
 const UserActions = require("../helpers/userActions");
 const UserActionsDescriptions = require("../helpers/userActionsDescriptions");
 const jwt = require("../jwt");
@@ -55,8 +55,11 @@ const _loginStaff = async (username, password) => {
     return { error: e.message };
   }
 };
-const _loginUser = async (username, password, pcNumber) => {
+const _loginUser = async (username, password, reqIP) => {
   try {
+    const workstation = await Workstation.findOne({IP:reqIP})
+    if(!workstation) return {error:`Invalid workstation!`};
+    const pcNumber = workstation.number;
     const user = await User.findOne({ username },{__v:0}).populate(['payments','sessions']);
     if (user === null)
       return { error: `User with username: ${username} does not exist.` };
@@ -68,7 +71,7 @@ const _loginUser = async (username, password, pcNumber) => {
       return { error: `Wrong password.` };
     
     if(user.balance===0 && user.activeTickets.length===0 && user.discount!==100) return {error:`You dont have any time left.`}
-    console.info("Calculate session rate by session type");
+    const sessionRate = workstation.zone===zones.Lobby? zoneRate.Lobby:zoneRate.Pro;
     const date = Date.now();
     const newSession = await Sessions.create({
       startDate: date,
@@ -86,7 +89,7 @@ const _loginUser = async (username, password, pcNumber) => {
         $push: {
           actions: {
             name: UserActions.Login,
-            description: UserActionsDescriptions.Login("TO CALCULATE"),
+            description: UserActionsDescriptions.Login(sessionRate),
             date: date,
             pcNumber: pcNumber,
             balanceChange: 0,
