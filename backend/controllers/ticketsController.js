@@ -72,6 +72,7 @@ const updateTicketZone = async(req,res)=>{
 }
 
 const getTicketsByZone = async(req,res)=>{
+    console.info(1)
     const token = req.headers.token;
     if(!token) return res.status(statusCode.UNAUTHORIZED).json({error:"Unauthorized"});
     const verifyResult = jwt.verify(token);

@@ -25,8 +25,8 @@ const _wakeUp = async(IP)=>{
     try{
       const workstation = await Workstation.findOne({IP});
       if(!workstation) return {error:`Invalid workstation.`}
-      const workstationTickets = await ticketsService._getTicketsByZone();
-      return {data:{number:workstation.number,online:true,dataVersion:dataVersion,tickets:workstationTickets}}
+      const workstationTickets = await ticketsService._getTicketsByZone(workstation.zone);
+      return {data:{number:workstation.number,online:true,dataVersion:dataVersion,tickets:workstationTickets,zone:workstation.zone}}
     }catch(e){
       return {error:e.message}
     }

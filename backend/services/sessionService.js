@@ -123,9 +123,7 @@ const _logoutUser = async (username, pcNumber, lastSessionId) => {
     const minutes = Math.floor(
       (Math.floor(endDate / 1000) - Math.floor(startDate.getTime() / 1000)) / 60
     );
-    console.info(userSession.pcNumber);
-    console.info(pcNumber)
-    // if(userSession.pcNumber!==pcNumber) return {error:`User cannot be logged out by diffrent workstation!`}
+    if(userSession.pcNumber!==pcNumber) return {error:`User cannot be logged out by diffrent workstation!`}
     userSession.endDate = endDate;
     userSession.minutes = minutes;
     userSession.save();

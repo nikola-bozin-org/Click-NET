@@ -96,7 +96,7 @@ const utils = new mongoose.Schema({
     centerName:{type:String,required:true},
     numberOfWorkstations:{type:Number},
     currency:{type:String},
-    gamesVersion:{type:Number}
+    gamesVersion:{type:Number},
   }
 })
 const games = new mongoose.Schema({

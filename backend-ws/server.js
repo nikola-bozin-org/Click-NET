@@ -30,7 +30,6 @@ const startServer = async () => {
     ws.on("message",(message)=>{
       try {
         const data = JSON.parse(message);
-        console.info(data);
         if (data.event === "sendMessage_Staff" && data.recipientUsername && data.message) {
           if(extractedUser.role === 'Admin' || extractedUser.role==='Employee')
           sendMessageToClient(username, data.recipientUsername, data.message);

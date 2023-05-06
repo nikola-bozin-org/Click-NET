@@ -64,7 +64,7 @@ server.all('*',(req,res)=>{
 const startServer = async()=>{
   mongoConnect.connect(mongoConnect.connectionLink,()=>{
     server.listen(port,async()=>{
-      console.log(`Server listening at ${ip.address()}:${port}`);
+      console.log(`START`);
     })
   })
 }
