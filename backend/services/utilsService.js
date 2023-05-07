@@ -81,6 +81,15 @@ const _incrementGamesVersion = async()=>{
     return {error:e.message}
   }
 }
+const _getCurrency = async()=>{
+  try{
+    const utility = await Utils.findOne({});
+    const currency = utility.utility.currency; 
+    return {currency:currency}
+  }catch(e){
+    return {error:e.message}
+  }
+}
 
 
 
@@ -92,5 +101,6 @@ module.exports = {
   _numberOfWorkstations,
   _workstationLimit,
   _incrementNumberOfWorkstations,
-  _incrementGamesVersion
+  _incrementGamesVersion,
+  _getCurrency
 };

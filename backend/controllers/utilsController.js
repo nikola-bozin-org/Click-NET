@@ -63,6 +63,15 @@ const workstationLimit = async(req,res)=>{
     return res.status(statusCode.OK).json({workstationLimit:result.workstationLimit})
 }
 
+const getCurrency = async(req,res)=>{
+    const token = req.headers.token;
+    if(!token) return res.status(statusCode.UNAUTHORIZED).json({error:"Unauthorized"});
+    const verifyResult = jwt.verify(token);
+    if(!verifyResult) return res.status(statusCode.ERROR).json({error:"Invalid token."});
+    const result = await service._getCurrency();
+    if(result.error) return res.status(statusCode.INTERNAL_SERVER_ERROR).json({error:`Server error: ${result.error}`});
+    return res.status(statusCode.OK).json({currency:result.currency})
+}
 
 
 
@@ -72,4 +81,5 @@ module.exports={
     createUtility,
     setUtilityCenterName,
     workstationLimit,
+    getCurrency,
 }
