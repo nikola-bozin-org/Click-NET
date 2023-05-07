@@ -16,13 +16,12 @@ import history from '../../../images/history.png'
 import { CenterContext } from '../../../contexts/CenterContext';
 import { useDispatch } from 'react-redux';
 import { clearSelectedWorkstation } from '../../../redux/workstationsSlice';
+import ShutDown from '../../remote-controls/shut-down/ShutDown';
 
 const PcMapManagment = ({centerName}) => {
 
   const centerContext = useContext(CenterContext);
   const dispatch = useDispatch();
-
-
 
   const deselectAllWorkstations = ()=>{
     centerContext.workstationDeselector()
@@ -30,6 +29,8 @@ const PcMapManagment = ({centerName}) => {
   }
 
   return (
+    <>
+    {/* <ShutDown text={'Restart'} workstationNumber={1}/> */}
     <div className='PcMapManagment'>
         <div className="pc-managment-controls">
             <p className="pc-managment-center-name">{centerName}</p>
@@ -54,6 +55,7 @@ const PcMapManagment = ({centerName}) => {
           <Map/>
         </div>
     </div>
+    </>
   )
 }
 
