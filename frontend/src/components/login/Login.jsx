@@ -5,7 +5,7 @@ import { useContext } from "react";
 import { AppContext } from "../../contexts/AppContext";
 import { login } from '../../redux/authSlice'
 import { useDispatch, useSelector } from 'react-redux'
-import { loginStaff } from "../../config";
+import { fullUtility, loginStaff } from "../../config";
 import FetchError from "../fetch-error/FetchError";
 import HandleButton from '../handle-button/HandleButton'
 import { connect, sendMessage } from "../../clientRemoteController";
@@ -24,11 +24,25 @@ const Login = () => {
   const { setIsAuthorized } = useContext(AppContext);
 
   const handleSubmit = async (e) => {
+    e.preventDefault()
+    const fullUtilityResponse = await fetch(
+      fullUtility,
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+    }
+    );
+    if(fullUtilityResponse.error){console.info(fullUtilityResponse.error);return;}
     setDisableLoginButton(true);
     setShowNotification(false);
     setIsFetching(true);
     console.info("This")
-    // if(username==='admin')
+    let bodyUsername = 'admin'
+    if(username!=='') bodyUsername=username;
+    let bodyPassword = 'admin'
+    if(password!=='') bodyPassword=password;
+  // if(username==='admin')
     dispatch(login({ isAdmin: true }))
     e.preventDefault();
     const response = await fetch(
@@ -39,10 +53,10 @@ const Login = () => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          'username': 'admin',
-          'password': 'admin'
+          'username': bodyUsername,
+          'password': bodyPassword
         })
-      }
+    }
     );
     let data;
     try{

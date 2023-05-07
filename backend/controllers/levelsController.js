@@ -2,6 +2,7 @@ const statusCode = require('../statusCodes')
 const jwt = require('../jwt')
 const {userRoles}=require('../helpers/enums')
 const service = require('../services/levelsService')
+// const { Levels } = require('../schemas')
 
 const addLevel = async(req,res)=>{
     const token = req.headers.token;
@@ -55,7 +56,19 @@ const getLevel =async(req,res)=>{
     if(result.error) return res.status(statusCode.INTERNAL_SERVER_ERROR).json({error:`Server error: ${result.error}`})
     return res.status(statusCode.OK).json({levels:result.level});
 }
-
+// const createDefaultLevels = async(req,res)=>{
+//     console.info("NOT IN PRODUCTION.");
+//     for(let i = 0 ;i<5;i++){
+//         Levels.create({xp:2000,level:i})
+//     }
+//     for(let i=5;i<15;i++){
+//         Levels.create({xp:5000,level:i});
+//     }
+//     for(let i=15;i<25;i++){
+//         Levels.create({xp:10000,level:i});
+//     }
+//     res.status(statusCode.OK).json({message:'Levels are being created.'})
+// }
 module.exports={
     addLevel,
     updateLevelXP,

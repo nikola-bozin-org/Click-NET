@@ -14,8 +14,6 @@ const startServer = async () => {
     const extractedUser = await extractUserFromToken(token);
     if (!extractedUser) { ws.send(JSON.stringify({ event: "invalidToken", message: "Invalid token!" })); ws.close(); return; }
     const username = extractedUser.username;
-    const clientTickets = extractedUser.activeTickets;
-    const clientDiscount = extractedUser.discount;
     const clientRole = extractedUser.role;
     let clientBalance = extractedUser.balance;
     if(clientRole==='Admin' || clientRole==='Employee'){
@@ -43,17 +41,13 @@ const startServer = async () => {
 
 
     const updateClient = () => {
-      if(clientRole==='Admin' || clientRole==='Employee'){
-        return;
-      }
-      if (clientDiscount === 100) {
-        return;
-      }
+      if(clientRole==='Admin' || clientRole==='Employee'){return;}
+      if ( extractedUser.discount === 100) {return;}
       clientBalance -= ratePerSecond;
       // Update the database
 
       //ovo bolje...odradi.. ne mora stalno da se pita za tiket
-      if (clientBalance > 0 || clientTickets.length > 0) {
+      if (clientBalance > 0 || extractedUser.activeTickets.length > 0) {
         // Update the database
         ws.send(JSON.stringify({ event: "balance", data: { balance: clientBalance } }));
         return;

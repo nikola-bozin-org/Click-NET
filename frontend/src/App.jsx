@@ -80,8 +80,8 @@ const App = () => {
       });
       const result = await response.json();
       if(result.error) {console.error(result.error); return}
-      centerContext.setWorkstationLimit(result.utility.utility.workstationLimit);
-      centerContext.setCurrency(result.utility.utility.currency);
+      centerContext.setWorkstationLimit(result.utility?.utility.workstationLimit);
+      centerContext.setCurrency(result.utility?.utility.currency);
   };
     const fetchAllUsers = async () => {
         const response = await fetch(allUsers, {

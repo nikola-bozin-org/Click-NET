@@ -3,7 +3,9 @@ const { Utils } = require("../schemas");
 
 const _getUtility = async () => {
   try {
-    const utility = await Utils.findOne({});
+    let utility = await Utils.findOne({});
+    if(!utility) await _createUtility(0,'ClickEsports')
+    utility = await Utils.findOne({});
     return { utility: utility};
   } catch (e) {
     return { error: e.message };
