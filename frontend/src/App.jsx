@@ -30,6 +30,7 @@ import { setGames } from './redux/gamesSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchConnectedClients } from './utils';
 import { addWorkstationRole, setNumberOfOnlineWorkstations } from './redux/workstationsSlice';
+import { RemoteControllerContextProvider } from './contexts/RemoteControllerContext';
 
 const images = [pcMap, pay, dashboard, createUser,settings,gameController, importUser];
 
@@ -157,7 +158,7 @@ const App = () => {
         {appContext.shouldShowCloseCashRegister && <CloseCashRegister/>}
         {(() => {
           switch (appContext.currentSidebarSelection) {
-            case 0: return <DndControllerContextProvider><Center centerName={centerName} numberOfLoggedInUsers={numberOfOnlineWorkstations} licenceLimit={centerContext.workstationLimit}/></DndControllerContextProvider>;
+            case 0: return <RemoteControllerContextProvider> <DndControllerContextProvider><Center centerName={centerName} numberOfLoggedInUsers={numberOfOnlineWorkstations} licenceLimit={centerContext.workstationLimit}/></DndControllerContextProvider> </RemoteControllerContextProvider>;
             case 1: return <> {appContext.currentCashRegisterSession!==null?<CashRegisterContextProvider><CashRegister centerName={centerName}/></CashRegisterContextProvider>:<OpenCashRegister/>}  </> ;
             case 2:return <Users users={appContext.users} sessions={appContext.sessions}/>
             case 3: return;

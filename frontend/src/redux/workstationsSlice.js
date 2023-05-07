@@ -4,6 +4,7 @@ const initialState = {
     onlineWorkstations:0,
     currentSelectedWorkstation:{},
     workstationCurrentRoles: {},
+    currentSelectedWorkstationNumber:-1
 }
 
 const workstationsSlice = createSlice({
@@ -19,6 +20,7 @@ const workstationsSlice = createSlice({
         selectWorkstation:(state,action)=>{
             if(state.currentSelectedWorkstation.number!==action.payload.workstation.number){
                 state.currentSelectedWorkstation=action.payload.workstation;
+                state.currentSelectedWorkstationNumber=action.payload.workstation.number;
                 return;
             }
         },

@@ -14,31 +14,45 @@ import Map from '../map/Map';
 import stop from '../../../images/stop.png'
 import history from '../../../images/history.png'
 import { CenterContext } from '../../../contexts/CenterContext';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { clearSelectedWorkstation } from '../../../redux/workstationsSlice';
 import ShutDown from '../../remote-controls/shut-down/ShutDown';
+import {RemoteControllerContext} from '../../../contexts/RemoteControllerContext'
 
 const PcMapManagment = ({centerName}) => {
-
   const centerContext = useContext(CenterContext);
-  const dispatch = useDispatch();
+  const remoteControllerContext = useContext(RemoteControllerContext);
+  const currentSelectedNumber = useSelector((state)=>state.workstations.currentSelectedWorkstationNumber)
 
+  const dispatch = useDispatch();
   const deselectAllWorkstations = ()=>{
     centerContext.workstationDeselector()
     dispatch(clearSelectedWorkstation());
   }
 
+  const renderControl=()=>{
+    if(currentSelectedNumber===-1)return;
+    switch (remoteControllerContext.currentSelectedRemoteControl) {
+      case 0:
+        return <ShutDown text={'Shut down'}/>    
+      case 1:
+        return <ShutDown text={'Restart'}/>
+      default:
+        break;
+    }
+  }
+
   return (
     <>
-    {/* <ShutDown text={'Restart'} workstationNumber={1}/> */}
+    {renderControl()}
     <div className='PcMapManagment'>
         <div className="pc-managment-controls">
             <p className="pc-managment-center-name">{centerName}</p>
             <div className="pc-managment-remote-controls">
-                <img title='Shutdown' src={off} alt="" className="pc-managment-remote-control-option invertColor" />
-                <img title='Restart' src={restart} alt="" className="pc-managment-remote-control-option invertColor" />
-                <img title='Remote Control' src={remoteControl} alt="" className="pc-managment-remote-control-option invertColor" />
-                <img title='Stats' src={stats} alt="" className="pc-managment-remote-control-option invertColor" />
+                <img onClick={()=>{remoteControllerContext.setCurrentSelectedRemoteControl(0)}} title='Shutdown' src={off} alt="" className="pc-managment-remote-control-option invertColor" />
+                <img onClick={()=>{remoteControllerContext.setCurrentSelectedRemoteControl(1)}} title='Restart' src={restart} alt="" className="pc-managment-remote-control-option invertColor" />
+                <img onClick={()=>{remoteControllerContext.setCurrentSelectedRemoteControl(2)}} title='Remote Control' src={remoteControl} alt="" className="pc-managment-remote-control-option invertColor" />
+                <img onClick={()=>{remoteControllerContext.setCurrentSelectedRemoteControl(3)}} title='Stats' src={stats} alt="" className="pc-managment-remote-control-option invertColor" />
             </div>
             <div className="pc-managment-other-controls">
                 <img title='Refill' src={coins} alt="" className="pc-managment-other-control invertColor" />
