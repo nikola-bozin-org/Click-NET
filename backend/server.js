@@ -1,10 +1,8 @@
-const ip = require('ip');
 const express = require('express');
 const helmet = require('helmet');
 const cors = require('cors');
 const mongoSanitize = require('express-mongo-sanitize')
 const xss = require('xss-clean')
-// const hpp = require('hpp')
 const rateLimit = require('express-rate-limit');
 const mongoConnect = require('./mongo-connect')
 const ticketsRouter = require('./routers/ticketsRouter')
@@ -40,7 +38,6 @@ server.use(express.json());
 server.use(express.urlencoded({ extended: true })); 
 server.use(mongoSanitize());
 server.use(xss());
-// server.use(hpp());
 
 server.use('/api/users',usersRouter);
 server.use('/api/session',sessionsRouter);
