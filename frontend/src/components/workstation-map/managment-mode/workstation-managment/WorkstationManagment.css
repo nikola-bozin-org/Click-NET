@@ -91,7 +91,7 @@
 }
 
 .show-clicked-border{
-    border: 2px solid #7a55a1!important;
+    background-color: #7a55a1!important;
 }
 
 .workstation-loading{
