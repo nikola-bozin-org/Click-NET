@@ -21,6 +21,7 @@ export const connect = (accessToken) => {
       try{
         const result = await fetchConnectedClients();
         console.info(result)
+        console.info('ovo je array. zajebo sise . zato ne r adi')
         if(result.length===0) return;
         store.dispatch(onWorkstationOnline());
         store.dispatch(addWorkstationRole({number:result.pcNumber,role:result.role}))

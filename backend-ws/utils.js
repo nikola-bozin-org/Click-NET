@@ -14,7 +14,6 @@ const extractUserFromToken = async (token) => {
       if (response.data.isValid) return response.data.verifyResult;
       return false;
     } catch (error) {
-      console.error('Error extracting user from token:', error.message);
       return false;
     }
 };

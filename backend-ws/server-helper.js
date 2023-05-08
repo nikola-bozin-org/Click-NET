@@ -5,9 +5,8 @@ const express = require("express");
 const httpServer = express();
 
 const ipWhitelist=(req, res, next) =>{
-  const allowedIps = ['207.154.216.254','::1'];
+  const allowedIps = ['207.154.216.254','::1','::ffff:127.0.0.1'];
   const clientIp = req.connection.remoteAddress || req.headers['x-forwarded-for'];
-
   if (!clientIp || allowedIps.indexOf(clientIp) !== -1) {
     next();
   } else {

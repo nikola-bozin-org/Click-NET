@@ -19,6 +19,7 @@ const gamesRouter = require('./routers/gamesRouter')
 
 const dropDatabaseRouter = require('./routers/other/dropDatabaseRouter')
 const dummyRouter = require('./routers/other/dummyRouter');
+const { isUserLogedIn } = require('./helpers/validators');
 
 
 
@@ -62,6 +63,7 @@ const startServer = async()=>{
   mongoConnect.connect(mongoConnect.connectionLink,()=>{
     server.listen(port,async()=>{
       console.log(`START`);
+      isUserLogedIn('ja')
     })
   })
 }
