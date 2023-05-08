@@ -2,7 +2,7 @@
 .shutdown-wrapper{
     position: absolute;
     z-index: 10;
-    background-color: rgba(0, 0, 0, 0.607);
+    background-color: rgba(0, 0, 0, 0.4);
     width: calc(100% - 460px);
     height: calc(100% - 150px);
     display: flex;
@@ -11,7 +11,6 @@
     text-align: center;
     font-size: 1.6rem;
 }
-
 .ShutDown{
     display: flex;
     align-items: center;
@@ -50,7 +49,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 10px;
+    gap: 20px;
 }
 
 .shut-down-confirmation-text{

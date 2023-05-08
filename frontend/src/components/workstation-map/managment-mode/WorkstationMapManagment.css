@@ -60,12 +60,7 @@
 
 .select-workstation-error{
     background-color: #cc2234;
-    padding: 0.3rem;
-    font-size: 18px;
+    font-size: 15px;
     color: white;
-}
-
-.select-workstation-error-hidden{
-    background-color: transparent;
-    color: transparent;
+    padding: 0.2rem;
 }

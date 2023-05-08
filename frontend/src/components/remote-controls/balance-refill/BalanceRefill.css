@@ -1,0 +1,73 @@
+.BalanceRefill{
+    position: absolute;
+    z-index: 10;
+    background-color: rgba(0, 0, 0, 0.4);
+    width: calc(100% - 460px);
+    height: calc(100% - 150px);
+    text-align: center;
+    font-size: 1.6rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.balance-refill-data{
+    width: 400px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #171A1E;
+    box-shadow: 0px 0px 4px rgba(0,0,0,0.7);
+}
+.balance-refill-username{
+    padding: 1rem 0rem;
+    border-bottom: 1px solid rgb(39,39,39);
+    width: 100%;
+}
+.balance-refill-inputs{
+    text-align: start;
+    font-size: 1.2rem;
+    padding-top: 0.5rem;
+}
+.input-amount-and-currency{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap:10px;
+}
+.balance-refill-input{
+    width: 100%;
+    padding: 0.5rem;
+    border-radius: 5px;
+    border: none;
+    background-color: #1c2025;
+    box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.2);
+    color: white; 
+}
+
+.input-amount-and-currency{
+    padding-bottom: 1rem;
+}
+
+input[type="number"].balance-refill-input::-webkit-outer-spin-button,
+input[type="number"].balance-refill-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  appearance:none;
+  margin: 0;
+}
+
+.balance-refill-center-name{
+    text-align: center;
+    padding: 1rem;
+    font-size: 1.5rem;
+}
+
+.balance-refill-buttons{
+    border-top: 1px solid rgb(39,39,39);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    padding: 1rem 0rem;
+    width: 100%; 
+}
