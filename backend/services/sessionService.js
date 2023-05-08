@@ -112,7 +112,7 @@ const _loginUser = async (username, password, reqIP) => {
     return { error: e.message };
   }
 };
-const _logoutUser = async (username, pcNumber, lastSessionId) => {
+const _logoutUser = async (username, lastSessionId) => {
   try {
     // const isLogedIn = await LogedInUsers.findOne({ username });
     // if (!isLogedIn) return { error: `User with username: ${username} is not loged in.` };
@@ -123,7 +123,6 @@ const _logoutUser = async (username, pcNumber, lastSessionId) => {
     const minutes = Math.floor(
       (Math.floor(endDate / 1000) - Math.floor(startDate.getTime() / 1000)) / 60
     );
-    if(userSession.pcNumber!==pcNumber) return {error:`User cannot be logged out by diffrent workstation!`}
     userSession.endDate = endDate;
     userSession.minutes = minutes;
     userSession.save();
@@ -135,7 +134,7 @@ const _logoutUser = async (username, pcNumber, lastSessionId) => {
             name: UserActions.Logout,
             description: UserActionsDescriptions.Logout,
             date: endDate,
-            pcNumber: pcNumber,
+            pcNumber: userSession.pcNumber,
             balanceChange: userSession.minutes*180,
           },
         },

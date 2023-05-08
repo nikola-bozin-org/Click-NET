@@ -18,7 +18,7 @@ const directions = {
 }
 
 const WorkstationManagment = ({number, borderColor,row,collumn }) => {
-  console.info('ne radi brate kad se konektuje klient..jbg..to mora resis..')
+  // console.info('ne radi brate kad se konektuje klient..jbg..to mora resis..')
   const loginInfoRowsIntake = 4;
   const loginInfoCollumnsIntake = 6;
   const dispatch = useDispatch();

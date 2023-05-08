@@ -1,7 +1,7 @@
 const WebSocket = require("ws");
 require('dotenv').config();
 const {ratePerHour,ratePerMinute,ratePerSecond,customRate,clients,staffClients} = require('./server-storage')
-const { extractUserFromToken, logoutUser, sendMessageToClient, grabAccessToken, informStaffAboutNewConnection } = require("./utils");
+const { extractUserFromToken, logoutUser, sendMessageToClient, grabAccessToken, informStaffAboutNewConnection, storeConnection } = require("./utils");
 const { startHttpServer } = require("./server-helper");
 
 const startServer = async () => {
@@ -16,14 +16,9 @@ const startServer = async () => {
     const username = extractedUser.username;
     const clientRole = extractedUser.role;
     let clientBalance = extractedUser.balance;
-    if(clientRole==='Admin' || clientRole==='Employee'){
-      staffClients.set(username,{ws:ws,user:extractedUser});
-    } 
-    else{
-      clients.set(username,{ws:ws,user:extractedUser});
-      informStaffAboutNewConnection();
-    } 
+    storeConnection(clientRole,ws,extractedUser);
     ws.send(JSON.stringify({event:"entryAllowed"}))
+    informStaffAboutNewConnection();
     
     ws.on("message",(message)=>{
       try {
@@ -60,6 +55,7 @@ const startServer = async () => {
     setInterval(updateClient, 1000);
     ws.on('close', async () => {
       clients.delete(username);
+      staffClients.delete(username);
       logoutUser(token)
     })
   });

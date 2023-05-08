@@ -20,6 +20,8 @@ export const connect = (accessToken) => {
     if(parsedMessageEvent==='newConnection'){
       try{
         const result = await fetchConnectedClients();
+        console.info(result)
+        if(result.length===0) return;
         store.dispatch(onWorkstationOnline());
         store.dispatch(addWorkstationRole({number:result.pcNumber,role:result.role}))
       }catch(e){

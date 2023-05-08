@@ -1,5 +1,5 @@
 const axios = require('axios');
-const { staffClients } = require('./server-storage');
+const { staffClients, clients } = require('./server-storage');
 const url = require('url');
 
 const extractUserFromToken = async (token) => {
@@ -55,6 +55,15 @@ const informStaffAboutNewConnection = ()=>{
     staffClient.ws.send(JSON.stringify({event:'newConnection'}))
   });
 }
+const storeConnection = (clientRole,ws,extractedUser)=>{
+  const username = extractedUser.username;
+  if(clientRole==='Admin' || clientRole==='Employee'){
+    staffClients.set(username,{ws:ws,user:extractedUser});
+  } 
+  else{
+    clients.set(username,{ws:ws,user:extractedUser});
+  } 
+}
 
 
 module.exports = {
@@ -63,4 +72,5 @@ module.exports = {
     sendMessageToClient,
     grabAccessToken,
     informStaffAboutNewConnection,
+    storeConnection
 }
