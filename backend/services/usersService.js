@@ -6,9 +6,11 @@ const jwt = require('../jwt')
 const { userRoles } = require('../helpers/enums')
 require('dotenv').config()
 
-const _getUsers = async ()=>{
+const _getUsers = async (amountToReturn,page)=>{
     try{
-        const users = await User.find({},{password: 0, __v: 0}).populate(['payments','sessions']);
+        const limit = parseInt(amountToReturn, 10);
+        const skip = (parseInt(page, 10)) * limit;
+        const users = await User.find({},{password: 0, __v: 0}).populate(['payments','sessions']).limit(limit).skip(skip);;
         return {users:users}
     }catch(e){
         return {error:e.message}

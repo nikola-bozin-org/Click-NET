@@ -9,7 +9,8 @@ const getUsers = async (req, res) => {
     const verifyResult = jwt.verify(token);
     if(!verifyResult) return res.status(statusCode.ERROR).json({error:"Invalid Token."});
     if(verifyResult.role!==userRoles.Admin && verifyResult.role!==userRoles.Employee) return res.status(statusCode.ERROR).json({error:"Not Admin or Employee."});
-    const result = await service._getUsers();
+    const {limit,skip} = req.query;
+    const result = await service._getUsers(limit,skip);
     if(result.error) return res.status(statusCode.INTERNAL_SERVER_ERROR).json({error:`Server error: ${result.error}`});
     return res.status(statusCode.OK).json({ users: result.users });
 }

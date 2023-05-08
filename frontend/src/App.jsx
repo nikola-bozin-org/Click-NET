@@ -85,7 +85,7 @@ const App = () => {
       centerContext.setCurrency(result.utility?.utility.currency);
   };
     const fetchAllUsers = async () => {
-        const response = await fetch(allUsers, {
+        const response = await fetch(`${allUsers}?limit=${appContext.allUsersLimit}&skip=${appContext.allUsersSkip}`, {
           headers: {
             'Content-Type': 'application/json',
             'token':localStorage.getItem('accessToken')
