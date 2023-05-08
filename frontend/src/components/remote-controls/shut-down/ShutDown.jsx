@@ -11,8 +11,8 @@ const ShutDown = ({text,onConfirm,onCancel}) => {
         <div className="shut-down-confirmation">
             <p className="shut-down-confirmation-text">{`${text} ${currentSelectedNumber}?`}</p>
             <div className="shut-down-buttons">
-                <HandleButton text={'Cancel'} onClick={onConfirm} className={'cancel-button-default'}/>
-                <HandleButton text={'Yes'} onClick={onCancel} className={'confirm-button-default'}/>
+                <HandleButton text={'Cancel'} onClick={onCancel} className={'cancel-button-default'}/>
+                <HandleButton text={'Yes'} onClick={onConfirm} className={'confirm-button-default'}/>
             </div>
         </div>
     </div>

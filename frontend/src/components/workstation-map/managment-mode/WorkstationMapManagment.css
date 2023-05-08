@@ -57,3 +57,15 @@
     overflow-y: auto; 
     max-height: calc(100vh - 250px);
 }
+
+.select-workstation-error{
+    background-color: #cc2234;
+    padding: 0.3rem;
+    font-size: 18px;
+    color: white;
+}
+
+.select-workstation-error-hidden{
+    background-color: transparent;
+    color: transparent;
+}

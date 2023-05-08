@@ -26,6 +26,7 @@ const workstationsSlice = createSlice({
         },
         clearSelectedWorkstation:(state)=>{
             state.currentSelectedWorkstation={};
+            state.currentSelectedWorkstationNumber=-1;
         },
         setNumberOfOnlineWorkstations:(state,action)=>{
             state.onlineWorkstations=action.payload.numberOfOnlineWorkstations;
