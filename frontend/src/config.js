@@ -45,8 +45,10 @@ export const logedInStaffClients = `${API_BASE_URL}/staffClients`
 
 
 
-export const employeeHeaders_USERS = ['All users','Session history','Balance history','Receipt history','Passes history']
-export const adminHeaders_USERS = ['Roles and user access','User types']
+export const employeeHeaders_USERS = ['All users','Session history']
+// export const employeeHeaders_USERS = ['All users','Session history','Balance history','Receipt history','Passes history']
+export const adminHeaders_USERS = []
+// export const adminHeaders_USERS = ['Roles and user access','User types']
 
 export const delay_ERROR = 4000;
 export const delay_ACCEPT = 2500;

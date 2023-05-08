@@ -68,7 +68,7 @@ const Users = ({users,sessions}) => {
         <InternalTopbar text={"Users"}/>
         <InternalOptions context={usersContext} options={isAdmin?[...employeeHeaders_USERS,...adminHeaders_USERS]:employeeHeaders_USERS}/>
         <div className="search-and-refresh">
-          <InternalSearch placeholderText={'Name...'} />
+          <InternalSearch useBorderBottom={false} placeholderText={'Name...'} />
           <HandleButton onClick={refreshUsers} text={'Refresh'} className={'refresh-users'} />
         </div>
         <Table headers={headers} tableData={tableData} shouldRoundEdges={true} rowClickedBehaviour={tableRowClickedBehaviour.User}/>
