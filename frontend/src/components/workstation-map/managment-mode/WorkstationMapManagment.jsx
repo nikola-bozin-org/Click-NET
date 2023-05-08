@@ -20,6 +20,7 @@ import ShutDown from '../../remote-controls/shut-down/ShutDown';
 import {RemoteControllerContext} from '../../../contexts/RemoteControllerContext'
 import { useEffect } from 'react';
 import BalanceRefill from '../../remote-controls/balance-refill/BalanceRefill';
+import Warning from '../../remote-controls/warning/Warning';
 
 const PcMapManagment = ({centerName}) => {
   const [showSelectWorkstationError,setShowSelectWorkstationError] = useState(false);
@@ -54,6 +55,8 @@ const PcMapManagment = ({centerName}) => {
         return <ShutDown text={'Restart'} onCancel={onCancelRemoteControl}/>
       case 4: 
         return <BalanceRefill  username={'ja'} onCancel={onCancelRemoteControl}/>
+      case 6:
+        return <Warning onCancel={onCancelRemoteControl} username={'ja'}/>
         default:
         break;
     }
@@ -76,11 +79,11 @@ const PcMapManagment = ({centerName}) => {
             <div className="pc-managment-other-controls">
                 <img onClick={()=>{handleRemoteControlClick(4)}} title='Refill' src={coins} alt="" className="pc-managment-other-control invertColor" />
                 {/* <img title='Buy Ticket' src={tickets} alt="" className="pc-managment-other-control invertColor" /> */}
-                <img title='Send Warning' src={warning} alt="" className="pc-managment-other-control invertColor" />
+                <img onClick={()=>{handleRemoteControlClick(6)}} title='Send Warning' src={warning} alt="" className="pc-managment-other-control invertColor" />
                 {/* <img title='Send Message' src={comment} alt="" className="pc-managment-other-control invertColor" /> */}
                 {/* <img title='Maintenence' src={flag} alt="" className="pc-managment-other-control invertColor" /> */}
-                <img title='Lock' src={lock} alt="" className="pc-managment-other-control invertColor" />
-                <img title='Stop' src={stop} alt="" className="pc-managment-other-control invertColor" />
+                {/* <img title='Lock' src={lock} alt="" className="pc-managment-other-control invertColor" /> */}
+                {/* <img title='Stop' src={stop} alt="" className="pc-managment-other-control invertColor" /> */}
                 {/* <img title='History' src={history} alt="" className="pc-managment-other-control invertColor" /> */}
             </div>
              {showSelectWorkstationError&&<div className={`select-workstation-error`}>
