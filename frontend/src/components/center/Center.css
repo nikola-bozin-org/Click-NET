@@ -8,6 +8,8 @@
 .center-pc-map{
     height: calc(100% - 40px);
     z-index: 10;
+    width: 100%;
+    position: relative;
 }
 
 .center-info{

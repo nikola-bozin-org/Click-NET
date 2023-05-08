@@ -2,13 +2,14 @@
     position: absolute;
     z-index: 10;
     background-color: rgba(0, 0, 0, 0.4);
-    width: calc(100% - 460px);
-    height: calc(100% - 150px);
+    height: calc(100% - 50px);
     text-align: center;
     font-size: 1.6rem;
     display: flex;
     align-items: center;
     justify-content: center;
+    width: inherit;
+
 }
 .balance-refill-data{
     width: 400px;

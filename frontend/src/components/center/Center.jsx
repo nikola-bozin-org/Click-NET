@@ -5,6 +5,7 @@ import HandleButton from '../handle-button/HandleButton'
 import { pcAdditionalInfo, pcRole, userRoles } from '../../config'
 import { useContext } from 'react'
 import { AppContext } from '../../contexts/AppContext'
+import ShutDown from '../remote-controls/shut-down/ShutDown'
 
 const Center = ({ centerName, numberOfLoggedInUsers, licenceLimit }) => {
     const appContext = useContext(AppContext);
