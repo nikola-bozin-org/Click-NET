@@ -29,7 +29,7 @@ const Center = ({ centerName, numberOfLoggedInUsers, licenceLimit }) => {
                     <p className="center-info-occupancy-limit">{numberOfLoggedInUsers}/{licenceLimit}</p>
                 </div>
                 <div className="center-info-select-all">
-                    <HandleButton className={"center-info-select-all-button"} text={"Select All"} />
+                    <HandleButton shouldDisable={true} className={"center-info-select-all-button"} text={"Select All"} />
                 </div>
                 <div className="center-info-roles">
                     <div className="center-info-roles-user">

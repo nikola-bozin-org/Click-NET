@@ -36,3 +36,7 @@
   .handle-button:focus{
     outline: none!important;
   }
+
+  .half-opacity{
+    opacity: 0.5;
+  }

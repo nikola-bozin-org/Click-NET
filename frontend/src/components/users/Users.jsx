@@ -61,6 +61,43 @@ const Users = ({users,sessions}) => {
     appContext.setUsers(result.users.reverse());
   }
 
+  const onUsersSearchValueChanged = (e) => {
+    const value = e.target.value;
+    switch (usersContext.currentSelectionInternalOption) {
+      case 0:
+        const headersMain = ['username', 'role', 'balance', 'discount', 'xp'];
+        const filteredUsers = users.map((user) => filterObjectByKeys(user, headersMain));
+        if (value === '') {
+          setTableData(filteredUsers);
+          return;
+        }
+        const finalUsers = filteredUsers.filter((user) => user.username.includes(value));
+        setTableData(finalUsers);
+        return;
+      case 1:
+        const headersSessions = ['username', 'startDate', 'endDate', 'minutes', 'pcNumber'];
+        const filteredData = sessions.map((session) => filterObjectByKeys(session, headersSessions));
+        const formattedData = filteredData.map((data) => {
+          const startDateFormatted = `${extractHours(data.startDate)} ${extractDate(data.startDate)}`;
+          const endDateFormatted = data.endDate !== '' ? `${extractHours(data.endDate)} ${extractDate(data.endDate)}` : '';
+          const newData = { ...data };
+          newData.startDate = startDateFormatted;
+          newData.endDate = endDateFormatted;
+          return newData;
+        });
+        if (value === '') {
+          setTableData(formattedData);
+          return;
+        }
+        const finalFilter = formattedData.filter((data) => data.username.includes(value));
+        setTableData(finalFilter);
+        return;
+      default:
+        setTableData([]);
+        return;
+    }
+  };
+  
   return (
     <>
     {usersContext.showUserData && <User/>}
@@ -68,7 +105,7 @@ const Users = ({users,sessions}) => {
         <InternalTopbar text={"Users"}/>
         <InternalOptions context={usersContext} options={isAdmin?[...employeeHeaders_USERS,...adminHeaders_USERS]:employeeHeaders_USERS}/>
         <div className="search-and-refresh">
-          <InternalSearch useBorderBottom={false} placeholderText={'Name...'} />
+          <InternalSearch onChange={onUsersSearchValueChanged} useBorderBottom={false} placeholderText={'Name...'} />
           <HandleButton onClick={refreshUsers} text={'Refresh'} className={'refresh-users'} />
         </div>
         <Table headers={headers} tableData={tableData} shouldRoundEdges={true} rowClickedBehaviour={tableRowClickedBehaviour.User}/>
