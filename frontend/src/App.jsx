@@ -32,7 +32,7 @@ import { fetchConnectedClients } from './utils';
 import { addWorkstationRole, setNumberOfOnlineWorkstations } from './redux/workstationsSlice';
 import { RemoteControllerContextProvider } from './contexts/RemoteControllerContext';
 
-const images = [pcMap, pay, dashboard, createUser,settings,gameController, importUser];
+const images = [pcMap, pay, dashboard, createUser,gameController, ];
 
 const App = () => {
   const centerName = useSelector((state)=>state.other.centerName);
@@ -160,10 +160,9 @@ const App = () => {
           switch (appContext.currentSidebarSelection) {
             case 0: return <RemoteControllerContextProvider> <DndControllerContextProvider><Center centerName={centerName} numberOfLoggedInUsers={numberOfOnlineWorkstations} licenceLimit={centerContext.workstationLimit}/></DndControllerContextProvider> </RemoteControllerContextProvider>;
             case 1: return <> {appContext.currentCashRegisterSession!==null?<CashRegisterContextProvider><CashRegister centerName={centerName}/></CashRegisterContextProvider>:<OpenCashRegister/>}  </> ;
-            case 2:return <Users users={appContext.users} sessions={appContext.sessions}/>
-            case 3: return;
-            case 5: return <Games/>;
-            case 6: return <ImportUser/>
+            case 2: return <Users users={appContext.users} sessions={appContext.sessions}/>
+            case 3: //Create User
+            case 4: return <Games/>;
             default:
               return ;
           }
