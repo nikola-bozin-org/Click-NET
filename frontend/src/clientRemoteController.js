@@ -22,6 +22,7 @@ export const connect = (accessToken) => {
         const result = await fetchConnectedClients();
         console.info(result)
         console.info('ovo je array. zajebo sise . zato ne r adi')
+        console.error('ne treba da ovo uradi ako je admin ili employe... doduse...vidi server kako to treba da uradi, jer ipak moze da se loguje tamo')
         if(result.length===0) return;
         store.dispatch(onWorkstationOnline());
         store.dispatch(addWorkstationRole({number:result.pcNumber,role:result.role}))

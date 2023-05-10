@@ -1,17 +1,16 @@
 .AddWorkstation{
     background-color: rgba(0, 0, 0, 0.8);
     position: absolute;
-    height: calc(100% - 101px);
-    width: calc(100% - 460px);
+    height: calc(100% - 51px);
     z-index: 5;
-    left: 60px;
-    top: 60px;
     display: flex;
     align-items: center;
     justify-content: flex-start;
     color: white;
     font-size: 1.5rem;
     flex-direction: column;
+    width: inherit;
+
 }
 
 .add-workstation-form{
