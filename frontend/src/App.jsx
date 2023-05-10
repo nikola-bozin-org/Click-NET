@@ -151,7 +151,7 @@ const App = () => {
       <Topbar />
       <PoweredBy/>
       <div className="appOther">
-        <div>
+        <div className='otherWrapper'>
         <Sidebar images={images} currentSelectedComponent={appContext.currentSidebarSelection} />
         </div>
         {appContext.shouldShowCreateUser && <CreateUser/>}

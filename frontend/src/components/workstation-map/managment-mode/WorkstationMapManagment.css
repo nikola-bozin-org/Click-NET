@@ -61,3 +61,10 @@
     color: white;
     padding: 0.2rem 0.4rem;
 }
+
+
+@media (max-width:600px){
+    .map-wrapper-managment{
+        padding: 3px;
+    }
+}

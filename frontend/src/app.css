@@ -1,14 +1,23 @@
-.app{
+.app {
     display: grid;
     grid-template-rows: 2;
     background-color: #171A1E;
 }
 
-.appOther{
+.appOther {
     display: grid;
     height: 100vh;
     height: calc(100vh - 61px);
     width: 100%;
     grid-template-columns: 60px 1fr;
     overflow: hidden;
+}
+
+@media (max-width:600px) {
+    .appOther {
+        grid-template-columns: 1fr;
+    }
+    .otherWrapper{
+        display: none;
+    }
 }
