@@ -18,6 +18,10 @@ const AddGame = ({ onCancelClick }) => {
     const [showFetchError, setShowFetchError] = useState(false);
     const [showFetchSuccess, setShowFetchSuccess] = useState(false);
     const [fetchMessage, setFetchMessage] = useState('');
+    const [selectedFile, setSelectedFile] = useState(null);
+    const [imagePreviewUrl, setImagePreviewUrl] = useState('');
+
+
     const dispatch = useDispatch();
 
     const onNameInputChanged = (e) => {
@@ -35,22 +39,33 @@ const AddGame = ({ onCancelClick }) => {
     const handleZoneChange = (event) => {
         setSelectedZone(event.target.value);
     };
+    const onFileChange = event => {
+        setSelectedFile(event.target.files[0]);
+
+        let reader = new FileReader();
+        reader.onloadend = () => {
+            setImagePreviewUrl(reader.result);
+        }
+        reader.readAsDataURL(event.target.files[0]);
+    };
+
+
     const createNewGame = async () => {
         setShowFetchError(false);
         setShowFetchSuccess(false);
+        const formData = new FormData();
+        formData.append('name', inputName);
+        formData.append('category', selectedCategory);
+        formData.append('zone', selectedZone);
+        formData.append('installationPath', inputInstallationPath);
+        formData.append('isEnabled', enableNow);
+        formData.append('game-image', selectedFile); 
         const response = await fetch(addGame, {
             headers: {
-                'Content-Type': 'application/json',
                 'token': localStorage.getItem('accessToken')
             },
             method: "POST",
-            body: JSON.stringify({
-                name: inputName,
-                category: selectedCategory,
-                zone: selectedZone,
-                installationPath: inputInstallationPath,
-                isEnabled: enableNow
-            })
+            body:formData
         });
         const result = await response.json();
         let errorMessage = 'Server Error: Wrong data.';
@@ -63,10 +78,10 @@ const AddGame = ({ onCancelClick }) => {
         setFetchMessage(result.message);
         setShowFetchSuccess(true);
         console.info(result.game)
-        dispatch(addNewGame({game:result.game}))
-        setTimeout(()=>{
+        dispatch(addNewGame({ game: result.game }))
+        setTimeout(() => {
             onCancelClick();
-        },2000)
+        }, 2000)
     }
 
     return (
@@ -89,8 +104,15 @@ const AddGame = ({ onCancelClick }) => {
                 </div>
                 <div className="ag-element ag-icon">
                     <p>Image</p>
-                    {/* <img src={undefined} alt='' className="ag-icon-img" /> */}
+                    <input type="file" id="file" className="ag-icon-input" onChange={onFileChange}/>
+                    <label htmlFor="file" className={`ag-icon-label ${imagePreviewUrl?'use-border-none':''}`}>
+                        {imagePreviewUrl
+                            ? <img className='uploaded-image' src={imagePreviewUrl} alt="preview" />
+                            : null
+                        }
+                    </label>
                 </div>
+
                 <div className="ag-element ag-zone">
                     <p>Zone</p>
                     <select onChange={handleZoneChange}>

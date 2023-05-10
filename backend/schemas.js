@@ -99,12 +99,22 @@ const utils = new mongoose.Schema({
     gamesVersion:{type:Number},
   }
 })
+const imageSchema = mongoose.Schema({
+  name:{
+    type:String,
+    required:true,
+  },
+  image: {
+    data: Buffer,
+    contentType: String,
+  },
+})
 const games = new mongoose.Schema({
   name: { type: String, required: true,unique:true },
   category: { type: String, enum: ["App", "Game"], required: true },
   lastModified: { type: Date, required: true },
   enabled: { type: Boolean },
-  image: { data: Buffer, contentType: String },
+  image: {type:mongoose.SchemaTypes.ObjectId,ref:'Image'},
   installationPath: { type: String, required: true },
   zone:{type:String,enum:[zones.Lobby,zones.Pro],required:true}
 });
@@ -122,4 +132,5 @@ module.exports = {
   Sessions:mongoose.model("Sessions",sessions),
   Workstation:mongoose.model("Workstation",workstation),
   Games:mongoose.model("Games",games),
+  Image:mongoose.model('Image',imageSchema),
 };

@@ -90,6 +90,7 @@
     height: 100%;
     align-items: center;
     display: flex;
+    text-align: center;
 }
 
 .gr-is-enabled {
@@ -120,8 +121,8 @@
 }
 
 .gr-icon {
-    width: 5%;
-    height: 100%;
+    width: 15%;
+    height: 100px;
     align-items: center;
     display: flex;
     justify-content: center;
