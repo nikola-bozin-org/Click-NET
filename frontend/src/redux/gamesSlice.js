@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit"
+import { allGames } from "../config";
 
 const initialState = {
     allGames:[]
@@ -9,10 +10,10 @@ const gamesSlice = createSlice({
     initialState,
     reducers:{
         addNewGame:(state,action)=>{
-            state.allGames=[...state.allGames,action.payload.game];
+            state.allGames=[action.payload.game,...state.allGames];
         },
         setGames:(state,action)=>{
-            state.allGames=action.payload.games;
+            state.allGames=action.payload.games.reverse();
         }
     }
 })

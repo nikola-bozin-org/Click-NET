@@ -34,8 +34,8 @@
 .all-games {
     display: flex;
     flex-direction: column;
-    overflow-y: auto;
-    height: 700px
+    overflow-y: scroll;
+    height: calc(100vh - 240px);
 }
 
 .game-row {
@@ -138,7 +138,9 @@
     opacity: 0.5;
 }
 .gr-icon-img{
-    height: 90px;
+    height: 140px;
+    max-width: 90%;
+    object-fit: cover;
 }
 .stats-img{
     width: 30px;

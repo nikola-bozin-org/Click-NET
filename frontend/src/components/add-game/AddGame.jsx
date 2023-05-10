@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import './AddGame.css';
-import { addGame, appCategories, zones } from '../../config'
+import { addGame, allGames, appCategories, zones } from '../../config'
 import check from '../../images/check.png'
 import HandleButton from '../handle-button/HandleButton';
 import FetchError from '../fetch-error/FetchError'
 import FetchSuccess from '../fetch-success/FetchSuccess'
 import { addNewGame } from '../../redux/gamesSlice';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 
 const AddGame = ({ onCancelClick }) => {
@@ -20,6 +20,7 @@ const AddGame = ({ onCancelClick }) => {
     const [fetchMessage, setFetchMessage] = useState('');
     const [selectedFile, setSelectedFile] = useState(null);
     const [imagePreviewUrl, setImagePreviewUrl] = useState('');
+    const allGamesAll = useSelector((state)=>state.games.allGames);
 
 
     const dispatch = useDispatch();
@@ -77,7 +78,6 @@ const AddGame = ({ onCancelClick }) => {
         }
         setFetchMessage(result.message);
         setShowFetchSuccess(true);
-        console.info(result.game)
         dispatch(addNewGame({ game: result.game }))
         setTimeout(() => {
             onCancelClick();
