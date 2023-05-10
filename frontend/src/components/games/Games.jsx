@@ -13,7 +13,6 @@ import AddGame from '../add-game/AddGame';
 const Games = () => {
   const allGames = useSelector((state)=>state.games.allGames);
   const [shouldShowAddGame,setShouldShowAddGame] = useState(false);
-
   const onClickAddGame = () => {
     setShouldShowAddGame(true);
   }
@@ -31,9 +30,9 @@ const Games = () => {
         <HandleButton onClick={onClickAddGame} text={'Add game'} className={'add-game-button'}/>
       </div>
       <div className="all-games">
-        <GameRow className='custom-game-row' name={'Name'} category={'Category'} lastModified={'Last Modified'} isJustIconText={true} isJustStatsText={true} isJustEnabledText={true} />
+        <GameRow className='custom-game-row' name={'Name'} zone={'Zone'} category={'Category'} lastModified={'Last Modified'} isJustIconText={true} isJustStatsText={true} isJustEnabledText={true} />
         {allGames.map((game,index)=>(
-          <GameRow key={index} name={game.name} icon={x} category={game.category} lastModified={`${extractDate(game.lastModified)} - ${extractHours(game.lastModified)}`}/>
+          <GameRow key={index} name={game.name} icon={x} zone={game.zone} category={game.category} lastModified={`${extractDate(game.lastModified)} - ${extractHours(game.lastModified)}`}/>
         ))}
       </div>
     </div>
@@ -41,13 +40,9 @@ const Games = () => {
   )
 }
 
-const GameRow = ({ name, icon, category, lastModified, isEnabled, isJustIconText = false, isJustStatsText = false, isJustEnabledText = false, useBorderRight = true, className = '' }) => {
+const GameRow = ({ name, icon, zone, category, lastModified, isEnabled, isJustIconText = false, isJustStatsText = false, isJustEnabledText = false, useBorderRight = true, className = '' }) => {
   return (
     <div className={`game-row ${className}`}>
-      {/* <div className={`gr-select ${useBorderRight ? 'use-border-right' : ''}`}>
-        <div className="gr-select-clickable">
-        </div>
-      </div> */}
       <div className={`gr-icon ${useBorderRight ? 'use-border-right' : ''}`}>
         {isJustIconText ? 'Icon' : <img alt=''   src={icon} className='gr-icon-img' />}
       </div>
@@ -55,7 +50,7 @@ const GameRow = ({ name, icon, category, lastModified, isEnabled, isJustIconText
         <p>{name}</p>
       </div>
       <div className={`gr-category ${useBorderRight ? 'use-border-right' : ''}`}>
-        {category}
+        {zone}
       </div>
       <div className={`gr-last-modified ${useBorderRight ? 'use-border-right' : ''}`}>
         {lastModified}
@@ -64,7 +59,6 @@ const GameRow = ({ name, icon, category, lastModified, isEnabled, isJustIconText
         {isJustStatsText?'Stats': <img alt='' src={statistics} className="stats-img invertColor"/>}
       </div>
       <div className={`gr-is-enabled `}>
-        {/* ovo crveno za disabled i zeleno za enabled */}
         {isJustEnabledText ? 'Enabled' : <button className="xbutton">Handle</button>}
       </div>
     </div>

@@ -4,7 +4,7 @@ const { Utils } = require("../schemas");
 const _getUtility = async () => {
   try {
     let utility = await Utils.findOne({});
-    if(!utility) await _createUtility(0,'ClickEsports','RSD')
+    if(!utility) await _createUtility(0,'ClickEsports','RSD','0.0.0')
     utility = await Utils.findOne({});
     return { utility: utility};
   } catch (e) {
@@ -29,7 +29,7 @@ const _setUtilityCenterName = async (newCenterName) => {
     }
   };
 
-const _createUtility = async (limit, centerName,currency) => {
+const _createUtility = async (limit, centerName,currency,gamesVersion) => {
   try {
     const utility = await Utils.findOne({});
     if(utility) return {error:'Utility aleady exists.'}
@@ -38,7 +38,8 @@ const _createUtility = async (limit, centerName,currency) => {
         workstationLimit: limit,
         centerName: centerName,
         numberOfWorkstations:0,
-        currency:currency
+        currency:currency,
+        gamesVersion:gamesVersion,
       },
     });
     return { message: "Utility created." };
