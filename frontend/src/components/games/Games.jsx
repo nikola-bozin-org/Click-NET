@@ -13,11 +13,20 @@ import AddGame from '../add-game/AddGame';
 const Games = () => {
   const allGames = useSelector((state)=>state.games.allGames);
   const [shouldShowAddGame,setShouldShowAddGame] = useState(false);
+  const [tableData,setTableData] = useState(allGames); 
+
   const onClickAddGame = () => {
     setShouldShowAddGame(true);
   }
   const addGameOnCancelClick = () =>{
     setShouldShowAddGame(false);
+  }
+
+  const onSearchInputChange = (e)=>{
+    const value = e.target.value;
+    if(value===''){setTableData(allGames);return;}
+    const filteredGames = allGames.filter((data)=>data.name.toLowerCase().includes(value))
+    setTableData(filteredGames);
   }
 
   return (
@@ -26,12 +35,12 @@ const Games = () => {
     <div className='games'>
       <InternalTopbar text={'Games'} useBorderBottom={true} />
       <div className="games-search-and-add">
-        <InternalSearch placeholderText={'Game...'} useBorderBottom={false} />
+        <InternalSearch onChange={onSearchInputChange} placeholderText={'Game...'} useBorderBottom={false} />
         <HandleButton onClick={onClickAddGame} text={'Add game'} className={'add-game-button'}/>
       </div>
       <div className="all-games">
-        <GameRow className='custom-game-row' name={'Name'} zone={'Zone'} category={'Category'} lastModified={'Last Modified'} isJustIconText={true} isJustStatsText={true} isJustEnabledText={true} />
-        {allGames.map((game,index)=>(
+        <GameRow className='custom-game-row' name={'Name'} zone={'Zone'} category={'Category'} lastModified={'Last Modified'} isJustIconText={true} isJustStatsText={true} isJustEnabledText={true}/>
+        {tableData.map((game,index)=>(
           <GameRow key={index} name={game.name} icon={x} zone={game.zone} category={game.category} lastModified={`${extractDate(game.lastModified)} - ${extractHours(game.lastModified)}`}/>
         ))}
       </div>
@@ -40,10 +49,10 @@ const Games = () => {
   )
 }
 
-const GameRow = ({ name, icon, zone, category, lastModified, isEnabled, isJustIconText = false, isJustStatsText = false, isJustEnabledText = false, useBorderRight = true, className = '' }) => {
+const GameRow = ({ name, icon, zone, category, lastModified, isEnabled, isJustIconText = false, isJustStatsText = false, isJustEnabledText = false, useBorderRight = true, className = '', useCustomHeight }) => {
   return (
     <div className={`game-row ${className}`}>
-      <div className={`gr-icon ${useBorderRight ? 'use-border-right' : ''}`}>
+      <div style={{height:`${!isJustIconText?'100px':'100%'}`}} className={`gr-icon  ${useBorderRight ? 'use-border-right' : ''}`}>
         {isJustIconText ? 'Icon' : <img alt=''   src={icon} className='gr-icon-img' />}
       </div>
       <div className={`gr-name ${useBorderRight ? 'use-border-right' : ''}`}>

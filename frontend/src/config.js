@@ -112,7 +112,7 @@ export const appCategories = {
 }
 
 
-export const pcMap_N = 8;
-export const pcMap_M = 11;
+export const pcMap_N = 10;
+export const pcMap_M = 15;
 
 export const maxRefundTimeLimitHours = 48;

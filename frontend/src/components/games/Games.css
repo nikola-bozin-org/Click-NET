@@ -122,7 +122,6 @@
 
 .gr-icon {
     width: 15%;
-    height: 100px;
     align-items: center;
     display: flex;
     justify-content: center;
@@ -139,8 +138,7 @@
     opacity: 0.5;
 }
 .gr-icon-img{
-    width: 60px;
-    height: 60px;
+    height: 90px;
 }
 .stats-img{
     width: 30px;

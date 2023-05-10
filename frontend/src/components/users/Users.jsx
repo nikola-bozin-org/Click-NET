@@ -71,7 +71,7 @@ const Users = ({users,sessions}) => {
           setTableData(filteredUsers);
           return;
         }
-        const finalUsers = filteredUsers.filter((user) => user.username.includes(value));
+        const finalUsers = filteredUsers.filter((user) => user.username.toLowerCase().includes(value));
         setTableData(finalUsers);
         return;
       case 1:
@@ -89,7 +89,7 @@ const Users = ({users,sessions}) => {
           setTableData(formattedData);
           return;
         }
-        const finalFilter = formattedData.filter((data) => data.username.includes(value));
+        const finalFilter = formattedData.filter((data) => data.username.toLowerCase().includes(value));
         setTableData(finalFilter);
         return;
       default:
