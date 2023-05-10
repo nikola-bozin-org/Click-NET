@@ -1,5 +1,6 @@
 const statusCode = require('../statusCodes')
 const service = require('../services/userService')
+const jwt = require('../jwt')
 
 
 const getUserBalance = async (req, res) => {
@@ -53,6 +54,17 @@ const getUserPayments = async (req, res) => {
     if (result.error) return res.status(statusCode.INTERNAL_SERVER_ERROR).json({ error:`Server error: ${result.error}` });
     return res.status(statusCode.OK).json({ payments: result.payments });
 };
+const addToFavorites = async(req,res)=>{
+    const token = req.headers.token;
+    if(!token) return res.status(statusCode.UNAUTHORIZED).json({error:'Unauthorized'});
+    const verifyResult = jwt.verify(req.headers.token);
+    if(!verifyResult) return res.status(statusCode.ERROR).json({error:'Invalid Token.'});
+    const username = verifyResult.username;
+    const { gameName } = req.body;
+    const result = await service._addToFavorites(username,gameName);
+    if (result.error) return res.status(statusCode.INTERNAL_SERVER_ERROR).json({ error:`Server error: ${result.error}` });
+    return res.status(statusCode.OK).json({ message: result.message });
+}
 
 module.exports = {
     getUserBalance,
@@ -63,4 +75,5 @@ module.exports = {
     getActions,
     getTickets,
     getUserPayments,
+    addToFavorites,
 }

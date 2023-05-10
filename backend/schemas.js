@@ -72,7 +72,7 @@ const userSchema = new mongoose.Schema({
     activeTicketIndex:{type:Number},
     payments:[{type:mongoose.SchemaTypes.ObjectId,ref:'Payments'}],
     sessions:[{type:mongoose.SchemaTypes.ObjectId,ref:'Sessions'}],
-    favoriteGames:[{type:Number}]
+    favoriteGames:[{type:String}]
   },{ timestamp: true }
 );
 const ticketsSchema = new mongoose.Schema({

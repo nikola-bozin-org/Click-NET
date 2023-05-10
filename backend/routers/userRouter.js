@@ -11,5 +11,6 @@ router.get('/role/:id',controller.getUserRole)
 router.get('/basicInfo/:id',controller.getUserBasicInfo)
 router.get('/actions/:id',controller.getActions)
 router.get('/tickets/:id',controller.getTickets)
+router.post('/addToFavorites',controller.addToFavorites);
 
 module.exports = router;

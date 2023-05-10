@@ -50,7 +50,10 @@ const _createUser = async(staffName,username,password,firstName,lastName,email,p
                 },
                 actions:[actionObject],
                 activeTickets:[],
-                payments:[]
+                activeTicketIndex:-1,
+                payments:[],
+                sessions:[],
+                favoriteGames:[],
             });
             const user = await User.findOne({username},{password: 0, __v: 0})
             return {userCreated:true,user:user}

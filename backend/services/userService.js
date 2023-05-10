@@ -80,6 +80,18 @@ const _getUserPayments = async (username) => {
         return { error: e.message };
     }
 }
+const _addToFavorites = async(username, gameName)=>{
+    try{
+        const user = await User.findOne({username});
+        if (user === null) return { error: `User ${username} not found.`};
+        user.favoriteGames.push(gameName);
+        user.save();
+        return {message:`${gameName} saved to favorites.`}
+    }
+    catch(e){
+        return { error: e.message };
+    }
+}
 
 
 
@@ -91,5 +103,6 @@ module.exports={
     _getUserBasicInfo,
     _getUserActions,
     _getUserTickets,
-    _getUserPayments
+    _getUserPayments,
+    _addToFavorites,
 }
