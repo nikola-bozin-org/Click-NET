@@ -17,6 +17,24 @@ const extractUserFromToken = async (token) => {
       return false;
     }
 };
+const setUsetBalance = async(token,balance)=>{
+  try{
+    const data = {
+      balance:balance
+    }
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        'token': token,
+        'secret': process.env.SERVER_SECRET,
+      },
+    }
+    const response = await axios.post(`${process.env.API_BASE_URL_LOCAL}/user/setUserBalance`,data,config)
+    console.info(response.data)
+  }catch(e){
+    console.info(e.response.data.error);
+  }
+}
 const logoutUser = async (token) => {
     try {
       const response = await axios.post(`${process.env.API_BASE_URL_LOCAL}/session/logout`,{}, {
@@ -71,5 +89,6 @@ module.exports = {
     sendMessageToClient,
     grabAccessToken,
     informStaffAboutNewConnection,
-    storeConnection
+    storeConnection,
+    setUsetBalance,
 }

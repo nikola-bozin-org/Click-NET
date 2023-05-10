@@ -92,6 +92,17 @@ const _addToFavorites = async(username, gameName)=>{
         return { error: e.message };
     }
 }
+const _setUserBalance = async(username,balance)=>{
+    try{
+        const user = await User.findOne({username});
+        if (user === null) return { error: `User ${username} not found.`};
+        user.balance=balance;
+        user.save();
+        return {balanceUpdated:true}
+    }catch(e){
+        return {balanceUpdated:false,message:e.message}
+    }
+}
 
 
 
@@ -105,4 +116,5 @@ module.exports={
     _getUserTickets,
     _getUserPayments,
     _addToFavorites,
+    _setUserBalance,
 }

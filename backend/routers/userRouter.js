@@ -12,5 +12,6 @@ router.get('/basicInfo/:id',controller.getUserBasicInfo)
 router.get('/actions/:id',controller.getActions)
 router.get('/tickets/:id',controller.getTickets)
 router.post('/addToFavorites',controller.addToFavorites);
+router.post('/setUserBalance',controller.setUserBalance)
 
 module.exports = router;

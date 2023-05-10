@@ -65,6 +65,19 @@ const addToFavorites = async(req,res)=>{
     if (result.error) return res.status(statusCode.INTERNAL_SERVER_ERROR).json({ error:`Server error: ${result.error}` });
     return res.status(statusCode.OK).json({ message: result.message });
 }
+const setUserBalance = async(req,res)=>{
+    const token = req.headers.token;
+    if(!token) return res.status(statusCode.UNAUTHORIZED).json({error:'Unauthorized!'});
+    const verifyResult = jwt.verify(req.headers.token);
+    if(!verifyResult) return res.status(statusCode.ERROR).json({error:'Invalid Token.'});
+    const wsServerSecret = req.headers.secret;
+    if(wsServerSecret!==process.env.VERIFY_SECRET_PASSWORD) return  res.status(statusCode.ERROR).json({error:'Unauthorized access!'});
+    const username = verifyResult.username;
+    const {balance}=req.body;
+    const result = await service._setUserBalance(username,balance);
+    if (result.error) return res.status(statusCode.INTERNAL_SERVER_ERROR).json({ balanceUpdated:result.balanceUpdated ,error:`Server error: ${result.error}` });
+    return res.status(statusCode.OK).json({ balanceUpdated:result.balanceUpdated });
+}
 
 module.exports = {
     getUserBalance,
@@ -76,4 +89,5 @@ module.exports = {
     getTickets,
     getUserPayments,
     addToFavorites,
+    setUserBalance,
 }

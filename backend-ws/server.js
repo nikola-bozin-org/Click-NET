@@ -1,8 +1,9 @@
 const WebSocket = require("ws");
 require('dotenv').config();
 const {ratePerHour,ratePerMinute,ratePerSecond,customRate,clients,staffClients} = require('./server-storage')
-const { extractUserFromToken, logoutUser, sendMessageToClient, grabAccessToken, informStaffAboutNewConnection, storeConnection } = require("./utils");
+const { extractUserFromToken, logoutUser, sendMessageToClient, grabAccessToken, informStaffAboutNewConnection, storeConnection, setUsetBalance } = require("./utils");
 const { startHttpServer } = require("./server-helper");
+const BalanceManager = require('./balanceManager')
 
 const startServer = async () => {
   const server = new WebSocket.Server({ port: process.env.PORT }, () => {
@@ -16,6 +17,7 @@ const startServer = async () => {
     const username = extractedUser.username;
     const clientRole = extractedUser.role;
     let clientBalance = extractedUser.balance;
+    const balanceManager = new BalanceManager(clientBalance);
     storeConnection(clientRole,ws,extractedUser);
     ws.send(JSON.stringify({event:"entryAllowed"}))
     informStaffAboutNewConnection();
@@ -36,8 +38,10 @@ const startServer = async () => {
 
 
     const updateClient = () => {
-      if(clientRole==='Admin' || clientRole==='Employee'){return;}
-      if ( extractedUser.discount === 100) {return;}
+      // console.info(balanceManager.balance);
+      console.info("A " + clientBalance);
+      if(clientRole==='Admin' || clientRole==='Employee'){return}
+      if ( extractedUser.discount === 100) {return}
       clientBalance -= ratePerSecond;
       // Update the database
 
@@ -52,11 +56,13 @@ const startServer = async () => {
       ws.close();
     };
 
-    setInterval(updateClient, 1000);
+    const interval = setInterval(updateClient, 10);
     ws.on('close', async () => {
       clients.delete(username);
       staffClients.delete(username);
       logoutUser(token)
+      setUsetBalance(token,clientBalance)
+      clearInterval(interval);
     })
   });
 
