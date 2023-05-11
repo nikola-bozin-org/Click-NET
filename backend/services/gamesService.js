@@ -15,10 +15,10 @@ const _addGame = async(name,category,enabled,installationPath,zone,image)=>{
             }
         })
         await newImage.save();
-        const newGame = await Games.create({name:name,category:category,lastModified:date,enabled:enabled,installationPath:installationPath,zone:zone,image:newImage._id})
+        await Games.create({name:name,category:category,lastModified:date,enabled:enabled,installationPath:installationPath,zone:zone,image:newImage._id})
         await utilsService._incrementGamesVersion();
         fs.unlinkSync(fullPath);
-        return {message:"New game added.",game:{name:name,category:category,lastModified:date,enabled:enabled,installationPath:installationPath,zone:zone,image: newImage}}
+        return {message:"New game added.",game:{name:name,category:category,lastModified:date,enabled:enabled,installationPath:installationPath,zone:zone,image: newImage._id}}
     }catch(e){
         return {error:e.message}
     }
@@ -28,7 +28,7 @@ const _allGames = async()=>{
     try{
         const allGames = await Games.find({},{__v:0}).lean();
         return {games:allGames}
-    }catch(e){
+}catch(e){
         return {error:e.message}
     }
 }

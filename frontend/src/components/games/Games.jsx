@@ -26,7 +26,7 @@ const useFetchImage = (imageId) => {
           }
         });
         if (!response.ok) {
-          throw new Error(response.statusText);
+          throw new Error(response.error);
         }
         const blob = await response.blob();
         const urlCreator = window.URL || window.webkitURL;
