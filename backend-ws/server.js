@@ -39,15 +39,12 @@ const startServer = async () => {
 
     const updateClient = () => {
       // console.info(balanceManager.balance);
-      console.info("A " + clientBalance);
       if(clientRole==='Admin' || clientRole==='Employee'){return}
       if ( extractedUser.discount === 100) {return}
       clientBalance -= ratePerSecond;
-      // Update the database
 
       //ovo bolje...odradi.. ne mora stalno da se pita za tiket
       if (clientBalance > 0 || extractedUser.activeTickets.length > 0) {
-        // Update the database
         ws.send(JSON.stringify({ event: "balance", data: { balance: clientBalance } }));
         return;
       }
@@ -56,7 +53,7 @@ const startServer = async () => {
       ws.close();
     };
 
-    const interval = setInterval(updateClient, 10);
+    const interval = setInterval(updateClient, 1000);
     ws.on('close', async () => {
       clients.delete(username);
       staffClients.delete(username);

@@ -38,6 +38,7 @@ export const getWorkstations = `${API_BASE_URL}/workstation/`
 export const allGames = `${API_BASE_URL}/games/`
 export const addGame = `${API_BASE_URL}/games/`
 
+//Clients
 export const logedInClients = `${API_BASE_URL}/clients`
 export const logedInStaffClients = `${API_BASE_URL}/staffClients`
 

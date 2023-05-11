@@ -100,6 +100,12 @@ const Games = () => {
 
 const GameRow = ({ name, imageId, zone, category, lastModified, isEnabled, isJustIconText = false, isJustStatsText = false, isJustEnabledText = false, useBorderRight = true, className = '', useCustomHeight }) => {
   const { image, loading } = useCachedImage(imageId);
+  const [enabledText,setEnabledText] = useState('Yes');
+  const onClickEnabled = (e)=>{
+    e.stopPropagation();
+    if(enabledText==='Yes') setEnabledText('No')
+    else setEnabledText('Yes')
+  }
 
   if (loading) return null;
 
@@ -120,8 +126,8 @@ const GameRow = ({ name, imageId, zone, category, lastModified, isEnabled, isJus
       <div className={`gr-open-stats ${useBorderRight ? 'use-border-right' : ''}`}>
         {isJustStatsText?'Stats': <img alt='' src={statistics} className="stats-img invertColor"/>}
       </div>
-      <div className={`gr-is-enabled `}>
-        {isJustEnabledText ? 'Enabled' : <button className="xbutton">Handle</button>}
+      <div onClick={onClickEnabled} className={`gr-is-enabled `}>
+        {isJustEnabledText ? 'Enabled' :<p>{enabledText}</p>}
       </div>
     </div>
   )

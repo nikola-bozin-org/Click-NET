@@ -34,10 +34,10 @@ const addGame = async (req, res) => {
     })
 }
 const allGames = async (req, res) => {
-    const token = req.headers.token;
-    if (!token) return res.status(statusCode.UNAUTHORIZED).json({ error: "Unathorized." });
-    const verifyResult = jwt.verify(token);
-    if (!verifyResult) return res.status(statusCode.ERROR).json({ error: "Invalid token" });
+    // const token = req.headers.token;
+    // if (!token) return res.status(statusCode.UNAUTHORIZED).json({ error: "Unathorized." });
+    // const verifyResult = jwt.verify(token);
+    // if (!verifyResult) return res.status(statusCode.ERROR).json({ error: "Invalid token" });
     const {limit,skip} = req.query;
     const result = await service._allGames(limit,skip);
     if (result.error) return res.status(statusCode.INTERNAL_SERVER_ERROR).json({ error: `Server error: ${result.error}` })
@@ -45,7 +45,7 @@ const allGames = async (req, res) => {
 }
 const gameImage = async(req,res)=>{
     const token = req.headers.token;
-    if (!token) return res.status(statusCode.UNAUTHORIZED).json({ error: "Unathorized." });
+    if (!token){ console.info('nema token'); return res.status(statusCode.UNAUTHORIZED).json({ error: "Unathorized." })};
     const verifyResult = jwt.verify(token);
     if (!verifyResult) return res.status(statusCode.ERROR).json({ error: "Invalid token" });
     const id = req.params.id;
