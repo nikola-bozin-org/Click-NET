@@ -10,10 +10,10 @@ const gamesSlice = createSlice({
     initialState,
     reducers:{
         addNewGame:(state,action)=>{
-            state.allGames=[action.payload.game,...state.allGames];
+            state.allGames=[...state.allGames,action.payload.game];
         },
         setGames:(state,action)=>{
-            state.allGames=action.payload.games.reverse();
+            state.allGames=action.payload.games;
         }
     }
 })

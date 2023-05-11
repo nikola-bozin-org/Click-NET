@@ -1,3 +1,4 @@
+const { zones } = require('../helpers/enums');
 const {Games, Image} = require('../schemas')
 const utilsService = require('./utilsService')
 const fs = require('fs');
@@ -15,10 +16,12 @@ const _addGame = async(name,category,enabled,installationPath,zone,image)=>{
             }
         })
         await newImage.save();
-        await Games.create({name:name,category:category,lastModified:date,enabled:enabled,installationPath:installationPath,zone:zone,image:newImage._id})
+        const finalZones = [];
+        if(zone==='Both') finalZones.push(zones.Lobby,zones.Pro);
+        const gameCreated = await Games.create({name:name,category:category,lastModified:date,enabled:enabled,installationPath:installationPath,zone:finalZones.length===0?zone:finalZones,image:newImage._id})
         await utilsService._incrementGamesVersion();
         fs.unlinkSync(fullPath);
-        return {message:"New game added.",game:{name:name,category:category,lastModified:date,enabled:enabled,installationPath:installationPath,zone:zone,image: newImage._id}}
+        return {message:"New game added.",game:{name:name,category:category,lastModified:date,enabled:enabled,installationPath:installationPath,zone:zone,image: newImage._id,_id:gameCreated._id}}
     }catch(e){
         return {error:e.message}
     }

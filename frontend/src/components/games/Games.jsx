@@ -89,8 +89,7 @@ const Games = () => {
       </div>
       <div className="all-games">
         <GameRow className='custom-game-row' name={'Name'} zone={'Zone'} category={'Category'} lastModified={'Last Modified'} isJustIconText={true} isJustStatsText={true} isJustEnabledText={true}/>
-        {tableData.map((game,index)=>(
-          // <GameRow key={index} name={game.name} icon={readImageURL(game.image)} zone={game.zone} category={game.category} lastModified={`${extractDate(game.lastModified)} - ${extractHours(game.lastModified)}`}/>
+        {tableData.map((game)=>(
           <GameRow key={game._id} name={game.name} imageId={game.image} zone={game.zone} category={game.category} lastModified={`${extractDate(game.lastModified)} - ${extractHours(game.lastModified)}`}/>
           ))}
       </div>

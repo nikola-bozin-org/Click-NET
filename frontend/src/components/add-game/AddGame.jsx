@@ -121,6 +121,7 @@ const AddGame = ({ onCancelClick }) => {
                                 {value}
                             </option>
                         ))}
+                        <option>Both</option>
                     </select>
                 </div>
                 <div className="ag-element ag-installation-path">

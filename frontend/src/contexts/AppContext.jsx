@@ -13,7 +13,7 @@ export const AppContextProvider = ({children})=>{
     const [users, setUsers] = useState([]);
     const [sessions,setSessions] = useState([]);
     const [currentCashRegisterSession,setCurrentCashRegisterSession] = useState(null);
-    const [fetchLimit,setFetchLimit] = useState(2);
+    const [fetchLimit,setFetchLimit] = useState(17);
     const [fetchPage,setFetchPage] = useState(0);
 
     const updateUsers = (user) =>{
