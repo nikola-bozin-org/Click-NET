@@ -10,8 +10,7 @@ import pay from './images/pay.png'
 import gameController from './images/game-control.png'
 import pcMap from './images/site-map.png'
 import createUser from './images/user-avatar.png'
-import settings from './images/settings.png'
-import importUser from './images/importUser.png'
+import pyramid from './images/pyramid.png'
 import useIsMobile from './hooks/useIsMobile';
 import Skeleton from './skeletons/Skeleton';
 import {AppContext} from './contexts/AppContext'
@@ -20,7 +19,7 @@ import { DndControllerContextProvider } from './contexts/DndControllerContext';
 import PoweredBy from './components/powered-by/PoweredBy';
 import ImportUser from './components/import-user/ImportUser'
 import { Navigate } from 'react-router-dom';
-import {allGames, allSessions, allUsers, fullUtility, getCurrentCashRegisterSession, getWorkstations, workstationLimit} from './config'
+import {allGames, allLevels, allSessions, allUsers, fullUtility, getCurrentCashRegisterSession, getWorkstations, workstationLimit} from './config'
 import CloseCashRegister from './components/close-cash-register/CloseCashRegister';
 import OpenCashRegister from './components/open-cash-register/OpenCashRegister';
 import Center from './components/center/Center';
@@ -31,8 +30,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchConnectedClients } from './utils';
 import { addWorkstationRole, setNumberOfOnlineWorkstations } from './redux/workstationsSlice';
 import { RemoteControllerContextProvider } from './contexts/RemoteControllerContext';
+import Levels from './components/levels/Levels';
 
-const images = [pcMap, pay, dashboard, createUser,gameController, ];
+// const images = [pcMap, pay, dashboard, createUser,gameController,pyramid ];
+const images = [pcMap, pay, dashboard, createUser,gameController ];
 
 const App = () => {
   const centerName = useSelector((state)=>state.other.centerName);
@@ -62,7 +63,7 @@ const App = () => {
       centerContext.setWorkstations(result.workstations);
     }
     const fetchAllGames = async () => {
-      const response = await fetch(allGames, {
+      const response = await fetch(`${allGames}?limit=${appContext.fetchLimit}&skip=${appContext.fetchPage}`, {
         headers: {
           'Content-Type': 'application/json',
           'token':localStorage.getItem('accessToken')
@@ -71,6 +72,17 @@ const App = () => {
       const result = await response.json();
       if(result.error) {console.error(result.error); return}
       dispatch(setGames({games:result.games}));
+    }
+    const fetchLevels = async ()=>{
+      const response = await fetch(allLevels,{
+        headers: {
+          'Content-Type': 'application/json',
+          'token':localStorage.getItem('accessToken')
+        }
+      });
+      const result = await response.json();
+      if(result.error) {console.error(result.error); return}
+      console.info(result);
     }
     const fetchUtility = async () => {
       const response = await fetch(fullUtility, {
@@ -85,7 +97,7 @@ const App = () => {
       centerContext.setCurrency(result.utility?.utility.currency);
   };
     const fetchAllUsers = async () => {
-        const response = await fetch(`${allUsers}?limit=${appContext.allUsersLimit}&skip=${appContext.allUsersSkip}`, {
+        const response = await fetch(`${allUsers}?limit=${appContext.fetchLimit}&skip=${appContext.fetchPage}`, {
           headers: {
             'Content-Type': 'application/json',
             'token':localStorage.getItem('accessToken')
@@ -127,7 +139,8 @@ const App = () => {
         fetchUtility(),
         fetchWorkstations(),
         fetchAllGames(),
-        fetchAllClients()
+        fetchAllClients(),
+        fetchLevels(),
         ]);
       appContext.setIsLoading(false);
     };
@@ -163,6 +176,7 @@ const App = () => {
             case 2: return <Users users={appContext.users} sessions={appContext.sessions}/>
             case 3: //Create User
             case 4: return <Games/>;
+            case 5: return <Levels/>
             default:
               return ;
           }

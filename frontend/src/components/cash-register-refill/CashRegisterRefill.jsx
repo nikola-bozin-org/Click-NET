@@ -7,12 +7,12 @@ import coins from '../../images/dollar.png'
 import {getCurrentCashRegisterSession, getCurrentSessionPayments, payment} from '../../config'
 import FetchError from '../fetch-error/FetchError';
 import FetchSuccess from '../fetch-success/FetchSuccess';
-
 import { AppContext } from '../../contexts/AppContext';
 import HandleButton from '../handle-button/HandleButton'
 import { CashRegisterContext } from '../../contexts/CashRegisterContext';
 
 const CashRegisterRefill = () => {
+  const appContext = useContext(AppContext)
   const inputAmountRef = useRef(null);
   const inputUsernameRef = useRef(null);
   const [shouldDisableRefill, setShouldDisableRefill] = useState(false);
@@ -25,7 +25,7 @@ const CashRegisterRefill = () => {
 
   useEffect(() => {
     const currentCashRegisterPayments = async () => {
-      const response = await fetch(getCurrentSessionPayments, {
+      const response = await fetch(`${getCurrentSessionPayments}?limit=${appContext.fetchLimit}&skip=${appContext.fetchPage}`, {
         headers: {
           'Content-Type': 'application/json',
           'token': localStorage.getItem('accessToken')

@@ -13,8 +13,8 @@ export const AppContextProvider = ({children})=>{
     const [users, setUsers] = useState([]);
     const [sessions,setSessions] = useState([]);
     const [currentCashRegisterSession,setCurrentCashRegisterSession] = useState(null);
-    const [allUsersLimit,setAllUsersLimit] = useState(10);
-    const [allUsersSkip,setAllUsersSkip] = useState(0);
+    const [fetchLimit,setFetchLimit] = useState(2);
+    const [fetchPage,setFetchPage] = useState(0);
 
     const updateUsers = (user) =>{
         setUsers([user,...users])
@@ -24,10 +24,10 @@ export const AppContextProvider = ({children})=>{
     }
 
     const value = {
-        allUsersLimit,
-        allUsersSkip,
-        setAllUsersLimit,
-        setAllUsersSkip,
+        fetchLimit,
+        setFetchLimit,
+        fetchPage,
+        setFetchPage,
         currentSidebarSelection,
         setCurrentSidebarSelection,
         isAuthorized,

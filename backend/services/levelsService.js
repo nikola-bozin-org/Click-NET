@@ -33,7 +33,7 @@ const _deleteLevel = async(level)=>{
         return {error:e.message}
     }
 }
-const _getLevels = async()=>{
+const _getLevels = async(amountToReturn,page)=>{
     try{
         const limit = parseInt(amountToReturn, 10);
         const skip = (parseInt(page, 10)) * limit;

@@ -41,6 +41,9 @@ export const addGame = `${API_BASE_URL}/games/`
 export const logedInClients = `${API_BASE_URL}/clients`
 export const logedInStaffClients = `${API_BASE_URL}/staffClients`
 
+//Levels
+export const allLevels = `${API_BASE_URL}/levels/`
+
 //-------------------------------------------------------------------------------------------------------------------
 
 
@@ -112,7 +115,7 @@ export const appCategories = {
 }
 
 
-export const pcMap_N = 10;
-export const pcMap_M = 15;
+export const pcMap_N = 9;
+export const pcMap_M = 14;
 
 export const maxRefundTimeLimitHours = 48;
