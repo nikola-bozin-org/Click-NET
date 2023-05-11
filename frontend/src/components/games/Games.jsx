@@ -8,13 +8,22 @@ import { useSelector } from 'react-redux'
 import {extractDate, extractHours} from '../../utils'
 import AddGame from '../add-game/AddGame';
 
+const imageCache = {};
 
-const useFetchImage = (imageId) => {
+const useCachedImage = (imageId) => {
   const [loading, setLoading] = useState(true);
   const [image, setImage] = useState(null);
 
   useEffect(() => {
+    setImage(null);  // Reset the image when imageId changes
+    setLoading(true);
+
     const fetchImage = async () => {
+      if (imageCache[imageId]) {
+        setImage(imageCache[imageId]);
+        setLoading(false);
+        return;
+      }
       if (!imageId) {
         setLoading(false);
         return;
@@ -31,6 +40,7 @@ const useFetchImage = (imageId) => {
         const blob = await response.blob();
         const urlCreator = window.URL || window.webkitURL;
         const imageUrl = urlCreator.createObjectURL(blob);
+        imageCache[imageId] = imageUrl;
         setImage(imageUrl);
       } catch (error) {
         console.error('Error:', error);
@@ -43,6 +53,8 @@ const useFetchImage = (imageId) => {
 
   return { loading, image };
 };
+
+
 
 
 const Games = () => {
@@ -79,7 +91,7 @@ const Games = () => {
         <GameRow className='custom-game-row' name={'Name'} zone={'Zone'} category={'Category'} lastModified={'Last Modified'} isJustIconText={true} isJustStatsText={true} isJustEnabledText={true}/>
         {tableData.map((game,index)=>(
           // <GameRow key={index} name={game.name} icon={readImageURL(game.image)} zone={game.zone} category={game.category} lastModified={`${extractDate(game.lastModified)} - ${extractHours(game.lastModified)}`}/>
-          <GameRow key={index} name={game.name} imageId={game.image} zone={game.zone} category={game.category} lastModified={`${extractDate(game.lastModified)} - ${extractHours(game.lastModified)}`}/>
+          <GameRow key={game._id} name={game.name} imageId={game.image} zone={game.zone} category={game.category} lastModified={`${extractDate(game.lastModified)} - ${extractHours(game.lastModified)}`}/>
           ))}
       </div>
     </div>
@@ -88,9 +100,9 @@ const Games = () => {
 }
 
 const GameRow = ({ name, imageId, zone, category, lastModified, isEnabled, isJustIconText = false, isJustStatsText = false, isJustEnabledText = false, useBorderRight = true, className = '', useCustomHeight }) => {
-  const { image, loading } = useFetchImage(imageId);
+  const { image, loading } = useCachedImage(imageId);
 
-  if (loading) return <div>Loading image...</div>;
+  if (loading) return null;
 
   return (
     <div className={`game-row ${className}`}>
