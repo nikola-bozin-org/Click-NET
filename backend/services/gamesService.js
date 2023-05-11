@@ -24,9 +24,11 @@ const _addGame = async(name,category,enabled,installationPath,zone,image)=>{
     }
 }
  
-const _allGames = async()=>{
+const _allGames = async(amountToReturn,page)=>{
     try{
-        const allGames = await Games.find({},{__v:0}).lean();
+        const limit = parseInt(amountToReturn, 10);
+        const skip = (parseInt(page, 10)) * limit;
+        const allGames = await Games.find({},{__v:0}).lean().limit(limit).skip(skip);
         return {games:allGames}
 }catch(e){
         return {error:e.message}

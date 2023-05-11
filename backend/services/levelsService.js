@@ -35,7 +35,9 @@ const _deleteLevel = async(level)=>{
 }
 const _getLevels = async()=>{
     try{
-        const levels = await Levels.find({});
+        const limit = parseInt(amountToReturn, 10);
+        const skip = (parseInt(page, 10)) * limit;
+        const levels = await Levels.find({}).limit(limit).skip(skip);
         return {levels:levels};
     }catch(e){
         return {error:e.message}

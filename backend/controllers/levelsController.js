@@ -39,7 +39,8 @@ const deleteLevel = async(req,res)=>{
 
 }
 const getLevels = async(req,res)=>{
-    const result = await service._getLevels();
+    const {limit,skip} = req.query;
+    const result = await service._getLevels(limit,skip);
     if(result.error) return res.status(statusCode.INTERNAL_SERVER_ERROR).json({error:`Server error: ${result.error}`})
     return res.status(statusCode.OK).json({levels:result.levels});
 }

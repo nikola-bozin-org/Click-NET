@@ -19,7 +19,6 @@ const fileFilter = (req, file, cb) => {
 };
 const upload = multer({ storage: storage,fileFilter:fileFilter }).single('game-image');
 
-
 const addGame = async (req, res) => {
     const token = req.headers.token;
     if (!token) return res.status(statusCode.UNAUTHORIZED).json({ error: "Unauthorized." })
@@ -39,7 +38,8 @@ const allGames = async (req, res) => {
     if (!token) return res.status(statusCode.UNAUTHORIZED).json({ error: "Unathorized." });
     const verifyResult = jwt.verify(token);
     if (!verifyResult) return res.status(statusCode.ERROR).json({ error: "Invalid token" });
-    const result = await service._allGames();
+    const {limit,skip} = req.query;
+    const result = await service._allGames(limit,skip);
     if (result.error) return res.status(statusCode.INTERNAL_SERVER_ERROR).json({ error: `Server error: ${result.error}` })
     return res.status(statusCode.OK).json({ games: result.games });
 }

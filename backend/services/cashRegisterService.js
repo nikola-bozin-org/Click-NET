@@ -84,9 +84,11 @@ const _getCurrentSession = async()=>{
     return {error:e.message}
   }
 }
-const _getCurrentSessionPayments = async()=>{
+const _getCurrentSessionPayments = async(amountToReturn,page)=>{
   try{
-    const session = await CurrentCashRegisterSession.findOne({}).populate({path:'payments',select:'-__v -_id'});
+    const limit = parseInt(amountToReturn, 10);
+    const skip = (parseInt(page, 10)) * limit;
+    const session = await CurrentCashRegisterSession.findOne({}).populate({path:'payments',select:'-__v -_id'}).limit(limit).skip(skip);
     return {currentSessionPayments:session.payments}
   }catch(e){
     return {error:e.message}

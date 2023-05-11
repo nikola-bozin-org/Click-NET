@@ -27,7 +27,8 @@ const isUserLogedIn = async (username) => {
     );
     console.info(response.data)
   } catch (e) {
-    console.info(e.response.data)
+    if(e.response) console.info(e.response.data)
+    console.info(e)
   }
 };
 

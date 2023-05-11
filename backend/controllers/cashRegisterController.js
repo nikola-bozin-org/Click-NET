@@ -40,7 +40,8 @@ const getCurrentSessionPayments = async(req,res)=>{
   const verifyResult = jwt.verify(token);
   if(!verifyResult) return res.status(statusCode.ERROR).json({error:"Invalid token."});
   if(verifyResult.role!==userRoles.Admin) return res.status(statusCode.ERROR).json({error:"You are not Admin!"});
-  const result = await service._getCurrentSessionPayments();
+  const {limit,skip}=req.query;
+  const result = await service._getCurrentSessionPayments(limit,skip);
   if(result.error) return res.status(statusCode.INTERNAL_SERVER_ERROR).json({error:`Server error: ${result.error}`})
   return res.status(statusCode.OK).json({currentSessionPayments:result.currentSessionPayments});
 }

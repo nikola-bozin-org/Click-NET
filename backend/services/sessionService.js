@@ -214,14 +214,6 @@ const _logoutAllUsers = async (staffName) => {
     return { error: e.message };
   }
 };
-const _getLoggedInUsers = async () => {
-  try {
-    const users = await LogedInUsers.find({});
-    return { logedInUsers: users };
-  } catch (e) {
-    return { error: e.message };
-  }
-};
 const _getAllSessions = async () => {
   try {
     const sessions = await Sessions.find({});
@@ -236,7 +228,6 @@ module.exports = {
   _loginUser,
   _logoutUser,
   _logoutAllUsers,
-  _getLoggedInUsers,
   _getAllSessions,
   _logoutUserByStaff,
 };
