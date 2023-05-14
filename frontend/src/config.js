@@ -45,6 +45,9 @@ export const logedInStaffClients = `${API_BASE_URL}/staffClients`
 //Levels
 export const allLevels = `${API_BASE_URL}/levels/`
 
+//Reports
+export const zReport = `${API_BASE_URL}/reportsGenerator/generateZReport`
+
 //-------------------------------------------------------------------------------------------------------------------
 
 

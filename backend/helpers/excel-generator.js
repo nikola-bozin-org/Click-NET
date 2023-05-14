@@ -11,6 +11,7 @@ const generate = (jsonData)=>{
     const dateString = now.toLocaleDateString('en-US').replace(/\//g, '-');
     const filePath = require('path').join(desktopPath, `${dateString}.xlsx`);
     XLSX.writeFile(workbook, filePath);
+    return filePath;
 }
 const convertToExcelData = (data) => {
     return data.map(item => {

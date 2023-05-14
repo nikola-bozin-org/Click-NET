@@ -1,20 +1,18 @@
-const { User,CurrentCashRegisterSession, CashRegisterSessions,LogedInUsers } = require("../schemas")
+const { User,CurrentCashRegisterSession,LogedInUsers, Payments } = require("../schemas")
 const {userRoles} = require('../helpers/enums')
 const bcrypt = require('bcrypt')
 
 
 const  _getPaymentsFromTo = async(startDate,endDate)=>{
     try{
-        const sessions = await CashRegisterSessions.find(
+        const payments = await Payments.find(
             {
-              openedAt: {
+              paymentDate: {
                 $gte: startDate,
                 $lte: endDate,
               },
             },
-            { payments: 1, _id: 0 }
           );
-          const payments = sessions.flatMap((session) => session.payments);
           return {payments:payments};
     }catch(e){
         return {error:e.message}

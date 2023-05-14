@@ -142,11 +142,31 @@ input[type=number] {
   background-color: #171A1E!important;
   color: white;
   font-size: 21px!important;
-  padding: 0.5rem 2rem!important;
+  padding: 0.8rem 2rem!important;
   cursor: pointer;
   width: auto!important;
   height: auto!important;
+  white-space: nowrap;
 }
+.cash-register-refill-right-topbar-right-dates{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.cash-register-refill-right-topbar-right-date{
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap:5px;
+  color: white;
+}
+.cash-register-refill-right-topbar-right-date>p{
+  width: 65px;
+}
+
 
 .cash-register-refill-right-topbar-zReport:hover{
   background-color: #685489;
@@ -187,14 +207,50 @@ input[type=number] {
 .revnue-value{
   font-size: 28px;
 }
+.cash-register-refill-right-topbar-right{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap:5px;
+}
 
 
 
+.react-datepicker__input-container>input{
+  background-color: #1c2025;
+  color: white;
+  box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.2);
+  border: none;
+  padding: 5px;
+}
 
+.react-datepicker{
+  background-color: #171A1E!important;
+  color: white!important;
+  border: 1px solid rgb(39, 39, 39)!important;
+}
+.react-datepicker-popper{
+  z-index: 10!important;
+}
+.react-datepicker__day{
+  background-color: #171A1E!important;
+  color: white!important;
+  border: 1px solid rgb(39, 39, 39)!important;
 
+}
+.react-datepicker__header{
+  background-color: #171A1E!important;
+  color: white!important;
+  border-bottom: 1px solid rgb(39, 39, 39)!important;
 
-
-
+}
+.react-datepicker__current-month{
+  color: white!important;
+  font-weight: normal!important;
+}
+.react-datepicker__day-name{
+  color: white!important;
+}
 
 @media (max-width:1360px){
   .cash-register-refill-amount,.cash-register-refill-username{

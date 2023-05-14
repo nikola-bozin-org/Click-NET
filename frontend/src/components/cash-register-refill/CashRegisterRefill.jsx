@@ -4,20 +4,23 @@ import Table from '../table/Table'
 import { useState, useEffect, useRef } from 'react';
 import { fixPaymentsDate, formatNumber } from '../../utils'
 import coins from '../../images/dollar.png'
-import {getCurrentCashRegisterSession, getCurrentSessionPayments, payment} from '../../config'
+import { getCurrentSessionPayments, payment, zReport } from '../../config'
 import FetchError from '../fetch-error/FetchError';
 import FetchSuccess from '../fetch-success/FetchSuccess';
 import { AppContext } from '../../contexts/AppContext';
 import HandleButton from '../handle-button/HandleButton'
 import { CashRegisterContext } from '../../contexts/CashRegisterContext';
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+
 
 const CashRegisterRefill = () => {
   const appContext = useContext(AppContext)
   const inputAmountRef = useRef(null);
   const inputUsernameRef = useRef(null);
   const [shouldDisableRefill, setShouldDisableRefill] = useState(false);
-  const [shouldShowError,setShouldShowError] = useState(false);
-  const [shouldShowSuccess,setShouldShowSuccess] = useState(false);
+  const [shouldShowError, setShouldShowError] = useState(false);
+  const [shouldShowSuccess, setShouldShowSuccess] = useState(false);
   const [informationText, setInformationText] = useState('');
   const [amount, setAmount] = useState('');
   const [username, setUsername] = useState('');
@@ -32,15 +35,15 @@ const CashRegisterRefill = () => {
         }
       });
       const result = await response.json();
-      if (result.error) {console.error(result.error); return }
+      if (result.error) { console.error(result.error); return }
       cashRegisterContext.setCurrentCashRegisterSessionPayments(result.currentSessionPayments)
-      const total = result.currentSessionPayments.reduce((total,objectData)=> total + objectData.paymentAmount,0)
+      const total = result.currentSessionPayments.reduce((total, objectData) => total + objectData.paymentAmount, 0)
       cashRegisterContext.setCashierBalance(total);
       cashRegisterContext.setTotalRevenue(total);
     };
     currentCashRegisterPayments();
   }, []);
-  
+
   const handleRefill = async () => {
     setShouldDisableRefill(true);
     setShouldShowError(false);
@@ -49,7 +52,7 @@ const CashRegisterRefill = () => {
     inputUsernameRef.current.value = '';
     setUsername('');
     setAmount('');
-      const response = await fetch(payment, {
+    const response = await fetch(payment, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -66,12 +69,12 @@ const CashRegisterRefill = () => {
       setInformationText(result.error)
       setShouldShowError(true);
       return;
-    }else if(result.paymentProcessed){
-      cashRegisterContext.setCurrentCashRegisterSessionPayments([...cashRegisterContext.currentCashRegisterSessionPayments,result.tableData])
+    } else if (result.paymentProcessed) {
+      cashRegisterContext.setCurrentCashRegisterSessionPayments([...cashRegisterContext.currentCashRegisterSessionPayments, result.tableData])
       setInformationText("Payment Accepted!")
       setShouldShowSuccess(true);
-      cashRegisterContext.setTotalRevenue(cashRegisterContext.totalRevenue+result.tableData.paymentAmount)
-      cashRegisterContext.setCashierBalance(cashRegisterContext.cashierBalance+result.tableData.paymentAmount)
+      cashRegisterContext.setTotalRevenue(cashRegisterContext.totalRevenue + result.tableData.paymentAmount)
+      cashRegisterContext.setCashierBalance(cashRegisterContext.cashierBalance + result.tableData.paymentAmount)
     }
   };
 
@@ -80,39 +83,63 @@ const CashRegisterRefill = () => {
       <div className="cash-register-refill-left">
         <input min={1} ref={inputAmountRef} onChange={(e) => setAmount(e.target.value)} className="cash-register-refill-amount" type='number' placeholder='Amount' />
         <input ref={inputUsernameRef} onChange={(e) => setUsername(e.target.value)} className="cash-register-refill-username" type='text' placeholder='Username' />
-        <HandleButton shouldDisable={shouldDisableRefill}  onClick={handleRefill} text={"Refill"} className={`cash-register-refill-button ${shouldDisableRefill ? `halfOpacity` : ``}`}/>
-        <FetchError showMessage={shouldShowError} message={informationText} onDelayCompleted={()=>{setShouldShowError(false)}} />
-        <FetchSuccess showMessage={shouldShowSuccess} message={informationText} onDelayCompleted={()=>{setShouldShowSuccess(false)}}/>
+        <HandleButton shouldDisable={shouldDisableRefill} onClick={handleRefill} text={"Refill"} className={`cash-register-refill-button ${shouldDisableRefill ? `halfOpacity` : ``}`} />
+        <FetchError showMessage={shouldShowError} message={informationText} onDelayCompleted={() => { setShouldShowError(false) }} />
+        <FetchSuccess showMessage={shouldShowSuccess} message={informationText} onDelayCompleted={() => { setShouldShowSuccess(false) }} />
       </div>
-      <PaymentsTable totalRevenue={cashRegisterContext.totalRevenue} cashierBalance={cashRegisterContext.cashierBalance} currentCashRegisterSessionPayments={cashRegisterContext.currentCashRegisterSessionPayments}/>
+      <PaymentsTable totalRevenue={cashRegisterContext.totalRevenue} cashierBalance={cashRegisterContext.cashierBalance} currentCashRegisterSessionPayments={cashRegisterContext.currentCashRegisterSessionPayments} />
     </div>
   )
 }
 
-export const PaymentsTable = ({totalRevenue,cashierBalance,currentCashRegisterSessionPayments})=>{
+export const PaymentsTable = ({ totalRevenue, cashierBalance, currentCashRegisterSessionPayments }) => {
   const [showDailyRevenue, setShowDailyRevenue] = useState(false);
-  return(
+  const [startDate, setStartDate] = useState(new Date());
+  const [endDate, setEndDate] = useState(new Date());
+  const fetchZReport = async() => {
+    const url = `${zReport}/?startDate=${startDate}&endDate=${endDate}`;
+    const link = document.createElement('a');
+    link.href = url;
+    link.setAttribute('download', 'xlsx'); // replace with actual filename and extension if known
+    link.style.display = 'none';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  }
+  return (
     <div className="cash-register-refill-right">
-    <div className="cash-register-refill-right-topbar">
-      <HandleButton text={'Z Report'} className={'cash-register-refill-right-topbar-zReport'} />
-      <div
-        onMouseEnter={() => setShowDailyRevenue(true)}
-        onMouseLeave={() => setShowDailyRevenue(false)}
-       className="cash-register-refill-right-topbar-current-cash-register-total-balance">
-        <p>Balance:</p>
-        <img src={coins} alt="" className="cash-register-refill-right-topbar-coins" />
-        {showDailyRevenue && <DailyRevenue dailyRevenue={totalRevenue} cashierBalance={cashierBalance} />}
+      <div className="cash-register-refill-right-topbar">
+        <div className="cash-register-refill-right-topbar-right">
+          <HandleButton onClick={fetchZReport} text={'Z Report'} className={'cash-register-refill-right-topbar-zReport'} />
+          <div className="cash-register-refill-right-topbar-right-dates">
+            <div className="cash-register-refill-right-topbar-right-date">
+              <p>Start:</p>
+              <DatePicker selected={startDate} onChange={(date) => setStartDate(date)} />
+            </div>
+            <div className="cash-register-refill-right-topbar-right-date">
+            <p>End:</p>
+             <DatePicker selected={endDate} onChange={(date) => setEndDate(date)} />
+            </div>
+          </div>
+        </div>
+        <div
+          onMouseEnter={() => setShowDailyRevenue(true)}
+          onMouseLeave={() => setShowDailyRevenue(false)}
+          className="cash-register-refill-right-topbar-current-cash-register-total-balance">
+          <p>Balance:</p>
+          <img src={coins} alt="" className="cash-register-refill-right-topbar-coins" />
+          {showDailyRevenue && <DailyRevenue dailyRevenue={totalRevenue} cashierBalance={cashierBalance} />}
+        </div>
       </div>
+      <Table headers={['username', 'Amount', 'Date', 'Receipt']}
+        tableData={fixPaymentsDate(currentCashRegisterSessionPayments).reverse()}
+        shouldRoundEdges={false}
+      />
     </div>
-    <Table headers={['username', 'Amount', 'Date', 'Receipt']}
-      tableData={fixPaymentsDate(currentCashRegisterSessionPayments).reverse()}
-      shouldRoundEdges={false}
-    />
-  </div>
   )
 }
 
-const DailyRevenue = ({dailyRevenue,cashierBalance})=>{
+const DailyRevenue = ({ dailyRevenue, cashierBalance }) => {
   return (
     <div className="daily-revenue">
       <div className='daily-revenue-total'>
@@ -122,7 +149,7 @@ const DailyRevenue = ({dailyRevenue,cashierBalance})=>{
       <div className="daily-revenue-cashier">
         <p>Cashier balance:</p>
         <p className='revnue-value'>{formatNumber(cashierBalance)}</p>
-        </div>
+      </div>
     </div>
   )
 }

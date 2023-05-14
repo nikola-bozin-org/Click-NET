@@ -13,10 +13,12 @@ const WorkstationConfiguration = ({number}) => {
     if (dragging) {
       const handleMouseMove = (e) => {
         e.preventDefault();
+        return;
         setPosition({ x: e.clientX - offset.x, y: e.clientY - offset.y });
       };
 
       const handleMouseUp = (e) => {
+        return;
         if (!dragging) return;
         setDragging(false);
         dndCC.setIsDragging(false)
@@ -36,6 +38,7 @@ const WorkstationConfiguration = ({number}) => {
 
   const handleMouseDown = (e) => {
     e.preventDefault();
+    return;
     const offsetX = e.clientX - position.x;
     const offsetY = e.clientY - position.y;
     setOffset({ x: offsetX, y: offsetY });
