@@ -102,9 +102,9 @@ const GameRow = ({ name, imageId, zone, category, lastModified, isEnabled, isJus
   const { image, loading } = useCachedImage(imageId);
   const [enabledText,setEnabledText] = useState('Yes');
   const onClickEnabled = (e)=>{
-    e.stopPropagation();
-    if(enabledText==='Yes') setEnabledText('No')
-    else setEnabledText('Yes')
+    // e.stopPropagation();
+    // if(enabledText==='Yes') setEnabledText('No')
+    // else setEnabledText('Yes')
   }
 
   if (loading) return null;

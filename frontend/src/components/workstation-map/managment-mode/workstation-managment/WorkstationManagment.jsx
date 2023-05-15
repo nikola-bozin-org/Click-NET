@@ -59,7 +59,7 @@ const WorkstationManagment = ({number, borderColor,row,collumn }) => {
   }
   const onMouseEnter = (e)=>{
     e.stopPropagation();
-    console.info('fetch user balance and discount. videti dal to raditi u bazi il na klienta.. koj kurac nzm')
+    // console.info('fetch user balance and discount. videti dal to raditi u bazi il na klienta.. koj kurac nzm')
   }
 
   let directionVertical = directions.TOP;

@@ -36,7 +36,7 @@ const MapElementConfiguration = ({ workstationComponent, renderWorkstation,row,c
 
   const onMouseEnter = () => {
     // console.info(position)
-    console.info(dndCC.currentComponent);
+    // console.info(dndCC.currentComponent);
   };
 
   const renderAddWorkstationElement = () => {

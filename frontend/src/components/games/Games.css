@@ -49,10 +49,12 @@
     text-indent: 10px;
     box-sizing: border-box;
     font-size: 1.5rem;
-    cursor: pointer;
+    /* cursor: pointer; */
 }
 
-
+.gr-is-enabled{
+    /* cursor: pointer; */
+}
 .gr-select-clickable {
     border: 1px solid white;
     cursor: pointer;

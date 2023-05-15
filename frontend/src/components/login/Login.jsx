@@ -34,7 +34,8 @@ const Login = () => {
         },
     }
     );
-    if(fullUtilityResponse.error){console.info(fullUtilityResponse.error);return;}
+    const result = await fullUtilityResponse.json();
+    if(result.error){console.info(result.error);return;}
     setDisableLoginButton(true);
     setShowNotification(false);
     setIsFetching(true);
