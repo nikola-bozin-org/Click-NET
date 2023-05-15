@@ -10,9 +10,7 @@ export const connect = (accessToken) => {
     `ws://localhost:${9875}/?jwt=${encodeURIComponent(accessToken)}`
   );
   ws.onopen = () => {
-    console.log("Connected to websocket server");
     store.dispatch(setConnectedToWebsocket());
-    // sendMessage('a','b','c')
   };
   ws.onmessage = async (message) => {
     const parsedMessage = JSON.parse(message.data);
@@ -41,4 +39,18 @@ export const disconnect = () => {
 export const sendMessage = (from, to, message) => {
   if (!ws) return "Unable to disconnect. (Not Connected to Websocket)";
   ws.send("Hello");
+};
+export const sendRefillEvent = (username, amount) => {
+  if (!ws) {
+    console.log("Unable to send message. (Not Connected to WebSocket)");
+    return;
+  }
+
+  const refillEvent = {
+    event: "refill",
+    username: username,
+    amount: amount
+  };
+
+  ws.send(JSON.stringify(refillEvent));
 };

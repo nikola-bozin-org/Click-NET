@@ -17,7 +17,7 @@ const extractUserFromToken = async (token) => {
       return false;
     }
 };
-const setUsetBalance = async(token,balance)=>{
+const setUserBalance = async(token,balance)=>{
   try{
     const data = {
       balance:balance
@@ -71,10 +71,10 @@ const informStaffAboutNewConnection = ()=>{
     staffClient.ws.send(JSON.stringify({event:'newConnection'}))
   });
 }
-const storeConnection = (clientRole,ws,extractedUser)=>{
+const storeConnection = (clientRole,ws,extractedUser,clientManager)=>{
   const username = extractedUser.username;
   if(clientRole==='Admin' || clientRole==='Employee'){
-    staffClients.set(username,{ws:ws,user:extractedUser});
+    staffClients.set(username,{ws:ws,user:extractedUser,clientManager:clientManager});
   } 
   else{
     clients.set(username,{ws:ws,user:extractedUser});
@@ -89,5 +89,5 @@ module.exports = {
     grabAccessToken,
     informStaffAboutNewConnection,
     storeConnection,
-    setUsetBalance,
+    setUserBalance,
 }

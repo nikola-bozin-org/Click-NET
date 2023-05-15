@@ -9,13 +9,10 @@ const _payment = async (username,payment)=>{
       if(!currentCashRegisterSession) return {error:'Cash register is not open.'};
       const user = await User.findOne({ username });
       if (user === null) return { error: `User ${username} does not exist.` };
-      const balance = parseInt(user.balance);
-      const newBalance = balance + parseInt(payment);
         const date = Date.now();
         const receipt = "00"+date.toString();
         const paymentResult = await Payments.create({username,paymentAmount:payment,paymentDate:date,receipt});
         await User.updateOne({username},{
-          $set:{balance:newBalance},
           $push:{
             actions:{
               name:UserActions.Payment,
