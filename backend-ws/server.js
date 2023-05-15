@@ -1,6 +1,6 @@
 const WebSocket = require("ws");
 require('dotenv').config();
-const {ratePerHour,ratePerMinute,ratePerSecond,customRate,clients,staffClients} = require('./server-storage')
+const {clients,staffClients} = require('./server-storage')
 const { extractUserFromToken, logoutUser, sendMessageToClient, grabAccessToken, informStaffAboutNewConnection, storeConnection, setUsetBalance } = require("./utils");
 const { startHttpServer } = require("./server-helper");
 const BalanceManager = require('./balanceManager')
@@ -28,7 +28,9 @@ const startServer = async () => {
         if (data.event === "sendMessage_Staff" && data.recipientUsername && data.message) {
           if(extractedUser.role === 'Admin' || extractedUser.role==='Employee')
           sendMessageToClient(username, data.recipientUsername, data.message);
-        } else {
+        } else if(data.event==="buyTicket"){
+
+        }else{ 
           console.error("Invalid message format or missing data");
         }
       } catch (error) {
@@ -41,18 +43,17 @@ const startServer = async () => {
       // console.info(balanceManager.balance);
       if(clientRole==='Admin' || clientRole==='Employee'){return}
       if ( extractedUser.discount === 100) {return}
-      clientBalance -= ratePerSecond;
+      clientBalance -= 0.2;
 
-      //ovo bolje...odradi.. ne mora stalno da se pita za tiket
-      if (clientBalance > 0 || extractedUser.activeTickets.length > 0) {
+      if (clientBalance > 0) {
         ws.send(JSON.stringify({ event: "balance", data: { balance: clientBalance } }));
         return;
       }
 
+      clientBalance=0;
       ws.send(JSON.stringify({ event: "timeUp", message: "Time is up." }));
       ws.close();
     };
-
     const interval = setInterval(updateClient, 1000);
     ws.on('close', async () => {
       clients.delete(username);

@@ -70,7 +70,7 @@ const _loginUser = async (username, password, reqIP) => {
     if (!bcrypt.compareSync(password, user.password))
       return { error: `Wrong password.` };
     
-    if(user.balance===0 && user.activeTickets.length===0 && user.discount!==100) return {error:`You dont have any time left.`}
+    if(user.balance<=0 && user.activeTickets.length===0 && user.discount!==100) return {error:`You dont have any time left.`}
     const sessionRate = workstation.zone===zones.Lobby? zoneRate.Lobby:zoneRate.Pro;
     const date = Date.now();
     const newSession = await Sessions.create({

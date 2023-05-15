@@ -13,10 +13,10 @@ const ipWhitelist=(req, res, next) =>{
     res.status(403).send('Forbidden: IP address not allowed');
   }
 }
-
-
 httpServer.use(ipWhitelist)
 httpServer.use(cors());
+
+
 httpServer.get("/api/clients", (req, res) => {
   const clientsData = Array.from(clients.entries()).map(([username, clientData]) => {
       return { username, ...clientData.user };

@@ -30,7 +30,6 @@ const setUsetBalance = async(token,balance)=>{
       },
     }
     const response = await axios.post(`${process.env.API_BASE_URL_LOCAL}/user/setUserBalance`,data,config)
-    console.info(response.data)
   }catch(e){
     console.info(e.response.data.error);
   }
