@@ -12,6 +12,7 @@ import HandleButton from '../handle-button/HandleButton'
 import { CashRegisterContext } from '../../contexts/CashRegisterContext';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import {sendRefillEvent} from '../../clientRemoteController'
 
 
 const CashRegisterRefill = () => {
@@ -70,6 +71,7 @@ const CashRegisterRefill = () => {
       setShouldShowError(true);
       return;
     } else if (result.paymentProcessed) {
+      // sendRefillEvent()
       cashRegisterContext.setCurrentCashRegisterSessionPayments([...cashRegisterContext.currentCashRegisterSessionPayments, result.tableData])
       setInformationText("Payment Accepted!")
       setShouldShowSuccess(true);
