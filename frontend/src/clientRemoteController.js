@@ -29,6 +29,9 @@ export const connect = (accessToken) => {
       }
     }
   };
+  ws.onclose = ()=>{
+    disconnect()
+  }
 };
 export const disconnect = () => {
   if (!ws) return "Unable to disconnect. (Not Connected to Websocket)";

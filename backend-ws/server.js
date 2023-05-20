@@ -16,8 +16,6 @@ const startServer = async () => {
     storeConnection(ws,extractedUser);
     ws.send(JSON.stringify({event:"entryAllowed"}))
     informStaffAboutNewConnection();
-    console.info(extractedUser)
-    let clientBalance = extractedUser.balance;
     const username = extractedUser.username;
 
     ws.on("message",async(message)=>{
@@ -26,11 +24,13 @@ const startServer = async () => {
         if(data.event==="refill"){
           if(extractedUser.role === 'Admin' || extractedUser.role==='Employee' && data.amount && data.username){
             if(clients.get(data.username)){
-              console.info('client logged in')
-              console.info(clientBalance)
+              const user = clients.get(data.username).user;
+              const currentUserBalance =user.balance;
+              const newUserBalance =currentUserBalance+parseInt(data.amount);
+              setUserBalance(token,data.username,newUserBalance,()=>{user.balance = newUserBalance},()=>{})
             }else{
               const balance = parseInt(await getUserBalance(data.username));
-              await setUserBalance(token,data.username,balance+ parseInt(data.amount),()=>{console.info('succes update balance')},()=>{console.info('FUCKED UP')})
+              setUserBalance(token,data.username,balance+ parseInt(data.amount),()=>{},()=>{})
             }
             // if(clients.get(data.username))
             // clients.get(data.username).clientManager.refill(data.amount,()=>{});
@@ -53,25 +53,26 @@ const startServer = async () => {
 
     if(extractedUser.role==='Admin' || extractedUser.role==='Employee'){return}
     if(extractedUser.discount === 100) {return}
-    const interval = setInterval(()=>{
-      clientBalance -= 0.5;
-      if (clientBalance > 0) {
-        ws.send(
-          JSON.stringify({ event: "balance", data: { balance: clientBalance } })
-        );
+    const interval = setInterval(() => {
+      const user = clients.get(username).user;
+      user.balance -= 0.5;
+    
+      if (user.balance > 0) {
+        ws.send(JSON.stringify({ event: "balance", data: { balance: user.balance } }));
         return;
       }
-      clientBalance = 0;
+    
+      user.balance = 0;
       ws.send(JSON.stringify({ event: "timeUp", message: "Time is up." }));
       ws.close();
     }, 1000);
 
     ws.on('close', async () => {
+      setUserBalance(token,username,clients.get(username).user.balance,()=>{},()=>{})
       clients.delete(username);
       staffClients.delete(username);
        logoutUser(token)
        //TODO: this will throw error if on server we have to check if its Admin or Employee, because token is of User!
-       setUserBalance(token,username,clientBalance,()=>{},()=>{})
       if(interval)clearInterval(interval);
     })
   });
