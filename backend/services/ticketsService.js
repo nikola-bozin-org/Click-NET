@@ -76,9 +76,9 @@ const _updateTicketZone = async(name,zone)=>{
 
 const _getTicketsByZone = async(zone)=>{
   try{
-    const tickets = await Tickets.find({zone});
+    const tickets = await Tickets.find({zone:zone});
     return {tickets:tickets} 
-  }catch{
+  }catch(e){
     return {error:e.message};
   }
 }
