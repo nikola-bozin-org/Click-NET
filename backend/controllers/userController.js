@@ -1,6 +1,7 @@
 const statusCode = require('../statusCodes')
 const service = require('../services/userService')
-const jwt = require('../jwt')
+const jwt = require('../jwt');
+const { userRoles } = require('../helpers/enums');
 
 
 const getUserBalance = async (req, res) => {
@@ -70,11 +71,11 @@ const setUserBalance = async(req,res)=>{
     if(!token) return res.status(statusCode.UNAUTHORIZED).json({error:'Unauthorized!'});
     const verifyResult = jwt.verify(req.headers.token);
     if(!verifyResult) return res.status(statusCode.ERROR).json({error:'Invalid Token.'});
+    // if(!(verifyResult.role===userRoles.Admin) && !(verifyResult.role===userRoles.Employee)) return res.status(statusCode.ERROR).json({error:`User ${verifyResult.username} is not Admin or Employee.`});
     const wsServerSecret = req.headers.secret;
     if(wsServerSecret!==process.env.VERIFY_SECRET_PASSWORD) return  res.status(statusCode.ERROR).json({error:'Unauthorized access!'});
-    const username = verifyResult.username;
-    const {balance}=req.body;
-    const result = await service._setUserBalance(username,balance);
+    const {username,balance}=req.body;
+    const result = await service._setUserBalance(username,parseInt(balance));
     if (result.error) return res.status(statusCode.INTERNAL_SERVER_ERROR).json({ balanceUpdated:result.balanceUpdated ,error:`Server error: ${result.error}` });
     return res.status(statusCode.OK).json({ balanceUpdated:result.balanceUpdated });
 }

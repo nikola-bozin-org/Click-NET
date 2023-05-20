@@ -72,6 +72,7 @@ const CashRegisterRefill = () => {
       return;
     } else if (result.paymentProcessed) {
       sendRefillEvent(username,amount)
+      console.info("DO I HAVE A RESPONSE HERE FROM REFILL EVENT? PLEASE?")
       cashRegisterContext.setCurrentCashRegisterSessionPayments([...cashRegisterContext.currentCashRegisterSessionPayments, result.tableData])
       setInformationText("Payment Accepted!")
       setShouldShowSuccess(true);

@@ -17,10 +17,11 @@ const extractUserFromToken = async (token) => {
       return false;
     }
 };
-const setUserBalance = async(token,balance,onSuccess)=>{
+const setUserBalance = async(token,username,balance,onSuccess,onFail)=>{
   try{
     const data = {
-      balance:balance
+      balance:balance,
+      username:username
     }
     const config = {
       headers: {
@@ -30,10 +31,18 @@ const setUserBalance = async(token,balance,onSuccess)=>{
       },
     }
     const response = await axios.post(`${process.env.API_BASE_URL_LOCAL}/user/setUserBalance`,data,config)
-    console.info(response)
-    onSuccess();
+    if(response.data.balanceUpdated) onSuccess();
+    else onFail();
   }catch(e){
-    console.info(e);
+    console.info(e.response.data);
+  }
+}
+const getUserBalance = async(username)=>{
+  try{
+    const response = await axios.get(`${process.env.API_BASE_URL_LOCAL}/user/balance/${username}`);
+    return response.data.balance;
+  }catch(e){
+    console.info(e.response.data);
   }
 }
 const logoutUser = async (token) => {
@@ -73,13 +82,13 @@ const informStaffAboutNewConnection = ()=>{
     staffClient.ws.send(JSON.stringify({event:'newConnection'}))
   });
 }
-const storeConnection = (clientRole,ws,extractedUser,clientManager)=>{
+const storeConnection = (ws,extractedUser)=>{
   const username = extractedUser.username;
-  if(clientRole==='Admin' || clientRole==='Employee'){
-    staffClients.set(username,{ws:ws,user:extractedUser,clientManager:clientManager});
+  if(extractedUser.role==='Admin' || extractedUser.role==='Employee'){
+    staffClients.set(username,{ws:ws,user:extractedUser});
   } 
   else{
-    clients.set(username,{ws:ws,user:extractedUser,clientManager:clientManager});
+    clients.set(username,{ws:ws,user:extractedUser});
   } 
 }
 
@@ -92,4 +101,5 @@ module.exports = {
     informStaffAboutNewConnection,
     storeConnection,
     setUserBalance,
+    getUserBalance
 }
