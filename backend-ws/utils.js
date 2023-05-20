@@ -17,7 +17,7 @@ const extractUserFromToken = async (token) => {
       return false;
     }
 };
-const setUserBalance = async(token,balance)=>{
+const setUserBalance = async(token,balance,onSuccess)=>{
   try{
     const data = {
       balance:balance
@@ -30,8 +30,10 @@ const setUserBalance = async(token,balance)=>{
       },
     }
     const response = await axios.post(`${process.env.API_BASE_URL_LOCAL}/user/setUserBalance`,data,config)
+    console.info(response)
+    onSuccess();
   }catch(e){
-    console.info(e.response.data.error);
+    console.info(e);
   }
 }
 const logoutUser = async (token) => {
@@ -77,7 +79,7 @@ const storeConnection = (clientRole,ws,extractedUser,clientManager)=>{
     staffClients.set(username,{ws:ws,user:extractedUser,clientManager:clientManager});
   } 
   else{
-    clients.set(username,{ws:ws,user:extractedUser});
+    clients.set(username,{ws:ws,user:extractedUser,clientManager:clientManager});
   } 
 }
 

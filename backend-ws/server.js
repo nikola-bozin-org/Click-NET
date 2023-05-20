@@ -14,12 +14,8 @@ const startServer = async () => {
     const token = grabAccessToken(req);
     const extractedUser = await extractUserFromToken(token);
     if (!extractedUser) { ws.send(JSON.stringify({ event: "invalidToken", message: "Invalid token!" })); ws.close(); return; }
-    const clientManager = new ClientManager(extractedUser,ws,token);
-    if(clientManager.getRole()==='Admin' || clientManager.getRole()==='Employee'){return}
-    if ( extractedUser.discount === 100) {return}
-    const interval = setInterval(clientManager.updateClient, 1000);
-
-    
+    let interval;
+    const clientManager = new ClientManager(extractedUser,ws,token);    
     ws.on("message",(message)=>{
       try {
         const data = JSON.parse(message);
@@ -27,10 +23,13 @@ const startServer = async () => {
           if(extractedUser.role === 'Admin' || extractedUser.role==='Employee')
           sendMessageToClient(clientManager.getUsername(), data.recipientUsername, data.message);
         } else if(data.event==="buyTicket"){
-
+          console.info(data.ticket);
         } else if(data.event==="refill"){
           if(extractedUser.role === 'Admin' || extractedUser.role==='Employee' && data.amount && data.username){
-            clients.get(username).clientManager.refill(data.amount);
+            if(interval)clearInterval(interval)
+            if(clients.get(data.username))
+            clients.get(data.username).clientManager.refill(data.amount,()=>{interval=setInterval(clientManager.updateClient, 1000)});
+            else{setUserBalance(token,)}
           }
 
         }else{
@@ -50,6 +49,10 @@ const startServer = async () => {
       setUserBalance(token,clientManager.balance)
       clearInterval(interval);
     })
+
+    if(clientManager.getRole()==='Admin' || clientManager.getRole()==='Employee'){return}
+    if ( extractedUser.discount === 100) {return}
+    interval = setInterval(clientManager.updateClient, 1000);
   });
 
 }

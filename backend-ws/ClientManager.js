@@ -1,21 +1,24 @@
-const { storeConnection, informStaffAboutNewConnection, setUsetBalance } = require("./utils");
+const { storeConnection, informStaffAboutNewConnection, setUserBalance } = require("./utils");
 
 class ClientManager {
   constructor(client, ws,token) {
     this.client = client;
     this.ws = ws;
     this.token=token;
-    this.zone = this.client.zone;
+    this.zone = this.client.zone; //NULL for now?
     this.balance = client.balance; //dynamic
-    this.tickets = client.tickets; 
+    this.tickets = client.tickets; //NULL for now? 
 
     storeConnection(this.client.role,ws,this.client,this);
     this.ws.send(JSON.stringify({event:"entryAllowed"}))
     informStaffAboutNewConnection();
   }
-  refill = (amount) => {
+  refill = async(amount,onComplete) => {
+    console.info(`CURRENT: ${this.balance} TO REFILL: ${amount}`)
     this.balance += amount;
-    setUsetBalance(this.token,this.balance)
+    await setUserBalance(this.token,this.balance,()=>{})
+    console.info(`NEW ${this.balance}`)
+    onComplete()
   };
   updateClient = () => {
     this.balance -= 0.5;
