@@ -12,7 +12,7 @@ import HandleButton from '../handle-button/HandleButton'
 import { CashRegisterContext } from '../../contexts/CashRegisterContext';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import {sendRefillEvent} from '../../clientRemoteController'
+import { sendRefillEvent } from '../../clientRemoteController'
 
 
 const CashRegisterRefill = () => {
@@ -26,6 +26,8 @@ const CashRegisterRefill = () => {
   const [amount, setAmount] = useState('');
   const [username, setUsername] = useState('');
   const cashRegisterContext = useContext(CashRegisterContext)
+  const [showDropdown, setShowDropdown] = useState(false);
+  const [dropdownUsers,setDropdownUsers] = useState([])
 
   useEffect(() => {
     const currentCashRegisterPayments = async () => {
@@ -71,7 +73,7 @@ const CashRegisterRefill = () => {
       setShouldShowError(true);
       return;
     } else if (result.paymentProcessed) {
-      sendRefillEvent(username,amount)
+      sendRefillEvent(username, amount)
       console.info("DO I HAVE A RESPONSE HERE FROM REFILL EVENT? PLEASE?")
       cashRegisterContext.setCurrentCashRegisterSessionPayments([...cashRegisterContext.currentCashRegisterSessionPayments, result.tableData])
       setInformationText("Payment Accepted!")
@@ -81,11 +83,29 @@ const CashRegisterRefill = () => {
     }
   };
 
+  const handleUsernameChange = (value) => {
+    setUsername(value);
+    setShowDropdown(value!=='');
+  }
+
   return (
     <div className='cash-register-refill'>
       <div className="cash-register-refill-left">
         <input min={1} ref={inputAmountRef} onChange={(e) => setAmount(e.target.value)} className="cash-register-refill-amount" type='number' placeholder='Amount' />
-        <input ref={inputUsernameRef} onChange={(e) => setUsername(e.target.value)} className="cash-register-refill-username" type='text' placeholder='Username' />
+        <div>
+          <input ref={inputUsernameRef} onChange={(e) => handleUsernameChange(e.target.value)} className="cash-register-refill-username" type='text' placeholder='Username' />
+          {showDropdown &&
+            <div className="dropdown">
+              {(appContext.users.
+              filter(user=> user.username.includes(username)))
+              .map((user,index) =>{
+                return <div onClick={() => {handleUsernameChange(user.username); inputUsernameRef.current.value=user.username; setShowDropdown(false)}} key={index} className="dropdown-item">
+                  {user.username}
+                </div>}
+              )}
+            </div>
+          }
+        </div>
         <HandleButton shouldDisable={shouldDisableRefill} onClick={handleRefill} text={"Refill"} className={`cash-register-refill-button ${shouldDisableRefill ? `halfOpacity` : ``}`} />
         <FetchError showMessage={shouldShowError} message={informationText} onDelayCompleted={() => { setShouldShowError(false) }} />
         <FetchSuccess showMessage={shouldShowSuccess} message={informationText} onDelayCompleted={() => { setShouldShowSuccess(false) }} />
@@ -99,7 +119,7 @@ export const PaymentsTable = ({ totalRevenue, cashierBalance, currentCashRegiste
   const [showDailyRevenue, setShowDailyRevenue] = useState(false);
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
-  const fetchZReport = async() => {
+  const fetchZReport = async () => {
     const url = `${zReport}/?startDate=${startDate}&endDate=${endDate}`;
     const link = document.createElement('a');
     link.href = url;
@@ -120,8 +140,8 @@ export const PaymentsTable = ({ totalRevenue, cashierBalance, currentCashRegiste
               <DatePicker selected={startDate} onChange={(date) => setStartDate(date)} />
             </div>
             <div className="cash-register-refill-right-topbar-right-date">
-            <p>End:</p>
-             <DatePicker selected={endDate} onChange={(date) => setEndDate(date)} />
+              <p>End:</p>
+              <DatePicker selected={endDate} onChange={(date) => setEndDate(date)} />
             </div>
           </div>
         </div>

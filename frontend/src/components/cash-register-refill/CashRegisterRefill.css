@@ -13,14 +13,14 @@
 
 
 .cash-register-refill-amount {
-  height: 100px;
-  width: 620px;
   margin-top: 40px;
   background-color: black;
   color: white;
   border: none;
-  font-size: 40px;
+  font-size: 3rem;
+  padding: 1.2rem 0;
   text-align: center;
+  width:600px
 }
 .cash-register-refill-amount:focus{
   outline: none!important;
@@ -32,14 +32,15 @@
 }
 
 .cash-register-refill-username {
-  height: 100px;
-  width: 620px;
   background-color: black;
   color: white;
   border: none;
-  font-size: 30px;
+  font-size:3rem;
   text-align: center;
   z-index:1;
+  padding: 1.2rem 0;
+  position: 'relative';
+  width:600px
 }
 .cash-register-refill-username:hover{
   border: 1px solid white;
@@ -252,8 +253,34 @@ input[type=number] {
   color: white!important;
 }
 
+.dropdown {
+  position: absolute;
+  max-height: 200px;
+  overflow-y: auto;
+  background-color: black;
+  color: white;
+  z-index: 2;
+  border: none;
+  width: 600px;
+  font-size: 2rem;
+  border-top: 1px solid white;
+}
+
+.dropdown-item {
+  padding: 10px;
+  cursor: pointer;
+}
+
+.dropdown-item:hover {
+  background-color: white;
+  color: black;
+}
+
+
+
+
 @media (max-width:1360px){
-  .cash-register-refill-amount,.cash-register-refill-username{
+  .cash-register-refill-amount,.cash-register-refill-username,.dropdown{
     width: 450px;
   }
   .cash-register-refill-button{
