@@ -32,10 +32,8 @@ const startServer = async () => {
               const balance = parseInt(await getUserBalance(data.username));
               setUserBalance(token,data.username,balance+ parseInt(data.amount),()=>{},()=>{})
             }
-            // if(clients.get(data.username))
-            // clients.get(data.username).clientManager.refill(data.amount,()=>{});
-            // else{setUserBalance(token,)}
-        } //else if (data.event === "remoteControl" && data.recipientUsername && data.message) {
+        }
+         //else if (data.event === "remoteControl" && data.recipientUsername && data.message) {
           //   if(extractedUser.role === 'Admin' || extractedUser.role==='Employee')
           //   sendMessageToClient(clientManager.getUsername(), data.recipientUsername, data.message);
           // } else if(data.event==="buyTicket"){
@@ -43,7 +41,10 @@ const startServer = async () => {
         // }
         
 
-        }else{
+        }else if(data.event==="buyTicket"){
+          console.info(data.ticket)
+        }
+        else{
           console.error("Invalid message format or missing data");
         }
       } catch (error) {
